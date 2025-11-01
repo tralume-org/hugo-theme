@@ -1,0 +1,11 @@
+{{ $page := .page }}
+{{ $taxonomy := .taxonomy }}
+{{ if and $page $taxonomy }}
+  {{ with $page.GetTerms $taxonomy }}
+    <ul class="app-terms">
+      {{ range . }}
+        <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+      {{ end }}
+    </ul>
+  {{ end }}
+{{ end }}

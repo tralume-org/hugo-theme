@@ -1,0 +1,13 @@
+{{ $menu := .menu }}
+{{ $page := .page }}
+{{ if $menu }}
+  <nav class="app-nav" aria-label="Main navigation">
+    {{ range $menu }}
+      {{ $active := false }}
+      {{ if $page }}
+        {{ $active = or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+      {{ end }}
+      <a class="app-nav__item{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+    {{ end }}
+  </nav>
+{{ end }}

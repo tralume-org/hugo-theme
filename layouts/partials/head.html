@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+{{ if site.Params.description }}
+  <meta name="description" content="{{ site.Params.description }}">
+{{ end }}
+{{ $tokens := resources.Get "css/md3-tokens.css" }}
+{{ $main := resources.Get "css/main.css" }}
+<link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
+<link rel="stylesheet" href="{{ $main.RelPermalink }}">
+<script type="importmap">
+{
+  "imports": {
+    "material/": "https://esm.sh/material-esm@1.1.1/material/"
+  }
+}
+</script>
+<script type="module">
+  import "material/button/filled-button.js";
+  import "material/textfield/outlined-text-field.js";
+</script>

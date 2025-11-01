@@ -1,0 +1,9 @@
+<header class="app-header">
+  <div class="app-bar">
+    <a class="app-title" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+    {{ partial "menu.html" (dict "menu" site.Menus.main "page" .) }}
+  </div>
+</header>
+<main class="app-content">
+  {{ block "main" . }}{{ end }}
+</main>
