@@ -21,3 +21,63 @@
 - id: articleListEmpty
   translation: No articles found yet. Please check back soon.
   comment: Fallback message when a section has no published posts.
+
+- id: settingsPanelButtonLabel
+  translation: Settings
+  comment: Label text for the floating settings button in the bottom-right corner.
+
+- id: settingsPanelTitle
+  translation: Site settings
+  comment: Heading displayed at the top of the settings card.
+
+- id: settingsPanelCloseLabel
+  translation: Close settings card
+  comment: Aria label for the card close button describing its action.
+
+- id: settingsPanelCloseText
+  translation: Close
+  comment: Text shown on the close button inside the settings card.
+
+- id: settingsPanelPlaceholder
+  translation: Site customization options will appear here soon.
+  comment: Placeholder copy shown inside the settings card until real options are added.
+
+- id: settingsPanelLanguageHeading
+  translation: Language
+  comment: Heading label for the language switcher section inside the settings card.
+
+- id: settingsPanelColorHeading
+  translation: Theme color
+  comment: Heading label for the theme color picker inside the settings card.
+
+- id: settingsPanelColorIndigo
+  translation: Indigo (default)
+  comment: Theme color option referencing the MD3 baseline indigo scheme.
+
+- id: settingsPanelColorBlue
+  translation: Ocean blue
+  comment: Theme color option referencing the MD3 baseline blue scheme.
+
+- id: settingsPanelColorGreen
+  translation: Forest green
+  comment: Theme color option referencing the MD3 baseline green scheme.
+
+- id: settingsPanelColorOrange
+  translation: Amber orange
+  comment: Theme color option referencing the MD3 baseline orange scheme.
+
+- id: settingsPanelModeHeading
+  translation: Appearance mode
+  comment: Heading label for the appearance mode selector inside the settings card.
+
+- id: settingsPanelModeAuto
+  translation: Follow system
+  comment: Theme mode option that mirrors the operating system preference.
+
+- id: settingsPanelModeLight
+  translation: Light mode
+  comment: Theme mode option that forces the interface to stay light.
+
+- id: settingsPanelModeDark
+  translation: Dark mode
+  comment: Theme mode option that forces the interface to stay dark.

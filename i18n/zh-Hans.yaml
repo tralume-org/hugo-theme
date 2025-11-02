@@ -21,3 +21,63 @@
 - id: articleListEmpty
   translation: 暂无文章，欢迎稍后再来查看。
   comment: Section 中还没有发布文章时的提示语。
+
+- id: settingsPanelButtonLabel
+  translation: 设置
+  comment: 右下角悬浮按钮的标签文案。
+
+- id: settingsPanelTitle
+  translation: 站点设置
+  comment: 设置卡片顶部标题。
+
+- id: settingsPanelCloseLabel
+  translation: 关闭设置卡片
+  comment: 设置卡片关闭按钮的 aria-label，提示按钮用途。
+
+- id: settingsPanelCloseText
+  translation: 关闭
+  comment: 设置卡片关闭按钮上显示的文字。
+
+- id: settingsPanelPlaceholder
+  translation: 这里将展示可配置的主题选项，敬请期待。
+  comment: 设置卡片主体内容的占位语，用于提示后续会补充设置项。
+
+- id: settingsPanelLanguageHeading
+  translation: 语言
+  comment: 设置卡片中语言切换分组的标题。
+
+- id: settingsPanelColorHeading
+  translation: 主题颜色
+  comment: 设置卡片中主题色选择区域的标题。
+
+- id: settingsPanelColorIndigo
+  translation: 靛蓝（默认）
+  comment: 主题色选项，代表 MD3 基线靛蓝方案。
+
+- id: settingsPanelColorBlue
+  translation: 海蓝
+  comment: 主题色选项，代表 MD3 基线蓝色方案。
+
+- id: settingsPanelColorGreen
+  translation: 森林绿
+  comment: 主题色选项，代表 MD3 基线绿色方案。
+
+- id: settingsPanelColorOrange
+  translation: 琥珀橙
+  comment: 主题色选项，代表 MD3 基线橙色方案。
+
+- id: settingsPanelModeHeading
+  translation: 显示模式
+  comment: 主题卡片中主题模式切换标题。
+
+- id: settingsPanelModeAuto
+  translation: 跟随系统
+  comment: 主题模式选项，自动根据系统明暗切换。
+
+- id: settingsPanelModeLight
+  translation: 浅色模式
+  comment: 主题模式选项，强制使用浅色主题。
+
+- id: settingsPanelModeDark
+  translation: 深色模式
+  comment: 主题模式选项，强制使用深色主题。

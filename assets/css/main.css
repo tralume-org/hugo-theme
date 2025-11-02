@@ -10,6 +10,19 @@ body {
   line-height: var(--md-sys-typescale-body-large-line-height);
 }
 
+/* 说明：仅供屏幕阅读器读取的隐藏文本。 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 a {
   color: var(--md-sys-color-primary);
   font-weight: 500;
@@ -250,4 +263,512 @@ md-outlined-text-field {
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+/* 说明：设置面板容器，默认表现为浮动按钮，打开后扩展为卡片。 */
+.settings-panel {
+  --settings-panel-closed-width: 7.5rem;
+  --settings-panel-closed-height: 3.5rem;
+  --settings-panel-shape-radius: 1.25rem;
+  --settings-panel-open-width: min(24rem, calc(100vw - 2.5rem));
+  --settings-panel-open-height: min(22rem, calc(100vh - 2.5rem));
+  position: fixed;
+  inset-inline-end: 1.5rem;
+  inset-block-end: 1.5rem;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: var(--settings-panel-closed-width);
+  height: var(--settings-panel-closed-height);
+  border-radius: var(--settings-panel-shape-radius);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-high);
+  box-shadow: var(--md-sys-elevation-level2);
+  overflow: hidden;
+  transform-origin: bottom right;
+  transition:
+    width 0.36s cubic-bezier(0.2, 0, 0, 1),
+    height 0.36s cubic-bezier(0.2, 0, 0, 1),
+    border-radius 0.36s cubic-bezier(0.2, 0, 0, 1),
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  z-index: 200;
+}
+
+/* 说明：移动端将卡片最大宽度限制为 100% 减去间距。 */
+@media (max-width: 30rem) {
+  .settings-panel {
+    --settings-panel-open-width: calc(100vw - 2rem);
+  }
+}
+
+/* 说明：打开状态扩展容器尺寸与圆角，呈现卡片外观。 */
+.settings-panel.is-open {
+  width: var(--settings-panel-open-width);
+  height: var(--settings-panel-open-height);
+  border-radius: var(--settings-panel-shape-radius);
+  border-color: var(--md-sys-color-outline);
+  background-color: var(--md-sys-color-surface-container-highest);
+  box-shadow: var(--md-sys-elevation-level4);
+}
+
+/* 说明：按钮占满容器，用于触发卡片展开。 */
+.settings-panel__toggle {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background: none;
+  color: var(--md-sys-color-primary);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border-radius: inherit;
+  transition: opacity 0.24s ease, color 0.2s ease;
+}
+
+.settings-panel__toggle:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：卡片展开后隐藏按钮避免与内容重复。 */
+.settings-panel.is-open .settings-panel__toggle {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* 说明：卡片主体绝对定位于容器内部，通过透明度与位移渐显。 */
+.settings-panel__surface {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  color: var(--md-sys-color-on-surface);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+.settings-panel.is-open .settings-panel__surface {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* 说明：卡片头部包含标题与关闭按钮。 */
+.settings-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.settings-panel__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-medium-size);
+  line-height: var(--md-sys-typescale-title-medium-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+/* 说明：关闭按钮采用圆形轻量样式，方便触达。 */
+.settings-panel__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.25rem;
+  block-size: 2.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.875rem;
+  background-color: var(--md-sys-color-surface-bright);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.settings-panel__close:hover,
+.settings-panel__close:focus-visible {
+  border-color: var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+/* 说明：设置项分组标题与语言列表样式。 */
+.settings-panel__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-panel__section-title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__select {
+  display: flex;
+  align-items: center;
+}
+
+.settings-panel__language-select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.settings-panel__language-select:hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__language-select:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：主题色选择按钮容器与样式。 */
+.settings-panel__section--colors {
+  gap: 0.75rem;
+}
+
+.settings-panel__color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
+  gap: 0.5rem;
+}
+
+.settings-panel__color-swatch {
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: 0.75rem;
+  border: 2px solid transparent;
+  background-color: var(--settings-color-preview, var(--md-sys-color-primary));
+  color: var(--settings-color-preview, var(--md-sys-color-primary));
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.settings-panel__color-swatch:hover {
+  transform: translateY(-2px);
+}
+
+.settings-panel__color-swatch:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__color-swatch.is-active {
+  border-color: currentColor;
+  box-shadow: 0 0 0 2px var(--md-sys-color-outline-variant);
+}
+
+.settings-panel__color-swatch.is-active::after {
+  content: "";
+  position: absolute;
+  inset: 0.45rem;
+  border-radius: inherit;
+  border: 2px solid var(--md-sys-color-on-surface);
+}
+
+/* 说明：主题模式按钮组采用紧凑排列，突出当前选择。 */
+.settings-panel__section--modes {
+  gap: 0.75rem;
+}
+
+.settings-panel__mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  gap: 0.5rem;
+}
+
+.settings-panel__mode-button {
+  padding: 0.6rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.settings-panel__mode-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.settings-panel__mode-button:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__mode-button.is-active {
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+/* 说明：用户开启“减少动态”时禁用大部分过渡效果。 */
+@media (prefers-reduced-motion: reduce) {
+  .settings-panel,
+  .settings-panel__toggle,
+  .settings-panel__surface {
+    transition: none !important;
+    transform: none !important;
+  }
+  .settings-panel__color-swatch {
+    transition: none !important;
+  }
+  .settings-panel__mode-button {
+    transition: none !important;
+  }
+}
+
+/* 说明：MD3 基线颜色主题的变量覆盖，支持多套预设色。 */
+:root[data-theme-mode="light"] {
+  color-scheme: light;
+  --md-sys-color-surface: #fdf8ff;
+  --md-sys-color-surface-dim: #ded8e1;
+  --md-sys-color-surface-bright: #fdf8ff;
+  --md-sys-color-on-surface: #1d1b20;
+  --md-sys-color-on-surface-variant: #49454f;
+  --md-sys-color-background: #fdf8ff;
+  --md-sys-color-on-background: #1d1b20;
+  --md-sys-color-outline: #7a7289;
+  --md-sys-color-outline-variant: #cdc4d3;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f7f2fa;
+  --md-sys-color-surface-container: #f3edf7;
+  --md-sys-color-surface-container-high: #ece6f0;
+  --md-sys-color-surface-container-highest: #e6e0e9;
+}
+
+:root[data-theme-mode="dark"] {
+  color-scheme: dark;
+  --md-sys-color-surface: #141218;
+  --md-sys-color-surface-dim: #141218;
+  --md-sys-color-surface-bright: #3b383e;
+  --md-sys-color-on-surface: #e6e0e9;
+  --md-sys-color-on-surface-variant: #cac4d0;
+  --md-sys-color-background: #141218;
+  --md-sys-color-on-background: #e6e0e9;
+  --md-sys-color-outline: #948f99;
+  --md-sys-color-outline-variant: #49454f;
+  --md-sys-color-surface-container-lowest: #0f0d13;
+  --md-sys-color-surface-container-low: #1d1b20;
+  --md-sys-color-surface-container: #211f26;
+  --md-sys-color-surface-container-high: #2a2730;
+  --md-sys-color-surface-container-highest: #332d3c;
+}
+
+:root[data-theme-color="indigo"] {
+  --md-sys-color-primary: #6750a4;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #eaddff;
+  --md-sys-color-on-primary-container: #21005d;
+  --md-sys-color-secondary: #625b71;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #e8def8;
+  --md-sys-color-on-secondary-container: #1d192b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme-color="indigo"] {
+    --md-sys-color-primary: #cfbcff;
+    --md-sys-color-on-primary: #381e72;
+    --md-sys-color-primary-container: #4f378b;
+    --md-sys-color-on-primary-container: #eaddff;
+    --md-sys-color-secondary: #cbc2db;
+    --md-sys-color-on-secondary: #332d41;
+    --md-sys-color-secondary-container: #4a4458;
+    --md-sys-color-on-secondary-container: #e8def8;
+  }
+}
+
+:root[data-theme-mode="light"][data-theme-color="indigo"] {
+  --md-sys-color-primary: #6750a4;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #eaddff;
+  --md-sys-color-on-primary-container: #21005d;
+  --md-sys-color-secondary: #625b71;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #e8def8;
+  --md-sys-color-on-secondary-container: #1d192b;
+}
+
+:root[data-theme-mode="dark"][data-theme-color="indigo"] {
+  --md-sys-color-primary: #cfbcff;
+  --md-sys-color-on-primary: #381e72;
+  --md-sys-color-primary-container: #4f378b;
+  --md-sys-color-on-primary-container: #eaddff;
+  --md-sys-color-secondary: #cbc2db;
+  --md-sys-color-on-secondary: #332d41;
+  --md-sys-color-secondary-container: #4a4458;
+  --md-sys-color-on-secondary-container: #e8def8;
+}
+
+:root[data-theme-color="blue"] {
+  --md-sys-color-primary: #0061a4;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d1e4ff;
+  --md-sys-color-on-primary-container: #001d36;
+  --md-sys-color-secondary: #535f70;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #d7e3f7;
+  --md-sys-color-on-secondary-container: #101c2b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme-color="blue"] {
+    --md-sys-color-primary: #9ccaff;
+    --md-sys-color-on-primary: #003258;
+    --md-sys-color-primary-container: #00497d;
+    --md-sys-color-on-primary-container: #d1e4ff;
+    --md-sys-color-secondary: #bbc7db;
+    --md-sys-color-on-secondary: #243140;
+    --md-sys-color-secondary-container: #3b4858;
+    --md-sys-color-on-secondary-container: #d7e3f7;
+  }
+}
+
+:root[data-theme-mode="light"][data-theme-color="blue"] {
+  --md-sys-color-primary: #0061a4;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d1e4ff;
+  --md-sys-color-on-primary-container: #001d36;
+  --md-sys-color-secondary: #535f70;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #d7e3f7;
+  --md-sys-color-on-secondary-container: #101c2b;
+}
+
+:root[data-theme-mode="dark"][data-theme-color="blue"] {
+  --md-sys-color-primary: #9ccaff;
+  --md-sys-color-on-primary: #003258;
+  --md-sys-color-primary-container: #00497d;
+  --md-sys-color-on-primary-container: #d1e4ff;
+  --md-sys-color-secondary: #bbc7db;
+  --md-sys-color-on-secondary: #243140;
+  --md-sys-color-secondary-container: #3b4858;
+  --md-sys-color-on-secondary-container: #d7e3f7;
+}
+
+:root[data-theme-color="green"] {
+  --md-sys-color-primary: #146c2e;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #a3f5a7;
+  --md-sys-color-on-primary-container: #002108;
+  --md-sys-color-secondary: #526350;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #d5e8cf;
+  --md-sys-color-on-secondary-container: #101f10;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme-color="green"] {
+    --md-sys-color-primary: #88d98d;
+    --md-sys-color-on-primary: #003913;
+    --md-sys-color-primary-container: #005320;
+    --md-sys-color-on-primary-container: #a3f5a7;
+    --md-sys-color-secondary: #b9ccb4;
+    --md-sys-color-on-secondary: #253424;
+    --md-sys-color-secondary-container: #3b4b3a;
+    --md-sys-color-on-secondary-container: #d5e8cf;
+  }
+}
+
+:root[data-theme-mode="light"][data-theme-color="green"] {
+  --md-sys-color-primary: #146c2e;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #a3f5a7;
+  --md-sys-color-on-primary-container: #002108;
+  --md-sys-color-secondary: #526350;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #d5e8cf;
+  --md-sys-color-on-secondary-container: #101f10;
+}
+
+:root[data-theme-mode="dark"][data-theme-color="green"] {
+  --md-sys-color-primary: #88d98d;
+  --md-sys-color-on-primary: #003913;
+  --md-sys-color-primary-container: #005320;
+  --md-sys-color-on-primary-container: #a3f5a7;
+  --md-sys-color-secondary: #b9ccb4;
+  --md-sys-color-on-secondary: #253424;
+  --md-sys-color-secondary-container: #3b4b3a;
+  --md-sys-color-on-secondary-container: #d5e8cf;
+}
+
+:root[data-theme-color="orange"] {
+  --md-sys-color-primary: #954a00;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #ffdcc2;
+  --md-sys-color-on-primary-container: #301400;
+  --md-sys-color-secondary: #70543d;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #fcd8bb;
+  --md-sys-color-on-secondary-container: #281805;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme-color="orange"] {
+    --md-sys-color-primary: #ffb68c;
+    --md-sys-color-on-primary: #4f2500;
+    --md-sys-color-primary-container: #703700;
+    --md-sys-color-on-primary-container: #ffdcc2;
+    --md-sys-color-secondary: #debc9f;
+    --md-sys-color-on-secondary: #3f2d19;
+    --md-sys-color-secondary-container: #583f29;
+    --md-sys-color-on-secondary-container: #fcd8bb;
+  }
+}
+
+:root[data-theme-mode="light"][data-theme-color="orange"] {
+  --md-sys-color-primary: #954a00;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #ffdcc2;
+  --md-sys-color-on-primary-container: #301400;
+  --md-sys-color-secondary: #70543d;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #fcd8bb;
+  --md-sys-color-on-secondary-container: #281805;
+}
+
+:root[data-theme-mode="dark"][data-theme-color="orange"] {
+  --md-sys-color-primary: #ffb68c;
+  --md-sys-color-on-primary: #4f2500;
+  --md-sys-color-primary-container: #703700;
+  --md-sys-color-on-primary-container: #ffdcc2;
+  --md-sys-color-secondary: #debc9f;
+  --md-sys-color-on-secondary: #3f2d19;
+  --md-sys-color-secondary-container: #583f29;
+  --md-sys-color-on-secondary-container: #fcd8bb;
 }

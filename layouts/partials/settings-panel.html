@@ -1,0 +1,114 @@
+{{/* 说明：右下角设置按钮与展开卡片的结构，交由前端脚本控制状态。 */}}
+<div class="settings-panel" data-component="settings-panel">
+  <button
+    class="settings-panel__toggle"
+    type="button"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="settings-panel-surface"
+    data-settings-toggle
+  >
+    <span class="settings-panel__toggle-label">{{ i18n "settingsPanelButtonLabel" }}</span>
+  </button>
+  <section
+    class="settings-panel__surface"
+    id="settings-panel-surface"
+    role="dialog"
+    aria-labelledby="settings-panel-title"
+    aria-hidden="true"
+    aria-modal="false"
+    tabindex="-1"
+    data-settings-surface
+  >
+    <header class="settings-panel__header">
+      <h2 class="settings-panel__title" id="settings-panel-title">{{ i18n "settingsPanelTitle" }}</h2>
+      <button
+        class="settings-panel__close"
+        type="button"
+        aria-label="{{ i18n "settingsPanelCloseLabel" }}"
+        data-settings-close
+      >
+        {{ i18n "settingsPanelCloseText" }}
+      </button>
+    </header>
+    <div class="settings-panel__content">
+      {{/* 说明：语言切换区，通过下拉选单列出全部语言并处理跳转逻辑。 */}}
+      {{ $currentSite := .Site }}
+      {{ $translations := .AllTranslations }}
+      {{ $scratch := newScratch }}
+      <section class="settings-panel__section">
+        <h3 class="settings-panel__section-title">{{ i18n "settingsPanelLanguageHeading" }}</h3>
+        <div class="settings-panel__select">
+          <select class="settings-panel__language-select" data-language-select aria-label="{{ i18n "settingsPanelLanguageHeading" }}">
+            {{ range site.Sites }}
+              {{ $isActive := eq .Language.Lang $currentSite.Language.Lang }}
+              {{ $translationCandidates := where $translations "Language.Lang" .Language.Lang }}
+              {{ $scratch.Set "targetHref" $.RelPermalink }}
+              {{ if not $isActive }}
+                {{ if gt (len $translationCandidates) 0 }}
+                  {{ $scratch.Set "targetHref" ((index $translationCandidates 0).RelPermalink) }}
+                {{ else }}
+                  {{ $scratch.Set "targetHref" .Home.RelPermalink }}
+                {{ end }}
+              {{ end }}
+              {{ $href := $scratch.Get "targetHref" }}
+              <option
+                value="{{ $href }}"
+                lang="{{ .Language.Lang }}"
+                {{ if $isActive }}selected{{ end }}
+              >
+                {{ printf "%s (%s)" .Language.LanguageName .Language.Lang }}
+              </option>
+            {{ end }}
+          </select>
+        </div>
+      </section>
+      {{/* 说明：主题颜色切换区，展示 MD3 基线颜色预设供选择。 */}}
+      {{ $colorPresets := slice
+        (dict "id" "indigo" "label" (i18n "settingsPanelColorIndigo") "seed" "#6750A4")
+        (dict "id" "blue" "label" (i18n "settingsPanelColorBlue") "seed" "#0061A4")
+        (dict "id" "green" "label" (i18n "settingsPanelColorGreen") "seed" "#146C2E")
+        (dict "id" "orange" "label" (i18n "settingsPanelColorOrange") "seed" "#954A00")
+      }}
+      <section class="settings-panel__section settings-panel__section--colors">
+        <h3 class="settings-panel__section-title">{{ i18n "settingsPanelColorHeading" }}</h3>
+        <div class="settings-panel__color-grid">
+          {{ range $colorPresets }}
+            <button
+              type="button"
+              class="settings-panel__color-swatch"
+              style="--settings-color-preview: {{ .seed }};"
+              aria-label="{{ .label }}"
+              data-color-option="{{ .id }}"
+              aria-pressed="false"
+              title="{{ .label }}"
+            >
+              <span class="sr-only">{{ .label }}</span>
+            </button>
+          {{ end }}
+        </div>
+      </section>
+      {{/* 说明：主题模式切换区，提供自动、浅色、深色三种选项。 */}}
+      {{ $modeOptions := slice
+        (dict "id" "auto" "label" (i18n "settingsPanelModeAuto"))
+        (dict "id" "light" "label" (i18n "settingsPanelModeLight"))
+        (dict "id" "dark" "label" (i18n "settingsPanelModeDark"))
+      }}
+      <section class="settings-panel__section settings-panel__section--modes">
+        <h3 class="settings-panel__section-title">{{ i18n "settingsPanelModeHeading" }}</h3>
+        <div class="settings-panel__mode-grid">
+          {{ range $modeOptions }}
+            <button
+              type="button"
+              class="settings-panel__mode-button"
+              data-theme-mode-option="{{ .id }}"
+              aria-pressed="false"
+            >
+              {{ .label }}
+            </button>
+          {{ end }}
+        </div>
+      </section>
+    </div>
+  </section>
+</div>
