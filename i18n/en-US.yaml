@@ -2,6 +2,10 @@
   translation: Main navigation
   comment: Aria label for the primary site navigation.
 
+- id: mainNavToggleLabel
+  translation: Menu
+  comment: Label displayed on the mobile navigation toggle button.
+
 - id: skipToContent
   translation: Skip to main content
   comment: Hidden accessibility link for skipping to main content.

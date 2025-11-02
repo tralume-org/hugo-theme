@@ -10,6 +10,11 @@ body {
   line-height: var(--md-sys-typescale-body-large-line-height);
 }
 
+/* 说明：全局采用 border-box 盒模型，避免宽度计算时额外 padding/border 导致溢出。 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* 说明：仅供屏幕阅读器读取的隐藏文本。 */
 .sr-only {
   position: absolute;
@@ -82,7 +87,40 @@ a:focus-visible {
   flex-wrap: wrap;
 }
 
+/* 说明：导航外壳负责在不同屏幕宽度之间调整排布。 */
+.app-nav__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* 说明：菜单折叠按钮默认隐藏，仅在移动端展示。 */
+.app-nav__toggle {
+  display: none;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  background-color: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.app-nav__toggle:hover,
+.app-nav__toggle:focus-visible {
+  border-color: var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
 .app-nav__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.45rem 1rem;
   border-radius: 999px;
   border: 1px solid transparent;
@@ -312,6 +350,80 @@ md-filled-button {
 
   .timeline-year::before {
     left: -1.25rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  /* 说明：小屏幕下头部压缩布局并提供折叠菜单。 */
+  .app-bar {
+    padding: 0.85rem 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .app-title {
+    font-size: var(--md-sys-typescale-title-medium-size);
+    line-height: var(--md-sys-typescale-title-medium-line-height);
+  }
+
+  .app-nav__wrapper {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .app-nav {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 1rem;
+    border: 1px solid var(--md-sys-color-outline-variant);
+    background-color: var(--md-sys-color-surface-container-low);
+    box-shadow: var(--md-sys-elevation-level1);
+  }
+
+  .app-nav__item {
+    width: 100%;
+  }
+
+  [data-app-nav][data-nav-ready="true"] .app-nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  [data-app-nav][data-nav-ready="true"] .app-nav {
+    display: none;
+  }
+
+  [data-app-nav][data-nav-ready="true"] .app-nav.is-open {
+    display: flex;
+  }
+
+  .app-content {
+    padding: 1.75rem 1rem 2.25rem;
+    gap: 1.25rem;
+  }
+
+  .article-card {
+    padding: 1.25rem;
+  }
+
+  .settings-panel {
+    --settings-panel-closed-width: 3.5rem;
+    --settings-panel-closed-height: 3.5rem;
+    --settings-panel-open-width: calc(100vw - 1.5rem);
+    --settings-panel-open-height: min(26rem, calc(100vh - 2rem));
+    inset-inline-end: 0.75rem;
+    inset-block-end: 0.75rem;
+  }
+
+  .settings-panel__surface {
+    padding: 1.25rem;
+    overflow-y: auto;
   }
 }
 

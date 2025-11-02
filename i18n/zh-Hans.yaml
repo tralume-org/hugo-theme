@@ -2,6 +2,10 @@
   translation: 主导航
   comment: 站点主导航的 aria 标注。
 
+- id: mainNavToggleLabel
+  translation: 菜单
+  comment: 移动端折叠菜单按钮的文字标签。
+
 - id: skipToContent
   translation: 跳转到主要内容
   comment: 隐藏的无障碍链接，让键盘用户快速跳过导航。

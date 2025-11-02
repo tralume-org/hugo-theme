@@ -1,13 +1,31 @@
 {{ $menu := .menu }}
 {{ $page := .page }}
 {{ if $menu }}
-  <nav class="app-nav" aria-label="{{ i18n "mainNavAriaLabel" }}">
-    {{ range $menu }}
-      {{ $active := false }}
-      {{ if $page }}
-        {{ $active = or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+  {{/* 说明：外层容器协助在移动端控制折叠状态，桌面端仍直接展示导航链接。 */}}
+  <div class="app-nav__wrapper" data-app-nav>
+    <button
+      class="app-nav__toggle"
+      type="button"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="main-navigation"
+      data-app-nav-toggle
+    >
+      <span class="app-nav__toggle-label">{{ i18n "mainNavToggleLabel" }}</span>
+    </button>
+    <nav
+      class="app-nav"
+      id="main-navigation"
+      aria-label="{{ i18n "mainNavAriaLabel" }}"
+      data-app-nav-list
+    >
+      {{ range $menu }}
+        {{ $active := false }}
+        {{ if $page }}
+          {{ $active = or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+        {{ end }}
+        <a class="app-nav__item{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
       {{ end }}
-      <a class="app-nav__item{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
-    {{ end }}
-  </nav>
+    </nav>
+  </div>
 {{ end }}
