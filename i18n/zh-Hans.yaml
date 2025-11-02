@@ -1,107 +1,80 @@
 - id: mainNavAriaLabel
   translation: 主导航
-  comment: 站点主导航的 aria 标注。
 
 - id: mainNavToggleLabel
   translation: 菜单
-  comment: 移动端折叠菜单按钮的文字标签。
 
 - id: skipToContent
   translation: 跳转到主要内容
-  comment: 隐藏的无障碍链接，让键盘用户快速跳过导航。
 
 - id: articlePublishedOn
   translation: 发布于 {{ .Date }}
-  comment: 文章卡片上显示的本地化发布时间。
 
 - id: articleReadingTime
   translation: 约 {{ .Minutes }} 分钟读完
-  comment: 文章卡片上显示的预计阅读时间（单位：分钟）。
 
 - id: articleReadMore
   translation: 阅读全文
-  comment: 引导读者进入完整文章的链接文案。
 
 - id: articleListEmpty
   translation: 暂无文章，欢迎稍后再来查看。
-  comment: Section 中还没有发布文章时的提示语。
 
 - id: articleTimelineLabel
   translation: 文章时间线
-  comment: Posts Section 时间线容器的 aria-label。
 
 - id: timelineHoverHint
   translation: 悬停或聚焦文章项即可展开对应摘要。
-  comment: 时间线年度块的隐藏提示语，说明文章级折叠交互。
 
 - id: settingsPanelButtonLabel
   translation: 设置
-  comment: 右下角悬浮按钮的标签文案。
 
 - id: settingsPanelTitle
   translation: 站点设置
-  comment: 设置卡片顶部标题。
 
 - id: settingsPanelCloseLabel
   translation: 关闭设置卡片
-  comment: 设置卡片关闭按钮的 aria-label，提示按钮用途。
 
 - id: settingsPanelCloseText
   translation: 关闭
-  comment: 设置卡片关闭按钮上显示的文字。
 
 - id: settingsPanelPlaceholder
   translation: 这里将展示可配置的主题选项，敬请期待。
-  comment: 设置卡片主体内容的占位语，用于提示后续会补充设置项。
 
 - id: settingsPanelLanguageHeading
   translation: 语言
-  comment: 设置卡片中语言切换分组的标题。
 
 - id: settingsPanelColorHeading
   translation: 主题颜色
-  comment: 设置卡片中主题色选择区域的标题。
 
 - id: settingsPanelColorIndigo
   translation: 靛蓝（默认）
-  comment: 主题色选项，代表 MD3 基线靛蓝方案。
 
 - id: settingsPanelColorBlue
   translation: 海蓝
-  comment: 主题色选项，代表 MD3 基线蓝色方案。
 
 - id: settingsPanelColorGreen
   translation: 森林绿
-  comment: 主题色选项，代表 MD3 基线绿色方案。
 
 - id: settingsPanelColorOrange
   translation: 琥珀橙
-  comment: 主题色选项，代表 MD3 基线橙色方案。
 
 - id: settingsPanelModeHeading
   translation: 显示模式
-  comment: 主题卡片中主题模式切换标题。
 
 - id: settingsPanelModeAuto
   translation: 跟随系统
-  comment: 主题模式选项，自动根据系统明暗切换。
 
 - id: settingsPanelModeLight
   translation: 浅色模式
-  comment: 主题模式选项，强制使用浅色主题。
 
 - id: settingsPanelModeDark
   translation: 深色模式
-  comment: 主题模式选项，强制使用深色主题。
 
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'
-  comment: 用于 RSS alternate link 的 Title 属性，提醒订阅者该源对应的语言。
 
 - id: codeBlockCopy
   translation: 复制代码
-  comment: Markdown 代码块复制按钮的默认文字。
 
 - id: codeBlockCopied
   translation: 已复制
-  comment: Markdown 代码块复制按钮在复制成功后的反馈文字。
