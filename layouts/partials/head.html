@@ -4,6 +4,39 @@
 {{ if site.Params.description }}
   <meta name="description" content="{{ site.Params.description }}">
 {{ end }}
+<script>
+  // 说明：在 CSS 加载前同步本地存储的主题偏好，避免首屏出现默认颜色闪烁。
+  (function () {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+    var docEl = document.documentElement;
+    if (!docEl) {
+      return;
+    }
+    var readStorage = function (key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (error) {
+        return null;
+      }
+    };
+    var supportedColors = { indigo: true, blue: true, green: true, orange: true };
+    var supportedModes = { auto: true, light: true, dark: true };
+    var storedColor = readStorage('tralume-theme-color');
+    if (storedColor && supportedColors[storedColor]) {
+      docEl.setAttribute('data-theme-color', storedColor);
+    }
+    var storedMode = readStorage('tralume-theme-mode');
+    if (storedMode && supportedModes[storedMode]) {
+      if (storedMode === 'auto') {
+        docEl.removeAttribute('data-theme-mode');
+      } else {
+        docEl.setAttribute('data-theme-mode', storedMode);
+      }
+    }
+  })();
+</script>
 {{ $tokens := resources.Get "css/md3-tokens.css" }}
 {{ $main := resources.Get "css/main.css" }}
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">

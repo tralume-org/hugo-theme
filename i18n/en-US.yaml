@@ -97,3 +97,11 @@
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'
   comment: Title attribute for RSS alternate links so readers know which language the feed targets.
+
+- id: codeBlockCopy
+  translation: Copy code
+  comment: Default label shown on the Markdown code block copy button.
+
+- id: codeBlockCopied
+  translation: Copied
+  comment: Feedback label displayed after a successful copy action on the code block button.

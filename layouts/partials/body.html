@@ -6,7 +6,12 @@
     {{ partial "menu.html" (dict "menu" site.Menus.main "page" .) }}
   </div>
 </header>
-<main id="main-content" class="app-content">
+<main
+  id="main-content"
+  class="app-content"
+  data-code-copy-label="{{ i18n "codeBlockCopy" }}"
+  data-code-copied-label="{{ i18n "codeBlockCopied" }}"
+>
   {{/* 说明：根据页面类型选择对应的主内容渲染策略。 */}}
   {{ $kind := .Kind }}
   {{ if eq $kind "home" }}

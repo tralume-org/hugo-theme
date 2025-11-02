@@ -97,3 +97,11 @@
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'
   comment: 用于 RSS alternate link 的 Title 属性，提醒订阅者该源对应的语言。
+
+- id: codeBlockCopy
+  translation: 复制代码
+  comment: Markdown 代码块复制按钮的默认文字。
+
+- id: codeBlockCopied
+  translation: 已复制
+  comment: Markdown 代码块复制按钮在复制成功后的反馈文字。

@@ -67,3 +67,13 @@ defaultContentLanguageInSubdir = true
 
 [markup.goldmark.renderer]
   unsafe = true
+
+[markup.highlight]
+  noClasses = false
+  style = 'material'
+
+[params.theme]
+  # 说明：设置初始主题色（对应设置面板的预设 ID），避免用户自定义颜色时首屏回退到默认值。
+  defaultColor = 'indigo'
+  # 说明：设定初始主题模式，可选 auto/light/dark。
+  defaultMode = 'auto'
