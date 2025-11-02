@@ -1,0 +1,23 @@
+- id: mainNavAriaLabel
+  translation: 主导航
+  comment: 站点主导航的 aria 标注。
+
+- id: skipToContent
+  translation: 跳转到主要内容
+  comment: 隐藏的无障碍链接，让键盘用户快速跳过导航。
+
+- id: articlePublishedOn
+  translation: 发布于 {{ .Date }}
+  comment: 文章卡片上显示的本地化发布时间。
+
+- id: articleReadingTime
+  translation: 约 {{ .Minutes }} 分钟读完
+  comment: 文章卡片上显示的预计阅读时间（单位：分钟）。
+
+- id: articleReadMore
+  translation: 阅读全文
+  comment: 引导读者进入完整文章的链接文案。
+
+- id: articleListEmpty
+  translation: 暂无文章，欢迎稍后再来查看。
+  comment: Section 中还没有发布文章时的提示语。

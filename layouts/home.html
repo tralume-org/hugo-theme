@@ -1,7 +1,5 @@
 {{ define "main" }}
+  {{/* 说明：主页输出欢迎内容后展示文章卡片列表。 */}}
   {{ .Content }}
-  {{ range site.RegularPages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-    {{ .Summary }}
-  {{ end }}
+  {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" .) }}
 {{ end }}

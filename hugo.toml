@@ -1,24 +1,62 @@
 baseURL = 'https://hugo.tralume.org/'
-languageCode = 'en-US'
-title = 'Tralume'
+defaultContentLanguage = 'en-US'
+defaultContentLanguageInSubdir = true
 
-[menus]
-  [[menus.main]]
-    name = 'Home'
-    pageRef = '/'
-    weight = 10
+[languages]
+  [languages."en-US"]
+    languageName = 'English'
+    weight = 1
+    title = 'Tralume'
+    languageCode = 'en-US'
 
-  [[menus.main]]
-    name = 'Posts'
-    pageRef = '/posts'
-    weight = 20
+  [languages."zh-Hans"]
+    languageName = '简体中文'
+    weight = 2
+    title = 'Tralume 主题'
+    languageCode = 'zh-Hans'
 
-  [[menus.main]]
-    name = 'Tags'
-    pageRef = '/tags'
-    weight = 30
+  [languages."en-US".menus]
+    [[languages."en-US".menus.main]]
+      identifier = 'home'
+      name = 'Home'
+      pageRef = '/'
+      weight = 10
+
+    [[languages."en-US".menus.main]]
+      identifier = 'posts'
+      name = 'Posts'
+      pageRef = '/posts'
+      weight = 20
+
+    [[languages."en-US".menus.main]]
+      identifier = 'tags'
+      name = 'Tags'
+      pageRef = '/tags'
+      weight = 30
+
+  [languages."zh-Hans".menus]
+    [[languages."zh-Hans".menus.main]]
+      identifier = 'home'
+      name = '首页'
+      pageRef = '/'
+      weight = 10
+
+    [[languages."zh-Hans".menus.main]]
+      identifier = 'posts'
+      name = '文章'
+      pageRef = '/posts'
+      weight = 20
+
+    [[languages."zh-Hans".menus.main]]
+      identifier = 'tags'
+      name = '标签'
+      pageRef = '/tags'
+      weight = 30
 
 [module]
   [module.hugoVersion]
     extended = false
     min = '0.146.0'
+
+[markup.goldmark.renderer]
+  unsafe = true

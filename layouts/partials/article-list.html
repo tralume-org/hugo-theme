@@ -1,0 +1,51 @@
+{{/* 说明：文章目录组件，根据当前语言筛选并渲染文章卡片。 */}}
+{{- $context := .Context -}}
+{{- $pages := .Pages -}}
+{{- $section := .Section -}}
+{{- $orientation := or .Orientation "vertical" -}}
+{{- if and $pages (gt (len $pages) 0) }}
+  {{- $lang := "" -}}
+  {{- with $context }}
+    {{- $lang = .Language.Lang -}}
+  {{- end }}
+  {{- $localized := cond (ne $lang "") (where $pages "Lang" $lang) $pages -}}
+  {{- if $section }}
+    {{- $localized = where $localized "Section" $section -}}
+  {{- end }}
+  {{- $filtered := slice -}}
+  {{- $langLower := lower $lang -}}
+  {{- range $localized }}
+    {{- $base := .File.BaseFileName -}}
+    {{- if not (hasPrefix $base "_index") }}
+      {{- if eq $langLower "zh-hans" }}
+        {{- if or (in $base ".zh") (in $base ".zh-hans") }}
+          {{- $filtered = $filtered | append . -}}
+        {{- end }}
+      {{- else }}
+        {{- if not (or (in $base ".zh") (in $base ".zh-hans")) }}
+          {{- $filtered = $filtered | append . -}}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- $localized = $filtered -}}
+  {{- if gt (len $localized) 0 -}}
+    {{- $listClasses := slice "article-list" -}}
+    {{- if eq (lower $orientation) "horizontal" }}
+      {{- $listClasses = $listClasses | append "article-list--horizontal" -}}
+    {{- end }}
+    <div class="{{ delimit $listClasses " " }}">
+      {{- range $localized.ByDate.Reverse }}
+        {{ partial "article-card.html" . }}
+      {{- end }}
+    </div>
+  {{- else -}}
+    <p class="article-list__empty">
+      {{ i18n "articleListEmpty" }}
+    </p>
+  {{- end -}}
+{{- else -}}
+  <p class="article-list__empty">
+    {{ i18n "articleListEmpty" }}
+  </p>
+{{- end -}}

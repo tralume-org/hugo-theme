@@ -1,0 +1,25 @@
+{{/* 说明：文章卡片组件，统一输出标题、Meta 信息与摘要。 */}}
+{{- $page := . -}}
+<a class="article-card" href="{{ $page.RelPermalink }}">
+  <header class="article-card__header">
+    <h2 class="article-card__title">{{ $page.LinkTitle }}</h2>
+    <p class="article-card__meta">
+      {{/* 说明：使用本地化日期格式，避免写死格式字符串。 */}}
+      {{- $publishedDate := $page.Date | time.Format ":date_medium" -}}
+      <span class="article-card__meta-item">
+        {{ i18n "articlePublishedOn" (dict "Date" $publishedDate) }}
+      </span>
+      {{- with $page.ReadingTime }}
+        <span class="article-card__meta-separator" aria-hidden="true">·</span>
+        <span class="article-card__meta-item">
+          {{ i18n "articleReadingTime" (dict "Minutes" .) }}
+        </span>
+      {{- end }}
+    </p>
+  </header>
+  {{ with $page.Summary }}
+    <div class="article-card__summary">
+      {{ . }}
+    </div>
+  {{ end }}
+</a>

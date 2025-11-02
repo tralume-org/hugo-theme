@@ -1,9 +1,60 @@
+{{/* 无障碍跳转链接：便于键盘用户快速进入主要内容 */}}
+<a class="skip-link" href="#main-content">{{ i18n "skipToContent" }}</a>
 <header class="app-header">
   <div class="app-bar">
-    <a class="app-title" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+    <a class="app-title" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
     {{ partial "menu.html" (dict "menu" site.Menus.main "page" .) }}
   </div>
 </header>
-<main class="app-content">
-  {{ block "main" . }}{{ end }}
+<main id="main-content" class="app-content">
+  {{/* 说明：根据页面类型选择对应的主内容渲染策略。 */}}
+  {{ $kind := .Kind }}
+  {{ if eq $kind "home" }}
+    {{/* 说明：主页展示欢迎内容与全站文章卡片。 */}}
+    {{ .Content }}
+    {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal") }}
+  {{ else if eq $kind "section" }}
+    {{/* 说明：Section 页面显示标题、正文与该 Section 下的文章列表。 */}}
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}
+      {{ . }}
+    {{ end }}
+    {{/* 说明：Posts Section 采用横向排列，其余 Section 保持默认纵向。 */}}
+    {{ $orientation := "vertical" }}
+    {{ if eq .Section "posts" }}
+      {{ $orientation = "horizontal" }}
+    {{ end }}
+    {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Orientation" $orientation) }}
+  {{ else if eq $kind "term" }}
+    {{/* 说明：标签/分类详情页复用文章卡片列表便于索引文章。 */}}
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}
+      {{ . }}
+    {{ end }}
+    {{ partial "article-list.html" (dict "Pages" .Pages "Context" .) }}
+  {{ else if eq $kind "taxonomy" }}
+    {{/* 说明：Taxonomy 概览页列出全部词条，采用胶囊样式。 */}}
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}
+      {{ . }}
+    {{ end }}
+    {{ with .Pages }}
+      <ul class="app-terms">
+        {{ range . }}
+          <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+        {{ end }}
+      </ul>
+    {{ end }}
+  {{ else if eq $kind "page" }}
+    {{/* 说明：普通单页输出标题、日期与正文，然后渲染标签信息。 */}}
+    <h1>{{ .Title }}</h1>
+    {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+    {{ $dateHuman := .Date | time.Format ":date_long" }}
+    <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+    {{ .Content }}
+    {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+  {{ else }}
+    {{/* 说明：若无匹配分支，退回到 Block 机制，保持可扩展性。 */}}
+    {{ block "main" . }}{{ end }}
+  {{ end }}
 </main>

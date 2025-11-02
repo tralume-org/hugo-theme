@@ -1,0 +1,23 @@
+- id: mainNavAriaLabel
+  translation: Main navigation
+  comment: Aria label for the primary site navigation.
+
+- id: skipToContent
+  translation: Skip to main content
+  comment: Hidden accessibility link for skipping to main content.
+
+- id: articlePublishedOn
+  translation: Published on {{ .Date }}
+  comment: Meta line for article cards showing the localized publish date.
+
+- id: articleReadingTime
+  translation: Approx. {{ .Minutes }} min read
+  comment: Meta line for article cards showing estimated reading time in minutes.
+
+- id: articleReadMore
+  translation: Read the full post
+  comment: Link text that navigates to the full article.
+
+- id: articleListEmpty
+  translation: No articles found yet. Please check back soon.
+  comment: Fallback message when a section has no published posts.
