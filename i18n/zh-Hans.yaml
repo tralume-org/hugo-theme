@@ -89,3 +89,7 @@
 - id: settingsPanelModeDark
   translation: 深色模式
   comment: 主题模式选项，强制使用深色主题。
+
+- id: rssAlternateTitle
+  translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'
+  comment: 用于 RSS alternate link 的 Title 属性，提醒订阅者该源对应的语言。

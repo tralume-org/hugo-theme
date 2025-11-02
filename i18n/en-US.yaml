@@ -89,3 +89,7 @@
 - id: settingsPanelModeDark
   translation: Dark mode
   comment: Theme mode option that forces the interface to stay dark.
+
+- id: rssAlternateTitle
+  translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'
+  comment: Title attribute for RSS alternate links so readers know which language the feed targets.

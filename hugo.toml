@@ -2,6 +2,13 @@ baseURL = 'https://hugo.tralume.org/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
 
+# 输出配置：确保每种语言的主页与列表页同时生成 HTML 与 RSS 输出。
+[outputs]
+  home = ['HTML', 'RSS']
+  section = ['HTML', 'RSS']
+  taxonomy = ['HTML', 'RSS']
+  term = ['HTML', 'RSS']
+
 [languages]
   [languages."en-US"]
     languageName = 'English'

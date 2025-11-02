@@ -1,0 +1,36 @@
+{{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" | safeHTML }}
+{{/* 说明：该模板为当前语言生成 RSS Feed，默认仅输出最新 20 篇公开内容。 */}}
+{{- $context := . -}}
+{{- $site := $context.Site -}}
+{{/* 筛选逻辑：主页使用全站文章，列表/分类页使用其分页集合。 */}}
+{{- $rawPages := cond $context.IsHome $site.RegularPages $context.Pages -}}
+{{/* 允许通过 Front Matter 中的 rssHidden 参数手动排除指定内容。 */}}
+{{- $visiblePages := where $rawPages "Params.rssHidden" "ne" true -}}
+{{- $sortedPages := $visiblePages.ByDate.Reverse -}}
+{{- $limitedPages := first 20 $sortedPages -}}
+{{- $feedDesc := default $site.Title $site.Params.description -}}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ $context.Title | plainify }}</title>
+    <link>{{ $context.Permalink }}</link>
+    <language>{{ with $site.Language.LanguageCode }}{{ . }}{{ else }}{{ $site.Language.Lang }}{{ end }}</language>
+    <description>{{ $feedDesc | plainify }}</description>
+    {{- with $context.OutputFormats.Get "RSS" }}
+    <atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml" />
+    {{- end }}
+    {{- range $limitedPages }}
+    <item>
+      <title>{{ .Title | plainify }}</title>
+      <link>{{ .Permalink }}</link>
+      <guid isPermaLink="true">{{ .Permalink }}</guid>
+      {{- with .PublishDate }}
+      <pubDate>{{ .Format "Mon, 02 Jan 2006 15:04:05 MST" }}</pubDate>
+      {{- else }}
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 MST" }}</pubDate>
+      {{- end }}
+      {{- $summary := default .Plain .Summary -}}
+      <description>{{ printf "<![CDATA[%s]]>" $summary | safeHTML }}</description>
+    </item>
+    {{- end }}
+  </channel>
+</rss>

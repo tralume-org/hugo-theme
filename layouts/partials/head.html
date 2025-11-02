@@ -8,6 +8,16 @@
 {{ $main := resources.Get "css/main.css" }}
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
 <link rel="stylesheet" href="{{ $main.RelPermalink }}">
+{{- /* RSS 订阅入口：为所有已配置语言输出对应的 Feed 地址，便于阅读器区分语言。 */ -}}
+{{- $home := site.Home -}}
+{{- if $home }}
+  {{- range $home.AllTranslations }}
+    {{- $feedPage := . -}}
+    {{- with $feedPage.OutputFormats.Get "RSS" }}
+      <link rel="alternate" hreflang="{{ $feedPage.Language.Lang }}" type="{{ .MediaType.Type }}" title="{{ i18n "rssAlternateTitle" (dict "SiteTitle" $feedPage.Site.Title "LanguageName" $feedPage.Site.Language.LanguageName) }}" href="{{ .Permalink }}">
+    {{- end }}
+  {{- end }}
+{{- end }}
 <script type="importmap">
 {
   "imports": {
