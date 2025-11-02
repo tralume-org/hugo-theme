@@ -1,8 +1,15 @@
 {{ define "main" }}
-  {{/* 说明：Section 列表页展示标题、正文与文章卡片。 */}}
+  {{/* 说明：Section 列表页根据内容类型选择合适的列表展示组件。 */}}
   <h1>{{ .Title }}</h1>
   {{ with .Content }}
     {{ . }}
   {{ end }}
-  {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" .) }}
+  {{/* 说明：对 posts Section 或类型为 posts 的列表启用时间线。 */}}
+  {{ if or (eq .Section "posts") (eq .Type "posts") }}
+    {{/* 说明：Posts Section 使用时间线展示。 */}}
+    {{ partial "article-timeline.html" (dict "Pages" .RegularPages "Context" . "Section" .Section) }}
+  {{ else }}
+    {{/* 说明：其他 Section 使用默认卡片列表组件。 */}}
+    {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Section" .Section) }}
+  {{ end }}
 {{ end }}

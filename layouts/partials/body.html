@@ -19,12 +19,13 @@
     {{ with .Content }}
       {{ . }}
     {{ end }}
-    {{/* 说明：Posts Section 采用横向排列，其余 Section 保持默认纵向。 */}}
-    {{ $orientation := "vertical" }}
-    {{ if eq .Section "posts" }}
-      {{ $orientation = "horizontal" }}
+    {{/* 说明：Posts Section 使用时间线，其余 Section 保持卡片列表。 */}}
+    {{ $isPosts := or (eq .Section "posts") (eq .Type "posts") }}
+    {{ if $isPosts }}
+      {{ partial "article-timeline.html" (dict "Pages" .RegularPages "Context" . "Section" .Section) }}
+    {{ else }}
+      {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Section" .Section) }}
     {{ end }}
-    {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Orientation" $orientation) }}
   {{ else if eq $kind "term" }}
     {{/* 说明：标签/分类详情页复用文章卡片列表便于索引文章。 */}}
     <h1>{{ .Title }}</h1>

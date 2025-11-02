@@ -22,6 +22,14 @@
   translation: No articles found yet. Please check back soon.
   comment: Fallback message when a section has no published posts.
 
+- id: articleTimelineLabel
+  translation: Article timeline
+  comment: Aria label for the posts timeline container.
+
+- id: timelineHoverHint
+  translation: Hover or focus a post item to reveal its summary.
+  comment: Hidden assistive hint describing the per-post collapse interaction.
+
 - id: settingsPanelButtonLabel
   translation: Settings
   comment: Label text for the floating settings button in the bottom-right corner.

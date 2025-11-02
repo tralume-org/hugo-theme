@@ -22,6 +22,14 @@
   translation: 暂无文章，欢迎稍后再来查看。
   comment: Section 中还没有发布文章时的提示语。
 
+- id: articleTimelineLabel
+  translation: 文章时间线
+  comment: Posts Section 时间线容器的 aria-label。
+
+- id: timelineHoverHint
+  translation: 悬停或聚焦文章项即可展开对应摘要。
+  comment: 时间线年度块的隐藏提示语，说明文章级折叠交互。
+
 - id: settingsPanelButtonLabel
   translation: 设置
   comment: 右下角悬浮按钮的标签文案。

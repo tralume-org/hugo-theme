@@ -1,0 +1,80 @@
+{{/* 说明：文章时间线组件，按年度分组文章并提供悬停展开效果。 */}}
+{{- $context := .Context -}}
+{{- $pages := .Pages -}}
+{{- if and $pages (gt (len $pages) 0) }}
+  {{- $lang := "" -}}
+  {{- with $context }}
+    {{- $lang = .Language.Lang -}}
+  {{- end }}
+  {{- $localized := cond (ne $lang "") (where $pages "Lang" $lang) $pages -}}
+  {{- $section := .Section -}}
+  {{- if $section }}
+    {{- $localized = where $localized "Section" $section -}}
+  {{- end }}
+  {{- $filtered := slice -}}
+  {{- $langLower := lower $lang -}}
+  {{- range $localized }}
+    {{- $base := .File.BaseFileName -}}
+    {{- if not (hasPrefix $base "_index") }}
+      {{- if eq $langLower "zh-hans" }}
+        {{- if or (in $base ".zh") (in $base ".zh-hans") }}
+          {{- $filtered = $filtered | append . -}}
+        {{- end }}
+      {{- else }}
+        {{- if not (or (in $base ".zh") (in $base ".zh-hans")) }}
+          {{- $filtered = $filtered | append . -}}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- $localized = $filtered -}}
+  {{- if gt (len $localized) 0 -}}
+    {{- $grouped := ($localized.ByDate.Reverse).GroupByDate "2006" -}}
+    <section class="article-timeline" aria-label="{{ i18n "articleTimelineLabel" }}">
+      {{- range $grouped }}
+        {{- $year := .Key -}}
+        {{- $yearPages := .Pages.ByDate.Reverse -}}
+        <div class="timeline-year" data-year="{{ $year }}">
+          {{/* 说明：标题区域展示年份，并说明文章可在悬停/聚焦时展开摘要。 */}}
+          <header class="timeline-year__header">
+            <span class="timeline-year__label">{{ $year }}</span>
+            <span class="timeline-year__hint sr-only">
+              {{ i18n "timelineHoverHint" }}
+            </span>
+          </header>
+          {{/* 说明：年度文章列表保持展开，具体摘要折叠由文章项控制。 */}}
+          <div class="timeline-year__posts">
+            {{- range $yearPages }}
+              {{- $page := . -}}
+              {{- $publishedDate := $page.Date | time.Format ":date_medium" -}}
+              {{- $publishedISO := $page.Date | time.Format "2006-01-02" -}}
+              <article class="timeline-post">
+                <a class="timeline-post__link" href="{{ $page.RelPermalink }}">
+                  <div class="timeline-post__meta">
+                    <time class="timeline-post__date" datetime="{{ $publishedISO }}" aria-label="{{ i18n "articlePublishedOn" (dict "Date" $publishedDate) }}">
+                      {{ $publishedDate }}
+                    </time>
+                  </div>
+                  <h3 class="timeline-post__title">{{ $page.LinkTitle }}</h3>
+                  {{ with $page.Summary }}
+                    <div class="timeline-post__summary">
+                      {{ . }}
+                    </div>
+                  {{ end }}
+                </a>
+              </article>
+            {{- end }}
+          </div>
+        </div>
+      {{- end }}
+    </section>
+  {{- else -}}
+    <p class="article-list__empty">
+      {{ i18n "articleListEmpty" }}
+    </p>
+  {{- end -}}
+{{- else -}}
+  <p class="article-list__empty">
+    {{ i18n "articleListEmpty" }}
+  </p>
+{{- end -}}
