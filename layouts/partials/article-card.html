@@ -18,8 +18,12 @@
     </p>
   </header>
   {{ with $page.Summary }}
+    {{/* 说明：为摘要添加字符级截断，确保中文内容不会撑破卡片布局。 */}}
+    {{- $maxLength := or site.Params.articleCardSummaryLength 160 -}}
+    {{- $plainSummary := . | plainify | htmlUnescape | strings.TrimSpace -}}
+    {{- $shortSummary := truncate $maxLength $plainSummary -}}
     <div class="article-card__summary">
-      {{ . }}
+      <p>{{ $shortSummary }}</p>
     </div>
   {{ end }}
 </a>
