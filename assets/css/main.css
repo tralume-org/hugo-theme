@@ -519,6 +519,29 @@ md-outlined-text-field {
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-body-large-size);
   line-height: var(--md-sys-typescale-body-large-line-height);
+  /* 说明：通过 line-clamp 控制摘要最大显示行数，避免超长内容。 */
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+@media (max-width: 47.99rem) {
+  /* 说明：移动端仅展示 3 行摘要，避免占据过多纵向空间。 */
+  .article-card__summary {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+}
+
+@media (min-width: 64rem) {
+  /* 说明：桌面大屏适当增加摘要行数，提升可读性。 */
+  .article-card__summary {
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
 }
 
 
