@@ -9,7 +9,7 @@
 {{- $sortedPages := $visiblePages.ByDate.Reverse -}}
 {{- $limitedPages := first 20 $sortedPages -}}
 {{- $feedDesc := default $site.Title $site.Params.description -}}
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>{{ $context.Title | plainify }}</title>
     <link>{{ $context.Permalink }}</link>
@@ -30,6 +30,9 @@
       {{- end }}
       {{- $summary := default .Plain .Summary -}}
       <description>{{ printf "<![CDATA[%s]]>" $summary | safeHTML }}</description>
+      {{/* 输出完整正文，方便支持 content:encoded 的阅读器展示富文本内容。 */}}
+      {{- $fullContent := default .Plain .Content -}}
+      <content:encoded>{{ printf "<![CDATA[%s]]>" $fullContent | safeHTML }}</content:encoded>
     </item>
     {{- end }}
   </channel>
