@@ -1244,20 +1244,20 @@ md-outlined-text-field {
   --md-sys-color-on-secondary: #ffffff;
   --md-sys-color-secondary-container: #d5e8cf;
   --md-sys-color-on-secondary-container: #101f10;
-  --md-sys-color-surface: #f2f8f0;
-  --md-sys-color-surface-dim: #d6e3d2;
-  --md-sys-color-surface-bright: #f2f8f0;
+  --md-sys-color-surface: #f7fcf5;
+  --md-sys-color-surface-dim: #e2ede0;
+  --md-sys-color-surface-bright: #fdfefb;
   --md-sys-color-on-surface: #181d16;
   --md-sys-color-on-surface-variant: #41493f;
-  --md-sys-color-background: #f2f8f0;
+  --md-sys-color-background: #f7fcf5;
   --md-sys-color-on-background: #181d16;
   --md-sys-color-outline: #71796d;
   --md-sys-color-outline-variant: #c3c9bc;
   --md-sys-color-surface-container-lowest: #ffffff;
-  --md-sys-color-surface-container-low: #ecf2e8;
-  --md-sys-color-surface-container: #e5ecdf;
-  --md-sys-color-surface-container-high: #dfe6d9;
-  --md-sys-color-surface-container-highest: #d8e0d2;
+  --md-sys-color-surface-container-low: #eff5ec;
+  --md-sys-color-surface-container: #e8f0e5;
+  --md-sys-color-surface-container-high: #e2eadf;
+  --md-sys-color-surface-container-highest: #dbe4d8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1270,20 +1270,20 @@ md-outlined-text-field {
     --md-sys-color-on-secondary: #253424;
     --md-sys-color-secondary-container: #3b4b3a;
     --md-sys-color-on-secondary-container: #d5e8cf;
-    --md-sys-color-surface: #10140f;
-    --md-sys-color-surface-dim: #10140f;
-    --md-sys-color-surface-bright: #343a30;
+    --md-sys-color-surface: #141a12;
+    --md-sys-color-surface-dim: #141a12;
+    --md-sys-color-surface-bright: #3d4539;
     --md-sys-color-on-surface: #dbe6d6;
     --md-sys-color-on-surface-variant: #bfcab9;
-    --md-sys-color-background: #10140f;
+    --md-sys-color-background: #141a12;
     --md-sys-color-on-background: #dbe6d6;
     --md-sys-color-outline: #8a9385;
     --md-sys-color-outline-variant: #40473b;
-    --md-sys-color-surface-container-lowest: #0b0f0a;
-    --md-sys-color-surface-container-low: #151a13;
-    --md-sys-color-surface-container: #1b2018;
-    --md-sys-color-surface-container-high: #23281f;
-    --md-sys-color-surface-container-highest: #2b3027;
+    --md-sys-color-surface-container-lowest: #10160f;
+    --md-sys-color-surface-container-low: #181f16;
+    --md-sys-color-surface-container: #1f251c;
+    --md-sys-color-surface-container-high: #272d24;
+    --md-sys-color-surface-container-highest: #30352b;
   }
 }
 
@@ -1296,20 +1296,20 @@ md-outlined-text-field {
   --md-sys-color-on-secondary: #ffffff;
   --md-sys-color-secondary-container: #d5e8cf;
   --md-sys-color-on-secondary-container: #101f10;
-  --md-sys-color-surface: #f2f8f0;
-  --md-sys-color-surface-dim: #d6e3d2;
-  --md-sys-color-surface-bright: #f2f8f0;
+  --md-sys-color-surface: #f7fcf5;
+  --md-sys-color-surface-dim: #e2ede0;
+  --md-sys-color-surface-bright: #fdfefb;
   --md-sys-color-on-surface: #181d16;
   --md-sys-color-on-surface-variant: #41493f;
-  --md-sys-color-background: #f2f8f0;
+  --md-sys-color-background: #f7fcf5;
   --md-sys-color-on-background: #181d16;
   --md-sys-color-outline: #71796d;
   --md-sys-color-outline-variant: #c3c9bc;
   --md-sys-color-surface-container-lowest: #ffffff;
-  --md-sys-color-surface-container-low: #ecf2e8;
-  --md-sys-color-surface-container: #e5ecdf;
-  --md-sys-color-surface-container-high: #dfe6d9;
-  --md-sys-color-surface-container-highest: #d8e0d2;
+  --md-sys-color-surface-container-low: #eff5ec;
+  --md-sys-color-surface-container: #e8f0e5;
+  --md-sys-color-surface-container-high: #e2eadf;
+  --md-sys-color-surface-container-highest: #dbe4d8;
 }
 
 :root[data-theme-mode="dark"][data-theme-color="green"] {
@@ -1321,20 +1321,20 @@ md-outlined-text-field {
   --md-sys-color-on-secondary: #253424;
   --md-sys-color-secondary-container: #3b4b3a;
   --md-sys-color-on-secondary-container: #d5e8cf;
-  --md-sys-color-surface: #10140f;
-  --md-sys-color-surface-dim: #10140f;
-  --md-sys-color-surface-bright: #343a30;
+  --md-sys-color-surface: #141a12;
+  --md-sys-color-surface-dim: #141a12;
+  --md-sys-color-surface-bright: #3d4539;
   --md-sys-color-on-surface: #dbe6d6;
   --md-sys-color-on-surface-variant: #bfcab9;
-  --md-sys-color-background: #10140f;
+  --md-sys-color-background: #141a12;
   --md-sys-color-on-background: #dbe6d6;
   --md-sys-color-outline: #8a9385;
   --md-sys-color-outline-variant: #40473b;
-  --md-sys-color-surface-container-lowest: #0b0f0a;
-  --md-sys-color-surface-container-low: #151a13;
-  --md-sys-color-surface-container: #1b2018;
-  --md-sys-color-surface-container-high: #23281f;
-  --md-sys-color-surface-container-highest: #2b3027;
+  --md-sys-color-surface-container-lowest: #10160f;
+  --md-sys-color-surface-container-low: #181f16;
+  --md-sys-color-surface-container: #1f251c;
+  --md-sys-color-surface-container-high: #272d24;
+  --md-sys-color-surface-container-highest: #30352b;
 }
 
 /* 说明：橙色主题（auto 模式）完整色板，基于 #954A00 种子。 */
