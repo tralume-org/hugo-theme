@@ -78,3 +78,18 @@
 
 - id: codeBlockCopied
   translation: 已复制
+
+- id: articleReadingProgress
+  translation: 阅读进度
+
+- id: articleOutlineAriaLabel
+  translation: 文章大纲
+
+- id: articleOutlineTitle
+  translation: 内容大纲
+
+- id: articleOutlineNavLabel
+  translation: 跳转到对应章节
+
+- id: articleOutlineEmpty
+  translation: 大纲将在页面渲染后生成，若未出现请确认正文包含二级以上标题。

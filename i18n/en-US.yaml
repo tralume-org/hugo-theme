@@ -78,3 +78,18 @@
 
 - id: codeBlockCopied
   translation: Copied
+
+- id: articleReadingProgress
+  translation: Reading progress
+
+- id: articleOutlineAriaLabel
+  translation: Article outline
+
+- id: articleOutlineTitle
+  translation: Table of contents
+
+- id: articleOutlineNavLabel
+  translation: Jump to section
+
+- id: articleOutlineEmpty
+  translation: The outline is generated after the page loads. Ensure the article contains level-two headings or above if nothing appears.

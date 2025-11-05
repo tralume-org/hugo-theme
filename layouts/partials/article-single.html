@@ -1,0 +1,30 @@
+{{/* 说明：文章正文容器，包含可选大纲结构，用于单篇阅读体验增强。 */}}
+<article class="article" data-article-root>
+  <header class="article__header">
+    <h1 class="article__title">{{ .Title }}</h1>
+    {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+    {{ $dateHuman := .Date | time.Format ":date_long" }}
+    <time class="article__time" datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+  </header>
+
+  <div class="article__layout" data-article-layout>
+    <div class="article__content" data-article-content>
+      {{ .Content }}
+      {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+    </div>
+    <aside
+      class="article__outline"
+      data-article-outline
+      data-outline-state="pending"
+      aria-label="{{ i18n "articleOutlineAriaLabel" }}"
+    >
+      <div class="article__outline-header">
+        <span class="article__outline-title">{{ i18n "articleOutlineTitle" }}</span>
+      </div>
+      <nav class="article__outline-nav" aria-label="{{ i18n "articleOutlineNavLabel" }}">
+        <ul class="article__outline-list" data-article-outline-list></ul>
+      </nav>
+      <p class="article__outline-empty" data-article-outline-empty>{{ i18n "articleOutlineEmpty" }}</p>
+    </aside>
+  </div>
+</article>

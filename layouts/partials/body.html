@@ -52,17 +52,16 @@
       </ul>
     {{ end }}
   {{ else if eq $kind "page" }}
-    {{/* 说明：普通单页输出标题、日期与正文，然后渲染标签信息。 */}}
-    <h1>{{ .Title }}</h1>
-    {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
-    {{ $dateHuman := .Date | time.Format ":date_long" }}
-    <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
-    {{ .Content }}
-    {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+    {{/* 说明：单页内容直接复用文章阅读增强组件。 */}}
+    {{ partial "article-single.html" . }}
   {{ else }}
     {{/* 说明：若无匹配分支，退回到 Block 机制，保持可扩展性。 */}}
     {{ block "main" . }}{{ end }}
   {{ end }}
 </main>
+{{ if eq $kind "page" }}
+  {{/* 说明：仅在单篇内容展示阅读进度悬浮按钮。 */}}
+  {{ partial "progress-floating.html" . }}
+{{ end }}
 {{/* 说明：右下角设置按钮及卡片交互入口。 */}}
 {{ partial "settings-panel.html" . }}

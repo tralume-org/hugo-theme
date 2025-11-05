@@ -1,0 +1,14 @@
+{{/* 说明：仅在带大纲的文章中使用的悬浮阅读进度按钮。 */}}
+<button
+  class="progress-indicator"
+  type="button"
+  aria-label="{{ i18n "articleReadingProgress" }}"
+  hidden
+  data-article-progress-floating
+>
+  <svg class="progress-indicator__chart" viewBox="0 0 36 36" aria-hidden="true">
+    <circle class="progress-indicator__track" cx="18" cy="18" r="16"></circle>
+    <circle class="progress-indicator__meter" cx="18" cy="18" r="16" data-article-progress-floating-meter></circle>
+  </svg>
+  <span class="progress-indicator__label" data-article-progress-floating-label>0%</span>
+</button>
