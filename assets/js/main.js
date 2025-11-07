@@ -292,6 +292,110 @@ const setupSettingsPanel = () => {
       applyThemeMode(modeId, true);
     });
   });
+
+  // 说明：自定义背景图逻辑，读取用户输入的图片 URL 并通过 CSS 变量注入伪元素。
+  const backgroundInput = panel.querySelector('[data-background-input]');
+  const backgroundApplyButton = panel.querySelector('[data-background-apply]');
+  const backgroundResetButton = panel.querySelector('[data-background-reset]');
+  const backgroundStorageKey = 'tralume-custom-background-url';
+  let hasCustomBackground = false;
+
+  const readBackgroundInputValue = () => {
+    if (backgroundInput instanceof HTMLInputElement) {
+      return backgroundInput.value.trim();
+    }
+    return '';
+  };
+
+  const updateBackgroundButtons = () => {
+    const hasTypedValue = readBackgroundInputValue().length > 0;
+    if (backgroundApplyButton instanceof HTMLButtonElement) {
+      backgroundApplyButton.disabled = !(hasTypedValue || hasCustomBackground);
+    }
+    if (backgroundResetButton instanceof HTMLButtonElement) {
+      backgroundResetButton.disabled = !hasCustomBackground;
+    }
+  };
+
+  const persistBackgroundValue = (value) => {
+    try {
+      if (value) {
+        window.localStorage.setItem(backgroundStorageKey, value);
+      } else {
+        window.localStorage.removeItem(backgroundStorageKey);
+      }
+    } catch (error) {
+      // 说明：忽略本地存储失败，防止隐身模式报错。
+    }
+  };
+
+  const readStoredBackgroundImage = () => {
+    try {
+      return window.localStorage.getItem(backgroundStorageKey);
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
+    const trimmed = typeof rawUrl === 'string' ? rawUrl.trim() : '';
+    if (!trimmed) {
+      root.style.setProperty('--app-custom-background-image', 'none');
+      root.style.setProperty('--app-custom-background-opacity', '0');
+      hasCustomBackground = false;
+      if (shouldPersist) {
+        persistBackgroundValue('');
+      }
+      updateBackgroundButtons();
+      return;
+    }
+
+    const sanitized = JSON.stringify(trimmed);
+    root.style.setProperty('--app-custom-background-image', `url(${sanitized})`);
+    root.style.setProperty('--app-custom-background-opacity', '1');
+    hasCustomBackground = true;
+    if (shouldPersist) {
+      persistBackgroundValue(trimmed);
+    }
+    updateBackgroundButtons();
+  };
+
+  const initialBackgroundImage = readStoredBackgroundImage() || '';
+  if (backgroundInput instanceof HTMLInputElement) {
+    backgroundInput.value = initialBackgroundImage;
+  }
+  applyBackgroundImage(initialBackgroundImage, false);
+  updateBackgroundButtons();
+
+  const handleBackgroundApply = () => {
+    const nextValue = readBackgroundInputValue();
+    applyBackgroundImage(nextValue, true);
+  };
+
+  if (backgroundApplyButton instanceof HTMLButtonElement) {
+    backgroundApplyButton.addEventListener('click', handleBackgroundApply);
+  }
+
+  if (backgroundInput instanceof HTMLInputElement) {
+    backgroundInput.addEventListener('input', () => {
+      updateBackgroundButtons();
+    });
+    backgroundInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        handleBackgroundApply();
+      }
+    });
+  }
+
+  if (backgroundResetButton instanceof HTMLButtonElement) {
+    backgroundResetButton.addEventListener('click', () => {
+      if (backgroundInput instanceof HTMLInputElement) {
+        backgroundInput.value = '';
+      }
+      applyBackgroundImage('', true);
+    });
+  }
 };
 
 // 说明：Markdown 代码块增强逻辑，负责构建 MD3 外观并注入复制按钮。

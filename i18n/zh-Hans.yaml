@@ -70,6 +70,27 @@
 - id: settingsPanelModeDark
   translation: 深色模式
 
+- id: settingsPanelBackgroundHeading
+  translation: 背景图片
+
+- id: settingsPanelBackgroundDescription
+  translation: 粘贴任意可访问的图片 URL，立即预览效果。
+
+- id: settingsPanelBackgroundLabel
+  translation: 图片链接
+
+- id: settingsPanelBackgroundPlaceholder
+  translation: 例如 https://example.com/hero.webp
+
+- id: settingsPanelBackgroundHint
+  translation: 为提升可读性，建议使用高分辨率、亮度适中的图片；清空后点击“应用背景”即可恢复默认底色。
+
+- id: settingsPanelBackgroundApply
+  translation: 应用背景
+
+- id: settingsPanelBackgroundReset
+  translation: 清除背景
+
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'
 

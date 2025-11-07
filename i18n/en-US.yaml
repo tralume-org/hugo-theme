@@ -70,6 +70,27 @@
 - id: settingsPanelModeDark
   translation: Dark mode
 
+- id: settingsPanelBackgroundHeading
+  translation: Background image
+
+- id: settingsPanelBackgroundDescription
+  translation: Paste any accessible image URL to paint the site backdrop.
+
+- id: settingsPanelBackgroundLabel
+  translation: Image URL
+
+- id: settingsPanelBackgroundPlaceholder
+  translation: e.g. https://example.com/hero.webp
+
+- id: settingsPanelBackgroundHint
+  translation: Prefer high-resolution, moderately bright assets. Clear the field and press “Apply background” to revert.
+
+- id: settingsPanelBackgroundApply
+  translation: Apply background
+
+- id: settingsPanelBackgroundReset
+  translation: Remove background
+
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'
 

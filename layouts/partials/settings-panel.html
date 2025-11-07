@@ -109,6 +109,47 @@
           {{ end }}
         </div>
       </section>
+      {{/* 说明：自定义背景图链接输入区，允许使用任意可访问的图片 URL。 */}}
+      <section class="settings-panel__section settings-panel__section--background">
+        <h3 class="settings-panel__section-title">{{ i18n "settingsPanelBackgroundHeading" }}</h3>
+        <p class="settings-panel__description">{{ i18n "settingsPanelBackgroundDescription" }}</p>
+        <label class="settings-panel__background-label" for="settings-panel-background-input">
+          {{ i18n "settingsPanelBackgroundLabel" }}
+        </label>
+        <div class="settings-panel__background-field">
+          <input
+            id="settings-panel-background-input"
+            class="settings-panel__background-input"
+            type="url"
+            inputmode="url"
+            placeholder="{{ i18n "settingsPanelBackgroundPlaceholder" }}"
+            aria-describedby="settings-panel-background-hint"
+            autocomplete="off"
+            data-background-input
+          />
+        </div>
+        <p class="settings-panel__background-hint" id="settings-panel-background-hint">
+          {{ i18n "settingsPanelBackgroundHint" }}
+        </p>
+        <div class="settings-panel__background-actions">
+          <button
+            type="button"
+            class="settings-panel__background-apply"
+            data-background-apply
+            disabled
+          >
+            {{ i18n "settingsPanelBackgroundApply" }}
+          </button>
+          <button
+            type="button"
+            class="settings-panel__background-reset"
+            data-background-reset
+            disabled
+          >
+            {{ i18n "settingsPanelBackgroundReset" }}
+          </button>
+        </div>
+      </section>
     </div>
   </section>
 </div>
