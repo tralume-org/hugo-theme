@@ -33,6 +33,13 @@ body {
   --floating-control-width: 7.5rem;
   --floating-control-height: 3.5rem;
   --floating-control-gap: 0.25rem;
+  /* 说明：玻璃拟态统一变量，控制透明度、色调与模糊半径以便多处复用。 */
+  --app-glass-blur-radius: 24px;
+  --app-glass-surface-color: color-mix(in srgb, var(--md-sys-color-surface) 78%, transparent);
+  --app-glass-elevated-color: color-mix(in srgb, var(--md-sys-color-surface-container-high) 82%, transparent);
+  --app-glass-strong-color: color-mix(in srgb, var(--md-sys-color-surface-container-highest) 88%, transparent);
+  --app-glass-border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) 55%, transparent);
+  --app-glass-border-strong-color: color-mix(in srgb, var(--md-sys-color-outline) 45%, transparent);
 }
 
 a {
@@ -63,10 +70,13 @@ a:focus-visible {
   text-decoration: none;
 }
 
+/* 说明：顶栏采用玻璃拟态背景，配合模糊与描边保持层次感。 */
 .app-header {
-  background-color: var(--md-sys-color-surface);
-  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--app-glass-surface-color);
+  border-bottom: 1px solid var(--app-glass-border-color);
   box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-bar {
@@ -88,10 +98,18 @@ a:focus-visible {
   letter-spacing: 0.01em;
 }
 
+/* 说明：导航条同步玻璃底色，确保亮/暗模式都有柔和对比。 */
 .app-nav {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  padding: 0.35rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 /* 说明：导航外壳负责在不同屏幕宽度之间调整排布。 */
@@ -226,13 +244,15 @@ a:focus-visible {
 .article__outline {
   padding: 0.75rem 1rem;
   border-radius: 0.875rem;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface);
   display: flex;
   flex-direction: column;
   gap: var(--article-outline-gap, 0.75rem);
   scroll-padding-block: 0.75rem;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .article__outline-header {
@@ -471,10 +491,13 @@ md-filled-button {
   gap: 0.75rem;
   padding: 1rem 1.25rem 1rem 1.75rem;
   border-radius: 1rem;
-  background-color: color-mix(in srgb, var(--md-sys-color-surface) 90%, var(--md-sys-color-primary-container) 10%);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
   box-shadow: var(--md-sys-elevation-level1);
   outline: none;
   transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .timeline-year:focus-visible {
@@ -511,17 +534,20 @@ md-filled-button {
 
 .timeline-year:hover,
 .timeline-year:focus-within {
-  background-color: color-mix(in srgb, var(--md-sys-color-surface) 80%, var(--md-sys-color-primary-container) 20%);
+  background-color: var(--app-glass-strong-color);
+  border-color: var(--app-glass-border-strong-color);
   box-shadow: var(--md-sys-elevation-level3);
 }
 
 .timeline-post {
   display: block;
   border-radius: 0.75rem;
-  background-color: color-mix(in srgb, var(--md-sys-color-surface) 95%, var(--md-sys-color-primary-container) 5%);
-  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--app-glass-strong-color);
+  border: 1px solid var(--app-glass-border-color);
   overflow: hidden;
   transition: border-color 0.2s ease, transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .timeline-post:hover,
@@ -565,6 +591,7 @@ md-filled-button {
   line-height: var(--md-sys-typescale-body-medium-line-height);
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   max-height: 0;
@@ -623,9 +650,11 @@ md-filled-button {
     gap: 0.5rem;
     padding: 0.75rem;
     border-radius: 1rem;
-    border: 1px solid var(--md-sys-color-outline-variant);
-    background-color: var(--md-sys-color-surface-container-low);
+    border: 1px solid var(--app-glass-border-color);
+    background-color: var(--app-glass-surface-color);
     box-shadow: var(--md-sys-elevation-level1);
+    -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+    backdrop-filter: blur(var(--app-glass-blur-radius));
   }
 
   .app-nav__item {
@@ -708,11 +737,13 @@ md-outlined-text-field {
   gap: 1rem;
   padding: 1.5rem;
   border-radius: 1.5rem;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
   box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  color: inherit;
+  color: var(--md-sys-color-on-surface);
   text-decoration: none;
 }
 
@@ -816,8 +847,8 @@ md-outlined-text-field {
   width: var(--settings-panel-closed-width);
   height: var(--settings-panel-closed-height);
   border-radius: var(--settings-panel-shape-radius);
-  border: 1px solid transparent;
-  background-color: var(--md-sys-color-surface-container-high);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface);
   box-shadow: var(--md-sys-elevation-level2);
   overflow: hidden;
@@ -830,6 +861,8 @@ md-outlined-text-field {
     background-color 0.3s ease,
     box-shadow 0.3s ease,
     transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
   z-index: 200;
 }
 
@@ -856,8 +889,8 @@ md-outlined-text-field {
   width: var(--settings-panel-open-width);
   height: var(--settings-panel-open-height);
   border-radius: var(--settings-panel-shape-radius);
-  border-color: var(--md-sys-color-outline);
-  background-color: var(--md-sys-color-surface-container-highest);
+  border-color: var(--app-glass-border-strong-color);
+  background-color: var(--app-glass-strong-color);
   box-shadow: var(--md-sys-elevation-level4);
   transform: none;
 }
@@ -907,10 +940,15 @@ md-outlined-text-field {
   gap: 1.25rem;
   padding: 1.5rem;
   color: var(--md-sys-color-on-surface);
+  background-color: color-mix(in srgb, var(--app-glass-strong-color) 85%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-glass-border-strong-color) 65%, transparent);
+  border-radius: inherit;
   opacity: 0;
   pointer-events: none;
   transform: translateY(16px);
   transition: opacity 0.24s ease, transform 0.24s ease;
+  -webkit-backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.85));
+  backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.85));
 }
 
 .settings-panel.is-open .settings-panel__surface {
