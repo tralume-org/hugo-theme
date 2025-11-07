@@ -89,6 +89,26 @@
 * 以 **零构建/低耦合** 为优先：优先通过 import maps 与 Web Components 集成。
 * 提供 **示例站点（exampleSite）** 与 **最小配置**，确保“克隆即可运行”。
 
+### 6.1 亚克力 / 玻璃拟态规范（必须）
+
+* 所有主要块级表面（导航、卡片、页脚、浮动按钮、代码块等）须优先使用 `--app-glass-*` 变量组合：  
+  * 背景：`var(--app-glass-surface-color | --app-glass-elevated-color | --app-glass-strong-color)`；  
+  * 描边：`var(--app-glass-border-color | --app-glass-border-strong-color)`；  
+  * 模糊：统一调用 `backdrop-filter: blur(var(--app-glass-blur-radius))`（含 `-webkit-`）。  
+  新增组件若具卡片/浮层语义，必须使用上述变量，禁止直接引用 `--md-sys-color-surface-*`。
+* 透明度仅通过 `--app-glass-surface-alpha` 等变量调节，不得在组件内部硬编码百分比。若需特殊层级，先评估是否可以复用 `surface / elevated / strong` 三档。
+* 设置面板的“磨砂强度”滑块（`data-glass-strength-range`）负责写入 CSS 变量；  
+  * 默认值 45%，范围 15%–95%，变更会同时更新多层 alpha 与边框。  
+  * 开关（`data-glass-disable`）会给 `<html>` 写入 `data-glass-disabled` 并将模糊半径置零；任何新增逻辑不得绕过该状态。
+* 需要在 JS 中读取用户偏好时：  
+  * 透明度存储键：`tralume-glass-strength`；  
+  * 关闭状态键：`tralume-glass-disabled`；  
+  * 默认档位映射于 `data-glass-strength="soft|balanced|bold"`，如需新增预设需同步更新 `layouts/_default/baseof.html` 与设置面板文案。
+* 对不支持 `color-mix` / `backdrop-filter` 的浏览器，组件应保持可读性：  
+  * 继续提供阴影与描边；  
+  * 若添加新特性，务必在 PR 说明中列出降级策略或验证路径（如启用 Firefox flag）。
+* 添加/修改表面时，请自检是否需要暴露新变量或设置项；若答案为是，需同步更新 `assets/js/main.js`、`i18n/*` 与本文件。
+
 ---
 
 ## 7. 交付物清单（面向 Agent）

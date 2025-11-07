@@ -409,13 +409,15 @@ a:focus-visible {
   inline-size: var(--floating-control-width, 7.5rem);
   block-size: var(--floating-control-height, 3.5rem);
   padding: 0 1rem;
-  border: 1px solid transparent;
+  border: 1px solid var(--app-glass-border-color);
   border-radius: 1rem;
-  background-color: var(--md-sys-color-surface-container-high);
+  background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface);
   box-shadow: var(--md-sys-elevation-level3);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .progress-indicator:hover,
@@ -476,18 +478,23 @@ a:focus-visible {
 .app-terms a {
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-footer {
   padding: 1.5rem;
   text-align: center;
-  border-top: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-bright);
-  color: var(--md-sys-color-on-surface-variant);
+  border-top: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 md-filled-button,
@@ -947,8 +954,8 @@ md-outlined-text-field {
   justify-content: center;
   gap: 0.5rem;
   padding: 0 1rem;
-  border: none;
-  background: none;
+  border: 1px solid var(--app-glass-border-color);
+  background: var(--app-glass-surface-color);
   color: inherit;
   font-family: inherit;
   font-size: var(--md-sys-typescale-title-small-size);
@@ -958,6 +965,8 @@ md-outlined-text-field {
   cursor: pointer;
   border-radius: inherit;
   transition: opacity 0.24s ease, color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__toggle:focus-visible {
@@ -981,8 +990,8 @@ md-outlined-text-field {
   gap: 1.25rem;
   padding: 1.5rem;
   color: var(--md-sys-color-on-surface);
-  background-color: color-mix(in srgb, var(--app-glass-strong-color) 85%, transparent);
-  border: 1px solid color-mix(in srgb, var(--app-glass-border-strong-color) 65%, transparent);
+  background-color: var(--app-glass-strong-color);
+  border: 1px solid var(--app-glass-border-strong-color);
   border-radius: inherit;
   opacity: 0;
   pointer-events: none;
@@ -1046,6 +1055,7 @@ md-outlined-text-field {
   gap: 1.25rem;
   overflow-y: auto;
   padding-right: 0.25rem;
+  padding-bottom: 0.25rem;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1054,6 +1064,12 @@ md-outlined-text-field {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__section-title {
@@ -1073,14 +1089,16 @@ md-outlined-text-field {
   width: 100%;
   padding: 0.6rem 0.75rem;
   border-radius: 0.875rem;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
   font-family: inherit;
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
   cursor: pointer;
   transition: border-color 0.2s ease, background-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__language-select:hover {
@@ -1476,11 +1494,13 @@ md-outlined-text-field {
 /* 说明：Markdown 代码块采用 MD3 风格容器，统一外观并为复制按钮预留位置，同时保持紧凑排列。 */
 .md3-code-block {
   margin: 1rem 0;
-  border: 1px solid var(--md-sys-color-outline-variant);
+  border: 1px solid var(--app-glass-border-color);
   border-radius: 0.75rem;
-  background-color: var(--md-sys-color-surface-container-highest);
+  background-color: var(--app-glass-strong-color);
   box-shadow: var(--md-sys-elevation-level1);
   overflow: hidden;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 /* 说明：工具栏展示语言标签与复制按钮，采用紧凑布局。 */
@@ -1490,10 +1510,12 @@ md-outlined-text-field {
   justify-content: space-between;
   gap: 0.6rem;
   padding: 0.6rem 0.85rem;
-  background-color: var(--md-sys-color-surface-container-highest);
+  background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-label-medium-size);
   line-height: var(--md-sys-typescale-label-medium-line-height);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 /* 说明：语言标识使用大写字母增强辨识度。 */
@@ -1541,22 +1563,26 @@ md-outlined-text-field {
 /* 说明：代码区域保持独立滚动，避免长行撑破布局。 */
 .md3-code-block__body {
   position: relative;
-  background-color: var(--md-sys-color-surface-container-high);
+  background-color: var(--app-glass-elevated-color);
   overflow-x: auto;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-content pre:not([data-md3-code-processed="true"]) {
   margin: 1rem 0;
   padding: 0.9rem 1.1rem;
   border-radius: 0.75rem;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-container-highest);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-strong-color);
   color: var(--md-sys-color-on-surface);
   font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 0.875rem;
   line-height: 1.6;
   overflow-x: auto;
   box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-content pre:not([data-md3-code-processed="true"]) code {
