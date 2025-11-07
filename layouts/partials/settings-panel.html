@@ -87,6 +87,31 @@
             </button>
           {{ end }}
         </div>
+        {{/* 说明：动态取色开关已合并到主题色区域，保持互斥关系。 */}}
+        <div class="settings-panel__color-sync">
+          <label class="settings-panel__glass-toggle settings-panel__color-sync-toggle">
+            <input
+              class="settings-panel__glass-toggle-input"
+              type="checkbox"
+              role="switch"
+              aria-checked="false"
+              data-background-colors-toggle
+              disabled
+            />
+            <span>{{ i18n "settingsPanelBackgroundAutoColorLabel" }}</span>
+          </label>
+          <p
+            class="settings-panel__color-sync-status"
+            data-background-colors-status
+            data-background-colors-idle="{{ i18n "settingsPanelBackgroundAutoColorIdle" }}"
+            data-background-colors-ready="{{ i18n "settingsPanelBackgroundAutoColorReady" }}"
+            data-background-colors-disabled="{{ i18n "settingsPanelBackgroundAutoColorDisabled" }}"
+            data-background-colors-working="{{ i18n "settingsPanelBackgroundAutoColorWorking" }}"
+            data-background-colors-error="{{ i18n "settingsPanelBackgroundAutoColorError" }}"
+          >
+            {{ i18n "settingsPanelBackgroundAutoColorIdle" }}
+          </p>
+        </div>
       </section>
       {{/* 说明：主题模式切换区，提供自动、浅色、深色三种选项。 */}}
       {{ $modeOptions := slice

@@ -112,6 +112,24 @@
 - id: settingsPanelBackgroundReset
   translation: 清除背景
 
+- id: settingsPanelBackgroundAutoColorLabel
+  translation: 跟随背景自动配色
+
+- id: settingsPanelBackgroundAutoColorIdle
+  translation: 需先应用可访问的图片 URL，才能启用动态取色。
+
+- id: settingsPanelBackgroundAutoColorReady
+  translation: 已根据当前背景刷新整站配色。
+
+- id: settingsPanelBackgroundAutoColorDisabled
+  translation: 已关闭动态取色，继续保留手动选择的主题色。
+
+- id: settingsPanelBackgroundAutoColorWorking
+  translation: 正在分析背景图颜色…
+
+- id: settingsPanelBackgroundAutoColorError
+  translation: 无法读取该图片色彩，请尝试支持跨域访问的链接。
+
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'
 

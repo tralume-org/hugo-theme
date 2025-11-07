@@ -113,6 +113,97 @@ const setupSettingsPanel = () => {
     return;
   }
 
+  const root = document.documentElement;
+  const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const dynamicColorTokens = [
+    '--md-sys-color-primary',
+    '--md-sys-color-on-primary',
+    '--md-sys-color-primary-container',
+    '--md-sys-color-on-primary-container',
+    '--md-sys-color-secondary',
+    '--md-sys-color-on-secondary',
+    '--md-sys-color-secondary-container',
+    '--md-sys-color-on-secondary-container',
+    '--md-sys-color-surface',
+    '--md-sys-color-surface-dim',
+    '--md-sys-color-surface-bright',
+    '--md-sys-color-on-surface',
+    '--md-sys-color-on-surface-variant',
+    '--md-sys-color-background',
+    '--md-sys-color-on-background',
+    '--md-sys-color-outline',
+    '--md-sys-color-outline-variant',
+    '--md-sys-color-surface-container-lowest',
+    '--md-sys-color-surface-container-low',
+    '--md-sys-color-surface-container',
+    '--md-sys-color-surface-container-high',
+    '--md-sys-color-surface-container-highest',
+  ];
+  let isDynamicColorEnabled = false;
+  let currentDynamicPalette = null;
+  let dynamicColorTaskId = 0;
+  let hasCustomBackground = false;
+  let currentBackgroundValue = '';
+
+  const resolveIsDarkMode = () => {
+    const modeAttr = root.getAttribute('data-theme-mode');
+    if (modeAttr === 'dark') {
+      return true;
+    }
+    if (modeAttr === 'light') {
+      return false;
+    }
+    return systemDarkQuery.matches;
+  };
+
+  const applyDynamicPaletteOverrides = (palette) => {
+    if (!palette) {
+      return;
+    }
+    const target = resolveIsDarkMode() ? palette.dark : palette.light;
+    if (!target) {
+      return;
+    }
+    dynamicColorTokens.forEach((token) => {
+      if (typeof target[token] === 'string') {
+        root.style.setProperty(token, target[token]);
+      }
+    });
+    root.setAttribute('data-dynamic-colors', 'active');
+    if (typeof palette.seed === 'string') {
+      root.style.setProperty('--app-dynamic-seed-color', palette.seed);
+    }
+  };
+
+  const clearDynamicPaletteOverrides = () => {
+    dynamicColorTokens.forEach((token) => {
+      root.style.removeProperty(token);
+    });
+    root.removeAttribute('data-dynamic-colors');
+    root.style.removeProperty('--app-dynamic-seed-color');
+  };
+
+  const reapplyDynamicColorsIfNeeded = () => {
+    if (isDynamicColorEnabled && currentDynamicPalette) {
+      applyDynamicPaletteOverrides(currentDynamicPalette);
+    }
+  };
+
+  const handleSystemModeChange = () => {
+    const modeAttr = root.getAttribute('data-theme-mode');
+    if (!modeAttr || modeAttr === 'auto') {
+      reapplyDynamicColorsIfNeeded();
+    }
+  };
+
+  if (systemDarkQuery) {
+    if (typeof systemDarkQuery.addEventListener === 'function') {
+      systemDarkQuery.addEventListener('change', handleSystemModeChange);
+    } else if (typeof systemDarkQuery.addListener === 'function') {
+      systemDarkQuery.addListener(handleSystemModeChange);
+    }
+  }
+
   const toggleButton = panel.querySelector('[data-settings-toggle]');
   const surface = panel.querySelector('[data-settings-surface]');
   const closeButton = panel.querySelector('[data-settings-close]');
@@ -197,7 +288,19 @@ const setupSettingsPanel = () => {
   // 说明：主题颜色按钮组，切换后更新根节点属性并持久化本地偏好。
   const colorSwatches = Array.from(panel.querySelectorAll('[data-color-option]'));
   const colorStorageKey = 'tralume-theme-color';
-  const root = document.documentElement;
+
+  const setColorSwatchesDisabled = (shouldDisable) => {
+    colorSwatches.forEach((swatch) => {
+      if (swatch instanceof HTMLButtonElement) {
+        swatch.disabled = shouldDisable;
+        swatch.setAttribute('aria-disabled', shouldDisable ? 'true' : 'false');
+      }
+    });
+  };
+
+  const syncColorInterlocks = () => {
+    setColorSwatchesDisabled(isDynamicColorEnabled && hasCustomBackground);
+  };
 
   const updateSwatchState = (activeId) => {
     colorSwatches.forEach((swatch) => {
@@ -233,6 +336,7 @@ const setupSettingsPanel = () => {
 
   const initialThemeColor = readStoredThemeColor() || root.getAttribute('data-theme-color') || 'indigo';
   applyThemeColor(initialThemeColor, false);
+  syncColorInterlocks();
 
   colorSwatches.forEach((swatch) => {
     swatch.addEventListener('click', () => {
@@ -265,6 +369,7 @@ const setupSettingsPanel = () => {
       root.setAttribute('data-theme-mode', finalMode);
     }
     updateModeState(finalMode);
+    reapplyDynamicColorsIfNeeded();
 
     if (shouldPersist) {
       try {
@@ -486,12 +591,34 @@ const setupSettingsPanel = () => {
     }
   }
 
-  // 说明：自定义背景图逻辑，读取用户输入的图片 URL 并通过 CSS 变量注入伪元素。
+  // 说明：自定义背景图逻辑，读取用户输入的图片 URL，并在需要时触发动态配色。
   const backgroundInput = panel.querySelector('[data-background-input]');
   const backgroundApplyButton = panel.querySelector('[data-background-apply]');
   const backgroundResetButton = panel.querySelector('[data-background-reset]');
+  const backgroundColorToggle = panel.querySelector('[data-background-colors-toggle]');
+  const backgroundColorStatus = panel.querySelector('[data-background-colors-status]');
   const backgroundStorageKey = 'tralume-custom-background-url';
-  let hasCustomBackground = false;
+  const backgroundColorEnabledStorageKey = 'tralume-background-dynamic-colors';
+  const backgroundPaletteStorageKey = 'tralume-background-dynamic-palette';
+
+  const backgroundStatusMessages = backgroundColorStatus instanceof HTMLElement
+    ? {
+        idle: backgroundColorStatus.getAttribute('data-background-colors-idle') || '',
+        ready: backgroundColorStatus.getAttribute('data-background-colors-ready') || '',
+        disabled: backgroundColorStatus.getAttribute('data-background-colors-disabled') || '',
+        working: backgroundColorStatus.getAttribute('data-background-colors-working') || '',
+        error: backgroundColorStatus.getAttribute('data-background-colors-error') || '',
+      }
+    : null;
+
+  const setDynamicColorStatus = (type) => {
+    if (!(backgroundColorStatus instanceof HTMLElement)) {
+      return;
+    }
+    const fallback = backgroundStatusMessages ? backgroundStatusMessages.idle : '';
+    const nextMessage = backgroundStatusMessages && backgroundStatusMessages[type] ? backgroundStatusMessages[type] : fallback;
+    backgroundColorStatus.textContent = nextMessage || '';
+  };
 
   const readBackgroundInputValue = () => {
     if (backgroundInput instanceof HTMLInputElement) {
@@ -508,6 +635,16 @@ const setupSettingsPanel = () => {
     if (backgroundResetButton instanceof HTMLButtonElement) {
       backgroundResetButton.disabled = !hasCustomBackground;
     }
+  };
+
+  const updateDynamicToggleAvailability = () => {
+    if (!(backgroundColorToggle instanceof HTMLInputElement)) {
+      return;
+    }
+    const shouldDisable = !hasCustomBackground;
+    backgroundColorToggle.disabled = shouldDisable;
+    backgroundColorToggle.setAttribute('aria-disabled', shouldDisable ? 'true' : 'false');
+    backgroundColorToggle.setAttribute('aria-checked', backgroundColorToggle.checked ? 'true' : 'false');
   };
 
   const persistBackgroundValue = (value) => {
@@ -530,16 +667,517 @@ const setupSettingsPanel = () => {
     }
   };
 
+  const persistDynamicColorEnabled = (value) => {
+    try {
+      if (value) {
+        window.localStorage.setItem(backgroundColorEnabledStorageKey, '1');
+      } else {
+        window.localStorage.removeItem(backgroundColorEnabledStorageKey);
+      }
+    } catch (error) {
+      // 说明：部分浏览器在无痕模式下禁止写入，直接忽略即可。
+    }
+  };
+
+  const readStoredDynamicColorEnabled = () => {
+    try {
+      return window.localStorage.getItem(backgroundColorEnabledStorageKey) === '1';
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const persistDynamicPalette = (payload) => {
+    try {
+      if (payload) {
+        window.localStorage.setItem(backgroundPaletteStorageKey, JSON.stringify(payload));
+      } else {
+        window.localStorage.removeItem(backgroundPaletteStorageKey);
+      }
+    } catch (error) {
+      // 说明：JSON 写入失败时静默跳过，后续可以重新生成。
+    }
+  };
+
+  const readStoredDynamicPalette = () => {
+    try {
+      const raw = window.localStorage.getItem(backgroundPaletteStorageKey);
+      if (!raw) {
+        return null;
+      }
+      return JSON.parse(raw);
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const clamp01 = (value) => {
+    if (!Number.isFinite(value)) {
+      return 0;
+    }
+    return Math.min(1, Math.max(0, value));
+  };
+
+  const normalizeHexColor = (input) => {
+    if (typeof input !== 'string') {
+      return null;
+    }
+    const hex = input.trim().replace(/^#/, '');
+    if (/^[0-9a-fA-F]{3}$/.test(hex)) {
+      return `#${hex.split('').map((ch) => ch + ch).join('').toUpperCase()}`;
+    }
+    if (/^[0-9a-fA-F]{6}$/.test(hex)) {
+      return `#${hex.toUpperCase()}`;
+    }
+    return null;
+  };
+
+  const rgbToHex = (r, g, b) => {
+    const clampChannel = (channel) => {
+      const safe = Math.round(Math.min(255, Math.max(0, channel)));
+      return safe.toString(16).padStart(2, '0');
+    };
+    return `#${clampChannel(r)}${clampChannel(g)}${clampChannel(b)}`.toUpperCase();
+  };
+
+  const hexToRgb = (hex) => {
+    const normalized = normalizeHexColor(hex);
+    if (!normalized) {
+      return null;
+    }
+    const value = parseInt(normalized.slice(1), 16);
+    return {
+      r: (value >> 16) & 255,
+      g: (value >> 8) & 255,
+      b: value & 255,
+    };
+  };
+
+  const rgbToHsl = (r, g, b) => {
+    const rn = r / 255;
+    const gn = g / 255;
+    const bn = b / 255;
+    const max = Math.max(rn, gn, bn);
+    const min = Math.min(rn, gn, bn);
+    let h = 0;
+    let s = 0;
+    const l = (max + min) / 2;
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case rn:
+          h = ((gn - bn) / d + (gn < bn ? 6 : 0));
+          break;
+        case gn:
+          h = ((bn - rn) / d + 2);
+          break;
+        default:
+          h = ((rn - gn) / d + 4);
+          break;
+      }
+      h *= 60;
+    }
+    return { h: (h + 360) % 360, s: clamp01(s), l: clamp01(l) };
+  };
+
+  const hexToHsl = (hex) => {
+    const rgb = hexToRgb(hex);
+    if (!rgb) {
+      return null;
+    }
+    return rgbToHsl(rgb.r, rgb.g, rgb.b);
+  };
+
+  const hslToRgb = (h, s, l) => {
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const hPrime = (h / 60) % 6;
+    const x = c * (1 - Math.abs((hPrime % 2) - 1));
+    let r1 = 0;
+    let g1 = 0;
+    let b1 = 0;
+    if (hPrime >= 0 && hPrime < 1) {
+      r1 = c;
+      g1 = x;
+    } else if (hPrime >= 1 && hPrime < 2) {
+      r1 = x;
+      g1 = c;
+    } else if (hPrime >= 2 && hPrime < 3) {
+      g1 = c;
+      b1 = x;
+    } else if (hPrime >= 3 && hPrime < 4) {
+      g1 = x;
+      b1 = c;
+    } else if (hPrime >= 4 && hPrime < 5) {
+      r1 = x;
+      b1 = c;
+    } else {
+      r1 = c;
+      b1 = x;
+    }
+    const m = l - c / 2;
+    return {
+      r: Math.round((r1 + m) * 255),
+      g: Math.round((g1 + m) * 255),
+      b: Math.round((b1 + m) * 255),
+    };
+  };
+
+  const hslToHex = (h, s, l) => {
+    const rgb = hslToRgb(h, s, l);
+    return rgbToHex(rgb.r, rgb.g, rgb.b);
+  };
+
+  const shiftLightness = (hex, delta) => {
+    const hsl = hexToHsl(hex);
+    if (!hsl) {
+      return hex;
+    }
+    hsl.l = clamp01(hsl.l + delta);
+    return hslToHex(hsl.h, hsl.s, hsl.l);
+  };
+
+  const shiftSaturation = (hex, delta) => {
+    const hsl = hexToHsl(hex);
+    if (!hsl) {
+      return hex;
+    }
+    hsl.s = clamp01(hsl.s + delta);
+    return hslToHex(hsl.h, hsl.s, hsl.l);
+  };
+
+  const rotateHueColor = (hex, delta) => {
+    const hsl = hexToHsl(hex);
+    if (!hsl) {
+      return hex;
+    }
+    hsl.h = (hsl.h + delta + 360) % 360;
+    return hslToHex(hsl.h, hsl.s, hsl.l);
+  };
+
+  const mixColors = (hexA, hexB, amount) => {
+    const rgbA = hexToRgb(hexA);
+    const rgbB = hexToRgb(hexB);
+    if (!rgbA || !rgbB) {
+      return hexA || hexB;
+    }
+    const t = clamp01(amount);
+    const r = rgbA.r + (rgbB.r - rgbA.r) * t;
+    const g = rgbA.g + (rgbB.g - rgbA.g) * t;
+    const b = rgbA.b + (rgbB.b - rgbA.b) * t;
+    return rgbToHex(r, g, b);
+  };
+
+  const relativeLuminance = (hex) => {
+    const rgb = hexToRgb(hex);
+    if (!rgb) {
+      return 0;
+    }
+    const normalize = (channel) => {
+      const value = channel / 255;
+      return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    };
+    const r = normalize(rgb.r);
+    const g = normalize(rgb.g);
+    const b = normalize(rgb.b);
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+
+  const pickOnColor = (hex, light = '#ffffff', dark = '#1d1b20', threshold = 0.55) => {
+    return relativeLuminance(hex) > threshold ? dark : light;
+  };
+
+  const ensureSeedStrength = (hex) => {
+    const hsl = hexToHsl(hex);
+    if (!hsl) {
+      return '#6750A4';
+    }
+    if (hsl.s < 0.25) {
+      hsl.s = 0.25;
+    } else if (hsl.s > 0.9) {
+      hsl.s = 0.9;
+    }
+    if (hsl.l < 0.3) {
+      hsl.l = 0.35;
+    } else if (hsl.l > 0.75) {
+      hsl.l = 0.7;
+    }
+    return hslToHex(hsl.h, hsl.s, hsl.l);
+  };
+
+  const neutralLightBase = {
+    '--md-sys-color-surface': '#fdf8ff',
+    '--md-sys-color-surface-dim': '#ded8e1',
+    '--md-sys-color-surface-bright': '#fdf8ff',
+    '--md-sys-color-on-surface': '#1d1b20',
+    '--md-sys-color-on-surface-variant': '#49454f',
+    '--md-sys-color-background': '#fdf8ff',
+    '--md-sys-color-on-background': '#1d1b20',
+    '--md-sys-color-surface-container-lowest': '#ffffff',
+    '--md-sys-color-surface-container-low': '#f7f2fa',
+    '--md-sys-color-surface-container': '#f3edf7',
+    '--md-sys-color-surface-container-high': '#ece6f0',
+    '--md-sys-color-surface-container-highest': '#e6e0e9',
+  };
+
+  const neutralDarkBase = {
+    '--md-sys-color-surface': '#141218',
+    '--md-sys-color-surface-dim': '#141218',
+    '--md-sys-color-surface-bright': '#3b383e',
+    '--md-sys-color-on-surface': '#e6e0e9',
+    '--md-sys-color-on-surface-variant': '#cac4d0',
+    '--md-sys-color-background': '#141218',
+    '--md-sys-color-on-background': '#e6e0e9',
+    '--md-sys-color-surface-container-lowest': '#0f0d13',
+    '--md-sys-color-surface-container-low': '#1d1b20',
+    '--md-sys-color-surface-container': '#211f26',
+    '--md-sys-color-surface-container-high': '#2b2930',
+    '--md-sys-color-surface-container-highest': '#36343b',
+  };
+
+  const tintNeutralPalette = (basePalette, seedColor, ratio) => {
+    return Object.entries(basePalette).reduce((accumulator, [token, value]) => {
+      if (token.includes('-on-')) {
+        accumulator[token] = value;
+      } else {
+        accumulator[token] = mixColors(value, seedColor, ratio);
+      }
+      return accumulator;
+    }, {});
+  };
+
+  const analyzeImageSeed = (source) => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    const width = source.width || source.naturalWidth || 0;
+    const height = source.height || source.naturalHeight || 0;
+    if (!context || !width || !height) {
+      throw new Error('无法解析图片尺寸');
+    }
+    const maxEdge = 196;
+    const scale = Math.min(1, maxEdge / Math.max(width, height));
+    canvas.width = Math.max(1, Math.round(width * scale));
+    canvas.height = Math.max(1, Math.round(height * scale));
+    context.drawImage(source, 0, 0, canvas.width, canvas.height);
+    let imageData;
+    try {
+      imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    } catch (error) {
+      throw new Error('无法读取像素数据，可能缺少跨域授权');
+    }
+    const { data } = imageData;
+    let total = 0;
+    let sumR = 0;
+    let sumG = 0;
+    let sumB = 0;
+    let bestScore = 0;
+    let bestColor = null;
+    for (let i = 0; i < data.length; i += 4) {
+      const alpha = data[i + 3] / 255;
+      if (alpha < 0.6) {
+        continue;
+      }
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      sumR += r;
+      sumG += g;
+      sumB += b;
+      total += 1;
+      const hsl = rgbToHsl(r, g, b);
+      const vibrance = hsl.s * 0.7 + (1 - Math.abs(0.5 - hsl.l)) * 0.3;
+      if (vibrance > bestScore) {
+        bestScore = vibrance;
+        bestColor = { r, g, b };
+      }
+    }
+    const averageColor = total > 0
+      ? {
+          r: Math.round(sumR / total),
+          g: Math.round(sumG / total),
+          b: Math.round(sumB / total),
+        }
+      : { r: 103, g: 80, b: 164 };
+    const finalColor = bestScore > 0.2 && bestColor ? bestColor : averageColor;
+    return rgbToHex(finalColor.r, finalColor.g, finalColor.b);
+  };
+
+  const blobToImage = (blob) => {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.crossOrigin = 'anonymous';
+      image.decoding = 'async';
+      const objectUrl = URL.createObjectURL(blob);
+      image.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        resolve(image);
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error('图片解码失败'));
+      };
+      image.src = objectUrl;
+    });
+  };
+
+  const fetchImageBlob = async (url) => {
+    const response = await fetch(url, { mode: 'cors', credentials: 'omit' });
+    if (!response.ok) {
+      throw new Error('无法请求图片');
+    }
+    return response.blob();
+  };
+
+  const loadImageSource = async (url) => {
+    if (!url) {
+      throw new Error('缺少图片链接');
+    }
+    const isDataUrl = url.startsWith('data:');
+    let blob;
+    if (isDataUrl) {
+      const dataResponse = await fetch(url);
+      blob = await dataResponse.blob();
+    } else {
+      blob = await fetchImageBlob(url);
+    }
+    if (window.createImageBitmap) {
+      try {
+        return await window.createImageBitmap(blob);
+      } catch (error) {
+        // 说明：部分浏览器不支持 createImageBitmap 某些格式，降级为 <img>。
+      }
+    }
+    return blobToImage(blob);
+  };
+
+  const buildDynamicPaletteFromSeed = (seedHex, sourceUrl) => {
+    const normalizedSeed = ensureSeedStrength(seedHex);
+    const enrichedSeed = shiftSaturation(normalizedSeed, 0.08);
+    const primaryLight = shiftLightness(enrichedSeed, 0.05);
+    const primaryDark = shiftLightness(enrichedSeed, -0.25);
+    const primaryContainerLight = shiftLightness(enrichedSeed, 0.32);
+    const primaryContainerDark = shiftLightness(enrichedSeed, -0.4);
+    const secondaryBase = rotateHueColor(enrichedSeed, 32);
+    const secondaryLight = shiftLightness(shiftSaturation(secondaryBase, -0.12), 0.12);
+    const secondaryDark = shiftLightness(shiftSaturation(secondaryBase, -0.12), -0.18);
+    const secondaryContainerLight = shiftLightness(secondaryLight, 0.28);
+    const secondaryContainerDark = shiftLightness(secondaryDark, -0.2);
+    const lightNeutrals = tintNeutralPalette(neutralLightBase, normalizedSeed, 0.06);
+    const darkNeutrals = tintNeutralPalette(neutralDarkBase, normalizedSeed, 0.1);
+    const outlineBase = mixColors(normalizedSeed, '#6f6f7c', 0.35);
+    return {
+      source: sourceUrl,
+      seed: normalizedSeed,
+      light: {
+        '--md-sys-color-primary': primaryLight,
+        '--md-sys-color-on-primary': pickOnColor(primaryLight),
+        '--md-sys-color-primary-container': primaryContainerLight,
+        '--md-sys-color-on-primary-container': pickOnColor(primaryContainerLight, '#1d1b20', '#ffffff', 0.75),
+        '--md-sys-color-secondary': secondaryLight,
+        '--md-sys-color-on-secondary': pickOnColor(secondaryLight),
+        '--md-sys-color-secondary-container': secondaryContainerLight,
+        '--md-sys-color-on-secondary-container': pickOnColor(secondaryContainerLight, '#1d1b20', '#ffffff', 0.75),
+        '--md-sys-color-outline': mixColors(outlineBase, '#4b4b56', 0.25),
+        '--md-sys-color-outline-variant': shiftLightness(mixColors(outlineBase, '#cbc6d4', 0.55), 0.05),
+        ...lightNeutrals,
+      },
+      dark: {
+        '--md-sys-color-primary': primaryDark,
+        '--md-sys-color-on-primary': pickOnColor(primaryDark, '#ffffff', '#141218', 0.4),
+        '--md-sys-color-primary-container': primaryContainerDark,
+        '--md-sys-color-on-primary-container': pickOnColor(primaryContainerDark, '#ffffff', '#141218', 0.35),
+        '--md-sys-color-secondary': secondaryDark,
+        '--md-sys-color-on-secondary': pickOnColor(secondaryDark, '#ffffff', '#141218', 0.4),
+        '--md-sys-color-secondary-container': secondaryContainerDark,
+        '--md-sys-color-on-secondary-container': pickOnColor(secondaryContainerDark, '#ffffff', '#141218', 0.35),
+        '--md-sys-color-outline': mixColors(outlineBase, '#9a96a5', 0.6),
+        '--md-sys-color-outline-variant': mixColors(outlineBase, '#4a454f', 0.3),
+        ...darkNeutrals,
+      },
+    };
+  };
+
+  const buildPaletteFromImageUrl = async (imageUrl) => {
+    const source = await loadImageSource(imageUrl);
+    try {
+      const seedHex = analyzeImageSeed(source);
+      return buildDynamicPaletteFromSeed(seedHex, imageUrl);
+    } finally {
+      if (source && typeof source.close === 'function') {
+        source.close();
+      }
+    }
+  };
+
+  const cancelDynamicColorRequest = () => {
+    dynamicColorTaskId += 1;
+  };
+
+  const requestDynamicColorUpdate = async (imageUrl) => {
+    if (!imageUrl) {
+      return;
+    }
+    const taskId = ++dynamicColorTaskId;
+    setDynamicColorStatus('working');
+    try {
+      const palette = await buildPaletteFromImageUrl(imageUrl);
+      if (taskId !== dynamicColorTaskId) {
+        return;
+      }
+      currentDynamicPalette = palette;
+      persistDynamicPalette(palette);
+      applyDynamicPaletteOverrides(palette);
+      setDynamicColorStatus('ready');
+    } catch (error) {
+      if (taskId !== dynamicColorTaskId) {
+        return;
+      }
+      console.error('[Tralume] 动态取色失败', error);
+      currentDynamicPalette = null;
+      persistDynamicPalette(null);
+      clearDynamicPaletteOverrides();
+      setDynamicColorStatus('error');
+    }
+  };
+
+  const handleDynamicColorForCurrentBackground = () => {
+    syncColorInterlocks();
+    if (!hasCustomBackground) {
+      clearDynamicPaletteOverrides();
+      setDynamicColorStatus('idle');
+      return;
+    }
+    if (!isDynamicColorEnabled) {
+      clearDynamicPaletteOverrides();
+      setDynamicColorStatus('disabled');
+      return;
+    }
+    if (currentDynamicPalette && currentDynamicPalette.source === currentBackgroundValue) {
+      applyDynamicPaletteOverrides(currentDynamicPalette);
+      setDynamicColorStatus('ready');
+      return;
+    }
+    requestDynamicColorUpdate(currentBackgroundValue);
+  };
+
   const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
     const trimmed = typeof rawUrl === 'string' ? rawUrl.trim() : '';
+    cancelDynamicColorRequest();
     if (!trimmed) {
       root.style.setProperty('--app-custom-background-image', 'none');
       root.style.setProperty('--app-custom-background-opacity', '0');
       hasCustomBackground = false;
+      currentBackgroundValue = '';
+      currentDynamicPalette = null;
+      persistDynamicPalette(null);
+      clearDynamicPaletteOverrides();
       if (shouldPersist) {
         persistBackgroundValue('');
       }
       updateBackgroundButtons();
+      updateDynamicToggleAvailability();
+      setDynamicColorStatus('idle');
+      syncColorInterlocks();
       return;
     }
 
@@ -547,11 +1185,25 @@ const setupSettingsPanel = () => {
     root.style.setProperty('--app-custom-background-image', `url(${sanitized})`);
     root.style.setProperty('--app-custom-background-opacity', '1');
     hasCustomBackground = true;
+    currentBackgroundValue = trimmed;
     if (shouldPersist) {
       persistBackgroundValue(trimmed);
     }
     updateBackgroundButtons();
+    updateDynamicToggleAvailability();
+    syncColorInterlocks();
+    handleDynamicColorForCurrentBackground();
   };
+
+  isDynamicColorEnabled = readStoredDynamicColorEnabled();
+  if (backgroundColorToggle instanceof HTMLInputElement) {
+    backgroundColorToggle.checked = isDynamicColorEnabled;
+    backgroundColorToggle.setAttribute('aria-checked', isDynamicColorEnabled ? 'true' : 'false');
+  }
+  const storedPalette = readStoredDynamicPalette();
+  if (storedPalette && typeof storedPalette === 'object' && storedPalette.light && storedPalette.dark) {
+    currentDynamicPalette = storedPalette;
+  }
 
   const initialBackgroundImage = readStoredBackgroundImage() || '';
   if (backgroundInput instanceof HTMLInputElement) {
@@ -559,6 +1211,7 @@ const setupSettingsPanel = () => {
   }
   applyBackgroundImage(initialBackgroundImage, false);
   updateBackgroundButtons();
+  updateDynamicToggleAvailability();
 
   const handleBackgroundApply = () => {
     const nextValue = readBackgroundInputValue();
@@ -587,6 +1240,29 @@ const setupSettingsPanel = () => {
         backgroundInput.value = '';
       }
       applyBackgroundImage('', true);
+    });
+  }
+
+  if (backgroundColorToggle instanceof HTMLInputElement) {
+    backgroundColorToggle.addEventListener('change', () => {
+      isDynamicColorEnabled = Boolean(backgroundColorToggle.checked);
+      backgroundColorToggle.setAttribute('aria-checked', backgroundColorToggle.checked ? 'true' : 'false');
+      persistDynamicColorEnabled(isDynamicColorEnabled);
+      syncColorInterlocks();
+      if (!hasCustomBackground) {
+        if (!isDynamicColorEnabled) {
+          clearDynamicPaletteOverrides();
+        }
+        setDynamicColorStatus('idle');
+        return;
+      }
+      if (isDynamicColorEnabled) {
+        handleDynamicColorForCurrentBackground();
+      } else {
+        cancelDynamicColorRequest();
+        clearDynamicPaletteOverrides();
+        setDynamicColorStatus('disabled');
+      }
     });
   }
 };

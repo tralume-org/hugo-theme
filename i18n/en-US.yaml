@@ -112,6 +112,24 @@
 - id: settingsPanelBackgroundReset
   translation: Remove background
 
+- id: settingsPanelBackgroundAutoColorLabel
+  translation: Sync colors with background
+
+- id: settingsPanelBackgroundAutoColorIdle
+  translation: Apply a background image to enable dynamic colors.
+
+- id: settingsPanelBackgroundAutoColorReady
+  translation: Palette synced with the current background.
+
+- id: settingsPanelBackgroundAutoColorDisabled
+  translation: Dynamic colors are off; keep your own swatch active.
+
+- id: settingsPanelBackgroundAutoColorWorking
+  translation: Analyzing image colors…
+
+- id: settingsPanelBackgroundAutoColorError
+  translation: Could not read this image. Try another URL that permits cross-origin access.
+
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'
 

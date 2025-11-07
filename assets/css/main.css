@@ -1156,6 +1156,37 @@ md-outlined-text-field {
   border: 2px solid var(--md-sys-color-on-surface);
 }
 
+.settings-panel__color-swatch:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+}
+
+.settings-panel__color-sync {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.settings-panel__color-sync-toggle {
+  justify-content: flex-start;
+  gap: 0.6rem;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__color-sync-toggle .settings-panel__glass-toggle-input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.settings-panel__color-sync-status {
+  margin: 0;
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
 /* 说明：主题模式区域仍沿用按钮布局。 */
 .settings-panel__section--modes {
   gap: 0.75rem;
