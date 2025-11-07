@@ -109,6 +109,50 @@
           {{ end }}
         </div>
       </section>
+      {{/* 说明：玻璃强度滑动块，支持连续调节透明度。 */}}
+      <section class="settings-panel__section settings-panel__section--glass">
+        <div class="settings-panel__glass-header">
+          <h3 class="settings-panel__section-title">{{ i18n "settingsPanelGlassHeading" }}</h3>
+          <span class="settings-panel__glass-value" data-glass-strength-label>45%</span>
+        </div>
+        <p class="settings-panel__description">{{ i18n "settingsPanelGlassDescription" }}</p>
+        <label class="settings-panel__glass-slider-label" for="settings-panel-glass-range">
+          {{ i18n "settingsPanelGlassRangeLabel" }}
+        </label>
+        <input
+          id="settings-panel-glass-range"
+          class="settings-panel__glass-slider"
+          type="range"
+          min="15"
+          max="95"
+          step="1"
+          value="45"
+          aria-valuemin="15"
+          aria-valuemax="95"
+          aria-valuenow="45"
+          aria-label="{{ i18n "settingsPanelGlassRangeLabel" }}"
+          data-glass-strength-range
+        />
+        <div class="settings-panel__glass-scale">
+          <span>{{ i18n "settingsPanelGlassLow" }}</span>
+          <span>{{ i18n "settingsPanelGlassHigh" }}</span>
+        </div>
+        <div class="settings-panel__glass-controls">
+          <button type="button" class="settings-panel__glass-reset" data-glass-reset>
+            {{ i18n "settingsPanelGlassReset" }}
+          </button>
+          <label class="settings-panel__glass-toggle">
+            <input
+              class="settings-panel__glass-toggle-input"
+              type="checkbox"
+              role="switch"
+              aria-checked="false"
+              data-glass-disable
+            />
+            <span>{{ i18n "settingsPanelGlassDisableLabel" }}</span>
+          </label>
+        </div>
+      </section>
       {{/* 说明：自定义背景图链接输入区，允许使用任意可访问的图片 URL。 */}}
       <section class="settings-panel__section settings-panel__section--background">
         <h3 class="settings-panel__section-title">{{ i18n "settingsPanelBackgroundHeading" }}</h3>

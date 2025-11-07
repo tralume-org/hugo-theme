@@ -70,6 +70,27 @@
 - id: settingsPanelModeDark
   translation: Dark mode
 
+- id: settingsPanelGlassHeading
+  translation: Frosted strength
+
+- id: settingsPanelGlassDescription
+  translation: Adjust the acrylic transparency to balance background glow and text contrast.
+
+- id: settingsPanelGlassRangeLabel
+  translation: Opacity (%)
+
+- id: settingsPanelGlassLow
+  translation: More transparent
+
+- id: settingsPanelGlassHigh
+  translation: More solid
+
+- id: settingsPanelGlassReset
+  translation: Reset to default
+
+- id: settingsPanelGlassDisableLabel
+  translation: Disable acrylic effect
+
 - id: settingsPanelBackgroundHeading
   translation: Background image
 

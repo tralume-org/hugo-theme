@@ -293,6 +293,199 @@ const setupSettingsPanel = () => {
     });
   });
 
+  // 说明：玻璃效果滑动块，支持更宽透明度范围，并允许一键恢复或彻底关闭。
+  const glassRange = panel.querySelector('[data-glass-strength-range]');
+  const glassValueLabel = panel.querySelector('[data-glass-strength-label]');
+  const glassResetButton = panel.querySelector('[data-glass-reset]');
+  const glassDisableToggle = panel.querySelector('[data-glass-disable]');
+  const glassStorageKey = 'tralume-glass-strength';
+  const glassDisabledStorageKey = 'tralume-glass-disabled';
+  const defaultGlassValue = 45;
+  const defaultBlurRadius = '24px';
+  const disabledBlurRadius = '0px';
+  const presetGlassValues = new Map([
+    ['soft', 45],
+    ['balanced', 65],
+    ['bold', 80],
+  ]);
+
+  const clampNumber = (value, min, max) => {
+    if (!Number.isFinite(value)) {
+      return min;
+    }
+    return Math.max(min, Math.min(max, value));
+  };
+
+  if (glassRange instanceof HTMLInputElement) {
+    const sliderMin = Number.isFinite(Number(glassRange.min)) ? Number(glassRange.min) : 15;
+    const sliderMax = Number.isFinite(Number(glassRange.max)) ? Number(glassRange.max) : 95;
+    let currentGlassValue = defaultGlassValue;
+    let glassDisabled = false;
+
+    const updateLabel = (value) => {
+      if (glassValueLabel) {
+        glassValueLabel.textContent = `${value}%`;
+      }
+      glassRange.setAttribute('aria-valuenow', String(value));
+    };
+
+    const applyGlassVariables = (baseValue) => {
+      const surface = baseValue;
+      const elevated = clampNumber(baseValue + 8, sliderMin, 96);
+      const strong = clampNumber(baseValue + 16, sliderMin, 99);
+      const border = clampNumber(baseValue - 18, 10, 85);
+      const borderStrong = clampNumber(baseValue - 6, 20, 90);
+      root.style.setProperty('--app-glass-surface-alpha', `${surface}%`);
+      root.style.setProperty('--app-glass-elevated-alpha', `${elevated}%`);
+      root.style.setProperty('--app-glass-strong-alpha', `${strong}%`);
+      root.style.setProperty('--app-glass-border-alpha', `${border}%`);
+      root.style.setProperty('--app-glass-border-strong-alpha', `${borderStrong}%`);
+      root.style.setProperty('--app-glass-blur-radius', defaultBlurRadius);
+    };
+
+    const applyDisabledVisuals = () => {
+      root.style.setProperty('--app-glass-surface-alpha', '100%');
+      root.style.setProperty('--app-glass-elevated-alpha', '100%');
+      root.style.setProperty('--app-glass-strong-alpha', '100%');
+      root.style.setProperty('--app-glass-border-alpha', '70%');
+      root.style.setProperty('--app-glass-border-strong-alpha', '85%');
+      root.style.setProperty('--app-glass-blur-radius', disabledBlurRadius);
+    };
+
+    const persistGlassValue = (value) => {
+      try {
+        window.localStorage.setItem(glassStorageKey, String(value));
+      } catch (error) {
+        // 说明：忽略存储异常，避免影响交互。
+      }
+    };
+
+    const persistGlassDisabledState = (isDisabled) => {
+      try {
+        if (isDisabled) {
+          window.localStorage.setItem(glassDisabledStorageKey, '1');
+        } else {
+          window.localStorage.removeItem(glassDisabledStorageKey);
+        }
+      } catch (error) {
+        // 说明：忽略存储异常，避免影响交互。
+      }
+    };
+
+    const readStoredGlassValue = () => {
+      try {
+        const stored = window.localStorage.getItem(glassStorageKey);
+        if (stored) {
+          const parsed = parseFloat(stored);
+          if (!Number.isNaN(parsed)) {
+            return parsed;
+          }
+        }
+      } catch (error) {
+        return null;
+      }
+      return null;
+    };
+
+    const readStoredGlassDisabled = () => {
+      try {
+        return window.localStorage.getItem(glassDisabledStorageKey) === '1';
+      } catch (error) {
+        return false;
+      }
+    };
+
+    const resolveInitialGlassValue = () => {
+      const stored = readStoredGlassValue();
+      if (stored !== null) {
+        return clampNumber(stored, sliderMin, sliderMax);
+      }
+      const preset = presetGlassValues.get(root.getAttribute('data-glass-strength') || '');
+      if (typeof preset === 'number') {
+        return preset;
+      }
+      const inputValue = parseFloat(glassRange.value);
+      if (!Number.isNaN(inputValue)) {
+        return clampNumber(inputValue, sliderMin, sliderMax);
+      }
+      return defaultGlassValue;
+    };
+
+    const applyGlassStrength = (value, shouldPersist = false) => {
+      const base = clampNumber(value, sliderMin, sliderMax);
+      currentGlassValue = base;
+      if (!glassDisabled) {
+        applyGlassVariables(base);
+      }
+      updateLabel(base);
+      glassRange.value = String(base);
+      if (shouldPersist) {
+        persistGlassValue(base);
+      }
+    };
+
+    const setGlassDisabled = (isDisabled, shouldPersist = true) => {
+      glassDisabled = isDisabled;
+      if (glassDisableToggle instanceof HTMLInputElement) {
+        glassDisableToggle.checked = isDisabled;
+        glassDisableToggle.setAttribute('aria-checked', isDisabled ? 'true' : 'false');
+      }
+      if (glassRange instanceof HTMLInputElement) {
+        glassRange.disabled = isDisabled;
+        glassRange.setAttribute('aria-disabled', isDisabled ? 'true' : 'false');
+      }
+      if (glassResetButton instanceof HTMLButtonElement) {
+        glassResetButton.disabled = isDisabled;
+      }
+      if (isDisabled) {
+        root.setAttribute('data-glass-disabled', 'true');
+        applyDisabledVisuals();
+      } else {
+        root.removeAttribute('data-glass-disabled');
+        applyGlassStrength(currentGlassValue, false);
+      }
+      if (shouldPersist) {
+        persistGlassDisabledState(isDisabled);
+      }
+    };
+
+    const initialGlassValue = resolveInitialGlassValue();
+    applyGlassStrength(initialGlassValue, false);
+    const initialDisabledState = readStoredGlassDisabled();
+    setGlassDisabled(initialDisabledState, false);
+
+    glassRange.addEventListener('input', (event) => {
+      const target = event.target;
+      if (target instanceof HTMLInputElement) {
+        const value = parseFloat(target.value);
+        applyGlassStrength(value, false);
+      }
+    });
+
+    glassRange.addEventListener('change', (event) => {
+      const target = event.target;
+      if (target instanceof HTMLInputElement) {
+        const value = parseFloat(target.value);
+        applyGlassStrength(value, true);
+      }
+    });
+
+    if (glassResetButton instanceof HTMLButtonElement) {
+      glassResetButton.addEventListener('click', () => {
+        applyGlassStrength(defaultGlassValue, true);
+      });
+    }
+
+    if (glassDisableToggle instanceof HTMLInputElement) {
+      glassDisableToggle.addEventListener('change', (event) => {
+        const target = event.target;
+        if (target instanceof HTMLInputElement) {
+          setGlassDisabled(Boolean(target.checked), true);
+        }
+      });
+    }
+  }
+
   // 说明：自定义背景图逻辑，读取用户输入的图片 URL 并通过 CSS 变量注入伪元素。
   const backgroundInput = panel.querySelector('[data-background-input]');
   const backgroundApplyButton = panel.querySelector('[data-background-apply]');

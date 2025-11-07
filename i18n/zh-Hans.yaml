@@ -70,6 +70,27 @@
 - id: settingsPanelModeDark
   translation: 深色模式
 
+- id: settingsPanelGlassHeading
+  translation: 磨砂强度
+
+- id: settingsPanelGlassDescription
+  translation: 调节半透明面板的不透明度，平衡背景透出与文字对比。
+
+- id: settingsPanelGlassRangeLabel
+  translation: 透明度（%）
+
+- id: settingsPanelGlassLow
+  translation: 更透明
+
+- id: settingsPanelGlassHigh
+  translation: 更厚实
+
+- id: settingsPanelGlassReset
+  translation: 恢复默认值
+
+- id: settingsPanelGlassDisableLabel
+  translation: 关闭亚克力效果
+
 - id: settingsPanelBackgroundHeading
   translation: 背景图片
 

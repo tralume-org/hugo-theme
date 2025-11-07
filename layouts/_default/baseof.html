@@ -2,6 +2,7 @@
 {{- $scratch := newScratch -}}
 {{- $scratch.Set "defaultColor" "indigo" -}}
 {{- $scratch.Set "defaultMode" "auto" -}}
+{{- $scratch.Set "defaultGlassStrength" "soft" -}}
 {{- with site.Params.theme -}}
   {{- with .defaultColor -}}
     {{- $scratch.Set "defaultColor" . -}}
@@ -9,14 +10,19 @@
   {{- with .defaultMode -}}
     {{- $scratch.Set "defaultMode" . -}}
   {{- end -}}
+  {{- with .defaultGlassStrength -}}
+    {{- $scratch.Set "defaultGlassStrength" . -}}
+  {{- end -}}
 {{- end -}}
 {{- $defaultColor := $scratch.Get "defaultColor" -}}
 {{- $defaultMode := $scratch.Get "defaultMode" -}}
+{{- $defaultGlass := $scratch.Get "defaultGlassStrength" -}}
 <html
   lang="{{ site.Language.LanguageCode }}"
   dir="{{ or site.Language.LanguageDirection `ltr` }}"
   {{ printf `data-theme-color="%s"` $defaultColor | safeHTMLAttr }}
   {{ printf `data-theme-mode="%s"` $defaultMode | safeHTMLAttr }}
+  {{ printf `data-glass-strength="%s"` $defaultGlass | safeHTMLAttr }}
 >
 <head>
   {{ partial "head.html" . }}
