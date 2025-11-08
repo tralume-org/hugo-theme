@@ -1,2 +1,39 @@
-public
-content
+# Hugo build output
+/public/
+resources/
+/hugo_stats.json
+
+# Hugo caches
+.hugo_cache/
+/.cache/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / npm (如使用 npm、pnpm、yarn)
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Other build systems
+dist/
+build/
+tmp/
+out/
+
+# Content
+/content/
