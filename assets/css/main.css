@@ -175,13 +175,13 @@ a:focus-visible {
   gap: 0.75rem;
 }
 
-/* 说明：菜单折叠按钮默认隐藏，仅在移动端展示。 */
+/* 说明：菜单折叠按钮默认隐藏，仅在移动端展示，并沿用亚克力底色保持与导航一致。 */
 .app-nav__toggle {
   display: none;
   padding: 0.65rem 0.9rem;
   border-radius: 0.75rem;
-  border: 1px solid transparent;
-  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
   font-family: inherit;
   font-size: var(--md-sys-typescale-label-large-size);
@@ -189,6 +189,8 @@ a:focus-visible {
   font-weight: 600;
   cursor: pointer;
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-nav__toggle:hover,
@@ -897,16 +899,18 @@ md-outlined-text-field {
 }
 
 
-/* 说明：列表为空时的占位提示样式。 */
+/* 说明：列表为空时的占位提示样式，也使用亚克力底色避免割裂。 */
 .article-list__empty {
   margin: 0;
   padding: 1rem 1.25rem;
   border-radius: 1rem;
-  border: 1px dashed var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-container-lowest);
+  border: 1px dashed var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 /* 说明：设置面板容器，默认表现为浮动按钮，打开后扩展为卡片。 */
@@ -1053,21 +1057,23 @@ md-outlined-text-field {
   color: var(--md-sys-color-on-surface);
 }
 
-/* 说明：关闭按钮采用圆形轻量样式，方便触达。 */
+/* 说明：关闭按钮采用圆形轻量样式，并复用亚克力底色方便触达。 */
 .settings-panel__close {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   inline-size: 3.25rem;
   block-size: 2.5rem;
-  border: 1px solid transparent;
+  border: 1px solid var(--app-glass-border-color);
   border-radius: 0.875rem;
-  background-color: var(--md-sys-color-surface-bright);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__close:hover,
@@ -1217,7 +1223,7 @@ md-outlined-text-field {
   color: var(--md-sys-color-on-surface-variant);
 }
 
-/* 说明：主题模式区域仍沿用按钮布局。 */
+/* 说明：主题模式区域仍沿用按钮布局，基础态使用亚克力表面提升一致性。 */
 .settings-panel__section--modes {
   gap: 0.75rem;
 }
@@ -1231,14 +1237,16 @@ md-outlined-text-field {
 .settings-panel__mode-button {
   padding: 0.6rem 1rem;
   border-radius: 0.875rem;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
   font-family: inherit;
   font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 600;
   cursor: pointer;
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__mode-button:hover {
@@ -1437,16 +1445,19 @@ md-outlined-text-field {
   flex-wrap: wrap;
 }
 
+/* 说明：玻璃滑杆重置按钮同样使用亚克力底色，保持面板风格统一。 */
 .settings-panel__glass-reset {
   padding: 0.4rem 0.9rem;
   border-radius: 0.75rem;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-bright);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
   font-size: var(--md-sys-typescale-label-large-size);
   font-weight: 600;
   cursor: pointer;
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__glass-reset:hover:not(:disabled) {
@@ -1472,15 +1483,18 @@ md-outlined-text-field {
   cursor: pointer;
 }
 
+/* 说明：开关轨道也引用亚克力色板，在禁用模糊时仍有柔和底色。 */
 .settings-panel__glass-toggle-input {
   appearance: none;
   inline-size: 2.75rem;
   block-size: 1.5rem;
   border-radius: 999px;
-  background-color: var(--md-sys-color-surface-container-high);
-  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--app-glass-elevated-color);
+  border: 1px solid var(--app-glass-border-color);
   position: relative;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__glass-toggle-input::after {
@@ -1535,17 +1549,20 @@ md-outlined-text-field {
   gap: 0.25rem;
 }
 
+/* 说明：背景地址输入同样使用亚克力边框，避免与面板割裂。 */
 .settings-panel__background-input {
   width: 100%;
   padding: 0.65rem 0.85rem;
   border-radius: 0.75rem;
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
   font-family: inherit;
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__background-input:hover {
@@ -1556,7 +1573,7 @@ md-outlined-text-field {
   outline: 2px solid var(--md-sys-color-primary);
   outline-offset: 2px;
   border-color: var(--md-sys-color-primary);
-  background-color: var(--md-sys-color-surface-bright);
+  background-color: var(--app-glass-elevated-color);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent);
 }
 
@@ -1600,10 +1617,13 @@ md-outlined-text-field {
   outline-offset: 2px;
 }
 
+/* 说明：重置按钮保留柔和亚克力底色，凸显其次要操作属性。 */
 .settings-panel__background-reset {
-  border-color: var(--md-sys-color-outline-variant);
-  background-color: transparent;
+  border-color: var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .settings-panel__background-reset:hover:not(:disabled) {
