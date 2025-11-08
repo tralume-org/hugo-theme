@@ -43,21 +43,6 @@
 - id: settingsPanelLanguageHeading
   translation: 语言
 
-- id: settingsPanelColorHeading
-  translation: 主题颜色
-
-- id: settingsPanelColorIndigo
-  translation: 靛蓝（默认）
-
-- id: settingsPanelColorBlue
-  translation: 海蓝
-
-- id: settingsPanelColorGreen
-  translation: 森林绿
-
-- id: settingsPanelColorOrange
-  translation: 琥珀橙
-
 - id: settingsPanelModeHeading
   translation: 显示模式
 
@@ -87,9 +72,6 @@
 
 - id: settingsPanelGlassReset
   translation: 恢复默认值
-
-- id: settingsPanelGlassDisableLabel
-  translation: 关闭亚克力效果
 
 - id: settingsPanelReaderHeading
   translation: 阅读器宽度
@@ -132,24 +114,6 @@
 
 - id: settingsPanelBackgroundReset
   translation: 清除背景
-
-- id: settingsPanelBackgroundAutoColorLabel
-  translation: 跟随背景自动配色
-
-- id: settingsPanelBackgroundAutoColorIdle
-  translation: 需先应用可访问的图片 URL，才能启用动态取色。
-
-- id: settingsPanelBackgroundAutoColorReady
-  translation: 已根据当前背景刷新整站配色。
-
-- id: settingsPanelBackgroundAutoColorDisabled
-  translation: 已关闭动态取色，继续保留手动选择的主题色。
-
-- id: settingsPanelBackgroundAutoColorWorking
-  translation: 正在分析背景图颜色…
-
-- id: settingsPanelBackgroundAutoColorError
-  translation: 无法读取该图片色彩，请尝试支持跨域访问的链接。
 
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'

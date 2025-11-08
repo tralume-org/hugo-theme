@@ -43,21 +43,6 @@
 - id: settingsPanelLanguageHeading
   translation: Language
 
-- id: settingsPanelColorHeading
-  translation: Theme color
-
-- id: settingsPanelColorIndigo
-  translation: Indigo (default)
-
-- id: settingsPanelColorBlue
-  translation: Ocean blue
-
-- id: settingsPanelColorGreen
-  translation: Forest green
-
-- id: settingsPanelColorOrange
-  translation: Amber orange
-
 - id: settingsPanelModeHeading
   translation: Appearance mode
 
@@ -87,9 +72,6 @@
 
 - id: settingsPanelGlassReset
   translation: Reset to default
-
-- id: settingsPanelGlassDisableLabel
-  translation: Disable acrylic effect
 
 - id: settingsPanelReaderHeading
   translation: Reader width
@@ -132,24 +114,6 @@
 
 - id: settingsPanelBackgroundReset
   translation: Remove background
-
-- id: settingsPanelBackgroundAutoColorLabel
-  translation: Sync colors with background
-
-- id: settingsPanelBackgroundAutoColorIdle
-  translation: Apply a background image to enable dynamic colors.
-
-- id: settingsPanelBackgroundAutoColorReady
-  translation: Palette synced with the current background.
-
-- id: settingsPanelBackgroundAutoColorDisabled
-  translation: Dynamic colors are off; keep your own swatch active.
-
-- id: settingsPanelBackgroundAutoColorWorking
-  translation: Analyzing image colors…
-
-- id: settingsPanelBackgroundAutoColorError
-  translation: Could not read this image. Try another URL that permits cross-origin access.
 
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'

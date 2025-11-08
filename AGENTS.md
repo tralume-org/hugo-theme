@@ -97,12 +97,12 @@
   * 模糊：统一调用 `backdrop-filter: blur(var(--app-glass-blur-radius))`（含 `-webkit-`）。  
   新增组件若具卡片/浮层语义，必须使用上述变量，禁止直接引用 `--md-sys-color-surface-*`。
 * 透明度仅通过 `--app-glass-surface-alpha` 等变量调节，不得在组件内部硬编码百分比。若需特殊层级，先评估是否可以复用 `surface / elevated / strong` 三档。
+* **主题色功能已统一为亚克力方案**：禁止新增/恢复 `data-theme-color`、色板预设、背景动态取色等逻辑。色彩变化仅能依赖默认 MD3 Token 与 `--app-glass-*` 变量。
 * 设置面板的“磨砂强度”滑块（`data-glass-strength-range`）负责写入 CSS 变量；  
   * 默认值 45%，范围 15%–95%，变更会同时更新多层 alpha 与边框。  
-  * 开关（`data-glass-disable`）会给 `<html>` 写入 `data-glass-disabled` 并将模糊半径置零；任何新增逻辑不得绕过该状态。
+  * **不提供任何“关闭亚克力”入口**，禁止移除模糊或回落到纯色表面。
 * 需要在 JS 中读取用户偏好时：  
   * 透明度存储键：`tralume-glass-strength`；  
-  * 关闭状态键：`tralume-glass-disabled`；  
   * 默认档位映射于 `data-glass-strength="soft|balanced|bold"`，如需新增预设需同步更新 `layouts/_default/baseof.html` 与设置面板文案。
 * 对不支持 `color-mix` / `backdrop-filter` 的浏览器，组件应保持可读性：  
   * 继续提供阴影与描边；  
@@ -139,4 +139,4 @@
 
 ---
 
-**最后更新**：2025-11-02（UTC+8）
+**最后更新**：2025-11-08（UTC+8）

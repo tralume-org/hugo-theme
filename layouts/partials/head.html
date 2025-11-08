@@ -5,7 +5,7 @@
   <meta name="description" content="{{ site.Params.description }}">
 {{ end }}
 <script>
-  // 说明：在 CSS 加载前同步本地存储的主题偏好，避免首屏出现默认颜色闪烁。
+  // 说明：预先应用主题模式偏好，避免首屏闪烁。
   (function () {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
       return;
@@ -21,70 +21,15 @@
         return null;
       }
     };
-    var supportedColors = { indigo: true, blue: true, green: true, orange: true };
     var supportedModes = { auto: true, light: true, dark: true };
-    var dynamicEnabledKey = 'tralume-background-dynamic-colors';
-    var dynamicPaletteKey = 'tralume-background-dynamic-palette';
-    var resolvedModeAttr = docEl.getAttribute('data-theme-mode');
-    var storedColor = readStorage('tralume-theme-color');
-    if (storedColor && supportedColors[storedColor]) {
-      docEl.setAttribute('data-theme-color', storedColor);
-    }
     var storedMode = readStorage('tralume-theme-mode');
     if (storedMode && supportedModes[storedMode]) {
       if (storedMode === 'auto') {
         docEl.removeAttribute('data-theme-mode');
-        resolvedModeAttr = null;
       } else {
         docEl.setAttribute('data-theme-mode', storedMode);
-        resolvedModeAttr = storedMode;
       }
     }
-    var applyStoredDynamicColors = function () {
-      var isEnabled = readStorage(dynamicEnabledKey) === '1';
-      if (!isEnabled) {
-        return;
-      }
-      var raw = readStorage(dynamicPaletteKey);
-      if (!raw) {
-        return;
-      }
-      var parsed;
-      try {
-        parsed = JSON.parse(raw);
-      } catch (error) {
-        return;
-      }
-      if (!parsed || typeof parsed !== 'object') {
-        return;
-      }
-      var isDark = false;
-      if (resolvedModeAttr === 'dark') {
-        isDark = true;
-      } else if (resolvedModeAttr === 'light') {
-        isDark = false;
-      } else if (typeof window.matchMedia === 'function') {
-        try {
-          isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        } catch (error) {
-          isDark = false;
-        }
-      }
-      var target = isDark ? parsed.dark : parsed.light;
-      if (!target || typeof target !== 'object') {
-        return;
-      }
-      Object.keys(target).forEach(function (token) {
-        if (typeof target[token] === 'string') {
-          docEl.style.setProperty(token, target[token]);
-        }
-      });
-      if (typeof parsed.seed === 'string') {
-        docEl.style.setProperty('--app-dynamic-seed-color', parsed.seed);
-      }
-      docEl.setAttribute('data-dynamic-colors', 'active');
-    };
-    applyStoredDynamicColors();
   })();
 </script>
 {{ $tokens := resources.Get "css/md3-tokens.css" }}

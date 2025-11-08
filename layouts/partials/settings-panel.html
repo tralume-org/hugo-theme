@@ -63,13 +63,6 @@
           </select>
         </div>
       </section>
-      {{/* 说明：主题颜色切换区，展示 MD3 基线颜色预设供选择。 */}}
-      {{ $colorPresets := slice
-        (dict "id" "indigo" "label" (i18n "settingsPanelColorIndigo") "seed" "#6750A4")
-        (dict "id" "blue" "label" (i18n "settingsPanelColorBlue") "seed" "#0061A4")
-        (dict "id" "green" "label" (i18n "settingsPanelColorGreen") "seed" "#146C2E")
-        (dict "id" "orange" "label" (i18n "settingsPanelColorOrange") "seed" "#954A00")
-      }}
       {{ $readerDefault := "balanced" }}
       {{ with site.Params.theme }}
         {{ with .defaultReaderWidth }}
@@ -90,49 +83,6 @@
       {{ $readerSliderMax := 104 }}
       {{ $readerInitialRem := printf "%.0f" $readerDefaultValue }}
       {{ $readerInitialPx := printf "%.0f" (mul $readerDefaultValue 16) }}
-      <section class="settings-panel__section settings-panel__section--colors">
-        <h3 class="settings-panel__section-title">{{ i18n "settingsPanelColorHeading" }}</h3>
-        <div class="settings-panel__color-grid">
-          {{ range $colorPresets }}
-            <button
-              type="button"
-              class="settings-panel__color-swatch"
-              style="--settings-color-preview: {{ .seed }};"
-              aria-label="{{ .label }}"
-              data-color-option="{{ .id }}"
-              aria-pressed="false"
-              title="{{ .label }}"
-            >
-              <span class="sr-only">{{ .label }}</span>
-            </button>
-          {{ end }}
-        </div>
-        {{/* 说明：动态取色开关已合并到主题色区域，保持互斥关系。 */}}
-        <div class="settings-panel__color-sync">
-          <label class="settings-panel__glass-toggle settings-panel__color-sync-toggle">
-            <input
-              class="settings-panel__glass-toggle-input"
-              type="checkbox"
-              role="switch"
-              aria-checked="false"
-              data-background-colors-toggle
-              disabled
-            />
-            <span>{{ i18n "settingsPanelBackgroundAutoColorLabel" }}</span>
-          </label>
-          <p
-            class="settings-panel__color-sync-status"
-            data-background-colors-status
-            data-background-colors-idle="{{ i18n "settingsPanelBackgroundAutoColorIdle" }}"
-            data-background-colors-ready="{{ i18n "settingsPanelBackgroundAutoColorReady" }}"
-            data-background-colors-disabled="{{ i18n "settingsPanelBackgroundAutoColorDisabled" }}"
-            data-background-colors-working="{{ i18n "settingsPanelBackgroundAutoColorWorking" }}"
-            data-background-colors-error="{{ i18n "settingsPanelBackgroundAutoColorError" }}"
-          >
-            {{ i18n "settingsPanelBackgroundAutoColorIdle" }}
-          </p>
-        </div>
-      </section>
       {{/* 说明：主题模式切换区，提供自动、浅色、深色三种选项。 */}}
       {{ $modeOptions := slice
         (dict "id" "auto" "label" (i18n "settingsPanelModeAuto"))
@@ -186,16 +136,6 @@
           <button type="button" class="settings-panel__glass-reset" data-glass-reset>
             {{ i18n "settingsPanelGlassReset" }}
           </button>
-          <label class="settings-panel__glass-toggle">
-            <input
-              class="settings-panel__glass-toggle-input"
-              type="checkbox"
-              role="switch"
-              aria-checked="false"
-              data-glass-disable
-            />
-            <span>{{ i18n "settingsPanelGlassDisableLabel" }}</span>
-          </label>
         </div>
       </section>
       {{/* 说明：阅读器宽度滑动条，允许在更大范围内微调正文最大宽度。 */}}

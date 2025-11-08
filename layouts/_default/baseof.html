@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 {{- $scratch := newScratch -}}
-{{- $scratch.Set "defaultColor" "indigo" -}}
 {{- $scratch.Set "defaultMode" "auto" -}}
 {{- $scratch.Set "defaultGlassStrength" "soft" -}}
 {{- $scratch.Set "defaultReaderWidth" "balanced" -}}
 {{- with site.Params.theme -}}
-  {{- with .defaultColor -}}
-    {{- $scratch.Set "defaultColor" . -}}
-  {{- end -}}
   {{- with .defaultMode -}}
     {{- $scratch.Set "defaultMode" . -}}
   {{- end -}}
@@ -21,7 +17,6 @@
     {{- $scratch.Set "defaultReaderWidthValue" . -}}
   {{- end -}}
 {{- end -}}
-{{- $defaultColor := $scratch.Get "defaultColor" -}}
 {{- $defaultMode := $scratch.Get "defaultMode" -}}
 {{- $defaultGlass := $scratch.Get "defaultGlassStrength" -}}
 {{- $defaultReader := $scratch.Get "defaultReaderWidth" -}}
@@ -37,7 +32,6 @@
 <html
   lang="{{ site.Language.LanguageCode }}"
   dir="{{ or site.Language.LanguageDirection `ltr` }}"
-  {{ printf `data-theme-color="%s"` $defaultColor | safeHTMLAttr }}
   {{ printf `data-theme-mode="%s"` $defaultMode | safeHTMLAttr }}
   {{ printf `data-glass-strength="%s"` $defaultGlass | safeHTMLAttr }}
   {{ printf `data-reader-width="%s"` $defaultReader | safeHTMLAttr }}
