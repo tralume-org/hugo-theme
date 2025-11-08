@@ -2,6 +2,7 @@
 /public/
 resources/
 /hugo_stats.json
+/.hugo_build.lock
 
 # Hugo caches
 .hugo_cache/
@@ -18,7 +19,7 @@ ehthumbs.db
 *.swp
 *.swo
 
-# Node / npm (如使用 npm、pnpm、yarn)
+# Node / npm
 node_modules/
 package-lock.json
 pnpm-lock.yaml
