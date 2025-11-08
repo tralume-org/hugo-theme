@@ -57,8 +57,12 @@
                   </div>
                   <h3 class="timeline-post__title">{{ $page.LinkTitle }}</h3>
                   {{ with $page.Summary }}
+                    {{/* 说明：时间线摘要转换为纯文本并截断，避免未闭合标签导致 HTML 校验失败。 */}}
+                    {{- $maxLength := or site.Params.articleTimelineSummaryLength 160 -}}
+                    {{- $plainSummary := . | plainify | htmlUnescape | strings.TrimSpace -}}
+                    {{- $shortSummary := truncate $maxLength $plainSummary -}}
                     <div class="timeline-post__summary">
-                      {{ . }}
+                      <p>{{ $shortSummary }}</p>
                     </div>
                   {{ end }}
                 </a>
