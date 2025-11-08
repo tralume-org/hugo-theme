@@ -111,26 +111,58 @@
           <span class="settings-panel__glass-value" data-glass-strength-label>45%</span>
         </div>
         <p class="settings-panel__description">{{ i18n "settingsPanelGlassDescription" }}</p>
-        <label class="settings-panel__glass-slider-label" for="settings-panel-glass-range">
-          {{ i18n "settingsPanelGlassRangeLabel" }}
-        </label>
-        <input
-          id="settings-panel-glass-range"
-          class="settings-panel__glass-slider"
-          type="range"
-          min="15"
-          max="95"
-          step="1"
-          value="45"
-          aria-valuemin="15"
-          aria-valuemax="95"
-          aria-valuenow="45"
-          aria-label="{{ i18n "settingsPanelGlassRangeLabel" }}"
-          data-glass-strength-range
-        />
-        <div class="settings-panel__glass-scale">
-          <span>{{ i18n "settingsPanelGlassLow" }}</span>
-          <span>{{ i18n "settingsPanelGlassHigh" }}</span>
+        <div class="settings-panel__glass-field">
+          <label class="settings-panel__glass-slider-label" for="settings-panel-glass-range">
+            {{ i18n "settingsPanelGlassRangeLabel" }}
+          </label>
+          <input
+            id="settings-panel-glass-range"
+            class="settings-panel__glass-slider"
+            type="range"
+            min="0"
+            max="95"
+            step="1"
+            value="45"
+            aria-valuemin="0"
+            aria-valuemax="95"
+            aria-valuenow="45"
+            aria-label="{{ i18n "settingsPanelGlassRangeLabel" }}"
+            data-glass-strength-range
+          />
+          <div class="settings-panel__glass-scale">
+            <span>{{ i18n "settingsPanelGlassLow" }}</span>
+            <span>{{ i18n "settingsPanelGlassHigh" }}</span>
+          </div>
+        </div>
+        <div class="settings-panel__glass-field">
+          <div class="settings-panel__glass-input-header">
+            <label class="settings-panel__glass-slider-label" for="settings-panel-glass-blur-range">
+              {{ i18n "settingsPanelGlassBlurLabel" }}
+            </label>
+            <span
+              class="settings-panel__glass-blur-value"
+              data-glass-blur-label
+              data-unit="{{ i18n "settingsPanelGlassBlurUnit" }}"
+            >24{{ i18n "settingsPanelGlassBlurUnit" }}</span>
+          </div>
+          <input
+            id="settings-panel-glass-blur-range"
+            class="settings-panel__glass-slider"
+            type="range"
+            min="0"
+            max="48"
+            step="1"
+            value="24"
+            aria-valuemin="0"
+            aria-valuemax="48"
+            aria-valuenow="24"
+            aria-label="{{ i18n "settingsPanelGlassBlurLabel" }}"
+            data-glass-blur-range
+          />
+          <div class="settings-panel__glass-scale">
+            <span>{{ i18n "settingsPanelGlassBlurLow" }}</span>
+            <span>{{ i18n "settingsPanelGlassBlurHigh" }}</span>
+          </div>
         </div>
         <div class="settings-panel__glass-controls">
           <button type="button" class="settings-panel__glass-reset" data-glass-reset>

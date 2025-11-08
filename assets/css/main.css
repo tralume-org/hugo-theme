@@ -67,6 +67,15 @@ body::before {
   --app-custom-background-image: none;
   --app-custom-background-opacity: 0;
   --app-custom-background-filter: brightness(0.92);
+  /* 说明：壁纸动态取色的回退方案，亮色使用灰黑基调，暗色使用灰白基调。 */
+  --app-dynamic-primary-light: #1f2329;
+  --app-dynamic-on-primary-light: #f7f8fb;
+  --app-dynamic-primary-container-light: #f6f8fc;
+  --app-dynamic-on-primary-container-light: #1c2026;
+  --app-dynamic-primary-dark: #dfe3ea;
+  --app-dynamic-on-primary-dark: #101215;
+  --app-dynamic-primary-container-dark: #2c3038;
+  --app-dynamic-on-primary-container-dark: #e7eaf2;
 }
 
 :root[data-glass-strength="balanced"] {
@@ -1286,6 +1295,16 @@ md-outlined-text-field {
   gap: 0.5rem;
 }
 
+.settings-panel__glass-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.settings-panel__glass-field + .settings-panel__glass-field {
+  margin-top: 0.75rem;
+}
+
 .settings-panel__glass-header {
   display: flex;
   align-items: center;
@@ -1305,6 +1324,25 @@ md-outlined-text-field {
   line-height: var(--md-sys-typescale-label-large-line-height);
   font-weight: 600;
   color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__glass-input-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.settings-panel__glass-input-header .settings-panel__glass-slider-label {
+  flex: 1;
+}
+
+.settings-panel__glass-blur-value {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  white-space: nowrap;
 }
 
 .settings-panel__glass-slider {
@@ -1718,10 +1756,10 @@ md-outlined-text-field {
 /* 说明：统一使用单一亚克力色板，依赖系统/手动模式切换明暗状态。 */
 :root {
   color-scheme: light;
-  --md-sys-color-primary: #dfe3ea;
-  --md-sys-color-on-primary: #1f2329;
-  --md-sys-color-primary-container: #f6f8fc;
-  --md-sys-color-on-primary-container: #1c2026;
+  --md-sys-color-primary: var(--app-dynamic-primary-light);
+  --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
+  --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
+  --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-light);
   --md-sys-color-secondary: #c6cad3;
   --md-sys-color-on-secondary: #1f2329;
   --md-sys-color-secondary-container: #eef0f4;
@@ -1745,10 +1783,10 @@ md-outlined-text-field {
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --md-sys-color-primary: #b9beca;
-    --md-sys-color-on-primary: #101215;
-    --md-sys-color-primary-container: #2c3038;
-    --md-sys-color-on-primary-container: #e7eaf2;
+    --md-sys-color-primary: var(--app-dynamic-primary-dark);
+    --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
+    --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);
+    --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-dark);
     --md-sys-color-secondary: #9fa4b0;
     --md-sys-color-on-secondary: #101215;
     --md-sys-color-secondary-container: #353842;
@@ -1772,10 +1810,10 @@ md-outlined-text-field {
 
 :root[data-theme-mode="light"] {
   color-scheme: light;
-  --md-sys-color-primary: #dfe3ea;
-  --md-sys-color-on-primary: #1f2329;
-  --md-sys-color-primary-container: #f6f8fc;
-  --md-sys-color-on-primary-container: #1c2026;
+  --md-sys-color-primary: var(--app-dynamic-primary-light);
+  --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
+  --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
+  --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-light);
   --md-sys-color-secondary: #c6cad3;
   --md-sys-color-on-secondary: #1f2329;
   --md-sys-color-secondary-container: #eef0f4;
@@ -1798,10 +1836,10 @@ md-outlined-text-field {
 
 :root[data-theme-mode="dark"] {
   color-scheme: dark;
-  --md-sys-color-primary: #b9beca;
-  --md-sys-color-on-primary: #101215;
-  --md-sys-color-primary-container: #2c3038;
-  --md-sys-color-on-primary-container: #e7eaf2;
+  --md-sys-color-primary: var(--app-dynamic-primary-dark);
+  --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
+  --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);
+  --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-dark);
   --md-sys-color-secondary: #9fa4b0;
   --md-sys-color-on-secondary: #101215;
   --md-sys-color-secondary-container: #353842;

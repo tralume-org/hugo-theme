@@ -59,7 +59,7 @@
   translation: Frosted strength
 
 - id: settingsPanelGlassDescription
-  translation: Adjust the acrylic transparency to balance background glow and text contrast.
+  translation: Adjust both acrylic opacity and blur radius to balance glow and text contrast.
 
 - id: settingsPanelGlassRangeLabel
   translation: Opacity (%)
@@ -69,6 +69,18 @@
 
 - id: settingsPanelGlassHigh
   translation: More solid
+
+- id: settingsPanelGlassBlurLabel
+  translation: Blur radius
+
+- id: settingsPanelGlassBlurLow
+  translation: Crisper
+
+- id: settingsPanelGlassBlurHigh
+  translation: Softer
+
+- id: settingsPanelGlassBlurUnit
+  translation: px
 
 - id: settingsPanelGlassReset
   translation: Reset to default

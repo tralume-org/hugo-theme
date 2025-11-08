@@ -59,7 +59,7 @@
   translation: 磨砂强度
 
 - id: settingsPanelGlassDescription
-  translation: 调节半透明面板的不透明度，平衡背景透出与文字对比。
+  translation: 调节半透明面板的不透明度与模糊半径，兼顾背景透出与文字对比。
 
 - id: settingsPanelGlassRangeLabel
   translation: 透明度（%）
@@ -69,6 +69,18 @@
 
 - id: settingsPanelGlassHigh
   translation: 更厚实
+
+- id: settingsPanelGlassBlurLabel
+  translation: 模糊半径
+
+- id: settingsPanelGlassBlurLow
+  translation: 更清晰
+
+- id: settingsPanelGlassBlurHigh
+  translation: 更柔和
+
+- id: settingsPanelGlassBlurUnit
+  translation: 像素
 
 - id: settingsPanelGlassReset
   translation: 恢复默认值

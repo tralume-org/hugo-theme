@@ -247,13 +247,16 @@ const setupSettingsPanel = () => {
     });
   });
 
-  // 说明：玻璃效果滑动块，支持更宽透明度范围并与亚克力保持同步。
+  // 说明：玻璃效果滑动块，支持透明度与模糊度的双重调节，并与亚克力样式保持同步。
   const glassRange = panel.querySelector('[data-glass-strength-range]');
   const glassValueLabel = panel.querySelector('[data-glass-strength-label]');
   const glassResetButton = panel.querySelector('[data-glass-reset]');
+  const glassBlurRange = panel.querySelector('[data-glass-blur-range]');
+  const glassBlurLabel = panel.querySelector('[data-glass-blur-label]');
   const glassStorageKey = 'tralume-glass-strength';
+  const glassBlurStorageKey = 'tralume-glass-blur';
   const defaultGlassValue = 45;
-  const defaultBlurRadius = '24px';
+  const defaultBlurValue = 24;
   const presetGlassValues = new Map([
     ['soft', 45],
     ['balanced', 65],
@@ -267,10 +270,12 @@ const setupSettingsPanel = () => {
     return Math.max(min, Math.min(max, value));
   };
 
+  let applyGlassStrength = null;
+  let applyGlassBlur = null;
+
   if (glassRange instanceof HTMLInputElement) {
-    const sliderMin = Number.isFinite(Number(glassRange.min)) ? Number(glassRange.min) : 15;
+    const sliderMin = Number.isFinite(Number(glassRange.min)) ? Number(glassRange.min) : 0;
     const sliderMax = Number.isFinite(Number(glassRange.max)) ? Number(glassRange.max) : 95;
-    let currentGlassValue = defaultGlassValue;
 
     const updateLabel = (value) => {
       if (glassValueLabel) {
@@ -290,7 +295,6 @@ const setupSettingsPanel = () => {
       root.style.setProperty('--app-glass-strong-alpha', `${strong}%`);
       root.style.setProperty('--app-glass-border-alpha', `${border}%`);
       root.style.setProperty('--app-glass-border-strong-alpha', `${borderStrong}%`);
-      root.style.setProperty('--app-glass-blur-radius', defaultBlurRadius);
     };
 
     const persistGlassValue = (value) => {
@@ -332,9 +336,8 @@ const setupSettingsPanel = () => {
       return defaultGlassValue;
     };
 
-    const applyGlassStrength = (value, shouldPersist = false) => {
+    const handleGlassStrengthChange = (value, shouldPersist = false) => {
       const base = clampNumber(value, sliderMin, sliderMax);
-      currentGlassValue = base;
       applyGlassVariables(base);
       updateLabel(base);
       glassRange.value = String(base);
@@ -343,14 +346,16 @@ const setupSettingsPanel = () => {
       }
     };
 
+    applyGlassStrength = handleGlassStrengthChange;
+
     const initialGlassValue = resolveInitialGlassValue();
-    applyGlassStrength(initialGlassValue, false);
+    handleGlassStrengthChange(initialGlassValue, false);
 
     glassRange.addEventListener('input', (event) => {
       const target = event.target;
       if (target instanceof HTMLInputElement) {
         const value = parseFloat(target.value);
-        applyGlassStrength(value, false);
+        handleGlassStrengthChange(value, false);
       }
     });
 
@@ -358,15 +363,104 @@ const setupSettingsPanel = () => {
       const target = event.target;
       if (target instanceof HTMLInputElement) {
         const value = parseFloat(target.value);
-        applyGlassStrength(value, true);
+        handleGlassStrengthChange(value, true);
+      }
+    });
+  }
+
+  // 说明：模糊度滑动块，直接控制亚克力的 blur 半径并持久化偏好。
+  if (glassBlurRange instanceof HTMLInputElement) {
+    const blurMin = Number.isFinite(Number(glassBlurRange.min)) ? Number(glassBlurRange.min) : 0;
+    const blurMax = Number.isFinite(Number(glassBlurRange.max)) ? Number(glassBlurRange.max) : 48;
+
+    const updateBlurLabel = (value) => {
+      if (glassBlurLabel instanceof HTMLElement) {
+        const unit = glassBlurLabel.getAttribute('data-unit') || 'px';
+        glassBlurLabel.textContent = `${value}${unit}`;
+      }
+    };
+
+    const persistGlassBlurValue = (value) => {
+      try {
+        window.localStorage.setItem(glassBlurStorageKey, String(value));
+      } catch (error) {
+        // 说明：忽略存储异常，避免影响模糊度调整体验。
+      }
+    };
+
+    const readStoredGlassBlurValue = () => {
+      try {
+        const stored = window.localStorage.getItem(glassBlurStorageKey);
+        if (stored) {
+          const parsed = parseFloat(stored);
+          if (!Number.isNaN(parsed)) {
+            return parsed;
+          }
+        }
+      } catch (error) {
+        return null;
+      }
+      return null;
+    };
+
+    const resolveInitialBlurValue = () => {
+      const stored = readStoredGlassBlurValue();
+      if (stored !== null) {
+        return clampNumber(stored, blurMin, blurMax);
+      }
+      const inputValue = parseFloat(glassBlurRange.value);
+      if (!Number.isNaN(inputValue)) {
+        return clampNumber(inputValue, blurMin, blurMax);
+      }
+      return defaultBlurValue;
+    };
+
+    const handleGlassBlurChange = (value, shouldPersist = false) => {
+      const base = clampNumber(value, blurMin, blurMax);
+      root.style.setProperty('--app-glass-blur-radius', `${base}px`);
+      glassBlurRange.value = String(base);
+      glassBlurRange.setAttribute('aria-valuenow', String(base));
+      updateBlurLabel(base);
+      if (shouldPersist) {
+        persistGlassBlurValue(base);
+      }
+    };
+
+    applyGlassBlur = handleGlassBlurChange;
+
+    const initialBlurValue = resolveInitialBlurValue();
+    handleGlassBlurChange(initialBlurValue, false);
+
+    glassBlurRange.addEventListener('input', (event) => {
+      const target = event.target;
+      if (target instanceof HTMLInputElement) {
+        const value = parseFloat(target.value);
+        handleGlassBlurChange(value, false);
       }
     });
 
-    if (glassResetButton instanceof HTMLButtonElement) {
-      glassResetButton.addEventListener('click', () => {
+    glassBlurRange.addEventListener('change', (event) => {
+      const target = event.target;
+      if (target instanceof HTMLInputElement) {
+        const value = parseFloat(target.value);
+        handleGlassBlurChange(value, true);
+      }
+    });
+  } else {
+    root.style.setProperty('--app-glass-blur-radius', `${defaultBlurValue}px`);
+  }
+
+  if (glassResetButton instanceof HTMLButtonElement) {
+    glassResetButton.addEventListener('click', () => {
+      if (typeof applyGlassStrength === 'function') {
         applyGlassStrength(defaultGlassValue, true);
-      });
-    }
+      }
+      if (typeof applyGlassBlur === 'function') {
+        applyGlassBlur(defaultBlurValue, true);
+      } else {
+        root.style.setProperty('--app-glass-blur-radius', `${defaultBlurValue}px`);
+      }
+    });
   }
 
   // 说明：阅读器宽度滑动条，提供更细腻的 rem 范围并持久化偏好。
@@ -475,6 +569,272 @@ const setupSettingsPanel = () => {
   const backgroundApplyButton = panel.querySelector('[data-background-apply]');
   const backgroundResetButton = panel.querySelector('[data-background-reset]');
   const backgroundStorageKey = 'tralume-custom-background-url';
+  const wallpaperColorStorageKey = 'tralume-wallpaper-color-cache';
+
+  // 说明：壁纸智能取色的默认调色板，确保亮/暗模式各自拥有灰黑与灰白的安全回退。
+  const wallpaperColorFallback = {
+    lightPrimary: '#1f2329',
+    lightOnPrimary: '#f7f8fb',
+    lightPrimaryContainer: '#f6f8fc',
+    lightOnPrimaryContainer: '#1c2026',
+    darkPrimary: '#dfe3ea',
+    darkOnPrimary: '#101215',
+    darkPrimaryContainer: '#2c3038',
+    darkOnPrimaryContainer: '#e7eaf2',
+  };
+
+  const applyWallpaperPalette = (palette = wallpaperColorFallback) => {
+    const target = palette || wallpaperColorFallback;
+    root.style.setProperty('--app-dynamic-primary-light', target.lightPrimary);
+    root.style.setProperty('--app-dynamic-on-primary-light', target.lightOnPrimary);
+    root.style.setProperty('--app-dynamic-primary-container-light', target.lightPrimaryContainer);
+    root.style.setProperty('--app-dynamic-on-primary-container-light', target.lightOnPrimaryContainer);
+    root.style.setProperty('--app-dynamic-primary-dark', target.darkPrimary);
+    root.style.setProperty('--app-dynamic-on-primary-dark', target.darkOnPrimary);
+    root.style.setProperty('--app-dynamic-primary-container-dark', target.darkPrimaryContainer);
+    root.style.setProperty('--app-dynamic-on-primary-container-dark', target.darkOnPrimaryContainer);
+  };
+
+  const persistWallpaperPalette = (sourceUrl, palette) => {
+    try {
+      if (!sourceUrl || !palette) {
+        window.localStorage.removeItem(wallpaperColorStorageKey);
+        return;
+      }
+      window.localStorage.setItem(
+        wallpaperColorStorageKey,
+        JSON.stringify({
+          source: sourceUrl,
+          palette,
+        }),
+      );
+    } catch (error) {
+      // 说明：忽略本地存储异常，避免阻断页面渲染。
+    }
+  };
+
+  const readPersistedWallpaperPalette = () => {
+    try {
+      const raw = window.localStorage.getItem(wallpaperColorStorageKey);
+      if (!raw) {
+        return null;
+      }
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && typeof parsed.source === 'string' && parsed.palette) {
+        return parsed;
+      }
+    } catch (error) {
+      return null;
+    }
+    return null;
+  };
+
+  const normalizeHex = (value) => {
+    if (typeof value !== 'string') {
+      return null;
+    }
+    const trimmed = value.trim().replace(/^#/, '');
+    if (trimmed.length === 3) {
+      return `#${trimmed
+        .split('')
+        .map((ch) => ch + ch)
+        .join('')}`.toLowerCase();
+    }
+    if (trimmed.length === 6) {
+      return `#${trimmed.toLowerCase()}`;
+    }
+    return null;
+  };
+
+  const hexToRgb = (hex) => {
+    const normalized = normalizeHex(hex);
+    if (!normalized) {
+      return null;
+    }
+    const value = normalized.replace('#', '');
+    return {
+      r: Number.parseInt(value.slice(0, 2), 16),
+      g: Number.parseInt(value.slice(2, 4), 16),
+      b: Number.parseInt(value.slice(4, 6), 16),
+    };
+  };
+
+  const rgbChannelToHex = (channel) => channel.toString(16).padStart(2, '0');
+
+  const rgbToHex = (r, g, b) => {
+    const clamp = (value) => {
+      if (!Number.isFinite(value)) {
+        return 0;
+      }
+      return Math.max(0, Math.min(255, Math.round(value)));
+    };
+    return `#${rgbChannelToHex(clamp(r))}${rgbChannelToHex(clamp(g))}${rgbChannelToHex(clamp(b))}`;
+  };
+
+  const mixHexColors = (sourceHex, targetHex, ratio) => {
+    const safeRatio = Number.isFinite(ratio) ? Math.min(0.95, Math.max(0.05, ratio)) : 0.5;
+    const source = hexToRgb(sourceHex);
+    const target = hexToRgb(targetHex);
+    if (!source || !target) {
+      return targetHex || sourceHex || '#888888';
+    }
+    const mixChannel = (from, to) => from + (to - from) * safeRatio;
+    return rgbToHex(mixChannel(source.r, target.r), mixChannel(source.g, target.g), mixChannel(source.b, target.b));
+  };
+
+  const computeRelativeLuminance = (hexColor) => {
+    const channels = hexToRgb(hexColor);
+    if (!channels) {
+      return 0.5;
+    }
+    const toLinear = (value) => {
+      const normalized = value / 255;
+      if (normalized <= 0.04045) {
+        return normalized / 12.92;
+      }
+      return ((normalized + 0.055) / 1.055) ** 2.4;
+    };
+    const r = toLinear(channels.r);
+    const g = toLinear(channels.g);
+    const b = toLinear(channels.b);
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+
+  const pickReadableOnColor = (hexColor) => {
+    const luminance = computeRelativeLuminance(hexColor);
+    return luminance > 0.6 ? '#111215' : '#f7f8fb';
+  };
+
+  const buildPaletteFromSource = (hexColor) => {
+    const normalized = normalizeHex(hexColor);
+    if (!normalized) {
+      return wallpaperColorFallback;
+    }
+    const lightPrimary = mixHexColors(normalized, '#0f1012', 0.35);
+    const darkPrimary = mixHexColors(normalized, '#f5f6f8', 0.6);
+    const lightPrimaryContainer = mixHexColors(lightPrimary, '#ffffff', 0.85);
+    const darkPrimaryContainer = mixHexColors(darkPrimary, '#050608', 0.7);
+    return {
+      lightPrimary,
+      lightOnPrimary: pickReadableOnColor(lightPrimary),
+      lightPrimaryContainer,
+      lightOnPrimaryContainer: pickReadableOnColor(lightPrimaryContainer),
+      darkPrimary,
+      darkOnPrimary: pickReadableOnColor(darkPrimary),
+      darkPrimaryContainer,
+      darkOnPrimaryContainer: pickReadableOnColor(darkPrimaryContainer),
+    };
+  };
+
+  const extractAverageColor = (image) => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (!context) {
+      throw new Error('CanvasUnsupported');
+    }
+    const size = 64;
+    canvas.width = size;
+    canvas.height = size;
+    context.drawImage(image, 0, 0, size, size);
+    let imageData;
+    try {
+      imageData = context.getImageData(0, 0, size, size);
+    } catch (error) {
+      throw new Error('ReadPixelFailed');
+    }
+    const { data } = imageData;
+    let totalWeight = 0;
+    let sumR = 0;
+    let sumG = 0;
+    let sumB = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      const alpha = data[i + 3] / 255;
+      if (alpha <= 0.05) {
+        continue;
+      }
+      totalWeight += alpha;
+      sumR += data[i] * alpha;
+      sumG += data[i + 1] * alpha;
+      sumB += data[i + 2] * alpha;
+    }
+    if (totalWeight === 0) {
+      throw new Error('TransparentImage');
+    }
+    return rgbToHex(sumR / totalWeight, sumG / totalWeight, sumB / totalWeight);
+  };
+
+  const loadImageFromUrl = (url) =>
+    new Promise((resolve, reject) => {
+      if (!url) {
+        reject(new Error('EmptyUrl'));
+        return;
+      }
+      const image = new Image();
+      image.crossOrigin = 'anonymous';
+      image.decoding = 'async';
+      const cleanup = () => {
+        image.onload = null;
+        image.onerror = null;
+      };
+      image.onload = () => {
+        cleanup();
+        if (!image.naturalWidth || !image.naturalHeight) {
+          reject(new Error('InvalidImage'));
+          return;
+        }
+        resolve(image);
+      };
+      image.onerror = () => {
+        cleanup();
+        reject(new Error('LoadFailed'));
+      };
+      image.src = url;
+    });
+
+  const derivePaletteFromWallpaper = async (url) => {
+    const image = await loadImageFromUrl(url);
+    const averageHex = extractAverageColor(image);
+    return buildPaletteFromSource(averageHex);
+  };
+
+  let wallpaperColorJobId = 0;
+
+  const updateWallpaperColors = (imageUrl, { forceRecompute = false } = {}) => {
+    wallpaperColorJobId += 1;
+    const jobId = wallpaperColorJobId;
+
+    if (!imageUrl) {
+      applyWallpaperPalette(wallpaperColorFallback);
+      persistWallpaperPalette('', null);
+      return;
+    }
+
+    if (!forceRecompute) {
+      const cached = readPersistedWallpaperPalette();
+      if (cached && cached.source === imageUrl && cached.palette) {
+        applyWallpaperPalette(cached.palette);
+        return;
+      }
+    }
+
+    derivePaletteFromWallpaper(imageUrl)
+      .then((palette) => {
+        if (jobId !== wallpaperColorJobId) {
+          return;
+        }
+        applyWallpaperPalette(palette);
+        persistWallpaperPalette(imageUrl, palette);
+      })
+      .catch(() => {
+        if (jobId !== wallpaperColorJobId) {
+          return;
+        }
+        applyWallpaperPalette(wallpaperColorFallback);
+      });
+  };
+
+  // 说明：立即同步默认调色板，避免某些浏览器在脚本执行前出现闪烁。
+  applyWallpaperPalette(wallpaperColorFallback);
 
   const readBackgroundInputValue = () => {
     if (backgroundInput instanceof HTMLInputElement) {
@@ -515,6 +875,7 @@ const setupSettingsPanel = () => {
 
   const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
     const trimmed = typeof rawUrl === 'string' ? rawUrl.trim() : '';
+    const forcePaletteRefresh = Boolean(shouldPersist);
     if (!trimmed) {
       root.style.setProperty('--app-custom-background-image', 'none');
       root.style.setProperty('--app-custom-background-opacity', '0');
@@ -523,6 +884,7 @@ const setupSettingsPanel = () => {
         persistBackgroundValue('');
       }
       updateBackgroundButtons();
+      updateWallpaperColors('', { forceRecompute: forcePaletteRefresh });
       return;
     }
 
@@ -534,6 +896,7 @@ const setupSettingsPanel = () => {
       persistBackgroundValue(trimmed);
     }
     updateBackgroundButtons();
+    updateWallpaperColors(trimmed, { forceRecompute: forcePaletteRefresh });
   };
 
   const initialBackgroundImage = readStoredBackgroundImage() || '';
