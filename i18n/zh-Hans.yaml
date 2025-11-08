@@ -91,6 +91,27 @@
 - id: settingsPanelGlassDisableLabel
   translation: 关闭亚克力效果
 
+- id: settingsPanelReaderHeading
+  translation: 阅读器宽度
+
+- id: settingsPanelReaderDescription
+  translation: 调整单篇文章正文区的最大宽度，让大屏幕阅读时行长更舒适。
+
+- id: settingsPanelReaderRangeLabel
+  translation: 阅读宽度（rem）
+
+- id: settingsPanelReaderScaleCompact
+  translation: 更紧凑
+
+- id: settingsPanelReaderScaleWide
+  translation: 更宽
+
+- id: settingsPanelReaderUnitRem
+  translation: rem
+
+- id: settingsPanelReaderUnitPx
+  translation: 像素
+
 - id: settingsPanelBackgroundHeading
   translation: 背景图片
 

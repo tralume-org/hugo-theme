@@ -70,6 +70,26 @@
         (dict "id" "green" "label" (i18n "settingsPanelColorGreen") "seed" "#146C2E")
         (dict "id" "orange" "label" (i18n "settingsPanelColorOrange") "seed" "#954A00")
       }}
+      {{ $readerDefault := "balanced" }}
+      {{ with site.Params.theme }}
+        {{ with .defaultReaderWidth }}
+          {{ $readerDefault = . }}
+        {{ end }}
+      {{ end }}
+      {{ $readerPresetValues := dict "compact" 56 "balanced" 64 "wide" 80 }}
+      {{ $readerDefaultValue := 64.0 }}
+      {{ with (index $readerPresetValues $readerDefault) }}
+        {{ $readerDefaultValue = . }}
+      {{ end }}
+      {{ with site.Params.theme }}
+        {{ with .defaultReaderWidthValue }}
+          {{ $readerDefaultValue = float . }}
+        {{ end }}
+      {{ end }}
+      {{ $readerSliderMin := 52 }}
+      {{ $readerSliderMax := 104 }}
+      {{ $readerInitialRem := printf "%.0f" $readerDefaultValue }}
+      {{ $readerInitialPx := printf "%.0f" (mul $readerDefaultValue 16) }}
       <section class="settings-panel__section settings-panel__section--colors">
         <h3 class="settings-panel__section-title">{{ i18n "settingsPanelColorHeading" }}</h3>
         <div class="settings-panel__color-grid">
@@ -176,6 +196,41 @@
             />
             <span>{{ i18n "settingsPanelGlassDisableLabel" }}</span>
           </label>
+        </div>
+      </section>
+      {{/* 说明：阅读器宽度滑动条，允许在更大范围内微调正文最大宽度。 */}}
+      <section class="settings-panel__section settings-panel__section--reader">
+        <div class="settings-panel__reader-header">
+          <h3 class="settings-panel__section-title">{{ i18n "settingsPanelReaderHeading" }}</h3>
+          <span class="settings-panel__reader-value">
+            <span data-reader-width-rem>{{ $readerInitialRem }}</span>
+            <span>{{ i18n "settingsPanelReaderUnitRem" }}</span>
+            <span aria-hidden="true">·</span>
+            <span data-reader-width-px>{{ $readerInitialPx }}</span>
+            <span>{{ i18n "settingsPanelReaderUnitPx" }}</span>
+          </span>
+        </div>
+        <p class="settings-panel__description">{{ i18n "settingsPanelReaderDescription" }}</p>
+        <label class="settings-panel__reader-slider-label" for="settings-panel-reader-range">
+          {{ i18n "settingsPanelReaderRangeLabel" }}
+        </label>
+        <input
+          id="settings-panel-reader-range"
+          class="settings-panel__reader-slider"
+          type="range"
+          min="{{ $readerSliderMin }}"
+          max="{{ $readerSliderMax }}"
+          step="1"
+          value="{{ $readerInitialRem }}"
+          aria-valuemin="{{ $readerSliderMin }}"
+          aria-valuemax="{{ $readerSliderMax }}"
+          aria-valuenow="{{ $readerInitialRem }}"
+          aria-label="{{ i18n "settingsPanelReaderRangeLabel" }}"
+          data-reader-width-range
+        />
+        <div class="settings-panel__reader-scale">
+          <span>{{ i18n "settingsPanelReaderScaleCompact" }}</span>
+          <span>{{ i18n "settingsPanelReaderScaleWide" }}</span>
         </div>
       </section>
       {{/* 说明：自定义背景图链接输入区，允许使用任意可访问的图片 URL。 */}}

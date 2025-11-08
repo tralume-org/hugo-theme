@@ -49,6 +49,8 @@ body::before {
   --floating-control-width: 7.5rem;
   --floating-control-height: 3.5rem;
   --floating-control-gap: 0.25rem;
+  /* 说明：阅读区域最大宽度，默认与桌面版内容区一致，可在设置面板中覆盖。 */
+  --reader-width-max: 64rem;
   /* 说明：玻璃拟态统一变量，控制透明度、色调与模糊半径以便多处复用。 */
   --app-glass-blur-radius: 24px;
   --app-glass-surface-alpha: 45%;
@@ -81,6 +83,19 @@ body::before {
   --app-glass-strong-alpha: 96%;
   --app-glass-border-alpha: 62%;
   --app-glass-border-strong-alpha: 74%;
+}
+
+/* 说明：阅读器宽度预设，供设置面板在桌面端调整内容占比。 */
+:root[data-reader-width="compact"] {
+  --reader-width-max: 56rem;
+}
+
+:root[data-reader-width="balanced"] {
+  --reader-width-max: 64rem;
+}
+
+:root[data-reader-width="wide"] {
+  --reader-width-max: 80rem;
 }
 
 a {
@@ -213,8 +228,8 @@ a:focus-visible {
   flex: 1 1 auto;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 3rem;
-  max-width: 64rem;
-  width: min(100%, 64rem);
+  max-width: var(--reader-width-max, 64rem);
+  width: min(100%, var(--reader-width-max, 64rem));
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -230,6 +245,20 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* 说明：文章正文块独立成亚克力表面，避免与大纲共享同一背景。 */
+.article__surface {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: var(--article-surface-padding, 1.75rem);
+  border-radius: var(--article-surface-radius, 1.5rem);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  box-shadow: var(--md-sys-elevation-level2);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .article__header {
@@ -380,8 +409,9 @@ a:focus-visible {
 }
 
 @media (min-width: 64rem) {
+  /* 说明：宽屏下提高正文列的占比，侧栏保持不少于 15rem 以兼顾目录显示。 */
   .article__layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+    grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.5fr);
     align-items: start;
   }
 
@@ -1227,6 +1257,97 @@ md-outlined-text-field {
   border-color: var(--md-sys-color-primary);
   background-color: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
+}
+
+/* 说明：阅读宽度滑动条，使用 rem 作为单位，实时更新正文最大宽度。 */
+.settings-panel__section--reader {
+  gap: 0.5rem;
+}
+
+.settings-panel__reader-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.settings-panel__reader-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__reader-value span[data-reader-width-rem],
+.settings-panel__reader-value span[data-reader-width-px] {
+  min-width: 3ch;
+  text-align: right;
+}
+
+.settings-panel__reader-slider-label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__reader-slider {
+  width: 100%;
+  appearance: none;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
+    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
+  );
+  outline: none;
+  margin-block: 0.1rem 0.2rem;
+}
+
+.settings-panel__reader-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.settings-panel__reader-slider::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+  cursor: grabbing;
+}
+
+.settings-panel__reader-slider::-moz-range-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.settings-panel__reader-slider:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 3px;
+}
+
+.settings-panel__reader-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
 }
 
 /* 说明：玻璃强度滑动块，包含标题、刻度与当前值。 */
