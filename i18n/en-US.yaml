@@ -150,3 +150,7 @@
 
 - id: articleOutlineEmpty
   translation: The outline is generated after the page loads. Ensure the article contains level-two headings or above if nothing appears.
+
+- id: footerPoweredBy
+  translation: Powered by {{ .Hugo }} and {{ .Tralume }}
+  comment: '占位符 Hugo/Tralume 均已包含完整的外链标记，保持 HTML 输出原样渲染。'

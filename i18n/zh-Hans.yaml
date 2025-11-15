@@ -150,3 +150,7 @@
 
 - id: articleOutlineEmpty
   translation: 大纲将在页面渲染后生成，若未出现请确认正文包含二级以上标题。
+
+- id: footerPoweredBy
+  translation: 由 {{ .Hugo }} 与 {{ .Tralume }} 提供支持
+  comment: '占位符 Hugo/Tralume 包含带 target="_blank" 的安全外链，请勿在翻译时移除。'
