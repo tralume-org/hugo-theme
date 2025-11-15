@@ -153,4 +153,3 @@
 
 - id: footerPoweredBy
   translation: 由 {{ .Hugo }} 与 {{ .Tralume }} 提供支持
-  comment: '占位符 Hugo/Tralume 包含带 target="_blank" 的安全外链，请勿在翻译时移除。'
