@@ -367,9 +367,8 @@ a:focus-visible {
 }
 
 .callout__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
+  place-items: center;
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 0.85rem;
@@ -378,9 +377,17 @@ a:focus-visible {
   border: 1px solid color-mix(in srgb, var(--callout-accent) 62%, transparent);
   box-shadow: var(--md-sys-elevation-level1);
   font-family: "Material Symbols Rounded", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 24;
   font-feature-settings: "liga";
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.callout__icon-glyph {
+  display: block;
+  transform: translateY(5px);
 }
 
 .callout__title {

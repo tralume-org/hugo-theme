@@ -1,0 +1,17 @@
+{
+  "name": "tralume-hugo-theme",
+  "version": "1.0.0",
+  "description": "Tralume Hugo 主题的本地打包依赖配置。",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://forgejo.alexma.top/tralume-org/hugo-theme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "scripts": {},
+  "dependencies": {
+    "@material/web": "^1.1.1"
+  }
+}

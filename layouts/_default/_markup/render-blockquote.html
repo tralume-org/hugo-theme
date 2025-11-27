@@ -1,0 +1,48 @@
+{{/* 说明：识别 > [!NOTE]/[!WARNING] 等前缀，将引用块渲染为带标签的提醒卡片；否则回退到默认引用样式。 */}}
+{{- /* 说明：Goldmark 新增 alert 语法会把 > [!WARNING] 解析成 blockquote.typ=alert，这里通过 dump 反推类型。 */ -}}
+{{- $html := .Text | default "" -}}
+{{- $dump := printf "%+v" . -}}
+{{- $hookType := lower (replaceRE `(?s)^.*?typ:([a-z]+).*` "$1" $dump) -}}
+{{- $alertKind := lower (replaceRE `(?s)^.*?alert:{typ:([a-z]+).*` "$1" $dump) -}}
+{{- $isCallout := and (eq $hookType "alert") (ne $alertKind "") -}}
+{{- /* 说明：使用 Material Symbols 字体的连字名称映射到不同级别的提醒图标。 */ -}}
+{{- $iconNames := dict
+    "NOTE" "info"
+    "TIP" "tips_and_updates"
+    "IMPORTANT" "priority_high"
+    "WARNING" "warning"
+    "CAUTION" "warning"
+    "DANGER" "dangerous"
+  -}}
+{{- if not $isCallout -}}
+<blockquote>
+  {{ $html | safeHTML }}
+</blockquote>
+{{- else -}}
+  {{- $kind := upper $alertKind -}}
+  {{- $labelKeyMap := dict
+      "NOTE" "calloutNoteLabel"
+      "TIP" "calloutTipLabel"
+      "IMPORTANT" "calloutImportantLabel"
+      "WARNING" "calloutWarningLabel"
+      "CAUTION" "calloutCautionLabel"
+      "DANGER" "calloutDangerLabel"
+    -}}
+  {{- $labelKey := index $labelKeyMap $kind | default "" -}}
+  {{- $label := cond (ne $labelKey "") (i18n $labelKey) "" -}}
+  {{- $iconName := index $iconNames $kind | default (index $iconNames "NOTE") -}}
+  {{- $body := $html -}}
+  <aside class="callout" data-callout-kind="{{ lower $kind }}">
+    <div class="callout__header">
+      <span class="callout__icon material-symbols-rounded" aria-hidden="true">
+        <span class="callout__icon-glyph">{{ $iconName }}</span>
+      </span>
+      {{- if ne $label "" -}}
+        <span class="callout__title">{{ $label }}</span>
+      {{- end -}}
+    </div>
+    <div class="callout__content">
+      {{ $body | safeHTML }}
+    </div>
+  </aside>
+{{- end -}}

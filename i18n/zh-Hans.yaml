@@ -153,3 +153,21 @@
 
 - id: footerPoweredBy
   translation: 由 {{ .Hugo }} 与 {{ .Tralume }} 提供支持
+
+- id: calloutNoteLabel
+  translation: 注释
+
+- id: calloutTipLabel
+  translation: 小贴士
+
+- id: calloutImportantLabel
+  translation: 重要
+
+- id: calloutWarningLabel
+  translation: 警告
+
+- id: calloutCautionLabel
+  translation: 注意
+
+- id: calloutDangerLabel
+  translation: 危险

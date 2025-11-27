@@ -153,3 +153,21 @@
 
 - id: footerPoweredBy
   translation: Powered by {{ .Hugo }} and {{ .Tralume }}
+
+- id: calloutNoteLabel
+  translation: Note
+
+- id: calloutTipLabel
+  translation: Tip
+
+- id: calloutImportantLabel
+  translation: Important
+
+- id: calloutWarningLabel
+  translation: Warning
+
+- id: calloutCautionLabel
+  translation: Caution
+
+- id: calloutDangerLabel
+  translation: Danger

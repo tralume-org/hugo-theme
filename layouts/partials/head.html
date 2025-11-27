@@ -34,8 +34,13 @@
 </script>
 {{ $tokens := resources.Get "css/md3-tokens.css" }}
 {{ $main := resources.Get "css/main.css" }}
+{{ $material := resources.Get "js/material.js" | js.Build (dict "target" "es2019" "minify" true) }}
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
 <link rel="stylesheet" href="{{ $main.RelPermalink }}">
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@400;500;600&display=swap"
+>
 {{- /* RSS 订阅入口：为所有已配置语言输出对应的 Feed 地址，便于阅读器区分语言。 */ -}}
 {{- $home := site.Home -}}
 {{- if $home }}
@@ -46,14 +51,4 @@
     {{- end }}
   {{- end }}
 {{- end }}
-<script type="importmap">
-{
-  "imports": {
-    "material/": "https://esm.sh/material-esm@1.1.1/material/"
-  }
-}
-</script>
-<script type="module">
-  import "material/button/filled-button.js";
-  import "material/textfield/outlined-text-field.js";
-</script>
+<script type="module" src="{{ $material.RelPermalink }}"></script>
