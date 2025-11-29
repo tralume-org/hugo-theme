@@ -1,0 +1,52 @@
+name: Build and Deploy Demo to Cloudflare Pages
+
+on:
+  push:
+    branches: [demo]
+  workflow_dispatch:
+
+env:
+  HUGO_ENVIRONMENT: production
+  HUGO_ENV: production
+
+jobs:
+  deploy:
+    runs-on: docker
+    container:
+      image: ghcr.io/hugomods/hugo:debian-ci-0.152.2
+
+    steps:
+      - name: Checkout
+        uses: https://forgejo.alexma.top/actions/checkout@v5
+        with:
+          # Use branch demo
+          ref: demo
+
+      - name: Download Hugo modules
+        run: |
+          hugo mod tidy
+          hugo mod verify
+
+      - name: Generate npm manifest from Hugo modules
+        run: hugo mod npm pack
+
+      - name: Install npm dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Build site
+        run: hugo --minify -d public
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: https://forgejo.alexma.top/actions/cloudflare-wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Cloudflare uses the branch name to decide if a deploy is production or preview.
+          # Use the project's production branch (main) so the deployment is marked as Production.
+          command: pages deploy ./public --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=demo
