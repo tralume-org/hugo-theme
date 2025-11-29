@@ -7,5 +7,5 @@
     ) | safeHTML }}
   </small>
 </footer>
-{{ $mainJS := resources.Get "js/main.js" }}
+{{ $mainJS := resources.Get "js/main.js" | js.Build (dict "target" "es2019" "format" "iife" "minify" true) }}
 <script src="{{ $mainJS.RelPermalink }}" defer></script>
