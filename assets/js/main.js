@@ -569,7 +569,6 @@ const setupSettingsPanel = () => {
   const backgroundApplyButton = panel.querySelector('[data-background-apply]');
   const backgroundResetButton = panel.querySelector('[data-background-reset]');
   const backgroundStorageKey = 'tralume-custom-background-url';
-  const wallpaperColorStorageKey = 'tralume-wallpaper-color-cache';
 
   // 说明：壁纸智能取色的默认调色板，确保亮/暗模式各自拥有灰黑与灰白的安全回退。
   const wallpaperColorFallback = {
@@ -583,258 +582,32 @@ const setupSettingsPanel = () => {
     darkOnPrimaryContainer: '#e7eaf2',
   };
 
-  const applyWallpaperPalette = (palette = wallpaperColorFallback) => {
-    const target = palette || wallpaperColorFallback;
-    root.style.setProperty('--app-dynamic-primary-light', target.lightPrimary);
-    root.style.setProperty('--app-dynamic-on-primary-light', target.lightOnPrimary);
-    root.style.setProperty('--app-dynamic-primary-container-light', target.lightPrimaryContainer);
-    root.style.setProperty('--app-dynamic-on-primary-container-light', target.lightOnPrimaryContainer);
-    root.style.setProperty('--app-dynamic-primary-dark', target.darkPrimary);
-    root.style.setProperty('--app-dynamic-on-primary-dark', target.darkOnPrimary);
-    root.style.setProperty('--app-dynamic-primary-container-dark', target.darkPrimaryContainer);
-    root.style.setProperty('--app-dynamic-on-primary-container-dark', target.darkOnPrimaryContainer);
+  // 说明：固定使用默认色板，不再随自定义背景图片动态变化。
+  const applyWallpaperPalette = () => {
+    root.style.setProperty('--app-dynamic-primary-light', wallpaperColorFallback.lightPrimary);
+    root.style.setProperty('--app-dynamic-on-primary-light', wallpaperColorFallback.lightOnPrimary);
+    root.style.setProperty(
+      '--app-dynamic-primary-container-light',
+      wallpaperColorFallback.lightPrimaryContainer,
+    );
+    root.style.setProperty(
+      '--app-dynamic-on-primary-container-light',
+      wallpaperColorFallback.lightOnPrimaryContainer,
+    );
+    root.style.setProperty('--app-dynamic-primary-dark', wallpaperColorFallback.darkPrimary);
+    root.style.setProperty('--app-dynamic-on-primary-dark', wallpaperColorFallback.darkOnPrimary);
+    root.style.setProperty(
+      '--app-dynamic-primary-container-dark',
+      wallpaperColorFallback.darkPrimaryContainer,
+    );
+    root.style.setProperty(
+      '--app-dynamic-on-primary-container-dark',
+      wallpaperColorFallback.darkOnPrimaryContainer,
+    );
   };
 
-  const persistWallpaperPalette = (sourceUrl, palette) => {
-    try {
-      if (!sourceUrl || !palette) {
-        window.localStorage.removeItem(wallpaperColorStorageKey);
-        return;
-      }
-      window.localStorage.setItem(
-        wallpaperColorStorageKey,
-        JSON.stringify({
-          source: sourceUrl,
-          palette,
-        }),
-      );
-    } catch (error) {
-      // 说明：忽略本地存储异常，避免阻断页面渲染。
-    }
-  };
-
-  const readPersistedWallpaperPalette = () => {
-    try {
-      const raw = window.localStorage.getItem(wallpaperColorStorageKey);
-      if (!raw) {
-        return null;
-      }
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object' && typeof parsed.source === 'string' && parsed.palette) {
-        return parsed;
-      }
-    } catch (error) {
-      return null;
-    }
-    return null;
-  };
-
-  const normalizeHex = (value) => {
-    if (typeof value !== 'string') {
-      return null;
-    }
-    const trimmed = value.trim().replace(/^#/, '');
-    if (trimmed.length === 3) {
-      return `#${trimmed
-        .split('')
-        .map((ch) => ch + ch)
-        .join('')}`.toLowerCase();
-    }
-    if (trimmed.length === 6) {
-      return `#${trimmed.toLowerCase()}`;
-    }
-    return null;
-  };
-
-  const hexToRgb = (hex) => {
-    const normalized = normalizeHex(hex);
-    if (!normalized) {
-      return null;
-    }
-    const value = normalized.replace('#', '');
-    return {
-      r: Number.parseInt(value.slice(0, 2), 16),
-      g: Number.parseInt(value.slice(2, 4), 16),
-      b: Number.parseInt(value.slice(4, 6), 16),
-    };
-  };
-
-  const rgbChannelToHex = (channel) => channel.toString(16).padStart(2, '0');
-
-  const rgbToHex = (r, g, b) => {
-    const clamp = (value) => {
-      if (!Number.isFinite(value)) {
-        return 0;
-      }
-      return Math.max(0, Math.min(255, Math.round(value)));
-    };
-    return `#${rgbChannelToHex(clamp(r))}${rgbChannelToHex(clamp(g))}${rgbChannelToHex(clamp(b))}`;
-  };
-
-  const mixHexColors = (sourceHex, targetHex, ratio) => {
-    const safeRatio = Number.isFinite(ratio) ? Math.min(0.95, Math.max(0.05, ratio)) : 0.5;
-    const source = hexToRgb(sourceHex);
-    const target = hexToRgb(targetHex);
-    if (!source || !target) {
-      return targetHex || sourceHex || '#888888';
-    }
-    const mixChannel = (from, to) => from + (to - from) * safeRatio;
-    return rgbToHex(mixChannel(source.r, target.r), mixChannel(source.g, target.g), mixChannel(source.b, target.b));
-  };
-
-  const computeRelativeLuminance = (hexColor) => {
-    const channels = hexToRgb(hexColor);
-    if (!channels) {
-      return 0.5;
-    }
-    const toLinear = (value) => {
-      const normalized = value / 255;
-      if (normalized <= 0.04045) {
-        return normalized / 12.92;
-      }
-      return ((normalized + 0.055) / 1.055) ** 2.4;
-    };
-    const r = toLinear(channels.r);
-    const g = toLinear(channels.g);
-    const b = toLinear(channels.b);
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  };
-
-  const pickReadableOnColor = (hexColor) => {
-    const luminance = computeRelativeLuminance(hexColor);
-    return luminance > 0.6 ? '#111215' : '#f7f8fb';
-  };
-
-  const buildPaletteFromSource = (hexColor) => {
-    const normalized = normalizeHex(hexColor);
-    if (!normalized) {
-      return wallpaperColorFallback;
-    }
-    const lightPrimary = mixHexColors(normalized, '#0f1012', 0.35);
-    const darkPrimary = mixHexColors(normalized, '#f5f6f8', 0.6);
-    const lightPrimaryContainer = mixHexColors(lightPrimary, '#ffffff', 0.85);
-    const darkPrimaryContainer = mixHexColors(darkPrimary, '#050608', 0.7);
-    return {
-      lightPrimary,
-      lightOnPrimary: pickReadableOnColor(lightPrimary),
-      lightPrimaryContainer,
-      lightOnPrimaryContainer: pickReadableOnColor(lightPrimaryContainer),
-      darkPrimary,
-      darkOnPrimary: pickReadableOnColor(darkPrimary),
-      darkPrimaryContainer,
-      darkOnPrimaryContainer: pickReadableOnColor(darkPrimaryContainer),
-    };
-  };
-
-  const extractAverageColor = (image) => {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    if (!context) {
-      throw new Error('CanvasUnsupported');
-    }
-    const size = 64;
-    canvas.width = size;
-    canvas.height = size;
-    context.drawImage(image, 0, 0, size, size);
-    let imageData;
-    try {
-      imageData = context.getImageData(0, 0, size, size);
-    } catch (error) {
-      throw new Error('ReadPixelFailed');
-    }
-    const { data } = imageData;
-    let totalWeight = 0;
-    let sumR = 0;
-    let sumG = 0;
-    let sumB = 0;
-    for (let i = 0; i < data.length; i += 4) {
-      const alpha = data[i + 3] / 255;
-      if (alpha <= 0.05) {
-        continue;
-      }
-      totalWeight += alpha;
-      sumR += data[i] * alpha;
-      sumG += data[i + 1] * alpha;
-      sumB += data[i + 2] * alpha;
-    }
-    if (totalWeight === 0) {
-      throw new Error('TransparentImage');
-    }
-    return rgbToHex(sumR / totalWeight, sumG / totalWeight, sumB / totalWeight);
-  };
-
-  const loadImageFromUrl = (url) =>
-    new Promise((resolve, reject) => {
-      if (!url) {
-        reject(new Error('EmptyUrl'));
-        return;
-      }
-      const image = new Image();
-      image.crossOrigin = 'anonymous';
-      image.decoding = 'async';
-      const cleanup = () => {
-        image.onload = null;
-        image.onerror = null;
-      };
-      image.onload = () => {
-        cleanup();
-        if (!image.naturalWidth || !image.naturalHeight) {
-          reject(new Error('InvalidImage'));
-          return;
-        }
-        resolve(image);
-      };
-      image.onerror = () => {
-        cleanup();
-        reject(new Error('LoadFailed'));
-      };
-      image.src = url;
-    });
-
-  const derivePaletteFromWallpaper = async (url) => {
-    const image = await loadImageFromUrl(url);
-    const averageHex = extractAverageColor(image);
-    return buildPaletteFromSource(averageHex);
-  };
-
-  let wallpaperColorJobId = 0;
-
-  const updateWallpaperColors = (imageUrl, { forceRecompute = false } = {}) => {
-    wallpaperColorJobId += 1;
-    const jobId = wallpaperColorJobId;
-
-    if (!imageUrl) {
-      applyWallpaperPalette(wallpaperColorFallback);
-      persistWallpaperPalette('', null);
-      return;
-    }
-
-    if (!forceRecompute) {
-      const cached = readPersistedWallpaperPalette();
-      if (cached && cached.source === imageUrl && cached.palette) {
-        applyWallpaperPalette(cached.palette);
-        return;
-      }
-    }
-
-    derivePaletteFromWallpaper(imageUrl)
-      .then((palette) => {
-        if (jobId !== wallpaperColorJobId) {
-          return;
-        }
-        applyWallpaperPalette(palette);
-        persistWallpaperPalette(imageUrl, palette);
-      })
-      .catch(() => {
-        if (jobId !== wallpaperColorJobId) {
-          return;
-        }
-        applyWallpaperPalette(wallpaperColorFallback);
-      });
-  };
-
-  // 说明：立即同步默认调色板，避免某些浏览器在脚本执行前出现闪烁。
-  applyWallpaperPalette(wallpaperColorFallback);
+  // 说明：加载时立即写入默认色板，确保不会受历史缓存影响。
+  applyWallpaperPalette();
 
   const readBackgroundInputValue = () => {
     if (backgroundInput instanceof HTMLInputElement) {
@@ -875,7 +648,6 @@ const setupSettingsPanel = () => {
 
   const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
     const trimmed = typeof rawUrl === 'string' ? rawUrl.trim() : '';
-    const forcePaletteRefresh = Boolean(shouldPersist);
     if (!trimmed) {
       root.style.setProperty('--app-custom-background-image', 'none');
       root.style.setProperty('--app-custom-background-opacity', '0');
@@ -884,7 +656,6 @@ const setupSettingsPanel = () => {
         persistBackgroundValue('');
       }
       updateBackgroundButtons();
-      updateWallpaperColors('', { forceRecompute: forcePaletteRefresh });
       return;
     }
 
@@ -896,7 +667,6 @@ const setupSettingsPanel = () => {
       persistBackgroundValue(trimmed);
     }
     updateBackgroundButtons();
-    updateWallpaperColors(trimmed, { forceRecompute: forcePaletteRefresh });
   };
 
   const initialBackgroundImage = readStoredBackgroundImage() || '';
