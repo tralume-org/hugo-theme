@@ -1,26 +1,26 @@
-baseURL = 'https://hugo.tralume.org/'
+baseURL = 'https://tralume.org/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
 
-# 输出配置：确保每种语言的主页与列表页同时生成 HTML 与 RSS 输出。
 [outputs]
   home = ['HTML', 'RSS']
   section = ['HTML', 'RSS']
   taxonomy = ['HTML', 'RSS']
   term = ['HTML', 'RSS']
 
+# Note: Multilingual basics; keep menu structure under [menu] and handle text via i18n files.
 [languages]
   [languages."en-US"]
     languageName = 'English'
+    languageCode = 'en-US'
     weight = 1
     title = 'Tralume'
-    languageCode = 'en-US'
 
   [languages."zh-Hans"]
     languageName = '简体中文'
+    languageCode = 'zh-Hans'
     weight = 2
     title = 'Tralume 主题'
-    languageCode = 'zh-Hans'
 
 [menu]
   [[menu.main]]
@@ -28,37 +28,29 @@ defaultContentLanguageInSubdir = true
     name = 'Home'
     pageRef = '/'
     weight = 10
-
   [[menu.main]]
     identifier = 'posts'
     name = 'Posts'
     pageRef = '/posts'
     weight = 20
-
   [[menu.main]]
     identifier = 'tags'
     name = 'Tags'
     pageRef = '/tags'
     weight = 30
-
   [[menu.main]]
     identifier = 'friends'
     name = 'Friends'
     pageRef = '/friends'
     weight = 40
 
+# Note: Import the theme via Hugo Modules; if using a submodule, switch to theme = 'tralume'.
 [module]
   [module.hugoVersion]
-    extended = false
     min = '0.146.0'
+    extended = false
 
-[markup.goldmark.renderer]
-  unsafe = true
-
-[markup.highlight]
-  noClasses = false
-  style = 'material'
-
-[params.theme]
-  # 说明：设定初始主题模式，可选 auto/light/dark。
-  defaultMode = 'auto'
+[params]
+  [params.theme]
+    # Note: Theme mode options.
+    defaultMode = 'auto'
