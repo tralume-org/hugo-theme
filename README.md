@@ -15,11 +15,11 @@ Modern Material Design 3 + acrylic glassmorphism Hugo theme with built-in multil
 ## Install & Initialize
 
 ```bash
-# 说明：初始化站点的 Hugo 模块并引入 Tralume 主题。
+# Note: Initialize the site's Hugo module and add the Tralume theme.
 hugo mod init example.com/blog
 hugo mod get forgejo.alexma.top/tralume-org/hugo-theme
 
-# 说明：根据模块依赖生成 package.json（源于 package.hugo.json），然后安装 npm 依赖。
+# Note: Generate package.json from module dependencies (package.hugo.json) and install npm deps.
 hugo mod npm pack
 npm install
 ```
@@ -27,10 +27,10 @@ npm install
 If you prefer Git submodules instead of Hugo Modules:
 
 ```bash
-# 说明：以子模块方式拉取主题代码，适合不使用 Hugo Modules 的场景。
+# Note: Pull the theme via Git submodule for setups not using Hugo Modules.
 git submodule add https://forgejo.alexma.top/tralume-org/hugo-theme.git themes/tralume
 
-# 说明：进入站点根目录，同样执行 npm 依赖安装（子模块场景无需 hugo mod npm pack）。
+# Note: Enter the theme directory and install npm dependencies (no hugo mod npm pack needed in submodule mode).
 cd themes/tralume
 npm install
 ```
@@ -38,7 +38,7 @@ npm install
 ## Base Config Example (`config/_default/hugo.toml`)
 
 ```toml
-# 说明：站点基础信息与输出设置。
+# Note: Basic site information and output formats.
 baseURL = 'https://example.com/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
@@ -49,7 +49,7 @@ defaultContentLanguageInSubdir = true
   taxonomy = ['HTML', 'RSS']
   term = ['HTML', 'RSS']
 
-# 说明：多语言基本信息，菜单结构统一放在 [menu]，文案交由 i18n 翻译表维护。
+# Note: Multilingual basics; keep menu structure under [menu] and handle text via i18n files.
 [languages]
   [languages."en-US"]
     languageName = 'English'
@@ -85,7 +85,7 @@ defaultContentLanguageInSubdir = true
     pageRef = '/friends'
     weight = 40
 
-# 说明：引入主题（Hugo Modules 推荐）；如用子模块，请改为 theme = 'tralume'。
+# Note: Import the theme via Hugo Modules; if using a submodule, switch to theme = 'tralume'.
 [module]
   [[module.imports]]
     path = 'forgejo.alexma.top/tralume-org/hugo-theme'
@@ -94,15 +94,22 @@ defaultContentLanguageInSubdir = true
     extended = false
 
 [params]
+  # Note: Site description and summary length settings.
   description = 'Tralume: Material 3 glassmorphism Hugo theme.'
-  articleCardSummaryLength = 160      # 说明：列表卡片摘要长度（字符）。
-  articleTimelineSummaryLength = 160  # 说明：时间线摘要长度（字符）。
+  # Note: Summary length for list cards (characters).
+  articleCardSummaryLength = 160
+  # Note: Summary length for timeline items (characters).
+  articleTimelineSummaryLength = 160
 
   [params.theme]
-    defaultMode = 'auto'            # 说明：主题模式，auto/light/dark。
-    defaultGlassStrength = 'soft'   # 说明：玻璃预设，soft/balanced/bold。
-    defaultReaderWidth = 'balanced' # 说明：阅读区宽度预设，compact/balanced/wide。
-    defaultReaderWidthValue = 64    # 说明：自定义宽度（rem），优先级高于预设。
+    # Note: Theme mode options.
+    defaultMode = 'auto'
+    # Note: Glass strength presets.
+    defaultGlassStrength = 'soft'
+    # Note: Reader width presets.
+    defaultReaderWidth = 'balanced'
+    # Note: Custom width in rem with higher priority than presets.
+    defaultReaderWidthValue = 64
 ```
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
@@ -115,13 +122,13 @@ Tip: the menu above is shared across languages. If you need different names per 
 - The friends page uses `content/friends/_index.md` (can be empty; data comes from `data/friends.yaml`).
 
 ```bash
-# 说明：创建一对中英文文章，文件名体现语言后缀，便于主题过滤。
+# Note: Create a pair of EN/ZN posts with language suffixes for proper filtering.
 hugo new posts/hello-world.en-US.md
 hugo new posts/hello-world.zh-Hans.md
 ```
 
 ```markdown
-<!-- 说明：主页内容示例，渲染在首页卡片内。 -->
+<!-- Note: Sample homepage content rendered inside the acrylic card. -->
 ---
 title: "Home"
 ---
@@ -135,7 +142,7 @@ Welcome to the Tralume example site!
 - The `language` field must match `languages.*.languageCode` (e.g., `en-US` / `zh-Hans`); leave it empty for global entries.
 
 ```yaml
-# 说明：友链最小示例，avatar 可选，language 不填则全局显示。
+# Note: Minimal friend entry; avatar optional, empty language means global display.
 - name: "Tralume Demo (EN)"
   url: "https://hugo.tralume.org/en-us/"
   description: "Material 3 styled English demo site."
@@ -146,10 +153,10 @@ Welcome to the Tralume example site!
 ## Run & Build
 
 ```bash
-# 说明：开发模式预览，开启多语言子目录，实时热重载。
+# Note: Development preview with multilingual subdirs and live reload.
 hugo server --disableFastRender
 
-# 说明：生产构建，输出到 public 并最小化资源。
+# Note: Production build outputting to public with minified assets.
 hugo --minify
 ```
 
