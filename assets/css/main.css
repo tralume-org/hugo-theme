@@ -1041,6 +1041,38 @@ md-outlined-text-field {
 }
 
 
+/* 说明：通用页面引导卡片，供首页与 Section 顶部简介复用。 */
+.page-intro-card {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.page-intro-card--section {
+  background-color: var(--app-glass-elevated-color);
+}
+
+.page-intro-card__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-headline-small-size);
+  line-height: var(--md-sys-typescale-headline-small-line-height);
+  font-weight: 700;
+}
+
+.page-intro-card__body {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+}
+
 /* 说明：列表为空时的占位提示样式，也使用亚克力底色避免割裂。 */
 .article-list__empty {
   margin: 0;
