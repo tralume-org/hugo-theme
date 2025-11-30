@@ -20,12 +20,27 @@
       data-app-nav-list
     >
       {{ range $menu }}
-        {{ $active := false }}
+        {{ $resolved := or (and .PageRef (site.GetPage .PageRef)) .Page }}
+        {{ $href := "" }}
+        {{ $isActive := false }}
         {{ if $page }}
-          {{ $active = or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+          {{ if $resolved }}
+            {{/* 说明：优先用当前语言解析到的 Page 与上下文 Page 比较，避免默认语言的菜单缓存导致失活。 */}}
+            {{ $isActive = or (eq $page.RelPermalink $resolved.RelPermalink) (and (and $page.File $resolved.File) (eq $page.File.Path $resolved.File.Path)) }}
+          {{ end }}
+          {{ $isActive = or $isActive ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+        {{ end }}
+        {{ if $resolved }}
+          {{ $href = $resolved.RelPermalink }}
+        {{ else if .URL }}
+          {{ if or (hasPrefix .URL "http://") (hasPrefix .URL "https://") (hasPrefix .URL "//") }}
+            {{ $href = .URL }}
+          {{ else }}
+            {{ $href = relLangURL .URL }}
+          {{ end }}
         {{ end }}
         {{ $label := or (and .Identifier (T .Identifier)) .Name }}
-        <a class="app-nav__item{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ $label | safeHTML }}</a>
+        <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | safeHTML }}</a>
       {{ end }}
     </nav>
   </div>

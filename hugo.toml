@@ -26,22 +26,22 @@ defaultContentLanguageInSubdir = true
   [[menu.main]]
     identifier = 'home'
     name = 'Home'
-    pageRef = '/'
+    pageRef = 'home'
     weight = 10
   [[menu.main]]
     identifier = 'posts'
     name = 'Posts'
-    pageRef = '/posts'
+    pageRef = 'posts'
     weight = 20
   [[menu.main]]
     identifier = 'tags'
     name = 'Tags'
-    pageRef = '/tags'
+    pageRef = 'tags'
     weight = 30
   [[menu.main]]
     identifier = 'friends'
     name = 'Friends'
-    pageRef = '/friends'
+    pageRef = 'friends'
     weight = 40
 
 # Note: Import the theme via Hugo Modules; if using a submodule, switch to theme = 'tralume'.
