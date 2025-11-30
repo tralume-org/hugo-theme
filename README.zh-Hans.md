@@ -2,17 +2,17 @@
 
 # Tralume Hugo Theme
 
-Modern Material Design 3 + acrylic glassmorphism Hugo theme with built-in multilingual support (en-US / zh-Hans), article timeline, reading progress, code-block copy, and a configurable settings panel.
+现代 Material Design 3 + 亚克力质感的 Hugo 主题，内置多语言（en-US / zh-Hans）、文章时间线、阅读进度、代码块复制与可配置的设置面板。
 
-## Quick Start
+## 快速上手
 
-1. Prepare Hugo ≥ 0.146.0 (no extended required) plus Node 18+ and npm.
-2. Initialize Hugo Modules at your site root and pull the theme.
-3. Generate the npm package manifest and install dependencies (the theme only depends on `@material/web`).
-4. Write the base config (languages, menu, theme parameters).
-5. Create content and data files, then run `hugo server` to preview.
+1. 准备 Hugo ≥ 0.146.0（无需 extended）与 Node 18+、npm。
+2. 在站点根目录初始化 Hugo Modules 并拉取主题。
+3. 生成 npm 包清单并安装依赖（本主题仅依赖 `@material/web`）。
+4. 写入基础配置（语言、菜单、主题参数）。
+5. 创建内容与数据文件，运行 `hugo server` 预览。
 
-## Install & Initialize
+## 安装与初始化
 
 ```bash
 # 说明：初始化站点的 Hugo 模块并引入 Tralume 主题。
@@ -24,7 +24,7 @@ hugo mod npm pack
 npm install
 ```
 
-If you prefer Git submodules instead of Hugo Modules:
+如需使用 Git 子模块，也可在站点根目录执行：
 
 ```bash
 # 说明：以子模块方式拉取主题代码，适合不使用 Hugo Modules 的场景。
@@ -35,7 +35,7 @@ cd themes/tralume
 npm install
 ```
 
-## Base Config Example (`config/_default/hugo.toml`)
+## 基础配置示例（`config/_default/hugo.toml`）
 
 ```toml
 # 说明：站点基础信息与输出设置。
@@ -94,25 +94,25 @@ defaultContentLanguageInSubdir = true
     extended = false
 
 [params]
-  description = 'Tralume: Material 3 glassmorphism Hugo theme.'
+  description = 'Tralume：Material 3 玻璃拟态 Hugo 主题。'
   articleCardSummaryLength = 160      # 说明：列表卡片摘要长度（字符）。
   articleTimelineSummaryLength = 160  # 说明：时间线摘要长度（字符）。
 
   [params.theme]
-    defaultMode = 'auto'            # 说明：主题模式，auto/light/dark。
-    defaultGlassStrength = 'soft'   # 说明：玻璃预设，soft/balanced/bold。
-    defaultReaderWidth = 'balanced' # 说明：阅读区宽度预设，compact/balanced/wide。
-    defaultReaderWidthValue = 64    # 说明：自定义宽度（rem），优先级高于预设。
+    defaultMode = 'auto'           # 说明：主题模式，auto/light/dark。
+    defaultGlassStrength = 'soft'  # 说明：玻璃预设，soft/balanced/bold。
+    defaultReaderWidth = 'balanced'# 说明：阅读区宽度预设，compact/balanced/wide。
+    defaultReaderWidthValue = 64   # 说明：自定义宽度（rem），优先级高于预设。
 ```
 
-Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
+提示：菜单当前为全局共享配置，如需中英文显示不同名称，请改用 `languages.*.menus.main` 在各语言下分别声明。
 
-## Content Structure & Multilingual Writing
+## 内容结构与多语言写作
 
-- Put posts under `content/posts/`. The theme ignores `_index` files and renders pages by `.Lang`.
-- To ensure proper pairing, add `.zh` or `.zh-hans` suffixes for Chinese filenames (e.g., `hello-world.zh.md`); leave English filenames without suffixes.
-- The home page body comes from `content/_index.md` and is rendered in an acrylic card—use it for a welcome message.
-- The friends page uses `content/friends/_index.md` (can be empty; data comes from `data/friends.yaml`).
+- 文章建议放在 `content/posts/`。主题会过滤 `_index` 文件，并按 `.Lang` 展示对应语言。
+- 为保证中英文配对正确，中文文件名需包含 `.zh` 或 `.zh-hans` 后缀，例如 `hello-world.zh.md`；英文文件名保持不带后缀。
+- 首页正文来自 `content/_index.md`，会以亚克力卡片展示，可用来写欢迎语。
+- 友链页使用 `content/friends/_index.md`（可留空，仅显示 data/friends.yaml 数据）。
 
 ```bash
 # 说明：创建一对中英文文章，文件名体现语言后缀，便于主题过滤。
@@ -126,24 +126,24 @@ hugo new posts/hello-world.zh-Hans.md
 title: "Home"
 ---
 
-Welcome to the Tralume example site!
+欢迎来到 Tralume 示例站点！
 ```
 
-## Data & Page Extensions
+## 数据与页面扩展
 
-- Friend data lives in `data/friends.yaml`, filtered by the current language and randomized when displayed.
-- The `language` field must match `languages.*.languageCode` (e.g., `en-US` / `zh-Hans`); leave it empty for global entries.
+- 友链数据位于 `data/friends.yaml`，按当前语言过滤并随机展示卡片。
+- `language` 字段需与 `languages.*.languageCode` 对应（如 `en-US` / `zh-Hans`），留空则所有语言通用。
 
 ```yaml
 # 说明：友链最小示例，avatar 可选，language 不填则全局显示。
-- name: "Tralume Demo (EN)"
+- name: "Tralume 示例（EN）"
   url: "https://hugo.tralume.org/en-us/"
-  description: "Material 3 styled English demo site."
+  description: "Material 3 风格的英文示例站。"
   avatar: "https://hugo.tralume.org/favicon.ico"
   language: "en-US"
 ```
 
-## Run & Build
+## 运行与构建
 
 ```bash
 # 说明：开发模式预览，开启多语言子目录，实时热重载。
@@ -153,9 +153,9 @@ hugo server --disableFastRender
 hugo --minify
 ```
 
-## Notes
+## 常见注意事项
 
-- When adding template text, update both `i18n/en-US.yaml` and `i18n/zh-Hans.yaml` to avoid missing translations.
-- The theme stores mode/glass/reader width in browser `localStorage`; clearing cache resets to defaults.
-- After updating the module, run `hugo mod npm pack && npm install` again to sync npm dependencies.
-- Adjust card/timeline summary length via `params.articleCardSummaryLength` and `params.articleTimelineSummaryLength` if needed.
+- 新增模板文案请同步更新 `i18n/en-US.yaml` 与 `i18n/zh-Hans.yaml`，避免缺失翻译。
+- 主题使用浏览器 `localStorage` 记录模式/玻璃/阅读宽度，清理缓存可重置到默认值。
+- 每次更新模块后建议重新执行 `hugo mod npm pack && npm install`，确保本地 npm 依赖与主题同步。
+- 想调整卡片/时间线摘要长度，可通过 `params.articleCardSummaryLength` 与 `params.articleTimelineSummaryLength` 覆盖默认值。
