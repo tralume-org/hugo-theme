@@ -1,0 +1,13 @@
+# 说明：友链数据示例，字段用于渲染 friends 页面卡片。
+# 提示：language 使用站点语言代码（如 zh-Hans / en-US），模板会按当前语言筛选并随机排列。
+- name: "Tralume 官方示例（EN）"
+  description: "Material 3 风格的 Hugo 主题英文示例站，展示默认组件与样式。"
+  url: "https://hugo.tralume.org/en-us/"
+  avatar: "https://hugo.tralume.org/favicon.ico"
+  language: "en-US"
+
+- name: "Tralume 官方示例（中文）"
+  description: "展示玻璃拟态风格的中文示例站，包含文章、标签与设置面板。"
+  url: "https://hugo.tralume.org/zh-hans/"
+  avatar: "https://hugo.tralume.org/favicon.ico"
+  language: "zh-Hans"

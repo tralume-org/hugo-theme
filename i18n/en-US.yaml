@@ -171,3 +171,21 @@
 
 - id: calloutDangerLabel
   translation: Danger
+
+- id: friendsEyebrow
+  translation: Friend links
+
+- id: friendsPageTitle
+  translation: Friends
+
+- id: friendsPageDescription
+  translation: A rotating set of sites that share the Tralume spirit—shuffled on every visit.
+
+- id: friendsCardAriaLabel
+  translation: "Open friend link: {{ .Name }}"
+
+- id: friendsLanguageLabel
+  translation: "Language: {{ .Language }}"
+
+- id: friendListEmpty
+  translation: No friend links yet. Add entries in data/friends.yaml to display them.

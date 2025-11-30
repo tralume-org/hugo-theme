@@ -1,0 +1,83 @@
+{{/* 说明：友链页面主体，按当前语言过滤 data/friends.yaml，并随机排列卡片。 */}}
+{{- $currentLang := site.Language.Lang | default "en-US" -}}
+{{- $currentLangKey := lower (replace $currentLang "_" "-" ) -}}
+{{- $friendsData := site.Data.friends -}}
+{{- $friends := slice -}}
+{{- if $friendsData }}
+  {{- range $friendsData }}
+    {{- $name := .name -}}
+    {{- $url := .url -}}
+    {{- if and $name $url }}
+      {{- $rawLang := or .language .lang -}}
+      {{- $normalizedLang := "" -}}
+      {{- $displayLang := $currentLang -}}
+      {{- with $rawLang }}
+        {{- $normalizedLang = lower (replace (printf "%v" .) "_" "-" ) -}}
+        {{- $displayLang = replace (printf "%v" .) "_" "-" -}}
+      {{- end -}}
+      {{- if or (eq $normalizedLang $currentLangKey) (eq $normalizedLang "") }}
+        {{- $friends = $friends | append (dict
+          "name" $name
+          "description" (default "" .description)
+          "url" $url
+          "avatar" .avatar
+          "language" $displayLang
+        ) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $friends = shuffle $friends -}}
+
+<section class="friends">
+  <header class="friends__header">
+    <p class="friends__eyebrow">{{ i18n "friendsEyebrow" }}</p>
+    <h1 class="friends__title">{{ i18n "friendsPageTitle" }}</h1>
+    <p class="friends__description">{{ i18n "friendsPageDescription" }}</p>
+    {{ with .Content }}
+      <div class="friends__intro">
+        {{ . }}
+      </div>
+    {{ end }}
+  </header>
+  {{ if gt (len $friends) 0 }}
+    <div class="friend-grid">
+      {{ range $friends }}
+        {{- $name := .name -}}
+        {{- $description := .description -}}
+        {{- $link := .url | safeURL -}}
+        {{- $avatar := .avatar -}}
+        {{- $language := .language | default $currentLang -}}
+        {{- $initial := cond (gt (len $name) 0) (substr $name 0 1) "?" -}}
+        <a
+          class="friend-card"
+          href="{{ $link }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{ i18n "friendsCardAriaLabel" (dict "Name" $name) }}"
+        >
+          <div class="friend-card__avatar" aria-hidden="true">
+            {{ if $avatar }}
+              <img src="{{ $avatar | safeURL }}" alt="">
+            {{ else }}
+              <span class="friend-card__avatar-fallback">{{ $initial }}</span>
+            {{ end }}
+          </div>
+          <div class="friend-card__content">
+            <div class="friend-card__meta">
+              <span class="friend-card__language" aria-label="{{ i18n "friendsLanguageLabel" (dict "Language" $language) }}">
+                {{ $language }}
+              </span>
+            </div>
+            <h2 class="friend-card__name">{{ $name }}</h2>
+            {{ with $description }}
+              <p class="friend-card__description">{{ . }}</p>
+            {{ end }}
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  {{ else }}
+    <p class="friend-list__empty">{{ i18n "friendListEmpty" }}</p>
+  {{ end }}
+</section>

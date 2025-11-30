@@ -14,7 +14,11 @@
 >
   {{/* 说明：根据页面类型选择对应的主内容渲染策略。 */}}
   {{ $kind := .Kind }}
-  {{ if eq $kind "home" }}
+  {{ $isFriends := or (eq .Section "friends") (eq .Type "friends") }}
+  {{ if $isFriends }}
+    {{/* 说明：友链页面使用独立布局，读取 data/friends.yaml 并随机展示卡片。 */}}
+    {{ partial "friends/list.html" . }}
+  {{ else if eq $kind "home" }}
     {{/* 说明：主页展示欢迎内容与全站文章卡片。 */}}
     {{ .Content }}
     {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal") }}

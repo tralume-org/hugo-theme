@@ -41,6 +41,12 @@ defaultContentLanguageInSubdir = true
       pageRef = '/tags'
       weight = 30
 
+    [[languages."en-US".menus.main]]
+      identifier = 'friends'
+      name = 'Friends'
+      pageRef = '/friends'
+      weight = 40
+
   [languages."zh-Hans".menus]
     [[languages."zh-Hans".menus.main]]
       identifier = 'home'
@@ -59,6 +65,12 @@ defaultContentLanguageInSubdir = true
       name = '标签'
       pageRef = '/tags'
       weight = 30
+
+    [[languages."zh-Hans".menus.main]]
+      identifier = 'friends'
+      name = '朋友们'
+      pageRef = '/friends'
+      weight = 40
 
 [module]
   [module.hugoVersion]

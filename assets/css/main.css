@@ -1055,6 +1055,193 @@ md-outlined-text-field {
   backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
+/* 说明：友链页面保持玻璃拟态基底，头部用于简要介绍与辅助文案。 */
+.friends {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.friends__header {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.friends__eyebrow {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-label-medium-size);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.friends__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-headline-small-size);
+  line-height: var(--md-sys-typescale-headline-small-line-height);
+  font-weight: 700;
+}
+
+.friends__description {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+}
+
+.friends__intro {
+  margin: 0.25rem 0 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+/* 说明：友链卡片采用网格布局，保持最小宽度避免挤压头像。 */
+.friend-grid {
+  display: grid;
+  gap: 1.1rem;
+}
+
+@media (min-width: 42rem) {
+  .friend-grid {
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  }
+}
+
+/* 说明：卡片沿用亚克力底色与边框，同时加入轻量渐变光斑增强层次。 */
+.friend-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  color: var(--md-sys-color-on-surface);
+  text-decoration: none;
+  box-shadow: var(--md-sys-elevation-level1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.friend-card::before {
+  content: "";
+  position: absolute;
+  inset: -50% auto auto -30%;
+  width: 12rem;
+  height: 12rem;
+  background: radial-gradient(circle, color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent) 0%, transparent 70%);
+  opacity: 0;
+  filter: blur(32px);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.friend-card:hover,
+.friend-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--md-sys-elevation-level2);
+  border-color: var(--md-sys-color-outline);
+  text-decoration: none;
+}
+
+.friend-card:hover::before,
+.friend-card:focus-visible::before {
+  opacity: 0.65;
+}
+
+.friend-card__avatar {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  border: 1px solid var(--app-glass-border-strong-color);
+  background-color: var(--app-glass-strong-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: var(--md-sys-elevation-level2);
+  -webkit-backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.8));
+  backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.8));
+}
+
+.friend-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.friend-card__avatar-fallback {
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+  font-size: 1.1rem;
+}
+
+.friend-card__content {
+  display: grid;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.friend-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-label-medium-size);
+}
+
+.friend-card__language {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--app-glass-border-strong-color);
+  background-color: var(--app-glass-surface-color);
+  box-shadow: var(--md-sys-elevation-level1);
+}
+
+.friend-card__name {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-medium-size);
+  line-height: var(--md-sys-typescale-title-medium-line-height);
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+}
+
+.friend-card__description {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+.friend-list__empty {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  border: 1px dashed var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
 /* 说明：设置面板容器，默认表现为浮动按钮，打开后扩展为卡片。 */
 .settings-panel {
   --settings-panel-closed-width: var(--floating-control-width, 7.5rem);
