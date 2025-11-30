@@ -7,6 +7,18 @@
 - id: skipToContent
   translation: 跳转到主要内容
 
+- id: home
+  translation: 首页
+
+- id: posts
+  translation: 文章
+
+- id: tags
+  translation: 标签
+
+- id: friends
+  translation: 朋友们
+
 - id: articlePublishedOn
   translation: 发布于 {{ .Date }}
 

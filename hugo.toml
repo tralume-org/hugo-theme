@@ -22,55 +22,30 @@ defaultContentLanguageInSubdir = true
     title = 'Tralume 主题'
     languageCode = 'zh-Hans'
 
-  [languages."en-US".menus]
-    [[languages."en-US".menus.main]]
-      identifier = 'home'
-      name = 'Home'
-      pageRef = '/'
-      weight = 10
+[menu]
+  [[menu.main]]
+    identifier = 'home'
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
 
-    [[languages."en-US".menus.main]]
-      identifier = 'posts'
-      name = 'Posts'
-      pageRef = '/posts'
-      weight = 20
+  [[menu.main]]
+    identifier = 'posts'
+    name = 'Posts'
+    pageRef = '/posts'
+    weight = 20
 
-    [[languages."en-US".menus.main]]
-      identifier = 'tags'
-      name = 'Tags'
-      pageRef = '/tags'
-      weight = 30
+  [[menu.main]]
+    identifier = 'tags'
+    name = 'Tags'
+    pageRef = '/tags'
+    weight = 30
 
-    [[languages."en-US".menus.main]]
-      identifier = 'friends'
-      name = 'Friends'
-      pageRef = '/friends'
-      weight = 40
-
-  [languages."zh-Hans".menus]
-    [[languages."zh-Hans".menus.main]]
-      identifier = 'home'
-      name = '首页'
-      pageRef = '/'
-      weight = 10
-
-    [[languages."zh-Hans".menus.main]]
-      identifier = 'posts'
-      name = '文章'
-      pageRef = '/posts'
-      weight = 20
-
-    [[languages."zh-Hans".menus.main]]
-      identifier = 'tags'
-      name = '标签'
-      pageRef = '/tags'
-      weight = 30
-
-    [[languages."zh-Hans".menus.main]]
-      identifier = 'friends'
-      name = '朋友们'
-      pageRef = '/friends'
-      weight = 40
+  [[menu.main]]
+    identifier = 'friends'
+    name = 'Friends'
+    pageRef = '/friends'
+    weight = 40
 
 [module]
   [module.hugoVersion]

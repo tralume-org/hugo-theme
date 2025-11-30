@@ -7,6 +7,18 @@
 - id: skipToContent
   translation: Skip to main content
 
+- id: home
+  translation: Home
+
+- id: posts
+  translation: Posts
+
+- id: tags
+  translation: Tags
+
+- id: friends
+  translation: Friends
+
 - id: articlePublishedOn
   translation: Published on {{ .Date }}
 

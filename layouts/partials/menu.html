@@ -24,7 +24,8 @@
         {{ if $page }}
           {{ $active = or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
         {{ end }}
-        <a class="app-nav__item{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+        {{ $label := or (and .Identifier (T .Identifier)) .Name }}
+        <a class="app-nav__item{{ if $active }} is-active{{ end }}" href="{{ .URL | relLangURL }}">{{ $label | safeHTML }}</a>
       {{ end }}
     </nav>
   </div>
