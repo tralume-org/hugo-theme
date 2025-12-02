@@ -110,6 +110,9 @@ defaultContentLanguageInSubdir = true
     defaultReaderWidth = 'balanced'
     # Note: Custom width in rem with higher priority than presets.
     defaultReaderWidthValue = 64
+  [params.home]
+    # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
+    recentPostsLimit = 4
 ```
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
@@ -166,3 +169,11 @@ hugo --minify
 - The theme stores mode/glass/reader width in browser `localStorage`; clearing cache resets to defaults.
 - After updating the module, run `hugo mod npm pack && npm install` again to sync npm dependencies.
 - Adjust card/timeline summary length via `params.articleCardSummaryLength` and `params.articleTimelineSummaryLength` if needed.
+
+## Configurable Options
+
+- `params.home.recentPostsLimit` (default `4`): Max latest posts on the homepage before showing the “View more posts” button.
+- `params.articleCardSummaryLength` / `params.articleTimelineSummaryLength`: Truncate lengths for list cards and timeline items.
+- `params.theme.defaultMode`: `auto` / `light` / `dark`.
+- `params.theme.defaultGlassStrength`: `soft` / `balanced` / `bold`.
+- `params.theme.defaultReaderWidth` or `params.theme.defaultReaderWidthValue`: Width preset or custom rem value (custom overrides preset).

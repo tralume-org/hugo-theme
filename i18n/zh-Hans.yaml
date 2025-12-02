@@ -31,6 +31,9 @@
 - id: articleListEmpty
   translation: 暂无文章，欢迎稍后再来查看。
 
+- id: articleListViewMore
+  translation: 查看更多文章
+
 - id: articleTimelineLabel
   translation: 文章时间线
 

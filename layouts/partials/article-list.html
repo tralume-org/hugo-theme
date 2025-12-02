@@ -3,6 +3,12 @@
 {{- $pages := .Pages -}}
 {{- $section := .Section -}}
 {{- $orientation := or .Orientation "vertical" -}}
+{{- $limit := int (or .Limit 0) -}}
+{{- $showMore := and .ShowMore (gt $limit 0) -}}
+{{- $moreURL := "" -}}
+{{- with .MoreURL }}
+  {{- $moreURL = . -}}
+{{- end }}
 {{- if and $pages (gt (len $pages) 0) }}
   {{- $lang := "" -}}
   {{- with $context }}
@@ -34,11 +40,24 @@
     {{- if eq (lower $orientation) "horizontal" }}
       {{- $listClasses = $listClasses | append "article-list--horizontal" -}}
     {{- end }}
+    {{/* 说明：按照时间倒序排列，若设置了 Limit 则仅展示最新的 N 篇。 */}}
+    {{- $sorted := $localized.ByDate.Reverse -}}
+    {{- $total := len $sorted -}}
+    {{- $hasLimit := and (gt $limit 0) (gt $total $limit) -}}
+    {{- $visible := cond $hasLimit (first $limit $sorted) $sorted -}}
     <div class="{{ delimit $listClasses " " }}">
-      {{- range $localized.ByDate.Reverse }}
+      {{- range $visible }}
         {{ partial "article-card.html" . }}
       {{- end }}
     </div>
+    {{- if and $showMore $hasLimit (ne $moreURL "") -}}
+      {{/* 说明：仅当总数超出限制时展示“查看更多”按钮，引导至完整列表。 */}}
+      <div class="article-list__more">
+        <a class="article-list__more-link" href="{{ $moreURL }}">
+          {{ i18n "articleListViewMore" }}
+        </a>
+      </div>
+    {{- end }}
   {{- else -}}
     <p class="article-list__empty">
       {{ i18n "articleListEmpty" }}

@@ -54,3 +54,6 @@ defaultContentLanguageInSubdir = true
   [params.theme]
     # Note: Theme mode options.
     defaultMode = 'auto'
+  [params.home]
+    # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
+    recentPostsLimit = 4

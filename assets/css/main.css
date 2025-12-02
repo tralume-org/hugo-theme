@@ -1087,6 +1087,45 @@ md-outlined-text-field {
   backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
+/* 说明：列表超过展示数量时的“查看更多”按钮，保持居中与亚克力质感。 */
+.article-list__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.article-list__more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-primary);
+  font-weight: 700;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  letter-spacing: 0.02em;
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.article-list__more-link:hover,
+.article-list__more-link:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--md-sys-elevation-level2);
+  border-color: var(--md-sys-color-outline);
+  text-decoration: none;
+}
+
+.article-list__more-link:active {
+  transform: translateY(0);
+}
+
 /* 说明：友链页面保持玻璃拟态基底，头部用于简要介绍与辅助文案。 */
 .friends {
   display: grid;

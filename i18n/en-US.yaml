@@ -31,6 +31,9 @@
 - id: articleListEmpty
   translation: No articles found yet. Please check back soon.
 
+- id: articleListViewMore
+  translation: View more posts
+
 - id: articleTimelineLabel
   translation: Article timeline
 

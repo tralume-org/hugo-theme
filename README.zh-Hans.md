@@ -103,6 +103,8 @@ defaultContentLanguageInSubdir = true
     defaultGlassStrength = 'soft'  # 说明：玻璃预设，soft/balanced/bold。
     defaultReaderWidth = 'balanced'# 说明：阅读区宽度预设，compact/balanced/wide。
     defaultReaderWidthValue = 64   # 说明：自定义宽度（rem），优先级高于预设。
+  [params.home]
+    recentPostsLimit = 4           # 说明：主页展示的最新文章数量上限，超出时显示“查看更多文章”按钮。
 ```
 
 提示：菜单当前为全局共享配置，如需中英文显示不同名称，请改用 `languages.*.menus.main` 在各语言下分别声明。
@@ -159,3 +161,11 @@ hugo --minify
 - 主题使用浏览器 `localStorage` 记录模式/玻璃/阅读宽度，清理缓存可重置到默认值。
 - 每次更新模块后建议重新执行 `hugo mod npm pack && npm install`，确保本地 npm 依赖与主题同步。
 - 想调整卡片/时间线摘要长度，可通过 `params.articleCardSummaryLength` 与 `params.articleTimelineSummaryLength` 覆盖默认值。
+
+## 可配置选项
+
+- `params.home.recentPostsLimit`（默认 `4`）：主页最多展示的最新文章数，超出后会显示“查看更多文章”按钮。
+- `params.articleCardSummaryLength` / `params.articleTimelineSummaryLength`：控制列表卡片和时间线摘要截断长度。
+- `params.theme.defaultMode`：`auto` / `light` / `dark`。
+- `params.theme.defaultGlassStrength`：`soft` / `balanced` / `bold`。
+- `params.theme.defaultReaderWidth` 或 `params.theme.defaultReaderWidthValue`：阅读区宽度预设或自定义 rem 值（自定义优先）。

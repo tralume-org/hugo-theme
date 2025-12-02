@@ -25,7 +25,17 @@
         {{ . }}
       </section>
     {{ end }}
-    {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal") }}
+    {{/* 说明：主页仅展示限定数量的最新文章，并提供跳转至完整列表的按钮。 */}}
+    {{- $homeLimit := 6 -}}
+    {{- with site.Params.home.recentPostsLimit }}
+      {{- $homeLimit = int . -}}
+    {{- end }}
+    {{- $postsPage := site.GetPage "section" "posts" -}}
+    {{- $moreURL := relLangURL "posts" -}}
+    {{- with $postsPage }}
+      {{- $moreURL = .RelPermalink -}}
+    {{- end }}
+    {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal" "Limit" $homeLimit "ShowMore" true "MoreURL" $moreURL) }}
   {{ else if eq $kind "section" }}
     {{/* 说明：Section 页统一以卡片展示标题与简介，保持视觉一致。 */}}
     <section class="page-intro-card page-intro-card--section">
