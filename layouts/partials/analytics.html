@@ -1,0 +1,16 @@
+{{- with site.Params.analytics }}
+  {{- with .umami }}
+    {{- $src := or .scriptURL .scriptUrl -}}
+    {{- $websiteId := .websiteId -}}
+    {{- if and $src $websiteId }}
+      {{/* 说明：按 params.analytics.umami 配置注入 Umami 统计脚本，defer 避免阻塞渲染。 */}}
+      <script
+        defer
+        src="{{ $src }}"
+        data-website-id="{{ $websiteId }}"
+        {{ with .dataHost }}data-host="{{ . }}"{{ end }}
+        {{ with .dataDomains }}data-domains="{{ . }}"{{ end }}
+      ></script>
+    {{- end }}
+  {{- end }}
+{{- end }}

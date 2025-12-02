@@ -57,3 +57,8 @@ defaultContentLanguageInSubdir = true
   [params.home]
     # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
     recentPostsLimit = 4
+  [params.analytics]
+    [params.analytics.umami]
+    # Note: Umami analytics; replace with your own script URL and site ID. Leave empty to skip loading.
+      # scriptUrl = ''
+      # websiteId = '‘

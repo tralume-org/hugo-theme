@@ -113,6 +113,13 @@ defaultContentLanguageInSubdir = true
   [params.home]
     # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
     recentPostsLimit = 4
+  [params.analytics]
+    # Note: Umami analytics; replace with your own script URL and site ID. Leave empty to skip loading.
+    [params.analytics.umami]
+      scriptUrl = 'https://umami.example.com/script.js'
+      websiteId = '5b14b1a3-b5c6-4961-b1a8-32c1819069f8'
+      # dataHost = 'https://umami.example.com'   # Optional: override data-host.
+      # dataDomains = 'example.com'             # Optional: restrict tracked domains, comma-separated.
 ```
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
@@ -177,3 +184,4 @@ hugo --minify
 - `params.theme.defaultMode`: `auto` / `light` / `dark`.
 - `params.theme.defaultGlassStrength`: `soft` / `balanced` / `bold`.
 - `params.theme.defaultReaderWidth` or `params.theme.defaultReaderWidthValue`: Width preset or custom rem value (custom overrides preset).
+- `params.analytics.umami.scriptUrl` / `params.analytics.umami.websiteId`: Enable Umami tracking; optional `dataHost`/`dataDomains` to control reporting hosts/domains.
