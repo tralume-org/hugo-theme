@@ -1,0 +1,35 @@
+{{- with site.Params.analytics }}
+  {{- with .umami }}
+    {{- $src := or .scriptURL .scriptUrl -}}
+    {{- $websiteId := .websiteId -}}
+    {{- $blockNotice := default false .blockNotice -}}
+    {{- if and $src $websiteId $blockNotice }}
+      {{/* 说明：Umami 拦截检测提示条，占位元素默认隐藏，待 JS 判定后再显式展示。 */}}
+      <div
+        class="umami-block-notice"
+        data-component="umami-block-notice"
+        role="alert"
+        aria-live="polite"
+        hidden
+      >
+        <div class="umami-block-notice__text">{{ i18n "umamiBlockedNotice" }}</div>
+        <div class="umami-block-notice__actions">
+          <button
+            type="button"
+            class="umami-block-notice__button umami-block-notice__button--primary"
+            data-umami-action="dismiss"
+          >
+            {{ i18n "umamiBlockedIgnore" }}
+          </button>
+          <button
+            type="button"
+            class="umami-block-notice__button"
+            data-umami-action="more"
+          >
+            {{ i18n "umamiBlockedMore" }}
+          </button>
+        </div>
+      </div>
+    {{- end }}
+  {{- end }}
+{{- end }}

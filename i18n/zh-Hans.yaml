@@ -204,3 +204,12 @@
 
 - id: friendListEmpty
   translation: 暂无友链，请在 data/friends.yaml 中补充。
+
+- id: umamiBlockedNotice
+  translation: 统计请求被拦截，某些功能将不可用。
+
+- id: umamiBlockedIgnore
+  translation: 永久忽略
+
+- id: umamiBlockedMore
+  translation: 查看更多

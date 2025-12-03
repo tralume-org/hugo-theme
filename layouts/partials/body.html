@@ -87,3 +87,5 @@
 {{ end }}
 {{/* 说明：右下角设置按钮及卡片交互入口。 */}}
 {{ partial "settings-panel.html" . }}
+{{/* 说明：若 Umami 被拦截，则在页面边缘提示用户相关功能不可用。 */}}
+{{ partial "analytics-block-notice.html" . }}

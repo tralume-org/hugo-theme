@@ -204,3 +204,12 @@
 
 - id: friendListEmpty
   translation: No friend links yet. Add entries in data/friends.yaml to display them.
+
+- id: umamiBlockedNotice
+  translation: Analytics requests were blocked; some features may be unavailable.
+
+- id: umamiBlockedIgnore
+  translation: Ignore permanently
+
+- id: umamiBlockedMore
+  translation: Learn more

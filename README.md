@@ -120,6 +120,7 @@ defaultContentLanguageInSubdir = true
       websiteId = '5b14b1a3-b5c6-4961-b1a8-32c1819069f8'
       # dataHost = 'https://umami.example.com'   # Optional: override data-host.
       # dataDomains = 'example.com'             # Optional: restrict tracked domains, comma-separated.
+      # blockNotice = true                      # Optional: show an edge notice if Umami gets blocked.
 ```
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
@@ -185,3 +186,4 @@ hugo --minify
 - `params.theme.defaultGlassStrength`: `soft` / `balanced` / `bold`.
 - `params.theme.defaultReaderWidth` or `params.theme.defaultReaderWidthValue`: Width preset or custom rem value (custom overrides preset).
 - `params.analytics.umami.scriptUrl` / `params.analytics.umami.websiteId`: Enable Umami tracking; optional `dataHost`/`dataDomains` to control reporting hosts/domains.
+- `params.analytics.umami.blockNotice`: Detect blocked Umami requests and surface a dismissible edge banner.
