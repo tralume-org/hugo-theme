@@ -1,0 +1,91 @@
+/* 说明：阅读宽度滑动条样式，对应 reader-width.js 实时更新正文宽度。 */
+/* 说明：阅读宽度滑动条，使用 rem 作为单位，实时更新正文最大宽度。 */
+.settings-panel__section--reader {
+  gap: 0.5rem;
+}
+
+.settings-panel__reader-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.settings-panel__reader-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__reader-value span[data-reader-width-rem],
+.settings-panel__reader-value span[data-reader-width-px] {
+  min-width: 3ch;
+  text-align: right;
+}
+
+.settings-panel__reader-slider-label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__reader-slider {
+  width: 100%;
+  appearance: none;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
+    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
+  );
+  outline: none;
+  margin-block: 0.1rem 0.2rem;
+}
+
+.settings-panel__reader-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.settings-panel__reader-slider::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+  cursor: grabbing;
+}
+
+.settings-panel__reader-slider::-moz-range-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.settings-panel__reader-slider:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 3px;
+}
+
+.settings-panel__reader-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+}

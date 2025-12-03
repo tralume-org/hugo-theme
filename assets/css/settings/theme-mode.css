@@ -1,0 +1,44 @@
+/* 说明：主题模式切换区域样式，对应 theme-mode.js 控制按钮选中态。 */
+/* 说明：主题模式区域仍沿用按钮布局，基础态使用亚克力表面提升一致性。 */
+.settings-panel__section--modes {
+  gap: 0.75rem;
+}
+
+.settings-panel__mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  gap: 0.5rem;
+}
+
+.settings-panel__mode-button {
+  padding: 0.6rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__mode-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.settings-panel__mode-button:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__mode-button.is-active {
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}

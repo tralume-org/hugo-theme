@@ -1,0 +1,136 @@
+/* 说明：背景地址设置与应用按钮样式，对应 background.js 处理预览与重置。 */
+/* 说明：背景设置区包含说明文本、输入框与操作按钮。 */
+.settings-panel__section--background {
+  gap: 0.4rem;
+}
+
+.settings-panel__description {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
+.settings-panel__background-label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__background-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* 说明：背景地址输入同样使用亚克力边框，避免与面板割裂。 */
+.settings-panel__background-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__background-input:hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-input:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--app-glass-elevated-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent);
+}
+
+.settings-panel__background-hint {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
+.settings-panel__background-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.settings-panel__background-apply,
+.settings-panel__background-reset {
+  flex: 1 1 8rem;
+  padding: 0.55rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.settings-panel__background-apply {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.settings-panel__background-apply:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 92%, #000 8%);
+}
+
+.settings-panel__background-apply:focus-visible {
+  outline: 2px solid var(--md-sys-color-on-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：重置按钮保留柔和亚克力底色，凸显其次要操作属性。 */
+.settings-panel__background-reset {
+  border-color: var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__background-reset:hover:not(:disabled) {
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-reset:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__background-apply:disabled,
+.settings-panel__background-reset:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 说明：用户开启“减少动态”时禁用大部分过渡效果。 */
+@media (prefers-reduced-motion: reduce) {
+  .settings-panel,
+  .settings-panel__toggle,
+  .settings-panel__surface {
+    transition: none !important;
+    transform: none !important;
+  }
+  .settings-panel__mode-button {
+    transition: none !important;
+  }
+  .settings-panel__background-input,
+  .settings-panel__background-apply,
+  .settings-panel__background-reset {
+    transition: none !important;
+  }
+}

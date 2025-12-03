@@ -1,0 +1,148 @@
+/* 说明：玻璃强度与模糊控制样式，对应 glass-controls.js 的滑杆与重置按钮。 */
+/* 说明：玻璃强度滑动块，包含标题、刻度与当前值。 */
+.settings-panel__section--glass {
+  gap: 0.5rem;
+}
+
+.settings-panel__glass-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.settings-panel__glass-field + .settings-panel__glass-field {
+  margin-top: 0.75rem;
+}
+
+.settings-panel__glass-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.settings-panel__glass-value {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__glass-slider-label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__glass-input-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.settings-panel__glass-input-header .settings-panel__glass-slider-label {
+  flex: 1;
+}
+
+.settings-panel__glass-blur-value {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  white-space: nowrap;
+}
+
+.settings-panel__glass-slider {
+  width: 100%;
+  appearance: none;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
+    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
+  );
+  outline: none;
+  margin-block: 0.1rem 0.2rem;
+}
+
+.settings-panel__glass-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-primary);
+  border: 2px solid var(--md-sys-color-on-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.settings-panel__glass-slider::-moz-range-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-primary);
+  border: 2px solid var(--md-sys-color-on-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.settings-panel__glass-slider:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+}
+
+.settings-panel__glass-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--md-sys-typescale-label-medium-size);
+  line-height: var(--md-sys-typescale-label-medium-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.settings-panel__glass-slider:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.settings-panel__glass-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* 说明：玻璃滑杆重置按钮同样使用亚克力底色，保持面板风格统一。 */
+.settings-panel__glass-reset {
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__glass-reset:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.settings-panel__glass-reset:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settings-panel__glass-toggle-input:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}

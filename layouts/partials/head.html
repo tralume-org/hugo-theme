@@ -33,13 +33,21 @@
   })();
 </script>
 {{ $tokens := resources.Get "css/md3-tokens.css" }}
+{{ $settingsPanel := slice
+  (resources.Get "css/settings/panel-shell.css")
+  (resources.Get "css/settings/theme-mode.css")
+  (resources.Get "css/settings/glass-controls.css")
+  (resources.Get "css/settings/reader-width.css")
+  (resources.Get "css/settings/background.css")
+  | resources.Concat "css/settings-panel.css"
+}}
 {{ $main := slice
   (resources.Get "css/base.css")
   (resources.Get "css/app-navigation.css")
   (resources.Get "css/app-shell.css")
   (resources.Get "css/article-outline.css")
   (resources.Get "css/content-blocks.css")
-  (resources.Get "css/settings-panel.css")
+  $settingsPanel
   (resources.Get "css/analytics.css")
   (resources.Get "css/code-blocks.css")
   | resources.Concat "css/main.css"
