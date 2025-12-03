@@ -1,0 +1,388 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 说明：文章正文块独立成亚克力表面，避免与大纲共享同一背景。 */
+.article__surface {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: var(--article-surface-padding, 1.75rem);
+  border-radius: var(--article-surface-radius, 1.5rem);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  box-shadow: var(--md-sys-elevation-level2);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.article__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.article__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-headline-large-size);
+  line-height: var(--md-sys-typescale-headline-large-line-height);
+  font-weight: 600;
+}
+
+.article__time {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+.article__layout {
+  display: grid;
+  gap: 2rem;
+}
+
+.article__content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-section-gap, 0.75rem);
+}
+
+/* 说明：章节标题与段落的间距由 CSS 变量控制，便于脚本按章节数量自适应。 */
+.article__content h2,
+.article__content h3,
+.article__content h4,
+.article__content h5,
+.article__content h6 {
+  margin-top: var(--article-heading-margin-top, 1.1rem);
+  margin-bottom: var(--article-heading-margin-bottom, 0.4rem);
+}
+
+.article__content > p {
+  margin: var(--article-paragraph-margin, 0.4rem) 0;
+}
+
+.article__content > hr {
+  margin: var(--article-divider-margin, 1.25rem) 0;
+}
+
+/* 说明：统一引用块与 Callout 的外观，沿用亚克力表面与描边。 */
+.article__content blockquote {
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.article__content blockquote > :first-child {
+  margin-top: 0;
+}
+
+.article__content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* 说明：GitHub 风格提示块（> [!WARNING]）的主题样式，使用数据属性区分类型。 */
+.callout {
+  --callout-accent: var(--md-sys-color-primary);
+  --callout-on-accent: var(--md-sys-color-on-primary);
+  --callout-surface: var(--app-glass-surface-color);
+  margin: 0.35rem 0;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--app-glass-border-color);
+  border-inline-start: 4px solid var(--callout-accent);
+  background-color: var(--callout-surface);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.callout__header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.35rem;
+}
+
+.callout__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.85rem;
+  color: var(--callout-on-accent);
+  background: color-mix(in srgb, var(--callout-accent) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--callout-accent) 62%, transparent);
+  box-shadow: var(--md-sys-elevation-level1);
+  font-family: "Material Symbols Rounded", sans-serif;
+  font-size: 1.55rem;
+  font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 24;
+  font-feature-settings: "liga";
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.callout__icon-glyph {
+  display: block;
+  transform: translateY(5px);
+}
+
+.callout__title {
+  font-weight: 700;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+}
+
+.callout__content {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--md-sys-color-on-surface);
+}
+
+.callout__content > :first-child {
+  margin-top: 0;
+}
+
+.callout__content > :last-child {
+  margin-bottom: 0;
+}
+
+.callout[data-callout-kind="note"] {
+  --callout-accent: var(--md-sys-color-secondary);
+  --callout-on-accent: var(--md-sys-color-on-secondary);
+}
+
+.callout[data-callout-kind="tip"] {
+  --callout-accent: var(--md-sys-color-primary);
+  --callout-on-accent: var(--md-sys-color-on-primary);
+}
+
+.callout[data-callout-kind="important"] {
+  --callout-accent: color-mix(in srgb, var(--md-sys-color-primary) 70%, var(--md-sys-color-on-surface) 30%);
+  --callout-on-accent: var(--md-sys-color-on-primary);
+}
+
+.callout[data-callout-kind="warning"],
+.callout[data-callout-kind="caution"] {
+  --callout-accent: color-mix(in srgb, #f59e0b 70%, var(--md-sys-color-on-surface) 30%);
+  --callout-on-accent: #1f1300;
+}
+
+.callout[data-callout-kind="danger"] {
+  --callout-accent: color-mix(in srgb, #d92d20 78%, var(--md-sys-color-on-surface) 22%);
+  --callout-on-accent: #ffffff;
+}
+
+/* 说明：Material Symbols Rounded 字体设置，启用连字图标显示。 */
+.material-symbols-rounded {
+  font-family: "Material Symbols Rounded";
+  font-style: normal;
+  font-weight: 400;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  line-height: 1;
+  font-feature-settings: "liga";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: normal;
+}
+
+/* 说明：大纲卡片尺寸与间距通过变量驱动，可根据章节数量自适应。 */
+.article__outline {
+  padding: 0.75rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  color: var(--md-sys-color-on-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-outline-gap, 0.75rem);
+  scroll-padding-block: 0.75rem;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.article__outline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.article__outline-title {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+}
+
+.article__outline-nav {
+  display: none;
+}
+
+.article__outline-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-outline-item-gap, 0.15rem);
+}
+
+.article__outline-item {
+  margin: 0;
+}
+
+.article__outline-link {
+  display: block;
+  padding-block: var(--article-outline-link-padding-block, 0.2rem);
+  padding-inline: var(--article-outline-link-padding-inline, 0.45rem);
+  border-radius: 0.65rem;
+  color: inherit;
+  text-decoration: none;
+  font-size: var(--article-outline-font-size, var(--md-sys-typescale-body-small-size));
+  line-height: var(--article-outline-line-height, var(--md-sys-typescale-body-small-line-height));
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.article__outline-link:hover,
+.article__outline-link:focus-visible {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.article__outline-link.is-active {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.article__outline-empty {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
+.article__outline[data-outline-state="ready"] .article__outline-nav {
+  display: block;
+}
+
+.article__outline[data-outline-state="ready"] .article__outline-empty {
+  display: none;
+}
+
+.article__outline[data-outline-state="hidden"] {
+  display: none;
+}
+
+.article__outline-item[data-outline-level="1"] .article__outline-link {
+  padding-inline-start: 1.25rem;
+}
+
+.article__outline-item[data-outline-level="2"] .article__outline-link {
+  padding-inline-start: 1.75rem;
+}
+
+.article__outline-item[data-outline-level="3"] .article__outline-link {
+  padding-inline-start: 2.25rem;
+}
+
+@media (min-width: 64rem) {
+  /* 说明：宽屏下提高正文列的占比，侧栏保持不少于 15rem 以兼顾目录显示。 */
+  .article__layout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.5fr);
+    align-items: start;
+  }
+
+  .article__layout.article__layout--single {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .article__outline {
+    position: sticky;
+    top: 6.5rem;
+    max-height: calc(100vh - 8rem);
+    overflow: auto;
+  }
+}
+
+.progress-indicator {
+  position: fixed;
+  right: 1.5rem;
+  bottom: calc(1.5rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.75rem));
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  inline-size: var(--floating-control-width, 7.5rem);
+  block-size: var(--floating-control-height, 3.5rem);
+  padding: 0 1rem;
+  border: 1px solid var(--app-glass-border-color);
+  border-radius: 1rem;
+  background-color: var(--app-glass-elevated-color);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level3);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.progress-indicator:hover,
+.progress-indicator:focus-visible {
+  border-color: var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-sys-elevation-level4);
+  transform: translateY(-2px);
+}
+
+.progress-indicator__chart {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.progress-indicator__track {
+  fill: none;
+  stroke: var(--md-sys-color-outline-variant);
+  stroke-width: 3;
+  opacity: 0.4;
+}
+
+.progress-indicator__meter {
+  fill: none;
+  stroke: var(--md-sys-color-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 0 100;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.2s ease-out;
+}
+
+.progress-indicator__label {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  /* 说明：固定最小宽度并启用等宽数字，防止百分比变化时圆环位置跳动。 */
+  min-inline-size: 3ch;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-indicator[hidden] {
+  display: none;
+}
+

@@ -33,7 +33,16 @@
   })();
 </script>
 {{ $tokens := resources.Get "css/md3-tokens.css" }}
-{{ $main := resources.Get "css/main.css" }}
+{{ $main := slice
+  (resources.Get "css/base.css")
+  (resources.Get "css/app-navigation.css")
+  (resources.Get "css/app-shell.css")
+  (resources.Get "css/article-outline.css")
+  (resources.Get "css/content-blocks.css")
+  (resources.Get "css/settings-panel.css")
+  (resources.Get "css/code-blocks.css")
+  | resources.Concat "css/main.css"
+}}
 {{ $material := resources.Get "js/material.js" | js.Build (dict "target" "es2019" "minify" true) }}
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
 <link rel="stylesheet" href="{{ $main.RelPermalink }}">

@@ -1,0 +1,667 @@
+@media (max-width: 48rem) {
+  /* 说明：移动端缩小设置面板闭合尺寸并收紧边距，避免遮挡内容。 */
+  .settings-panel {
+    --settings-panel-closed-width: 3.5rem;
+    --settings-panel-closed-height: 3.5rem;
+    --settings-panel-open-width: calc(100vw - 1.5rem);
+    --settings-panel-open-height: min(26rem, calc(100vh - 2rem));
+    inset-inline-end: 0.75rem;
+    inset-block-end: 0.75rem;
+  }
+
+  .settings-panel__surface {
+    padding: 1.25rem;
+    overflow-y: auto;
+  }
+}
+/* 说明：设置面板容器，默认表现为浮动按钮，打开后扩展为卡片。 */
+.settings-panel {
+  --settings-panel-closed-width: var(--floating-control-width, 7.5rem);
+  --settings-panel-closed-height: var(--floating-control-height, 3.5rem);
+  --settings-panel-shape-radius: 1.25rem;
+  --settings-panel-open-width: min(24rem, calc(100vw - 2.5rem));
+  --settings-panel-open-height: min(28rem, calc(100vh - 2.5rem));
+  position: fixed;
+  inset-inline-end: 1.5rem;
+  inset-block-end: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--settings-panel-closed-width);
+  height: var(--settings-panel-closed-height);
+  border-radius: var(--settings-panel-shape-radius);
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level2);
+  overflow: hidden;
+  transform-origin: bottom right;
+  transition:
+    width 0.36s cubic-bezier(0.2, 0, 0, 1),
+    height 0.36s cubic-bezier(0.2, 0, 0, 1),
+    border-radius 0.36s cubic-bezier(0.2, 0, 0, 1),
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+  z-index: 200;
+}
+
+/* 说明：移动端将卡片最大宽度限制为 100% 减去间距。 */
+@media (max-width: 30rem) {
+  .settings-panel {
+    --settings-panel-open-width: calc(100vw - 2rem);
+  }
+}
+
+/* 说明：闭合态沿用进度按钮的悬浮反馈，加强视觉一致性。 */
+.settings-panel:not(.is-open):hover,
+.settings-panel:not(.is-open):focus-within {
+  border-color: var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-sys-elevation-level4);
+  transform: translateY(-2px);
+}
+
+/* 说明：打开状态扩展容器尺寸与圆角，呈现卡片外观。 */
+.settings-panel.is-open {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: var(--settings-panel-open-width);
+  height: var(--settings-panel-open-height);
+  border-radius: var(--settings-panel-shape-radius);
+  border-color: var(--app-glass-border-strong-color);
+  background-color: var(--app-glass-strong-color);
+  box-shadow: var(--md-sys-elevation-level4);
+  transform: none;
+}
+
+/* 说明：按钮占满容器，用于触发卡片展开。 */
+
+.settings-panel__toggle {
+  flex: 1 1 auto;
+  inline-size: 100%;
+  block-size: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border-radius: inherit;
+  transition: opacity 0.24s ease, color 0.2s ease;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.settings-panel__toggle:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：卡片展开后隐藏按钮避免与内容重复。 */
+.settings-panel.is-open .settings-panel__toggle {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* 说明：卡片主体绝对定位于容器内部，通过透明度与位移渐显。 */
+.settings-panel__surface {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  color: var(--md-sys-color-on-surface);
+  background-color: var(--app-glass-strong-color);
+  border: 1px solid var(--app-glass-border-strong-color);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 0.24s ease, transform 0.24s ease;
+  -webkit-backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.85));
+  backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.85));
+}
+
+.settings-panel.is-open .settings-panel__surface {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* 说明：卡片头部包含标题与关闭按钮。 */
+.settings-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.settings-panel__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-medium-size);
+  line-height: var(--md-sys-typescale-title-medium-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+/* 说明：关闭按钮采用圆形轻量样式，并复用亚克力底色方便触达。 */
+.settings-panel__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.25rem;
+  block-size: 2.5rem;
+  border: 1px solid var(--app-glass-border-color);
+  border-radius: 0.875rem;
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__close:hover,
+.settings-panel__close:focus-visible {
+  border-color: var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+/* 说明：内容区撑满剩余空间，溢出时允许滚动以容纳更多设置项。 */
+.settings-panel__content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  padding-bottom: 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 说明：设置项分组标题与语言列表样式。 */
+.settings-panel__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__section-title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__select {
+  display: flex;
+  align-items: center;
+}
+
+.settings-panel__language-select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__language-select:hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__language-select:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：主题模式区域仍沿用按钮布局，基础态使用亚克力表面提升一致性。 */
+.settings-panel__section--modes {
+  gap: 0.75rem;
+}
+
+.settings-panel__mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  gap: 0.5rem;
+}
+
+.settings-panel__mode-button {
+  padding: 0.6rem 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__mode-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.settings-panel__mode-button:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__mode-button.is-active {
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+/* 说明：阅读宽度滑动条，使用 rem 作为单位，实时更新正文最大宽度。 */
+.settings-panel__section--reader {
+  gap: 0.5rem;
+}
+
+.settings-panel__reader-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.settings-panel__reader-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__reader-value span[data-reader-width-rem],
+.settings-panel__reader-value span[data-reader-width-px] {
+  min-width: 3ch;
+  text-align: right;
+}
+
+.settings-panel__reader-slider-label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__reader-slider {
+  width: 100%;
+  appearance: none;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
+    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
+  );
+  outline: none;
+  margin-block: 0.1rem 0.2rem;
+}
+
+.settings-panel__reader-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.settings-panel__reader-slider::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+  cursor: grabbing;
+}
+
+.settings-panel__reader-slider::-moz-range-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.settings-panel__reader-slider:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 3px;
+}
+
+.settings-panel__reader-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* 说明：玻璃强度滑动块，包含标题、刻度与当前值。 */
+.settings-panel__section--glass {
+  gap: 0.5rem;
+}
+
+.settings-panel__glass-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.settings-panel__glass-field + .settings-panel__glass-field {
+  margin-top: 0.75rem;
+}
+
+.settings-panel__glass-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.settings-panel__glass-value {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__glass-slider-label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__glass-input-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.settings-panel__glass-input-header .settings-panel__glass-slider-label {
+  flex: 1;
+}
+
+.settings-panel__glass-blur-value {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  white-space: nowrap;
+}
+
+.settings-panel__glass-slider {
+  width: 100%;
+  appearance: none;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
+    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
+  );
+  outline: none;
+  margin-block: 0.1rem 0.2rem;
+}
+
+.settings-panel__glass-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-primary);
+  border: 2px solid var(--md-sys-color-on-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.settings-panel__glass-slider::-moz-range-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-primary);
+  border: 2px solid var(--md-sys-color-on-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.settings-panel__glass-slider:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+}
+
+.settings-panel__glass-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--md-sys-typescale-label-medium-size);
+  line-height: var(--md-sys-typescale-label-medium-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.settings-panel__glass-slider:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.settings-panel__glass-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* 说明：玻璃滑杆重置按钮同样使用亚克力底色，保持面板风格统一。 */
+.settings-panel__glass-reset {
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__glass-reset:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.settings-panel__glass-reset:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settings-panel__glass-toggle-input:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：背景设置区包含说明文本、输入框与操作按钮。 */
+.settings-panel__section--background {
+  gap: 0.4rem;
+}
+
+.settings-panel__description {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
+.settings-panel__background-label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__background-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* 说明：背景地址输入同样使用亚克力边框，避免与面板割裂。 */
+.settings-panel__background-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__background-input:hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-input:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--app-glass-elevated-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent);
+}
+
+.settings-panel__background-hint {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
+.settings-panel__background-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.settings-panel__background-apply,
+.settings-panel__background-reset {
+  flex: 1 1 8rem;
+  padding: 0.55rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.settings-panel__background-apply {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.settings-panel__background-apply:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 92%, #000 8%);
+}
+
+.settings-panel__background-apply:focus-visible {
+  outline: 2px solid var(--md-sys-color-on-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：重置按钮保留柔和亚克力底色，凸显其次要操作属性。 */
+.settings-panel__background-reset {
+  border-color: var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__background-reset:hover:not(:disabled) {
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-reset:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__background-apply:disabled,
+.settings-panel__background-reset:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 说明：用户开启“减少动态”时禁用大部分过渡效果。 */
+@media (prefers-reduced-motion: reduce) {
+  .settings-panel,
+  .settings-panel__toggle,
+  .settings-panel__surface {
+    transition: none !important;
+    transform: none !important;
+  }
+  .settings-panel__mode-button {
+    transition: none !important;
+  }
+  .settings-panel__background-input,
+  .settings-panel__background-apply,
+  .settings-panel__background-reset {
+    transition: none !important;
+  }
+}

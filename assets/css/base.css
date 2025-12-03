@@ -1,0 +1,258 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--md-ref-typeface-plain);
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+}
+
+/* 说明：固定伪元素承载用户自定义的背景图，避免干扰主体排版。 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--app-custom-background-image, none);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: var(--app-custom-background-opacity, 0);
+  filter: var(--app-custom-background-filter, brightness(0.92));
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* 说明：全局采用 border-box 盒模型，避免宽度计算时额外 padding/border 导致溢出。 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 说明：仅供屏幕阅读器读取的隐藏文本。 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 说明：统一浮动按钮（设置、阅读进度）闭合态尺寸与间距，确保视觉与交互一致。 */
+:root {
+  --floating-control-width: 7.5rem;
+  --floating-control-height: 3.5rem;
+  --floating-control-gap: 0.25rem;
+  /* 说明：阅读区域最大宽度，默认与桌面版内容区一致，可在设置面板中覆盖。 */
+  --reader-width-max: 64rem;
+  /* 说明：玻璃拟态统一变量，控制透明度、色调与模糊半径以便多处复用。 */
+  --app-glass-blur-radius: 24px;
+  --app-glass-surface-alpha: 45%;
+  --app-glass-elevated-alpha: 53%;
+  --app-glass-strong-alpha: 61%;
+  --app-glass-border-alpha: 27%;
+  --app-glass-border-strong-alpha: 39%;
+  --app-glass-surface-color: color-mix(in srgb, var(--md-sys-color-surface) var(--app-glass-surface-alpha), transparent);
+  --app-glass-elevated-color: color-mix(in srgb, var(--md-sys-color-surface-container-high) var(--app-glass-elevated-alpha), transparent);
+  --app-glass-strong-color: color-mix(in srgb, var(--md-sys-color-surface-container-highest) var(--app-glass-strong-alpha), transparent);
+  --app-glass-border-color: color-mix(in srgb, var(--md-sys-color-outline-variant) var(--app-glass-border-alpha), transparent);
+  --app-glass-border-strong-color: color-mix(in srgb, var(--md-sys-color-outline) var(--app-glass-border-strong-alpha), transparent);
+  /* 说明：自定义背景图变量，默认关闭状态。 */
+  --app-custom-background-image: none;
+  --app-custom-background-opacity: 0;
+  --app-custom-background-filter: brightness(0.92);
+  /* 说明：壁纸动态取色的回退方案，亮色使用灰黑基调，暗色使用灰白基调。 */
+  --app-dynamic-primary-light: #1f2329;
+  --app-dynamic-on-primary-light: #f7f8fb;
+  --app-dynamic-primary-container-light: #f6f8fc;
+  --app-dynamic-on-primary-container-light: #1c2026;
+  --app-dynamic-primary-dark: #dfe3ea;
+  --app-dynamic-on-primary-dark: #101215;
+  --app-dynamic-primary-container-dark: #2c3038;
+  --app-dynamic-on-primary-container-dark: #e7eaf2;
+}
+
+:root[data-glass-strength="balanced"] {
+  --app-glass-surface-alpha: 62%;
+  --app-glass-elevated-alpha: 70%;
+  --app-glass-strong-alpha: 78%;
+  --app-glass-border-alpha: 42%;
+  --app-glass-border-strong-alpha: 54%;
+}
+
+:root[data-glass-strength="bold"] {
+  --app-glass-surface-alpha: 80%;
+  --app-glass-elevated-alpha: 88%;
+  --app-glass-strong-alpha: 96%;
+  --app-glass-border-alpha: 62%;
+  --app-glass-border-strong-alpha: 74%;
+}
+
+/* 说明：阅读器宽度预设，供设置面板在桌面端调整内容占比。 */
+:root[data-reader-width="compact"] {
+  --reader-width-max: 56rem;
+}
+
+:root[data-reader-width="balanced"] {
+  --reader-width-max: 64rem;
+}
+
+:root[data-reader-width="wide"] {
+  --reader-width-max: 80rem;
+}
+
+a {
+  color: var(--md-sys-color-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100vh;
+  left: 1.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+  text-decoration: none;
+}
+
+md-filled-button,
+md-outlined-text-field {
+  --md-focus-ring-color: var(--md-sys-color-primary);
+}
+
+md-filled-button {
+  align-self: flex-start;
+  margin-top: 1rem;
+}
+
+md-outlined-text-field {
+  width: min(100%, 24rem);
+  margin-top: 0.5rem;
+}
+
+/* 说明：统一使用单一亚克力色板，依赖系统/手动模式切换明暗状态。 */
+:root {
+  color-scheme: light;
+  --md-sys-color-primary: var(--app-dynamic-primary-light);
+  --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
+  --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
+  --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-light);
+  --md-sys-color-secondary: #c6cad3;
+  --md-sys-color-on-secondary: #1f2329;
+  --md-sys-color-secondary-container: #eef0f4;
+  --md-sys-color-on-secondary-container: #2b2f36;
+  --md-sys-color-surface: #f8f9fb;
+  --md-sys-color-surface-dim: #e3e6eb;
+  --md-sys-color-surface-bright: #ffffff;
+  --md-sys-color-on-surface: #1f2329;
+  --md-sys-color-on-surface-variant: #4f535a;
+  --md-sys-color-background: #f5f6f8;
+  --md-sys-color-on-background: #1f2329;
+  --md-sys-color-outline: #8a8e96;
+  --md-sys-color-outline-variant: #cfd2d8;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f0f2f6;
+  --md-sys-color-surface-container: #ebedf1;
+  --md-sys-color-surface-container-high: #e4e7ec;
+  --md-sys-color-surface-container-highest: #dde0e6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --md-sys-color-primary: var(--app-dynamic-primary-dark);
+    --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
+    --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);
+    --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-dark);
+    --md-sys-color-secondary: #9fa4b0;
+    --md-sys-color-on-secondary: #101215;
+    --md-sys-color-secondary-container: #353842;
+    --md-sys-color-on-secondary-container: #e0e3ec;
+    --md-sys-color-surface: #121418;
+    --md-sys-color-surface-dim: #121418;
+    --md-sys-color-surface-bright: #2e3138;
+    --md-sys-color-on-surface: #e4e6ec;
+    --md-sys-color-on-surface-variant: #c2c5cd;
+    --md-sys-color-background: #0f1114;
+    --md-sys-color-on-background: #e4e6ec;
+    --md-sys-color-outline: #90939c;
+    --md-sys-color-outline-variant: #40434b;
+    --md-sys-color-surface-container-lowest: #0a0c0f;
+    --md-sys-color-surface-container-low: #181b20;
+    --md-sys-color-surface-container: #1f2228;
+    --md-sys-color-surface-container-high: #272a31;
+    --md-sys-color-surface-container-highest: #30333b;
+  }
+}
+
+:root[data-theme-mode="light"] {
+  color-scheme: light;
+  --md-sys-color-primary: var(--app-dynamic-primary-light);
+  --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
+  --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
+  --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-light);
+  --md-sys-color-secondary: #c6cad3;
+  --md-sys-color-on-secondary: #1f2329;
+  --md-sys-color-secondary-container: #eef0f4;
+  --md-sys-color-on-secondary-container: #2b2f36;
+  --md-sys-color-surface: #f8f9fb;
+  --md-sys-color-surface-dim: #e3e6eb;
+  --md-sys-color-surface-bright: #ffffff;
+  --md-sys-color-on-surface: #1f2329;
+  --md-sys-color-on-surface-variant: #4f535a;
+  --md-sys-color-background: #f5f6f8;
+  --md-sys-color-on-background: #1f2329;
+  --md-sys-color-outline: #8a8e96;
+  --md-sys-color-outline-variant: #cfd2d8;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f0f2f6;
+  --md-sys-color-surface-container: #ebedf1;
+  --md-sys-color-surface-container-high: #e4e7ec;
+  --md-sys-color-surface-container-highest: #dde0e6;
+}
+
+:root[data-theme-mode="dark"] {
+  color-scheme: dark;
+  --md-sys-color-primary: var(--app-dynamic-primary-dark);
+  --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
+  --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);
+  --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-dark);
+  --md-sys-color-secondary: #9fa4b0;
+  --md-sys-color-on-secondary: #101215;
+  --md-sys-color-secondary-container: #353842;
+  --md-sys-color-on-secondary-container: #e0e3ec;
+  --md-sys-color-surface: #121418;
+  --md-sys-color-surface-dim: #121418;
+  --md-sys-color-surface-bright: #2e3138;
+  --md-sys-color-on-surface: #e4e6ec;
+  --md-sys-color-on-surface-variant: #c2c5cd;
+  --md-sys-color-background: #0f1114;
+  --md-sys-color-on-background: #e4e6ec;
+  --md-sys-color-outline: #90939c;
+  --md-sys-color-outline-variant: #40434b;
+  --md-sys-color-surface-container-lowest: #0a0c0f;
+  --md-sys-color-surface-container-low: #181b20;
+  --md-sys-color-surface-container: #1f2228;
+  --md-sys-color-surface-container-high: #272a31;
+  --md-sys-color-surface-container-highest: #30333b;
+}

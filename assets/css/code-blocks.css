@@ -1,0 +1,178 @@
+/* 说明：Markdown 代码块采用 MD3 风格容器，统一外观并为复制按钮预留位置，同时保持紧凑排列。 */
+.md3-code-block {
+  margin: 1rem 0;
+  border: 1px solid var(--app-glass-border-color);
+  border-radius: 0.75rem;
+  background-color: var(--app-glass-strong-color);
+  box-shadow: var(--md-sys-elevation-level1);
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+/* 说明：工具栏展示语言标签与复制按钮，采用紧凑布局。 */
+.md3-code-block__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  background-color: var(--app-glass-elevated-color);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-label-medium-size);
+  line-height: var(--md-sys-typescale-label-medium-line-height);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+/* 说明：语言标识使用大写字母增强辨识度。 */
+.md3-code-block__language {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* 说明：复制按钮契合 MD3 Filled Tonal 按钮风格，并保持键盘可达性。 */
+.md3-code-block__copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-left: auto;
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-medium-size);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.md3-code-block__copy-button:hover {
+  transform: translateY(-1px);
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container) 90%, var(--md-sys-color-primary) 10%);
+}
+
+.md3-code-block__copy-button:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* 说明：复制成功后短暂高亮按钮，提示用户操作完成。 */
+.md3-code-block__copy-button.is-copied {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+/* 说明：代码区域保持独立滚动，避免长行撑破布局。 */
+.md3-code-block__body {
+  position: relative;
+  background-color: var(--app-glass-elevated-color);
+  overflow-x: auto;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.app-content pre:not([data-md3-code-processed="true"]) {
+  margin: 1rem 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-strong-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.app-content pre:not([data-md3-code-processed="true"]) code {
+  color: inherit;
+}
+
+.md3-code-block__body pre {
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  background: none;
+  color: inherit;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.md3-code-block__body code {
+  white-space: pre;
+}
+
+/* 说明：语法高亮颜色映射，基于 MD3 色板生成相对色。 */
+.md3-code-block .chroma {
+  color: var(--md-sys-color-on-surface);
+}
+
+.md3-code-block .chroma .c,
+.md3-code-block .chroma .cm,
+.md3-code-block .chroma .c1,
+.md3-code-block .chroma .cs {
+  color: var(--md-sys-color-on-surface-variant);
+  font-style: italic;
+}
+
+.md3-code-block .chroma .k,
+.md3-code-block .chroma .kc,
+.md3-code-block .chroma .kd,
+.md3-code-block .chroma .kn,
+.md3-code-block .chroma .kp,
+.md3-code-block .chroma .kr,
+.md3-code-block .chroma .kt {
+  color: color-mix(in srgb, var(--md-sys-color-primary) 85%, var(--md-sys-color-on-surface) 15%);
+  font-weight: 600;
+}
+
+.md3-code-block .chroma .nf,
+.md3-code-block .chroma .na,
+.md3-code-block .chroma .nc,
+.md3-code-block .chroma .nd,
+.md3-code-block .chroma .ne {
+  color: color-mix(in srgb, var(--md-sys-color-secondary) 80%, var(--md-sys-color-on-surface) 20%);
+  font-weight: 600;
+}
+
+.md3-code-block .chroma .s,
+.md3-code-block .chroma .s1,
+.md3-code-block .chroma .s2,
+.md3-code-block .chroma .sb,
+.md3-code-block .chroma .sd,
+.md3-code-block .chroma .sh,
+.md3-code-block .chroma .sx,
+.md3-code-block .chroma .sr,
+.md3-code-block .chroma .ss {
+  color: color-mix(in srgb, var(--md-sys-color-secondary-container) 75%, var(--md-sys-color-primary) 25%);
+}
+
+.md3-code-block .chroma .m,
+.md3-code-block .chroma .mb,
+.md3-code-block .chroma .mf,
+.md3-code-block .chroma .mh,
+.md3-code-block .chroma .mi,
+.md3-code-block .chroma .il {
+  color: color-mix(in srgb, var(--md-sys-color-secondary) 70%, var(--md-sys-color-primary) 30%);
+  font-weight: 600;
+}
+
+.md3-code-block .chroma .o,
+.md3-code-block .chroma .ow,
+.md3-code-block .chroma .p {
+  color: var(--md-sys-color-on-surface);
+}
+
+.md3-code-block .chroma .err {
+  color: var(--md-sys-color-error, #b3261e);
+  text-decoration: underline;
+  text-decoration-color: var(--md-sys-color-error, #b3261e);
+}
