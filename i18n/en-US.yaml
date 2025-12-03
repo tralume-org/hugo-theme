@@ -206,7 +206,7 @@
   translation: No friend links yet. Add entries in data/friends.yaml to display them.
 
 - id: umamiBlockedNotice
-  translation: Analytics requests were blocked; some features may be unavailable.
+  translation: Analytics are blocked, so page views and other statistics cannot be displayed.
 
 - id: umamiBlockedIgnore
   translation: Ignore permanently

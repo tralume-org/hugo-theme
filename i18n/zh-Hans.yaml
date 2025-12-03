@@ -206,7 +206,7 @@
   translation: 暂无友链，请在 data/friends.yaml 中补充。
 
 - id: umamiBlockedNotice
-  translation: 统计请求被拦截，某些功能将不可用。
+  translation: 统计请求被拦截，阅读量等统计功能将无法显示。
 
 - id: umamiBlockedIgnore
   translation: 永久忽略

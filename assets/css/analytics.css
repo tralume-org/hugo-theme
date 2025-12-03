@@ -2,7 +2,8 @@
   position: fixed;
   inset-inline: 1rem;
   inset-block-end: 1rem;
-  width: min(34rem, calc(100% - 2rem));
+  width: max-content;
+  max-width: min(36rem, 90%);
   padding: 1rem 1.25rem;
   border-radius: 1rem;
   border: 1px solid var(--app-glass-border-strong-color);
@@ -21,7 +22,7 @@
     opacity 0.24s ease,
     transform 0.24s ease,
     visibility 0.24s ease;
-  z-index: 140;
+  z-index: 260;
 }
 
 .umami-block-notice.is-active {
@@ -32,6 +33,7 @@
 
 .umami-block-notice__text {
   flex: 1 1 auto;
+  min-width: 0;
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
 }
@@ -40,7 +42,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
 }
 
 .umami-block-notice__button {
@@ -82,6 +85,7 @@
     inset-inline: 0.75rem;
     inset-block-end: 0.75rem;
     width: calc(100% - 1.5rem);
+    max-width: calc(100% - 1.5rem);
     flex-direction: column;
     align-items: flex-start;
   }
@@ -89,5 +93,6 @@
   .umami-block-notice__actions {
     width: 100%;
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
