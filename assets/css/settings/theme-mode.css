@@ -12,7 +12,7 @@
 
 .settings-panel__mode-button {
   padding: 0.6rem 1rem;
-  border-radius: 0.875rem;
+  border-radius: var(--settings-panel-pill-radius);
   border: 1px solid var(--app-glass-border-color);
   background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);

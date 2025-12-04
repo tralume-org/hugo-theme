@@ -118,7 +118,7 @@
 /* 说明：玻璃滑杆重置按钮同样使用亚克力底色，保持面板风格统一。 */
 .settings-panel__glass-reset {
   padding: 0.4rem 0.9rem;
-  border-radius: 0.75rem;
+  border-radius: var(--settings-panel-pill-radius);
   border: 1px solid var(--app-glass-border-color);
   background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);

@@ -21,6 +21,7 @@
   --settings-panel-closed-width: var(--floating-control-width, 7.5rem);
   --settings-panel-closed-height: var(--floating-control-height, 3.5rem);
   --settings-panel-shape-radius: 1.25rem;
+  --settings-panel-pill-radius: 999px;
   --settings-panel-open-width: min(24rem, calc(100vw - 2.5rem));
   --settings-panel-open-height: min(28rem, calc(100vh - 2.5rem));
   position: fixed;
@@ -99,7 +100,7 @@
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
-  border-radius: inherit;
+  border-radius: var(--settings-panel-pill-radius);
   transition: opacity 0.24s ease, color 0.2s ease;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -167,7 +168,7 @@
   inline-size: 3.25rem;
   block-size: 2.5rem;
   border: 1px solid var(--app-glass-border-color);
-  border-radius: 0.875rem;
+  border-radius: var(--settings-panel-pill-radius);
   background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-label-large-size);

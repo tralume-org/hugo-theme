@@ -69,7 +69,7 @@
 .settings-panel__background-reset {
   flex: 1 1 8rem;
   padding: 0.55rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: var(--settings-panel-pill-radius);
   border: 1px solid transparent;
   font-family: inherit;
   font-size: var(--md-sys-typescale-label-large-size);
