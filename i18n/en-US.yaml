@@ -209,7 +209,43 @@
   translation: Analytics are blocked, so page views and other statistics cannot be displayed.
 
 - id: umamiBlockedIgnore
-  translation: Ignore permanently
+  translation: Don’t show again
 
 - id: umamiBlockedMore
   translation: Learn more
+
+- id: umamiBlockedClose
+  translation: Close
+
+- id: umamiBlockedDialogGreeting
+  translation: Thank you for visiting this site.
+
+- id: umamiBlockedDialogIntro
+  translation: We use a self-hosted, privacy-friendly analytics tool to count reads and understand basic traffic. It does not collect personal identifiers, track across sites, or serve ads.
+
+- id: umamiBlockedDialogBlocked
+  translation: The analytics tool is currently unreachable on this page, which affects features that rely on stats (e.g., view counts or popular content).
+
+- id: umamiBlockedDialogCauses
+  translation: This is usually caused by ad blockers or privacy extensions (such as uBlock Origin or AdGuard) blocking the analytics requests, even though the tool is privacy-first.
+
+- id: umamiBlockedDialogRequest
+  translation: If you’d like to support the site, consider whitelisting this domain in your blocker to enjoy a more complete experience and help us improve.
+
+- id: umamiBlockedDialogGuides
+  translation: "For steps, refer to the official guides below:"
+
+- id: umamiBlockedDialogGuideUblock
+  translation: uBlock Origin
+
+- id: umamiBlockedDialogGuideUblockLink
+  translation: https://github.com/gorhill/uBlock/wiki/How-to-mark-a-web-site-as-trusted
+
+- id: umamiBlockedDialogGuideAdguard
+  translation: AdGuard
+
+- id: umamiBlockedDialogGuideBrave
+  translation: Brave Shields
+
+- id: umamiBlockedDialogFooter
+  translation: You can still browse and read all content here even without whitelisting.

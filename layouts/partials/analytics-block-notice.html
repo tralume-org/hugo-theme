@@ -30,6 +30,66 @@
           </button>
         </div>
       </div>
+      <div
+        class="umami-block-dialog"
+        data-component="umami-block-dialog"
+        role="presentation"
+        hidden
+      >
+        <div
+          class="umami-block-dialog__backdrop"
+          data-umami-dialog-part="backdrop"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="umami-block-dialog__panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="{{ i18n "umamiBlockedNotice" }}"
+        >
+          <div class="umami-block-dialog__content">
+            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogGreeting" }}</p>
+            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogIntro" }}</p>
+            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogBlocked" }}</p>
+            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogCauses" }}</p>
+            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogRequest" }}</p>
+            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogGuides" }}</p>
+            <ul class="umami-block-dialog__list">
+              <li>
+                <a
+                  href="{{ i18n "umamiBlockedDialogGuideUblockLink" }}"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {{ i18n "umamiBlockedDialogGuideUblock" }}
+                </a>
+              </li>
+              <li>
+                <a href="https://adguard.com/kb/" target="_blank" rel="noreferrer">
+                  {{ i18n "umamiBlockedDialogGuideAdguard" }}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://community.brave.app/t/shields-whitelist-specific-sites/399579"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {{ i18n "umamiBlockedDialogGuideBrave" }}
+                </a>
+              </li>
+            </ul>
+            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogFooter" }}</p>
+          </div>
+          <button
+            type="button"
+            class="umami-block-dialog__close"
+            data-umami-dialog-action="close"
+          >
+            {{ i18n "umamiBlockedClose" }}
+          </button>
+        </div>
+      </div>
     {{- end }}
   {{- end }}
 {{- end }}

@@ -209,7 +209,43 @@
   translation: 统计请求被拦截，阅读量等统计功能将无法显示。
 
 - id: umamiBlockedIgnore
-  translation: 永久忽略
+  translation: 不再提示
 
 - id: umamiBlockedMore
   translation: 查看更多
+
+- id: umamiBlockedClose
+  translation: 关闭
+
+- id: umamiBlockedDialogGreeting
+  translation: 感谢你访问本站。
+
+- id: umamiBlockedDialogIntro
+  translation: 本站正在使用自托管的匿名统计工具，以统计文章阅读量和了解基本访问情况。这些统计不会收集任何个人身份信息，也不会进行跨站追踪或用于广告营销。
+
+- id: umamiBlockedDialogBlocked
+  translation: 当前网页检测到统计工具无法访问，这会影响依赖统计数据的功能（例如阅读量展示、热门内容统计等）。
+
+- id: umamiBlockedDialogCauses
+  translation: 这通常是由广告拦截或隐私保护扩展（如 uBlock Origin、AdGuard 等）拦截统计请求导致的，即便本站所使用的是隐私优先的工具。
+
+- id: umamiBlockedDialogRequest
+  translation: 如果你愿意支持本站，可以考虑在拦截扩展中为本站域名加入白名单，以获得更完整的功能体验，并帮助我们更好地改进网站。
+
+- id: umamiBlockedDialogGuides
+  translation: 如需了解具体操作方式，可查看以下官方指南：
+
+- id: umamiBlockedDialogGuideUblock
+  translation: uBlock Origin
+
+- id: umamiBlockedDialogGuideUblockLink
+  translation: https://github.com/fang5566/uBlock/wiki/%E5%A6%82%E4%BD%95%E6%A0%87%E8%AE%B0%E4%B8%BA%E5%8F%97%E4%BF%A1%E4%BB%BB%E7%AB%99%E7%82%B9
+
+- id: umamiBlockedDialogGuideAdguard
+  translation: AdGuard
+
+- id: umamiBlockedDialogGuideBrave
+  translation: Brave Shields
+
+- id: umamiBlockedDialogFooter
+  translation: 无论是否加入白名单，你都可以正常访问和阅读本站的全部内容。

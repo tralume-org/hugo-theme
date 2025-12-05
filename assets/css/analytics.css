@@ -77,3 +77,111 @@
   background-color: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);
 }
+
+.umami-block-dialog {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 270;
+}
+
+.umami-block-dialog.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.umami-block-dialog__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(36, 39, 41, 0.55);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.umami-block-dialog__panel {
+  position: relative;
+  min-width: min(32rem, 92vw);
+  min-height: 10rem;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  box-shadow: var(--md-sys-elevation-level4);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+.umami-block-dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1 1 auto;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+.umami-block-dialog__paragraph {
+  margin: 0;
+}
+
+.umami-block-dialog__list {
+  margin: 0.25rem 0 0.5rem;
+  padding-inline-start: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.umami-block-dialog__list a {
+  color: var(--md-sys-color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.umami-block-dialog__list a:hover,
+.umami-block-dialog__list a:focus-visible {
+  text-decoration: underline;
+}
+
+.umami-block-dialog__close {
+  margin-top: auto;
+  align-self: center;
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.umami-block-dialog__close:hover,
+.umami-block-dialog__close:focus-visible {
+  border-color: var(--md-sys-color-outline);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.umami-block-dialog__close:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
