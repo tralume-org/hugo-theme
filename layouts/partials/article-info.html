@@ -1,6 +1,7 @@
 {{/* 说明：文章信息卡片，当前仅呈现许可证分区，后续可扩展更多段落。 */}}
-<section class="article__info" data-article-info aria-label="{{ i18n "articleInfoAriaLabel" }}">
+<section class="article__info article__surface" data-article-info aria-label="{{ i18n "articleInfoAriaLabel" }}">
   <div class="article-info-card">
+    <p class="article-info-card__heading">{{ i18n "articleInfoHeading" }}</p>
     {{/* 说明：许可证分区按页面 → 站点 → 默认优先级解析并输出描述文案。 */}}
     {{- $knownLicenses := slice "cc-by-4.0" "cc-by-sa-4.0" "cc-by-nd-4.0" "cc-by-nc-4.0" "cc-by-nc-sa-4.0" "cc-by-nc-nd-4.0" "cc0-1.0" "arr" -}}
     {{- $pageLicense := "" -}}
@@ -21,18 +22,17 @@
     {{- if not (in $knownLicenses $licenseKey) -}}
       {{- $licenseKey = "arr" -}}
     {{- end -}}
-    {{- $licenseNameKey := printf "articleLicenseName_%s" $licenseKey -}}
-    {{- $licenseSummaryKey := printf "articleLicenseSummary_%s" $licenseKey -}}
-    {{- $licenseName := i18n $licenseNameKey -}}
-    {{- $licenseSummary := i18n $licenseSummaryKey -}}
+    {{- $licenseFullKey := printf "articleLicenseFull_%s" $licenseKey -}}
+    {{- $licenseFullCandidate := i18n $licenseFullKey -}}
+    {{- $licenseFull := $licenseFullCandidate -}}
+    {{- if and (eq $licenseFullCandidate $licenseFullKey) (ne $licenseKey "arr") -}}
+      {{/* 说明：若缺失对应翻译，回退到保留所有权利的完整文案，避免直接显示键名。 */}}
+      {{- $licenseFull = i18n "articleLicenseFull_arr" -}}
+    {{- end -}}
     <section class="article-info-card__section article-info-card__section--license" data-article-license>
-      <p class="article-info-card__section-title">{{ i18n "articleInfoLicenseTitle" }}</p>
+      <p class="article-info-card__section-label">{{ i18n "articleInfoLicenseTitle" }}</p>
       <p class="article-info-card__section-text">
-        {{- if $licenseSummary -}}
-          {{- $licenseName }} {{ $licenseSummary -}}
-        {{- else -}}
-          {{- $licenseName -}}
-        {{- end -}}
+        {{- $licenseFull -}}
       </p>
     </section>
   </div>

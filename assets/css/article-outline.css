@@ -201,18 +201,9 @@
   letter-spacing: normal;
 }
 
-/* 说明：文章信息卡片沿用亚克力表面，仅呈现许可证分区。 */
+/* 说明：文章信息卡片直接复用 article__surface 的亚克力样式，这里仅保留布局弹性。 */
 .article__info {
-  padding: 1.1rem 1.35rem;
-  border-radius: 0.875rem;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-elevated-color);
-  color: var(--md-sys-color-on-surface);
-  display: flex;
-  flex-direction: column;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
-  box-shadow: var(--md-sys-elevation-level2);
+  flex: 1 1 auto;
 }
 
 .article-info-card {
@@ -221,12 +212,19 @@
   gap: 0.85rem;
 }
 
+.article-info-card__heading {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-medium-size);
+  line-height: var(--md-sys-typescale-title-medium-line-height);
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+}
+
 .article-info-card__section {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   padding-top: 0.85rem;
-  border-top: 1px solid var(--app-glass-border-color);
 }
 
 .article-info-card__section:first-child {
@@ -234,11 +232,11 @@
   padding-top: 0;
 }
 
-.article-info-card__section-title {
+.article-info-card__section-label {
   margin: 0;
   font-size: var(--md-sys-typescale-title-small-size);
   line-height: var(--md-sys-typescale-title-small-line-height);
-  font-weight: 600;
+  font-weight: 400;
   color: var(--md-sys-color-on-surface);
 }
 

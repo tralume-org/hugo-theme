@@ -169,56 +169,35 @@
 - id: articleInfoAriaLabel
   translation: Article info
 
+- id: articleInfoHeading
+  translation: Article info
+
 - id: articleInfoLicenseTitle
   translation: License
 
-- id: articleLicenseName_cc-by-4.0
-  translation: CC BY 4.0
+- id: articleLicenseFull_cc-by-4.0
+  translation: CC BY 4.0 - Allows copying, remixing, and commercial use with attribution.
 
-- id: articleLicenseSummary_cc-by-4.0
-  translation: Allows copying, remixing, and commercial use with attribution.
+- id: articleLicenseFull_cc-by-sa-4.0
+  translation: CC BY-SA 4.0 - Allows copying, remixing, and commercial use with attribution and share-alike.
 
-- id: articleLicenseName_cc-by-sa-4.0
-  translation: CC BY-SA 4.0
+- id: articleLicenseFull_cc-by-nd-4.0
+  translation: CC BY-ND 4.0 - Allows redistribution, including commercial, as long as it is unchanged and credited.
 
-- id: articleLicenseSummary_cc-by-sa-4.0
-  translation: Allows copying, remixing, and commercial use with attribution and share-alike.
+- id: articleLicenseFull_cc-by-nc-4.0
+  translation: CC BY-NC 4.0 - Allows copying and remixing for noncommercial purposes with attribution.
 
-- id: articleLicenseName_cc-by-nd-4.0
-  translation: CC BY-ND 4.0
+- id: articleLicenseFull_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0 - Allows noncommercial copying and remixing with attribution and share-alike.
 
-- id: articleLicenseSummary_cc-by-nd-4.0
-  translation: Allows redistribution, including commercial, as long as it is unchanged and credited.
+- id: articleLicenseFull_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0 - Allows noncommercial redistribution unchanged with attribution.
 
-- id: articleLicenseName_cc-by-nc-4.0
-  translation: CC BY-NC 4.0
+- id: articleLicenseFull_cc0-1.0
+  translation: CC0 1.0 - Places the work in the public domain where possible by waiving rights.
 
-- id: articleLicenseSummary_cc-by-nc-4.0
-  translation: Allows copying and remixing for noncommercial purposes with attribution.
-
-- id: articleLicenseName_cc-by-nc-sa-4.0
-  translation: CC BY-NC-SA 4.0
-
-- id: articleLicenseSummary_cc-by-nc-sa-4.0
-  translation: Allows noncommercial copying and remixing with attribution and share-alike.
-
-- id: articleLicenseName_cc-by-nc-nd-4.0
-  translation: CC BY-NC-ND 4.0
-
-- id: articleLicenseSummary_cc-by-nc-nd-4.0
-  translation: Allows noncommercial redistribution unchanged with attribution.
-
-- id: articleLicenseName_cc0-1.0
-  translation: CC0 1.0
-
-- id: articleLicenseSummary_cc0-1.0
-  translation: Places the work in the public domain where possible by waiving rights.
-
-- id: articleLicenseName_arr
-  translation: All Rights Reserved
-
-- id: articleLicenseSummary_arr
-  translation: Reuse, modification, or commercial use requires explicit permission.
+- id: articleLicenseFull_arr
+  translation: All Rights Reserved - Reuse, modification, or commercial use requires explicit permission.
 
 - id: footerPoweredBy
   translation: Powered by {{ .Hugo }} and {{ .Tralume }}
