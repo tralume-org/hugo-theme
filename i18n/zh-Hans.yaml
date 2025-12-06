@@ -166,6 +166,60 @@
 - id: articleOutlineEmpty
   translation: 大纲将在页面渲染后生成，若未出现请确认正文包含二级以上标题。
 
+- id: articleInfoAriaLabel
+  translation: 文章信息
+
+- id: articleInfoLicenseTitle
+  translation: 许可证
+
+- id: articleLicenseName_cc-by-4.0
+  translation: CC BY 4.0
+
+- id: articleLicenseSummary_cc-by-4.0
+  translation: 允许复制、修改和商业使用，需署名。
+
+- id: articleLicenseName_cc-by-sa-4.0
+  translation: CC BY-SA 4.0
+
+- id: articleLicenseSummary_cc-by-sa-4.0
+  translation: 允许复制、修改和商业使用，需署名并在相同许可下共享。
+
+- id: articleLicenseName_cc-by-nd-4.0
+  translation: CC BY-ND 4.0
+
+- id: articleLicenseSummary_cc-by-nd-4.0
+  translation: 允许复制与商业传播，但不得修改，需署名。
+
+- id: articleLicenseName_cc-by-nc-4.0
+  translation: CC BY-NC 4.0
+
+- id: articleLicenseSummary_cc-by-nc-4.0
+  translation: 允许非商业复制与修改，需署名。
+
+- id: articleLicenseName_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0
+
+- id: articleLicenseSummary_cc-by-nc-sa-4.0
+  translation: 允许非商业复制与修改，需署名并以相同许可共享。
+
+- id: articleLicenseName_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0
+
+- id: articleLicenseSummary_cc-by-nc-nd-4.0
+  translation: 允许非商业再发布但不得修改，需署名。
+
+- id: articleLicenseName_cc0-1.0
+  translation: CC0 1.0
+
+- id: articleLicenseSummary_cc0-1.0
+  translation: 可将作品释入公有领域，在法律允许范围内放弃尽可能多的权利。
+
+- id: articleLicenseName_arr
+  translation: 保留所有权利
+
+- id: articleLicenseSummary_arr
+  translation: 禁止未经授权转载、修改或商业使用。
+
 - id: footerPoweredBy
   translation: 由 {{ .Hugo }} 与 {{ .Tralume }} 提供支持
 

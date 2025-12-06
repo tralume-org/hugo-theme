@@ -1,0 +1,39 @@
+{{/* 说明：文章信息卡片，当前仅呈现许可证分区，后续可扩展更多段落。 */}}
+<section class="article__info" data-article-info aria-label="{{ i18n "articleInfoAriaLabel" }}">
+  <div class="article-info-card">
+    {{/* 说明：许可证分区按页面 → 站点 → 默认优先级解析并输出描述文案。 */}}
+    {{- $knownLicenses := slice "cc-by-4.0" "cc-by-sa-4.0" "cc-by-nd-4.0" "cc-by-nc-4.0" "cc-by-nc-sa-4.0" "cc-by-nc-nd-4.0" "cc0-1.0" "arr" -}}
+    {{- $pageLicense := "" -}}
+    {{- with .Params.license -}}
+      {{- $pageLicense = trim . " \t\r\n" -}}
+    {{- end -}}
+    {{- $siteLicense := "" -}}
+    {{- with .Site.Params.contentLicense -}}
+      {{- $siteLicense = trim . " \t\r\n" -}}
+    {{- end -}}
+    {{- if not $siteLicense -}}
+      {{- with .Site.Params.license -}}
+        {{- $siteLicense = trim . " \t\r\n" -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $fallbackKey := cond (ne $siteLicense "") $siteLicense "arr" -}}
+    {{- $licenseKey := default $fallbackKey $pageLicense -}}
+    {{- if not (in $knownLicenses $licenseKey) -}}
+      {{- $licenseKey = "arr" -}}
+    {{- end -}}
+    {{- $licenseNameKey := printf "articleLicenseName_%s" $licenseKey -}}
+    {{- $licenseSummaryKey := printf "articleLicenseSummary_%s" $licenseKey -}}
+    {{- $licenseName := i18n $licenseNameKey -}}
+    {{- $licenseSummary := i18n $licenseSummaryKey -}}
+    <section class="article-info-card__section article-info-card__section--license" data-article-license>
+      <p class="article-info-card__section-title">{{ i18n "articleInfoLicenseTitle" }}</p>
+      <p class="article-info-card__section-text">
+        {{- if $licenseSummary -}}
+          {{- $licenseName }} {{ $licenseSummary -}}
+        {{- else -}}
+          {{- $licenseName -}}
+        {{- end -}}
+      </p>
+    </section>
+  </div>
+</section>
