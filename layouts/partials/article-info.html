@@ -4,6 +4,16 @@
     <p class="article-info-card__heading">{{ i18n "articleInfoHeading" }}</p>
     {{/* 说明：许可证分区按页面 → 站点 → 默认优先级解析并输出描述文案。 */}}
     {{- $knownLicenses := slice "cc-by-4.0" "cc-by-sa-4.0" "cc-by-nd-4.0" "cc-by-nc-4.0" "cc-by-nc-sa-4.0" "cc-by-nc-nd-4.0" "cc0-1.0" "arr" -}}
+    {{/* 说明：CC 许可证到官网说明页的映射，ARR 不提供跳转。 */}}
+    {{- $licenseUrlMap := dict
+      "cc-by-4.0" "https://creativecommons.org/licenses/by/4.0/"
+      "cc-by-sa-4.0" "https://creativecommons.org/licenses/by-sa/4.0/"
+      "cc-by-nd-4.0" "https://creativecommons.org/licenses/by-nd/4.0/"
+      "cc-by-nc-4.0" "https://creativecommons.org/licenses/by-nc/4.0/"
+      "cc-by-nc-sa-4.0" "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+      "cc-by-nc-nd-4.0" "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+      "cc0-1.0" "https://creativecommons.org/publicdomain/zero/1.0/"
+    -}}
     {{- $pageLicense := "" -}}
     {{- with .Params.license -}}
       {{- $pageLicense = trim . " \t\r\n" -}}
@@ -29,10 +39,15 @@
       {{/* 说明：若缺失对应翻译，回退到保留所有权利的完整文案，避免直接显示键名。 */}}
       {{- $licenseFull = i18n "articleLicenseFull_arr" -}}
     {{- end -}}
+    {{- $licenseUrl := default "" (index $licenseUrlMap $licenseKey) -}}
     <section class="article-info-card__section article-info-card__section--license" data-article-license>
       <p class="article-info-card__section-label">{{ i18n "articleInfoLicenseTitle" }}</p>
       <p class="article-info-card__section-text">
-        {{- $licenseFull -}}
+        {{- if $licenseUrl -}}
+          <a class="article-info-card__license-link" href="{{ $licenseUrl }}" target="_blank" rel="noopener noreferrer">{{ $licenseFull }}</a>
+        {{- else -}}
+          {{- $licenseFull -}}
+        {{- end -}}
       </p>
     </section>
   </div>

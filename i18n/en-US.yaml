@@ -176,28 +176,29 @@
   translation: License
 
 - id: articleLicenseFull_cc-by-4.0
-  translation: CC BY 4.0 - Allows copying, remixing, and commercial use with attribution.
+  translation: CC BY 4.0 – For copying, remixing, and commercial use, as long as you give credit.
 
 - id: articleLicenseFull_cc-by-sa-4.0
-  translation: CC BY-SA 4.0 - Allows copying, remixing, and commercial use with attribution and share-alike.
+  translation: CC BY-SA 4.0 – For copying, remixing, and commercial use with credit, and new works use the same license.
 
 - id: articleLicenseFull_cc-by-nd-4.0
-  translation: CC BY-ND 4.0 - Allows redistribution, including commercial, as long as it is unchanged and credited.
+  translation: CC BY-ND 4.0 – For sharing, including commercial, if it’s unchanged and credited.
 
 - id: articleLicenseFull_cc-by-nc-4.0
-  translation: CC BY-NC 4.0 - Allows copying and remixing for noncommercial purposes with attribution.
+  translation: CC BY-NC 4.0 – For noncommercial copying and remixing with credit.
 
 - id: articleLicenseFull_cc-by-nc-sa-4.0
-  translation: CC BY-NC-SA 4.0 - Allows noncommercial copying and remixing with attribution and share-alike.
+  translation: CC BY-NC-SA 4.0 – For noncommercial copying and remixing with credit, and new works use the same license.
 
 - id: articleLicenseFull_cc-by-nc-nd-4.0
-  translation: CC BY-NC-ND 4.0 - Allows noncommercial redistribution unchanged with attribution.
+  translation: CC BY-NC-ND 4.0 – For noncommercial sharing only, unchanged and with credit.
 
 - id: articleLicenseFull_cc0-1.0
-  translation: CC0 1.0 - Places the work in the public domain where possible by waiving rights.
+  translation: CC0 1.0 – As close to public domain as possible; rights are waived where the law allows.
 
 - id: articleLicenseFull_arr
-  translation: All Rights Reserved - Reuse, modification, or commercial use requires explicit permission.
+  translation: All Rights Reserved – Any reuse, changes, or commercial use needs permission.
+
 
 - id: footerPoweredBy
   translation: Powered by {{ .Hugo }} and {{ .Tralume }}
