@@ -13,11 +13,20 @@
 - id: posts
   translation: Posts
 
+- id: pages
+  translation: Pages
+
 - id: tags
   translation: Tags
 
 - id: friends
   translation: Friends
+
+- id: pagesMenuAriaLabel
+  translation: Pages list
+
+- id: pagesMenuEmpty
+  translation: No pages found yet.
 
 - id: articlePublishedOn
   translation: Published on {{ .Date }}

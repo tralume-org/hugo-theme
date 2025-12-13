@@ -13,11 +13,20 @@
 - id: posts
   translation: 文章
 
+- id: pages
+  translation: 页面
+
 - id: tags
   translation: 标签
 
 - id: friends
   translation: 朋友们
+
+- id: pagesMenuAriaLabel
+  translation: 页面列表
+
+- id: pagesMenuEmpty
+  translation: 暂无页面。
 
 - id: articlePublishedOn
   translation: 发布于 {{ .Date }}

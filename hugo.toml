@@ -39,6 +39,11 @@ defaultContentLanguageInSubdir = true
     pageRef = 'tags'
     weight = 30
   [[menu.main]]
+    identifier = 'pages'
+    name = 'Pages'
+    pageRef = 'pages'
+    weight = 35
+  [[menu.main]]
     identifier = 'friends'
     name = 'Friends'
     pageRef = 'friends'

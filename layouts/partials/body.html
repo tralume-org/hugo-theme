@@ -6,6 +6,8 @@
     {{ partial "menu.html" (dict "menu" site.Menus.main "page" .) }}
   </div>
 </header>
+{{/* 说明：Pages 下拉面板需渲染在 header 之外，避免 backdrop-filter 的 backdrop root 限制导致“无模糊”。 */}}
+{{ partial "pages-menu-panel.html" . }}
 <main
   id="main-content"
   class="app-content"

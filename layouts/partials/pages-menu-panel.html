@@ -1,0 +1,27 @@
+{{/* 说明：Pages 顶栏下拉面板（“portal” 方式渲染到 header 之外）。
+  - 目标：解决 backdrop-filter 在嵌套/超出 backdrop root 时失效的问题，确保面板也能正常模糊。
+  - 注意：面板默认隐藏，仅由 assets/js/pages-menu.js 控制展开/定位。 */}}
+{{- $pagesSection := site.GetPage "section" "pages" -}}
+{{- $pagesList := slice -}}
+{{- with $pagesSection -}}
+  {{- $pagesList = .RegularPages.ByWeight -}}
+{{- end -}}
+<div
+  class="app-nav__panel app-nav__panel--pages"
+  id="pages-menu-panel"
+  role="dialog"
+  aria-label="{{ i18n "pagesMenuAriaLabel" }}"
+  aria-hidden="true"
+  data-pages-menu-panel
+>
+  <div class="app-nav__panel-list">
+    {{- if gt (len $pagesList) 0 -}}
+      {{ range $pagesList }}
+        <a class="app-nav__panel-item" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{ end }}
+    {{- else -}}
+      <p class="app-nav__panel-empty">{{ i18n "pagesMenuEmpty" }}</p>
+    {{- end -}}
+  </div>
+</div>
+

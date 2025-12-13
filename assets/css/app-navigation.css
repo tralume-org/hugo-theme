@@ -1,5 +1,8 @@
 /* \u8bf4\u660e\uff1a\u9876\u680f\u91c7\u7528\u73bb\u7483\u62df\u6001\u80cc\u666f\uff0c\u914d\u5408\u6a21\u7cca\u4e0e\u63cf\u8fb9\u4fdd\u6301\u5c42\u6b21\u611f\u3002 */
 .app-header {
+  /* 说明：为顶栏创建独立层叠上下文，确保导航弹层不会被页面浮动组件（设置面板/进度按钮）遮挡。 */
+  position: relative;
+  z-index: 240;
   background-color: var(--app-glass-surface-color);
   border-bottom: 1px solid var(--app-glass-border-color);
   box-shadow: var(--md-sys-elevation-level1);
@@ -98,6 +101,75 @@
   color: var(--md-sys-color-on-primary);
 }
 
+/* 说明：Pages 下拉面板容器，使用相对定位承载弹层。 */
+.app-nav__item-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+/* 说明：将按钮样式对齐导航链接，避免浏览器默认按钮外观干扰。 */
+.app-nav__item--toggle {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* 说明：Pages 弹出面板使用更“厚实”的亚克力表面，避免在浅色/高对比背景下显得过于通透。 */
+.app-nav__panel {
+  /* 说明：弹层以 fixed “portal” 方式展示到 header 之外，避免 backdrop-filter 的 backdrop root 裁剪导致无模糊。 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 250;
+  min-inline-size: 14rem;
+  /* 说明：限制弹层高度并允许内部滚动，避免内容过长时被视口底部裁切。 */
+  max-block-size: min(70vh, 24rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 0.65rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--app-glass-border-strong-color);
+  background-color: var(--app-glass-strong-color);
+  box-shadow: var(--md-sys-elevation-level2);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+  display: none;
+}
+
+.app-nav__panel.is-open {
+  display: block;
+}
+
+.app-nav__panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.app-nav__panel-item {
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.95rem;
+  color: var(--md-sys-color-on-surface);
+  text-decoration: none;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.app-nav__panel-item:hover,
+.app-nav__panel-item:focus-visible {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+/* 说明：空状态提示使用次要文字色，保持信息层级。 */
+.app-nav__panel-empty {
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
 @media (max-width: 48rem) {
   /* \u8bf4\u660e\uff1a\u5c0f\u5c4f\u5bbd\u4e0b\u5939\u4f4f\u53cc\u884c\u7f6e\u9876\u680f\uff0c\u5e76\u4e3a\u6298\u53e0\u5bfc\u822a\u9884\u7559\u95f4\u8ddd\u3002 */
   .app-bar {
@@ -134,6 +206,13 @@
 
   .app-nav__item {
     width: 100%;
+  }
+
+  /* 说明：移动端下拉面板改为占满宽度的内联块，避免绝对定位超出屏幕。 */
+  .app-nav__item-wrapper {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   [data-app-nav][data-nav-ready="true"] .app-nav__toggle {

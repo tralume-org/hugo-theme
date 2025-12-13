@@ -40,7 +40,30 @@
           {{ end }}
         {{ end }}
         {{ $label := or (and .Identifier (T .Identifier)) .Name }}
-        <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | safeHTML }}</a>
+        {{/* 说明：Pages 导航项增强为下拉面板，列出 /pages/ 下的静态页面标题。 */}}
+        {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
+        {{- if $isPagesEntry -}}
+          {{/* 说明：当位于 pages 分区时高亮按钮，提供一致的导航反馈。 */}}
+          {{- with $page -}}
+            {{- if or (eq .Section "pages") (eq .Type "pages") -}}
+              {{- $isActive = true -}}
+            {{- end -}}
+          {{- end -}}
+          <div class="app-nav__item-wrapper">
+            <button
+              class="app-nav__item app-nav__item--toggle{{ if $isActive }} is-active{{ end }}"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="pages-menu-panel"
+              data-pages-menu-toggle
+            >
+              {{ $label | safeHTML }}
+            </button>
+          </div>
+        {{- else -}}
+          <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | safeHTML }}</a>
+        {{- end -}}
       {{ end }}
     </nav>
   </div>
