@@ -35,7 +35,8 @@ export const setupPagesMenu = () => {
     }
     top = Math.max(viewportPadding, Math.min(top, viewportHeight - resolvedHeight - viewportPadding));
 
-    let left = toggleRect.right - resolvedWidth;
+    // 说明：弹层水平居中对齐触发按钮（以按钮中心点为基准），并在视口边缘进行夹取。
+    let left = toggleRect.left + toggleRect.width / 2 - resolvedWidth / 2;
     left = Math.max(viewportPadding, Math.min(left, viewportWidth - resolvedWidth - viewportPadding));
 
     panel.style.top = `${top}px`;

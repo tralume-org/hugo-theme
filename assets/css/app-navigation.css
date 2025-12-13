@@ -120,7 +120,7 @@
   top: 0;
   left: 0;
   z-index: 250;
-  min-inline-size: 14rem;
+  min-inline-size: 8rem;
   /* 说明：限制弹层高度并允许内部滚动，避免内容过长时被视口底部裁切。 */
   max-block-size: min(70vh, 24rem);
   overflow: auto;
@@ -143,6 +143,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  /* 说明：弹层内条目文本居中对齐，适合“菜单面板”类场景。 */
+  align-items: center;
 }
 
 .app-nav__panel-item {
@@ -150,6 +152,8 @@
   border-radius: 0.95rem;
   color: var(--md-sys-color-on-surface);
   text-decoration: none;
+  /* 说明：确保链接文本在自身区域内居中。 */
+  text-align: center;
   font-size: var(--md-sys-typescale-label-large-size);
   line-height: var(--md-sys-typescale-label-large-line-height);
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -166,6 +170,8 @@
   margin: 0;
   padding: 0.55rem 0.75rem;
   color: var(--md-sys-color-on-surface-variant);
+  /* 说明：空状态文案与菜单条目一致，保持居中。 */
+  text-align: center;
   font-size: var(--md-sys-typescale-body-small-size);
   line-height: var(--md-sys-typescale-body-small-line-height);
 }
