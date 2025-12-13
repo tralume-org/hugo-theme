@@ -117,6 +117,23 @@ defaultContentLanguageInSubdir = true
 
 提示：菜单当前为全局共享配置，如需中英文显示不同名称，请改用 `languages.*.menus.main` 在各语言下分别声明。
 
+## 文章许可证配置 / Article License
+
+- 每篇文章可在 Front Matter 声明 `license`；站点默认可在 `params.contentLicense`（兼容 `params.license`）设置。/ Set per-article `license` in front matter; set site default via `params.contentLicense` (fallbacks to `params.license`).
+- 支持的 key / Supported keys：`cc-by-4.0`、`cc-by-sa-4.0`、`cc-by-nd-4.0`、`cc-by-nc-4.0`、`cc-by-nc-sa-4.0`、`cc-by-nc-nd-4.0`、`cc0-1.0`、`arr`（保留所有权利）。
+- CC 许可证会自动跳转到 Creative Commons 官网对应页面；未知或缺失值回退为 ARR 的完整说明文案。
+
+```yaml
+# 说明：为单篇文章声明 CC BY-SA 4.0，渲染时会展示完整句式并跳转官网。
+license: "cc-by-sa-4.0"
+```
+
+```toml
+# 说明：设置站点默认许可证，单篇 front matter 会覆盖；未知值回退 ARR。
+[params]
+  contentLicense = "cc-by-nc-4.0"
+```
+
 ## 内容结构与多语言写作
 
 - 文章建议放在 `content/posts/`。主题会过滤 `_index` 文件，并按 `.Lang` 展示对应语言。

@@ -125,6 +125,23 @@ defaultContentLanguageInSubdir = true
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
 
+## Article License / 文章许可证
+
+- Set per-article `license` in front matter; set a site default via `params.contentLicense` (falls back to `params.license`). / 每篇文章用 front matter `license`，站点默认用 `params.contentLicense`（兼容 `params.license`）。
+- Supported keys / 支持的 key：`cc-by-4.0`, `cc-by-sa-4.0`, `cc-by-nd-4.0`, `cc-by-nc-4.0`, `cc-by-nc-sa-4.0`, `cc-by-nc-nd-4.0`, `cc0-1.0`, `arr` (all rights reserved).
+- CC licenses link to the official Creative Commons page automatically; unknown or missing values fall back to the ARR full description. / CC 许可证会跳转到官网，未知或缺失时回退 ARR 完整说明。
+
+```yaml
+# 说明：为单篇文章声明 CC BY-SA 4.0，渲染时会展示完整句式并跳转官网。
+license: "cc-by-sa-4.0"
+```
+
+```toml
+# 说明：站点默认许可证，单篇 front matter 会覆盖；未知值回退 ARR。
+[params]
+  contentLicense = "cc-by-nc-4.0"
+```
+
 ## Content Structure & Multilingual Writing
 
 - Put posts under `content/posts/`. The theme ignores `_index` files and renders pages by `.Lang`.

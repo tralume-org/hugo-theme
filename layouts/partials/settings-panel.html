@@ -227,6 +227,36 @@
         <p class="settings-panel__background-hint" id="settings-panel-background-hint">
           {{ i18n "settingsPanelBackgroundHint" }}
         </p>
+        <div class="settings-panel__background-blur-field">
+          <div class="settings-panel__glass-input-header">
+            <label class="settings-panel__glass-slider-label" for="settings-panel-background-blur-range">
+              {{ i18n "settingsPanelBackgroundBlurLabel" }}
+            </label>
+            <span
+              class="settings-panel__glass-blur-value"
+              data-background-blur-label
+              data-unit="{{ i18n "settingsPanelBackgroundBlurUnit" }}"
+            >0{{ i18n "settingsPanelBackgroundBlurUnit" }}</span>
+          </div>
+          <input
+            id="settings-panel-background-blur-range"
+            class="settings-panel__glass-slider"
+            type="range"
+            min="0"
+            max="40"
+            step="1"
+            value="0"
+            aria-valuemin="0"
+            aria-valuemax="40"
+            aria-valuenow="0"
+            aria-label="{{ i18n "settingsPanelBackgroundBlurLabel" }}"
+            data-background-blur-range
+          />
+          <div class="settings-panel__glass-scale">
+            <span>{{ i18n "settingsPanelBackgroundBlurLow" }}</span>
+            <span>{{ i18n "settingsPanelBackgroundBlurHigh" }}</span>
+          </div>
+        </div>
         <div class="settings-panel__background-actions">
           <button
             type="button"

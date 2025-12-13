@@ -21,8 +21,10 @@ body::before {
   background-repeat: no-repeat;
   background-position: center;
   opacity: var(--app-custom-background-opacity, 0);
-  filter: var(--app-custom-background-filter, brightness(0.92));
-  transition: opacity 0.3s ease;
+  filter:
+    blur(var(--app-custom-background-blur-radius, 0px))
+    var(--app-custom-background-filter, brightness(0.92));
+  transition: opacity 0.3s ease, filter 0.3s ease;
   pointer-events: none;
 }
 
@@ -67,6 +69,8 @@ body::before {
   --app-custom-background-image: none;
   --app-custom-background-opacity: 0;
   --app-custom-background-filter: brightness(0.92);
+  /* 说明：背景模糊半径（仅作用于自定义背景图层），默认关闭。 */
+  --app-custom-background-blur-radius: 0px;
   /* 说明：壁纸动态取色的回退方案，亮色使用灰黑基调，暗色使用灰白基调。 */
   --app-dynamic-primary-light: #1f2329;
   --app-dynamic-on-primary-light: #f7f8fb;
@@ -76,6 +80,12 @@ body::before {
   --app-dynamic-on-primary-dark: #101215;
   --app-dynamic-primary-container-dark: #2c3038;
   --app-dynamic-on-primary-container-dark: #e7eaf2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    transition: none;
+  }
 }
 
 :root[data-glass-strength="balanced"] {

@@ -136,6 +136,18 @@
 - id: settingsPanelBackgroundHint
   translation: Prefer high-resolution, moderately bright assets. Clear the field and press “Apply background” to revert.
 
+- id: settingsPanelBackgroundBlurLabel
+  translation: Background blur
+
+- id: settingsPanelBackgroundBlurLow
+  translation: Sharper
+
+- id: settingsPanelBackgroundBlurHigh
+  translation: Softer
+
+- id: settingsPanelBackgroundBlurUnit
+  translation: px
+
 - id: settingsPanelBackgroundApply
   translation: Apply background
 

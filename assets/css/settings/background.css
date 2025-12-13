@@ -65,6 +65,14 @@
   gap: 0.5rem;
 }
 
+/* 说明：背景模糊滑杆使用与玻璃滑杆一致的控件样式，仅在此处补充布局间距。 */
+.settings-panel__background-blur-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+}
+
 .settings-panel__background-apply,
 .settings-panel__background-reset {
   flex: 1 1 8rem;

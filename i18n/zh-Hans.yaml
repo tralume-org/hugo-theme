@@ -136,6 +136,18 @@
 - id: settingsPanelBackgroundHint
   translation: 为提升可读性，建议使用高分辨率、亮度适中的图片；清空后点击“应用背景”即可恢复默认底色。
 
+- id: settingsPanelBackgroundBlurLabel
+  translation: 背景模糊
+
+- id: settingsPanelBackgroundBlurLow
+  translation: 更清晰
+
+- id: settingsPanelBackgroundBlurHigh
+  translation: 更柔和
+
+- id: settingsPanelBackgroundBlurUnit
+  translation: 像素
+
 - id: settingsPanelBackgroundApply
   translation: 应用背景
 
