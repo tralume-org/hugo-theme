@@ -50,6 +50,23 @@
   gap: var(--article-section-gap, 0.75rem);
 }
 
+/* 说明：正文容器使用 flex 列布局时，默认 min-width:auto 会让宽图/长代码按内容最小宽度撑破卡片；这里强制直接子元素可收缩。 */
+.article__content > * {
+  min-width: 0;
+}
+
+/* 说明：Markdown 图片默认按固有尺寸渲染；限制为不超过容器宽度并保持比例，避免溢出正文卡片。 */
+.article__content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 说明：行内 code 经常用于展示 Token/Key/长路径；允许在必要时断行，避免撑破卡片宽度。 */
+.article__content :not(pre) > code {
+  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
 /* 说明：章节标题与段落的间距由 CSS 变量控制，便于脚本按章节数量自适应。 */
 .article__content h2,
 .article__content h3,
