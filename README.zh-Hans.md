@@ -158,14 +158,19 @@ title: "Home"
 
 ## 数据与页面扩展
 
-- 友链数据位于 `data/friends.yaml`，按当前语言过滤并随机展示卡片。
+- 友链数据位于 `data/friends.yaml`：当前语言条目优先展示，其它语言站点会显示在列表后方（两部分均随机排序）。
 - `language` 字段需与 `languages.*.languageCode` 对应（如 `en-US` / `zh-Hans`），留空则所有语言通用。
+- `name` / `description` 支持 i18n：既可直接写字符串，也可写为按语言代码分组的 map；只写一个语言也可，缺失当前语言时回退 `default` 或任一已提供语言。
 
 ```yaml
-# 说明：友链最小示例，avatar 可选，language 不填则全局显示。
-- name: "Tralume 示例（EN）"
+# 说明：友链最小示例：name/description 支持 i18n（只写一个语言也可）。
+- name:
+    zh-Hans: "Tralume 示例（EN）"
+    en-US: "Tralume Demo (EN)"
   url: "https://hugo.tralume.org/en-us/"
-  description: "Material 3 风格的英文示例站。"
+  description:
+    zh-Hans: "Material 3 风格的英文示例站。"
+    en-US: "A Material 3 styled English demo site."
   avatar: "https://hugo.tralume.org/favicon.ico"
   language: "en-US"
 ```

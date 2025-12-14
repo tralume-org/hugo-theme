@@ -422,37 +422,22 @@
   }
 }
 
-/* 说明：卡片沿用亚克力底色与边框，同时加入轻量渐变光斑增强层次。 */
+/* 说明：友链卡片复用文章卡片的亚克力表面与抬升交互，保持首页与友链视觉一致。 */
 .friend-card {
-  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 1rem;
-  padding: 1.15rem 1.25rem;
-  border-radius: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
   border: 1px solid var(--app-glass-border-color);
   background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface);
   text-decoration: none;
   box-shadow: var(--md-sys-elevation-level1);
-  overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
   backdrop-filter: blur(var(--app-glass-blur-radius));
-}
-
-.friend-card::before {
-  content: "";
-  position: absolute;
-  inset: -50% auto auto -30%;
-  width: 12rem;
-  height: 12rem;
-  background: radial-gradient(circle, color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent) 0%, transparent 70%);
-  opacity: 0;
-  filter: blur(32px);
-  transition: opacity 0.2s ease;
-  pointer-events: none;
 }
 
 .friend-card:hover,
@@ -461,11 +446,6 @@
   box-shadow: var(--md-sys-elevation-level2);
   border-color: var(--md-sys-color-outline);
   text-decoration: none;
-}
-
-.friend-card:hover::before,
-.friend-card:focus-visible::before {
-  opacity: 0.65;
 }
 
 .friend-card__avatar {

@@ -166,14 +166,19 @@ Welcome to the Tralume example site!
 
 ## Data & Page Extensions
 
-- Friend data lives in `data/friends.yaml`, filtered by the current language and randomized when displayed.
+- Friend data lives in `data/friends.yaml`: current-language (or empty-language) entries are shown first, followed by other-language sites (both groups are randomized).
 - The `language` field must match `languages.*.languageCode` (e.g., `en-US` / `zh-Hans`); leave it empty for global entries.
+- `name` / `description` support i18n: use a plain string, or a language-keyed map; you can provide only one translation, and missing languages fall back to `default` or any provided value.
 
 ```yaml
-# Note: Minimal friend entry; avatar optional, empty language means global display.
-- name: "Tralume Demo (EN)"
+# Note: Minimal friend entry: name/description support i18n (single-language is allowed).
+- name:
+    en-US: "Tralume Demo (EN)"
+    zh-Hans: "Tralume 示例（EN）"
   url: "https://hugo.tralume.org/en-us/"
-  description: "Material 3 styled English demo site."
+  description:
+    en-US: "A Material 3 styled English demo site."
+    zh-Hans: "Material 3 风格的英文示例站。"
   avatar: "https://hugo.tralume.org/favicon.ico"
   language: "en-US"
 ```

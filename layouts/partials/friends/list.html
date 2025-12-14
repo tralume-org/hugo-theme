@@ -1,33 +1,107 @@
-{{/* 说明：友链页面主体，按当前语言过滤 data/friends.yaml，并随机排列卡片。 */}}
+{{/* 说明：友链页面主体，优先展示当前语言的条目，其它语言站点显示在后，并随机排列卡片。 */}}
 {{- $currentLang := site.Language.Lang | default "en-US" -}}
 {{- $currentLangKey := lower (replace $currentLang "_" "-" ) -}}
+{{- $currentLangCode := site.Language.LanguageCode | default $currentLang -}}
+{{- $currentLangCodeKey := lower (replace $currentLangCode "_" "-" ) -}}
+{{- $currentLangName := site.Language.LanguageName | default $currentLang -}}
+{{/* 说明：将语言代码映射为语言名称（来自 Hugo languages 配置），用于友链卡片展示。 */}}
+{{- $languageNameScratch := newScratch -}}
+{{- range site.Sites }}
+  {{- $langKey := lower (replace (.Language.Lang | default "") "_" "-" ) -}}
+  {{- if $langKey }}
+    {{- $languageNameScratch.Set $langKey .Language.LanguageName -}}
+  {{- end -}}
+{{- end -}}
 {{- $friendsData := site.Data.friends -}}
-{{- $friends := slice -}}
+{{- $primaryFriends := slice -}}
+{{- $secondaryFriends := slice -}}
+{{/* 说明：name/description 支持 i18n：既可为字符串，也可为按语言代码分组的 map；缺失当前语言时回退 default 或任一已提供语言。 */}}
+{{- $i18nKeyCandidates := slice $currentLangCode (replace $currentLangCode "_" "-" ) $currentLang (replace $currentLang "_" "-" ) $currentLangKey $currentLangCodeKey "default" -}}
 {{- if $friendsData }}
   {{- range $friendsData }}
-    {{- $name := .name -}}
+    {{- $rawName := .name -}}
+    {{- $name := "" -}}
+    {{- if reflect.IsMap $rawName }}
+      {{- range $i18nKeyCandidates }}
+        {{- if eq $name "" }}
+          {{- with (index $rawName .) }}
+            {{- $name = printf "%v" . -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if eq $name "" }}
+        {{- range $rawName }}
+          {{- $name = printf "%v" . -}}
+          {{- break -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else }}
+      {{- with $rawName }}
+        {{- $name = printf "%v" . -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- $rawDescription := .description -}}
+    {{- $description := "" -}}
+    {{- if reflect.IsMap $rawDescription }}
+      {{- range $i18nKeyCandidates }}
+        {{- if eq $description "" }}
+          {{- with (index $rawDescription .) }}
+            {{- $description = printf "%v" . -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if eq $description "" }}
+        {{- range $rawDescription }}
+          {{- $description = printf "%v" . -}}
+          {{- break -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else }}
+      {{- with $rawDescription }}
+        {{- $description = printf "%v" . -}}
+      {{- end -}}
+    {{- end -}}
+
     {{- $url := .url -}}
     {{- if and $name $url }}
       {{- $rawLang := or .language .lang -}}
       {{- $normalizedLang := "" -}}
-      {{- $displayLang := $currentLang -}}
+      {{- $languageNameKey := $currentLangKey -}}
+      {{- $languageCodeLabel := "" -}}
       {{- with $rawLang }}
         {{- $normalizedLang = lower (replace (printf "%v" .) "_" "-" ) -}}
-        {{- $displayLang = replace (printf "%v" .) "_" "-" -}}
+        {{- $languageNameKey = $normalizedLang -}}
+        {{- $languageCodeLabel = replace (printf "%v" .) "_" "-" -}}
       {{- end -}}
+      {{- $languageDisplay := $currentLangName -}}
+      {{- if $languageCodeLabel }}
+        {{- $languageDisplay = $languageCodeLabel -}}
+      {{- end -}}
+      {{- with ($languageNameScratch.Get $languageNameKey) }}
+        {{- $languageDisplay = . -}}
+      {{- end -}}
+      {{- $friend := dict
+        "name" $name
+        "description" $description
+        "url" $url
+        "avatar" .avatar
+        "language" $languageDisplay
+      -}}
       {{- if or (eq $normalizedLang $currentLangKey) (eq $normalizedLang "") }}
-        {{- $friends = $friends | append (dict
-          "name" $name
-          "description" (default "" .description)
-          "url" $url
-          "avatar" .avatar
-          "language" $displayLang
-        ) -}}
+        {{- $primaryFriends = $primaryFriends | append $friend -}}
+      {{- else }}
+        {{- $secondaryFriends = $secondaryFriends | append $friend -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- $friends = shuffle $friends -}}
+{{- $primaryFriends = shuffle $primaryFriends -}}
+{{- $secondaryFriends = shuffle $secondaryFriends -}}
+{{- $friends := $primaryFriends -}}
+{{- range $secondaryFriends }}
+  {{- $friends = $friends | append . -}}
+{{- end -}}
 
 <section class="friends">
   <header class="friends__header">
@@ -47,7 +121,7 @@
         {{- $description := .description -}}
         {{- $link := .url | safeURL -}}
         {{- $avatar := .avatar -}}
-        {{- $language := .language | default $currentLang -}}
+        {{- $language := .language | default $currentLangName -}}
         {{- $initial := cond (gt (len $name) 0) (substr $name 0 1) "?" -}}
         <a
           class="friend-card"
