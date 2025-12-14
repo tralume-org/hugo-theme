@@ -9,6 +9,25 @@ export const setupPagesMenu = () => {
   }
 
   let isOpen = false;
+  // 说明：仅在支持 hover 的设备上启用“悬浮展开”，避免触摸设备误触或造成难以收起。
+  const supportsHover = window.matchMedia?.('(hover: hover) and (pointer: fine)').matches ?? false;
+  let hoverCloseTimer = 0;
+
+  // 说明：清理延迟关闭的定时器，避免快速移入/移出时出现“闪关”。
+  const clearHoverCloseTimer = () => {
+    if (hoverCloseTimer) {
+      window.clearTimeout(hoverCloseTimer);
+      hoverCloseTimer = 0;
+    }
+  };
+
+  // 说明：延迟关闭，给鼠标从按钮移动到面板的过程留出缓冲（两者间存在间隙）。
+  const scheduleHoverClose = (delayMs = 160) => {
+    clearHoverCloseTimer();
+    hoverCloseTimer = window.setTimeout(() => {
+      closePanel();
+    }, delayMs);
+  };
 
   // 说明：根据按钮位置动态定位面板，避免嵌套 backdrop-filter 导致的“无模糊”问题。
   const positionPanel = () => {
@@ -19,7 +38,7 @@ export const setupPagesMenu = () => {
     // 说明：限制面板最大宽度，避免在窄屏幕上溢出。
     panel.style.maxWidth = `calc(100vw - ${viewportPadding * 2}px)`;
 
-    // 说明：面板已在展开态（display: block），可直接测量尺寸用于定位。
+    // 说明：面板在 CSS 中使用 opacity/visibility 控制显隐（始终可测量），可直接测量尺寸用于定位。
     const panelRect = panel.getBoundingClientRect();
 
     const viewportWidth = window.innerWidth;
@@ -41,6 +60,8 @@ export const setupPagesMenu = () => {
 
     panel.style.top = `${top}px`;
     panel.style.left = `${left}px`;
+    // 说明：当弹层翻转到按钮上方时，从底部展开更自然；否则从顶部展开。
+    panel.style.transformOrigin = top < toggleRect.top ? 'bottom center' : 'top center';
   };
 
   const closePanel = ({ focusToggle = false } = {}) => {
@@ -48,12 +69,12 @@ export const setupPagesMenu = () => {
       return;
     }
 
+    clearHoverCloseTimer();
     isOpen = false;
     toggle.setAttribute('aria-expanded', 'false');
     panel.setAttribute('aria-hidden', 'true');
     panel.classList.remove('is-open');
-    panel.style.top = '';
-    panel.style.left = '';
+    // 说明：不清空定位，避免关闭动画过程中“跳回 (0,0)”的视觉闪动；下次打开时会重新定位。
     document.removeEventListener('keydown', handleKeydown);
     document.removeEventListener('pointerdown', handlePointerDown);
     window.removeEventListener('resize', handleResize);
@@ -114,13 +135,37 @@ export const setupPagesMenu = () => {
   };
 
   // 说明：按钮点击时在展开与收起之间切换。
-  toggle.addEventListener('click', () => {
+  toggle.addEventListener('click', (event) => {
+    // 说明：桌面端 hover 模式下，点击保持展开，避免“悬浮打开但点击立刻关闭”的违和感。
+    if (supportsHover && isOpen) {
+      event.preventDefault();
+      return;
+    }
+
     if (isOpen) {
       closePanel();
-    } else {
-      openPanel();
+      return;
     }
+
+    openPanel();
   });
+
+  if (supportsHover) {
+    // 说明：鼠标悬浮自动展开；离开按钮/面板后延迟收起，避免跨越间隙时误关。
+    toggle.addEventListener('pointerenter', () => {
+      clearHoverCloseTimer();
+      openPanel();
+    });
+    toggle.addEventListener('pointerleave', () => {
+      scheduleHoverClose();
+    });
+    panel.addEventListener('pointerenter', () => {
+      clearHoverCloseTimer();
+    });
+    panel.addEventListener('pointerleave', () => {
+      scheduleHoverClose();
+    });
+  }
 
   // 说明：点击链接后关闭面板，避免遮挡正文。
   panel.addEventListener('click', (event) => {

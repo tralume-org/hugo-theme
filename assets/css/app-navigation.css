@@ -86,6 +86,8 @@
   color: var(--md-sys-color-primary);
   font-size: var(--md-sys-typescale-label-large-size);
   line-height: var(--md-sys-typescale-label-large-line-height);
+  /* 说明：导航项同时可能是 <a>/<button>，显式指定字重避免表单控件默认字重与链接不一致。 */
+  font-weight: 500;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -132,11 +134,36 @@
   box-shadow: var(--md-sys-elevation-level2);
   -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
   backdrop-filter: blur(var(--app-glass-blur-radius));
-  display: none;
+  /* 说明：为动画保持元素可测量（避免 display: none 导致无法获取尺寸），用 opacity/visibility 控制显隐。 */
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.98);
+  transform-origin: top center;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease,
+    visibility 0s linear 160ms;
 }
 
 .app-nav__panel.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+  transition:
+    opacity 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0, 0, 1),
+    visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-nav__panel {
+    /* 说明：尊重系统“减少动态效果”设置，避免不适。 */
+    transition: none;
+    transform: none;
+  }
 }
 
 .app-nav__panel-list {
