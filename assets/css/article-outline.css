@@ -202,10 +202,6 @@
     max-height: calc(100vh - 8rem);
     overflow: auto;
   }
-
-  .article__info {
-    grid-column: 1 / -1;
-  }
 }
 
 /* 说明：统一引用块与 Callout 的外观，沿用亚克力表面与描边。 */
