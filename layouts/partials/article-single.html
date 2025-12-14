@@ -13,6 +13,21 @@
         {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
       </div>
     </div>
+    {{/* 说明：文章大纲由脚本扫描正文的 h2+ 标题生成；无可用标题时会自动隐藏并切换为单栏布局。 */}}
+    <aside
+      class="article__outline"
+      data-article-outline
+      data-outline-state="pending"
+      aria-label="{{ i18n "articleOutlineAriaLabel" }}"
+    >
+      <div class="article__outline-header">
+        <span class="article__outline-title">{{ i18n "articleOutlineTitle" }}</span>
+      </div>
+      <nav class="article__outline-nav" aria-label="{{ i18n "articleOutlineNavLabel" }}">
+        <ul class="article__outline-list" data-article-outline-list></ul>
+      </nav>
+      <p class="article__outline-empty" data-article-outline-empty>{{ i18n "articleOutlineEmpty" }}</p>
+    </aside>
     {{ partial "article-info.html" . }}
   </div>
 </article>

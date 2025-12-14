@@ -85,6 +85,129 @@
   margin: var(--article-divider-margin, 1.25rem) 0;
 }
 
+/* 说明：文章大纲卡片（目录），由脚本扫描 h2+ 标题生成并同步滚动高亮。 */
+.article__outline {
+  min-width: 0;
+  padding: 0.85rem 1rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-elevated-color);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-outline-gap, 0.75rem);
+  scroll-padding-block: 0.75rem;
+}
+
+.article__outline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.article__outline-title {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 700;
+}
+
+.article__outline-nav {
+  display: none;
+}
+
+.article__outline-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-outline-item-gap, 0.15rem);
+}
+
+.article__outline-item {
+  margin: 0;
+}
+
+.article__outline-link {
+  display: block;
+  padding-block: var(--article-outline-link-padding-block, 0.2rem);
+  padding-inline: var(--article-outline-link-padding-inline, 0.45rem);
+  border-radius: 0.9rem;
+  color: inherit;
+  text-decoration: none;
+  font-size: var(--article-outline-font-size, var(--md-sys-typescale-body-small-size));
+  line-height: var(--article-outline-line-height, var(--md-sys-typescale-body-small-line-height));
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.article__outline-link:hover,
+.article__outline-link:focus-visible {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+.article__outline-link.is-active {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.article__outline-empty {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
+.article__outline[data-outline-state="ready"] .article__outline-nav {
+  display: block;
+}
+
+.article__outline[data-outline-state="ready"] .article__outline-empty {
+  display: none;
+}
+
+.article__outline[data-outline-state="hidden"] {
+  display: none;
+}
+
+.article__outline-item[data-outline-level="1"] .article__outline-link {
+  padding-inline-start: 1.25rem;
+}
+
+.article__outline-item[data-outline-level="2"] .article__outline-link {
+  padding-inline-start: 1.75rem;
+}
+
+.article__outline-item[data-outline-level="3"] .article__outline-link {
+  padding-inline-start: 2.25rem;
+}
+
+@media (min-width: 64rem) {
+  .article__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+    align-items: start;
+  }
+
+  .article__layout.article__layout--single {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .article__outline {
+    position: sticky;
+    top: 6.5rem;
+    max-height: calc(100vh - 8rem);
+    overflow: auto;
+  }
+
+  .article__info {
+    grid-column: 1 / -1;
+  }
+}
+
 /* 说明：统一引用块与 Callout 的外观，沿用亚克力表面与描边。 */
 .article__content blockquote {
   margin: 0;
