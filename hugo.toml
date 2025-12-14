@@ -2,13 +2,6 @@ baseURL = 'https://tralume.org/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
 
-[outputs]
-  home = ['HTML', 'RSS']
-  section = ['HTML', 'RSS']
-  taxonomy = ['HTML', 'RSS']
-  term = ['HTML', 'RSS']
-
-# Note: Multilingual basics; keep menu structure under [menu] and handle text via i18n files.
 [languages]
   [languages."en-US"]
     languageName = 'English'
@@ -54,16 +47,3 @@ defaultContentLanguageInSubdir = true
   [module.hugoVersion]
     min = '0.146.0'
     extended = false
-
-[params]
-  [params.theme]
-    # Note: Theme mode options.
-    defaultMode = 'auto'
-  [params.home]
-    # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
-    recentPostsLimit = 4
-  [params.analytics]
-    [params.analytics.umami]
-    # Note: Umami analytics; replace with your own script URL and site ID. Leave empty to skip loading.
-      # scriptUrl = ''
-      # websiteId = '‘

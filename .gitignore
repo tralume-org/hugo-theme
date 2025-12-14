@@ -37,4 +37,6 @@ tmp/
 out/
 
 # Content
-/content/
+content/
+data/
+.hugo_build.lock
