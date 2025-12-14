@@ -11,6 +11,17 @@ export const setupPanelShell = (panel) => {
 
   let isOpen = false;
 
+  const setSurfaceHidden = (hidden) => {
+    surface.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+    if (hidden) {
+      surface.setAttribute('inert', '');
+    } else {
+      surface.removeAttribute('inert');
+    }
+  };
+
+  setSurfaceHidden(surface.getAttribute('aria-hidden') !== 'false');
+
   // 说明：关闭面板后清理事件并归还焦点。
   const closePanel = () => {
     if (!isOpen) return;
@@ -18,7 +29,7 @@ export const setupPanelShell = (panel) => {
     isOpen = false;
     panel.classList.remove('is-open');
     toggleButton.setAttribute('aria-expanded', 'false');
-    surface.setAttribute('aria-hidden', 'true');
+    setSurfaceHidden(true);
 
     document.removeEventListener('keydown', handleKeydown);
     document.removeEventListener('pointerdown', handlePointerDown);
@@ -51,13 +62,11 @@ export const setupPanelShell = (panel) => {
     isOpen = true;
     panel.classList.add('is-open');
     toggleButton.setAttribute('aria-expanded', 'true');
-    surface.setAttribute('aria-hidden', 'false');
+    setSurfaceHidden(false);
 
     window.requestAnimationFrame(() => {
       if (closeButton instanceof HTMLElement) {
         closeButton.focus({ preventScroll: true });
-      } else {
-        surface.focus({ preventScroll: true });
       }
     });
 

@@ -130,18 +130,21 @@
   background-color: var(--app-glass-strong-color);
   border: 1px solid var(--app-glass-border-strong-color);
   border-radius: inherit;
+  visibility: hidden;
   opacity: 0;
   pointer-events: none;
   transform: translateY(16px);
-  transition: opacity 0.24s ease, transform 0.24s ease;
+  transition: opacity 0.24s ease, transform 0.24s ease, visibility 0s linear 0.24s;
   -webkit-backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.85));
   backdrop-filter: blur(calc(var(--app-glass-blur-radius) * 0.85));
 }
 
 .settings-panel.is-open .settings-panel__surface {
+  visibility: visible;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
+  transition: opacity 0.24s ease, transform 0.24s ease, visibility 0s;
 }
 
 /* 说明：卡片头部包含标题与关闭按钮。 */
