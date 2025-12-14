@@ -1,6 +1,6 @@
-[English](README.md) ｜ [简体中文](README.zh-Hans.md)
+[英文](README.md) ｜ [简体中文](README.zh-Hans.md)
 
-# Tralume Hugo Theme
+# Tralume Hugo 主题
 
 现代 Material Design 3 + 亚克力质感的 Hugo 主题，内置多语言（en-US / zh-Hans）、文章时间线、阅读进度、代码块复制与可配置的设置面板。
 
@@ -52,7 +52,7 @@ defaultContentLanguageInSubdir = true
 # 说明：多语言基本信息，菜单结构统一放在 [menu]，文案交由 i18n 翻译表维护。
 [languages]
   [languages."en-US"]
-    languageName = 'English'
+    languageName = '英文'
     languageCode = 'en-US'
     weight = 1
     title = 'Tralume'
@@ -66,22 +66,22 @@ defaultContentLanguageInSubdir = true
 [menu]
   [[menu.main]]
     identifier = 'home'
-    name = 'Home'
+    name = '首页'
     pageRef = '/'
     weight = 10
   [[menu.main]]
     identifier = 'posts'
-    name = 'Posts'
+    name = '文章'
     pageRef = '/posts'
     weight = 20
   [[menu.main]]
     identifier = 'tags'
-    name = 'Tags'
+    name = '标签'
     pageRef = '/tags'
     weight = 30
   [[menu.main]]
     identifier = 'friends'
-    name = 'Friends'
+    name = '朋友们'
     pageRef = '/friends'
     weight = 40
 
@@ -117,10 +117,10 @@ defaultContentLanguageInSubdir = true
 
 提示：菜单当前为全局共享配置，如需中英文显示不同名称，请改用 `languages.*.menus.main` 在各语言下分别声明。
 
-## 文章许可证配置 / Article License
+## 文章许可证配置
 
-- 每篇文章可在 Front Matter 声明 `license`；站点默认可在 `params.contentLicense`（兼容 `params.license`）设置。/ Set per-article `license` in front matter; set site default via `params.contentLicense` (fallbacks to `params.license`).
-- 支持的 key / Supported keys：`cc-by-4.0`、`cc-by-sa-4.0`、`cc-by-nd-4.0`、`cc-by-nc-4.0`、`cc-by-nc-sa-4.0`、`cc-by-nc-nd-4.0`、`cc0-1.0`、`arr`（保留所有权利）。
+- 每篇文章可在 Front Matter 声明 `license`；站点默认可在 `params.contentLicense`（兼容 `params.license`）设置。
+- 支持的 key：`cc-by-4.0`、`cc-by-sa-4.0`、`cc-by-nd-4.0`、`cc-by-nc-4.0`、`cc-by-nc-sa-4.0`、`cc-by-nc-nd-4.0`、`cc0-1.0`、`arr`（保留所有权利）。
 - CC 许可证会自动跳转到 Creative Commons 官网对应页面；未知或缺失值回退为 ARR 的完整说明文案。
 
 ```yaml
@@ -163,14 +163,12 @@ title: "Home"
 - `name` / `description` 支持 i18n：既可直接写字符串，也可写为按语言代码分组的 map；只写一个语言也可，缺失当前语言时回退 `default` 或任一已提供语言。
 
 ```yaml
-# 说明：友链最小示例：name/description 支持 i18n（只写一个语言也可）。
+# 说明：友链最小示例：name/description 支持 i18n（可只写当前语言；如需英文可补充 en-US）。
 - name:
-    zh-Hans: "Tralume 示例（EN）"
-    en-US: "Tralume Demo (EN)"
+    zh-Hans: "Tralume 示例站"
   url: "https://hugo.tralume.org/en-us/"
   description:
-    zh-Hans: "Material 3 风格的英文示例站。"
-    en-US: "A Material 3 styled English demo site."
+    zh-Hans: "Material 3 风格的示例站。"
   avatar: "https://hugo.tralume.org/favicon.ico"
   language: "en-US"
 ```

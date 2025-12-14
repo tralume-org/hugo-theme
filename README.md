@@ -1,4 +1,4 @@
-[English](README.md) ｜ [简体中文](README.zh-Hans.md)
+[English](README.md) | [Simplified Chinese](README.zh-Hans.md)
 
 # Tralume Hugo Theme
 
@@ -58,10 +58,10 @@ defaultContentLanguageInSubdir = true
     title = 'Tralume'
 
   [languages."zh-Hans"]
-    languageName = '简体中文'
+    languageName = 'Simplified Chinese'
     languageCode = 'zh-Hans'
     weight = 2
-    title = 'Tralume 主题'
+    title = 'Tralume Theme'
 
 [menu]
   [[menu.main]]
@@ -125,19 +125,19 @@ defaultContentLanguageInSubdir = true
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
 
-## Article License / 文章许可证
+## Article License
 
-- Set per-article `license` in front matter; set a site default via `params.contentLicense` (falls back to `params.license`). / 每篇文章用 front matter `license`，站点默认用 `params.contentLicense`（兼容 `params.license`）。
-- Supported keys / 支持的 key：`cc-by-4.0`, `cc-by-sa-4.0`, `cc-by-nd-4.0`, `cc-by-nc-4.0`, `cc-by-nc-sa-4.0`, `cc-by-nc-nd-4.0`, `cc0-1.0`, `arr` (all rights reserved).
-- CC licenses link to the official Creative Commons page automatically; unknown or missing values fall back to the ARR full description. / CC 许可证会跳转到官网，未知或缺失时回退 ARR 完整说明。
+- Set per-article `license` in front matter; set a site default via `params.contentLicense` (falls back to `params.license`).
+- Supported keys: `cc-by-4.0`, `cc-by-sa-4.0`, `cc-by-nd-4.0`, `cc-by-nc-4.0`, `cc-by-nc-sa-4.0`, `cc-by-nc-nd-4.0`, `cc0-1.0`, `arr` (all rights reserved).
+- CC licenses link to the official Creative Commons page automatically; unknown or missing values fall back to the ARR full description.
 
 ```yaml
-# 说明：为单篇文章声明 CC BY-SA 4.0，渲染时会展示完整句式并跳转官网。
+# Note: Set CC BY-SA 4.0 for a single article; the theme renders the full sentence and links to the official page.
 license: "cc-by-sa-4.0"
 ```
 
 ```toml
-# 说明：站点默认许可证，单篇 front matter 会覆盖；未知值回退 ARR。
+# Note: Site-wide default license; per-article front matter overrides it; unknown values fall back to ARR.
 [params]
   contentLicense = "cc-by-nc-4.0"
 ```
@@ -150,7 +150,7 @@ license: "cc-by-sa-4.0"
 - The friends page uses `content/friends/_index.md` (can be empty; data comes from `data/friends.yaml`).
 
 ```bash
-# Note: Create a pair of EN/ZN posts with language suffixes for proper filtering.
+# Note: Create a pair of EN/ZH posts with language suffixes for proper filtering.
 hugo new posts/hello-world.en-US.md
 hugo new posts/hello-world.zh-Hans.md
 ```
@@ -174,11 +174,11 @@ Welcome to the Tralume example site!
 # Note: Minimal friend entry: name/description support i18n (single-language is allowed).
 - name:
     en-US: "Tralume Demo (EN)"
-    zh-Hans: "Tralume 示例（EN）"
+    zh-Hans: "Tralume Demo (ZH)"
   url: "https://hugo.tralume.org/en-us/"
   description:
     en-US: "A Material 3 styled English demo site."
-    zh-Hans: "Material 3 风格的英文示例站。"
+    zh-Hans: "A Material 3 styled Chinese demo site."
   avatar: "https://hugo.tralume.org/favicon.ico"
   language: "en-US"
 ```
