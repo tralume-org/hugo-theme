@@ -43,6 +43,9 @@
 - id: articleListViewMore
   translation: 查看更多文章
 
+- id: taxonomyTermCount
+  translation: 共 {{ .Count }} 篇文章
+
 - id: articleTimelineLabel
   translation: 文章时间线
 

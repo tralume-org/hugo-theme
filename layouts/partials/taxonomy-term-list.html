@@ -1,0 +1,62 @@
+{{/* 说明：Taxonomy 概览页词条列表（如 /tags），使用卡片网格与其它页面保持一致。 */}}
+{{- $context := .Context -}}
+{{- $terms := .Terms -}}
+{{- if and $terms (gt (len $terms) 0) -}}
+  {{- $lang := "" -}}
+  {{- with $context -}}
+    {{- $lang = .Language.Lang -}}
+  {{- end -}}
+  {{- $langLower := lower $lang -}}
+  {{- $visibleTerms := slice -}}
+  {{- range $terms -}}
+    {{- $term := . -}}
+    {{- $termPages := $term.Pages -}}
+    {{- $localized := cond (ne $lang "") (where $termPages "Lang" $lang) $termPages -}}
+    {{/* 说明：与文章列表保持一致，额外用文件名后缀过滤，避免多语言内容混入。 */}}
+    {{- $filtered := slice -}}
+    {{- range $localized -}}
+      {{- $base := .File.BaseFileName -}}
+      {{- if not (hasPrefix $base "_index") -}}
+        {{- if eq $langLower "zh-hans" -}}
+          {{- if or (in $base ".zh") (in $base ".zh-hans") -}}
+            {{- $filtered = $filtered | append . -}}
+          {{- end -}}
+        {{- else -}}
+          {{- if not (or (in $base ".zh") (in $base ".zh-hans")) -}}
+            {{- $filtered = $filtered | append . -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $count := len $filtered -}}
+    {{- if gt $count 0 -}}
+      {{- $visibleTerms = $visibleTerms | append (dict "page" $term "title" $term.LinkTitle "count" $count) -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if gt (len $visibleTerms) 0 -}}
+    <div class="article-list article-list--terms">
+      {{- range sort $visibleTerms "title" "asc" -}}
+        {{- $term := .page -}}
+        {{- $count := .count -}}
+        <a class="article-card term-card" href="{{ $term.RelPermalink }}">
+          <header class="article-card__header">
+            <h2 class="article-card__title">{{ $term.LinkTitle }}</h2>
+            <p class="article-card__meta">
+              <span class="article-card__meta-item">{{ i18n "taxonomyTermCount" (dict "Count" $count) }}</span>
+            </p>
+          </header>
+        </a>
+      {{- end -}}
+    </div>
+  {{- else -}}
+    <p class="article-list__empty">
+      {{ i18n "articleListEmpty" }}
+    </p>
+  {{- end -}}
+{{- else -}}
+  <p class="article-list__empty">
+    {{ i18n "articleListEmpty" }}
+  </p>
+{{- end -}}
+
