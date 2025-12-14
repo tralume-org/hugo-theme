@@ -241,14 +241,8 @@
 - id: calloutDangerLabel
   translation: 危险
 
-- id: friendsEyebrow
-  translation: 友链
-
 - id: friendsPageTitle
   translation: 朋友们
-
-- id: friendsPageDescription
-  translation: 与 Tralume 氛围相近的站点，随机排序展示每一次访问的惊喜。
 
 - id: friendsCardAriaLabel
   translation: 打开友链：{{ .Name }}

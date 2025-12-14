@@ -242,14 +242,8 @@
 - id: calloutDangerLabel
   translation: Danger
 
-- id: friendsEyebrow
-  translation: Friend links
-
 - id: friendsPageTitle
   translation: Friends
-
-- id: friendsPageDescription
-  translation: A rotating set of sites that share the Tralume spirit—shuffled on every visit.
 
 - id: friendsCardAriaLabel
   translation: "Open friend link: {{ .Name }}"
