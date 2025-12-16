@@ -114,8 +114,10 @@ defaultContentLanguageInSubdir = true
     # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
     recentPostsLimit = 4
   [params.analytics]
-    # Note: Umami analytics; replace with your own script URL and site ID. Leave empty to skip loading.
-    [params.analytics.umami]
+    # Note: Analytics provider name (required unless only one provider exists under `providers`).
+    provider = 'umami'
+    # Note: Umami analytics provider config; replace with your own script URL and site ID. Leave empty to skip loading.
+    [params.analytics.providers.umami]
       scriptUrl = 'https://umami.example.com/script.js'
       websiteId = '5b14b1a3-b5c6-4961-b1a8-32c1819069f8'
       # dataHost = 'https://umami.example.com'   # Optional: override data-host.
@@ -207,5 +209,6 @@ hugo --minify
 - `params.theme.defaultMode`: `auto` / `light` / `dark`.
 - `params.theme.defaultGlassStrength`: `soft` / `balanced` / `bold`.
 - `params.theme.defaultReaderWidth` or `params.theme.defaultReaderWidthValue`: Width preset or custom rem value (custom overrides preset).
-- `params.analytics.umami.scriptUrl` / `params.analytics.umami.websiteId`: Enable Umami tracking; optional `dataHost`/`dataDomains` to control reporting hosts/domains.
-- `params.analytics.umami.blockNotice`: Detect blocked Umami requests and surface a dismissible edge banner.
+- `params.analytics.provider`: Analytics provider name (e.g. `umami`).
+- `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`: Enable Umami tracking; optional `dataHost`/`dataDomains` to control reporting hosts/domains.
+- `params.analytics.providers.umami.blockNotice`: Detect blocked Umami requests and surface a dismissible edge banner.

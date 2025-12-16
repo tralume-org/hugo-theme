@@ -1,95 +1,30 @@
-{{- with site.Params.analytics }}
-  {{- with .umami }}
-    {{- $src := or .scriptURL .scriptUrl -}}
-    {{- $websiteId := .websiteId -}}
-    {{- $blockNotice := default false .blockNotice -}}
-    {{- if and $src $websiteId $blockNotice }}
-      {{/* 说明：Umami 拦截检测提示条，占位元素默认隐藏，待 JS 判定后再显式展示。 */}}
-      <div
-        class="umami-block-notice"
-        data-component="umami-block-notice"
-        role="alert"
-        aria-live="polite"
-        hidden
-      >
-        <div class="umami-block-notice__text">{{ i18n "umamiBlockedNotice" }}</div>
-        <div class="umami-block-notice__actions">
-          <button
-            type="button"
-            class="umami-block-notice__button umami-block-notice__button--primary"
-            data-umami-action="dismiss"
-          >
-            {{ i18n "umamiBlockedIgnore" }}
-          </button>
-          <button
-            type="button"
-            class="umami-block-notice__button"
-            data-umami-action="more"
-          >
-            {{ i18n "umamiBlockedMore" }}
-          </button>
-        </div>
-      </div>
-      <div
-        class="umami-block-dialog"
-        data-component="umami-block-dialog"
-        role="presentation"
-        hidden
-      >
-        <div
-          class="umami-block-dialog__backdrop"
-          data-umami-dialog-part="backdrop"
-          aria-hidden="true"
-        ></div>
-        <div
-          class="umami-block-dialog__panel"
-          role="dialog"
-          aria-modal="true"
-          aria-label="{{ i18n "umamiBlockedNotice" }}"
-        >
-          <div class="umami-block-dialog__content">
-            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogGreeting" }}</p>
-            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogIntro" }}</p>
-            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogBlocked" }}</p>
-            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogCauses" }}</p>
-            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogRequest" }}</p>
-            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogGuides" }}</p>
-            <ul class="umami-block-dialog__list">
-              <li>
-                <a
-                  href="{{ i18n "umamiBlockedDialogGuideUblockLink" }}"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {{ i18n "umamiBlockedDialogGuideUblock" }}
-                </a>
-              </li>
-              <li>
-                <a href="https://adguard.com/kb/" target="_blank" rel="noreferrer">
-                  {{ i18n "umamiBlockedDialogGuideAdguard" }}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://community.brave.app/t/shields-whitelist-specific-sites/399579"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {{ i18n "umamiBlockedDialogGuideBrave" }}
-                </a>
-              </li>
-            </ul>
-            <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogFooter" }}</p>
-          </div>
-          <button
-            type="button"
-            class="umami-block-dialog__close"
-            data-umami-dialog-action="close"
-          >
-            {{ i18n "umamiBlockedClose" }}
-          </button>
-        </div>
-      </div>
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{- /*
+  说明：Analytics provider 分发入口（拦截检测提示）。
+  用途：根据 `params.analytics.provider` 渲染对应 provider 的占位提示 UI。
+  约定：同 `partials/analytics.html` 的 provider 推断与配置读取策略。
+*/ -}}
+{{- with site.Params.analytics -}}
+  {{- $analytics := . -}}
+  {{- $provider := "" -}}
+  {{- with $analytics.provider -}}
+    {{- $provider = lower . -}}
+  {{- end -}}
+
+  {{- $providers := $analytics.providers | default dict -}}
+
+  {{- if and (not $provider) (eq (len $providers) 1) -}}
+    {{- range $name, $_ := $providers -}}
+      {{- if not $provider -}}
+        {{- $provider = lower $name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if $provider -}}
+    {{- $partial := printf "analytics/providers/%s-block-notice.html" $provider -}}
+    {{- $config := index $providers $provider -}}
+    {{- if templates.Exists (printf "partials/%s" $partial) -}}
+      {{- partial $partial (dict "Config" $config "Context" $) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

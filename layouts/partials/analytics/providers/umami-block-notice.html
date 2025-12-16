@@ -1,0 +1,100 @@
+{{- /*
+  说明：Umami analytics provider（拦截检测提示）。
+  用途：当开启 `blockNotice` 时输出占位 DOM，供前端脚本在检测失败后展示提示。
+  注意：需要同时满足 `scriptUrl` + `websiteId` + `blockNotice=true` 才输出，避免无意义渲染。
+*/ -}}
+{{- $config := .Config -}}
+{{- with $config }}
+  {{- $src := or .scriptURL .scriptUrl -}}
+  {{- $websiteId := or .websiteId .websiteID -}}
+  {{- $blockNotice := default false .blockNotice -}}
+  {{- if and $src $websiteId $blockNotice }}
+    {{/* 说明：Umami 拦截检测提示条，占位元素默认隐藏，待 JS 判定后再显式展示。 */}}
+    <div
+      class="umami-block-notice"
+      data-component="umami-block-notice"
+      role="alert"
+      aria-live="polite"
+      hidden
+    >
+      <div class="umami-block-notice__text">{{ i18n "umamiBlockedNotice" }}</div>
+      <div class="umami-block-notice__actions">
+        <button
+          type="button"
+          class="umami-block-notice__button umami-block-notice__button--primary"
+          data-umami-action="dismiss"
+        >
+          {{ i18n "umamiBlockedIgnore" }}
+        </button>
+        <button
+          type="button"
+          class="umami-block-notice__button"
+          data-umami-action="more"
+        >
+          {{ i18n "umamiBlockedMore" }}
+        </button>
+      </div>
+    </div>
+    <div
+      class="umami-block-dialog"
+      data-component="umami-block-dialog"
+      role="presentation"
+      hidden
+    >
+      <div
+        class="umami-block-dialog__backdrop"
+        data-umami-dialog-part="backdrop"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="umami-block-dialog__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="{{ i18n "umamiBlockedNotice" }}"
+      >
+        <div class="umami-block-dialog__content">
+          <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogGreeting" }}</p>
+          <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogIntro" }}</p>
+          <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogBlocked" }}</p>
+          <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogCauses" }}</p>
+          <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogRequest" }}</p>
+          <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogGuides" }}</p>
+          <ul class="umami-block-dialog__list">
+            <li>
+              <a
+                href="{{ i18n "umamiBlockedDialogGuideUblockLink" }}"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {{ i18n "umamiBlockedDialogGuideUblock" }}
+              </a>
+            </li>
+            <li>
+              <a href="https://adguard.com/kb/" target="_blank" rel="noreferrer">
+                {{ i18n "umamiBlockedDialogGuideAdguard" }}
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://community.brave.app/t/shields-whitelist-specific-sites/399579"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {{ i18n "umamiBlockedDialogGuideBrave" }}
+              </a>
+            </li>
+          </ul>
+          <p class="umami-block-dialog__paragraph">{{ i18n "umamiBlockedDialogFooter" }}</p>
+        </div>
+        <button
+          type="button"
+          class="umami-block-dialog__close"
+          data-umami-dialog-action="close"
+        >
+          {{ i18n "umamiBlockedClose" }}
+        </button>
+      </div>
+    </div>
+  {{- end }}
+{{- end }}
+

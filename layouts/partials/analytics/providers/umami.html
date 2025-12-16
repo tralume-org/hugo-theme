@@ -1,0 +1,24 @@
+{{- /*
+  说明：Umami analytics provider。
+  用途：根据 provider 配置注入 Umami 跟踪脚本。
+  注意：
+  - 仅支持 `params.analytics.providers.umami`（不兼容旧版 `params.analytics.umami`）。
+  - 仅当 `scriptUrl`(或 `scriptURL`) 与 `websiteId` 同时存在时才会输出脚本。
+*/ -}}
+{{- $config := .Config -}}
+{{- with $config }}
+  {{- $src := or .scriptURL .scriptUrl -}}
+  {{- $websiteId := or .websiteId .websiteID -}}
+  {{- $blockNotice := default false .blockNotice -}}
+  {{- if and $src $websiteId }}
+    {{/* 说明：defer 避免阻塞渲染；data-* 交由 Umami 脚本读取。 */}}
+    <script
+      defer
+      src="{{ $src }}"
+      data-website-id="{{ $websiteId }}"
+      {{ with .dataHost }}data-host="{{ . }}"{{ end }}
+      {{ with .dataDomains }}data-domains="{{ . }}"{{ end }}
+      {{ if $blockNotice }}data-umami-block-notice="true"{{ end }}
+    ></script>
+  {{- end }}
+{{- end }}

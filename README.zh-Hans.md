@@ -106,8 +106,10 @@ defaultContentLanguageInSubdir = true
   [params.home]
     recentPostsLimit = 4           # 说明：主页展示的最新文章数量上限，超出时显示“查看更多文章”按钮。
   [params.analytics]
-    # 说明：Umami 统计脚本配置，替换为自己的部署地址与 site id；留空则不输出脚本。
-    [params.analytics.umami]
+    # 说明：统计 provider 名称（建议显式填写；若 providers 下仅配置 1 个 provider，可省略）。
+    provider = 'umami'
+    # 说明：Umami 统计 provider 配置，替换为自己的部署地址与 site id；留空则不输出脚本。
+    [params.analytics.providers.umami]
       scriptUrl = 'https://umami.example.com/script.js'
       websiteId = '5b14b1a3-b5c6-4961-b1a8-32c1819069f8'
       # dataHost = 'https://umami.example.com'   # 可选：自定义 data-host。
@@ -197,5 +199,6 @@ hugo --minify
 - `params.theme.defaultMode`：`auto` / `light` / `dark`。
 - `params.theme.defaultGlassStrength`：`soft` / `balanced` / `bold`。
 - `params.theme.defaultReaderWidth` 或 `params.theme.defaultReaderWidthValue`：阅读区宽度预设或自定义 rem 值（自定义优先）。
-- `params.analytics.umami.scriptUrl` / `params.analytics.umami.websiteId`：Umami 统计脚本的地址与站点 ID，可选 `dataHost` / `dataDomains` 控制上报域名。
-- `params.analytics.umami.blockNotice`：检测统计脚本被拦截时显示贴边提示，可永久忽略。
+- `params.analytics.provider`：统计 provider 名称（例如 `umami`）。
+- `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`：Umami 统计脚本的地址与站点 ID，可选 `dataHost` / `dataDomains` 控制上报域名。
+- `params.analytics.providers.umami.blockNotice`：检测统计脚本被拦截时显示贴边提示，可永久忽略。

@@ -1,18 +1,32 @@
-{{- with site.Params.analytics }}
-  {{- with .umami }}
-    {{- $src := or .scriptURL .scriptUrl -}}
-    {{- $websiteId := .websiteId -}}
-    {{- $blockNotice := default false .blockNotice -}}
-    {{- if and $src $websiteId }}
-      {{/* 说明：按 params.analytics.umami 配置注入 Umami 统计脚本，defer 避免阻塞渲染。 */}}
-      <script
-        defer
-        src="{{ $src }}"
-        data-website-id="{{ $websiteId }}"
-        {{ with .dataHost }}data-host="{{ . }}"{{ end }}
-        {{ with .dataDomains }}data-domains="{{ . }}"{{ end }}
-        {{ if $blockNotice }}data-umami-block-notice="true"{{ end }}
-      ></script>
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{- /*
+  说明：Analytics provider 分发入口。
+  用途：根据 `params.analytics.provider` 渲染对应 provider 的脚本注入。
+  约定：
+  - 推荐：显式设置 `params.analytics.provider` + `params.analytics.providers.<name>`。
+  - 若未设置 `provider` 且仅配置了 1 个 `providers`，会自动选用该 provider。
+*/ -}}
+{{- with site.Params.analytics -}}
+  {{- $analytics := . -}}
+  {{- $provider := "" -}}
+  {{- with $analytics.provider -}}
+    {{- $provider = lower . -}}
+  {{- end -}}
+
+  {{- $providers := $analytics.providers | default dict -}}
+
+  {{- if and (not $provider) (eq (len $providers) 1) -}}
+    {{- range $name, $_ := $providers -}}
+      {{- if not $provider -}}
+        {{- $provider = lower $name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if $provider -}}
+    {{- $partial := printf "analytics/providers/%s.html" $provider -}}
+    {{- $config := index $providers $provider -}}
+    {{- if templates.Exists (printf "partials/%s" $partial) -}}
+      {{- partial $partial (dict "Config" $config "Context" $) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
