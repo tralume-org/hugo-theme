@@ -1,0 +1,5 @@
+{{ define "main" }}
+  {{/* 说明：友链单页与列表页保持一致，统一复用 friends/list.html，避免维护两套 UI。 */}}
+  {{ partial "friends/list.html" . }}
+{{ end }}
+

@@ -1,5 +1,19 @@
 {{ define "main" }}
-  {{/* 说明：主页输出欢迎内容后展示文章卡片列表。 */}}
-  {{ .Content }}
-  {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" .) }}
+  {{/* 说明：主页欢迎语使用亚克力卡片容器，保持与其它列表页一致的质感。 */}}
+  {{ with .Content }}
+    <section class="page-intro-card app-glass app-card">
+      {{ . }}
+    </section>
+  {{ end }}
+  {{/* 说明：主页仅展示限定数量的最新文章，并提供跳转至完整列表的按钮。 */}}
+  {{- $homeLimit := 6 -}}
+  {{- with site.Params.home.recentPostsLimit }}
+    {{- $homeLimit = int . -}}
+  {{- end }}
+  {{- $postsPage := site.GetPage "section" "posts" -}}
+  {{- $moreURL := relLangURL "posts" -}}
+  {{- with $postsPage }}
+    {{- $moreURL = .RelPermalink -}}
+  {{- end }}
+  {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal" "Limit" $homeLimit "ShowMore" true "MoreURL" $moreURL) }}
 {{ end }}

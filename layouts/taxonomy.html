@@ -1,7 +1,12 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
-  {{ range .Pages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-  {{ end }}
+  {{/* 说明：Tags/分类概览页与其它列表页保持一致：顶部简介卡片 + 词条卡片网格。 */}}
+  <section class="page-intro-card page-intro-card--section app-glass app-card">
+    <h1 class="page-intro-card__title">{{ .Title }}</h1>
+    {{ with .Content }}
+      <div class="page-intro-card__body">
+        {{ . }}
+      </div>
+    {{ end }}
+  </section>
+  {{ partial "taxonomy-term-list.html" (dict "Terms" .Pages "Context" .) }}
 {{ end }}

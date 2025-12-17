@@ -43,6 +43,23 @@
 </head>
 <body>
   {{ partial "body.html" . }}
+  <main
+    id="main-content"
+    class="app-content"
+    data-code-copy-label="{{ i18n "codeBlockCopy" }}"
+    data-code-copied-label="{{ i18n "codeBlockCopied" }}"
+  >
+    {{/* 说明：遵循 Hugo 标准模板机制：主内容由各 kind/layout 模板通过 block "main" 提供。 */}}
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ if .IsPage }}
+    {{/* 说明：仅在单篇内容展示阅读进度悬浮按钮。 */}}
+    {{ partial "progress-floating.html" . }}
+  {{ end }}
+  {{/* 说明：右下角设置按钮及卡片交互入口。 */}}
+  {{ partial "settings-panel.html" . }}
+  {{/* 说明：若统计脚本被拦截，则在页面边缘提示用户相关功能不可用（具体由 provider 决定）。 */}}
+  {{ partial "analytics-block-notice.html" . }}
   {{ partial "footer.html" . }}
 </body>
 </html>
