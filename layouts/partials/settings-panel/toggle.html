@@ -1,0 +1,11 @@
+{{/* 说明：设置面板的悬浮入口按钮（仅结构与无障碍属性），状态由前端脚本控制。 */}}
+<button
+  class="settings-panel__toggle"
+  type="button"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="settings-panel-surface"
+  data-settings-toggle
+>
+  <span class="settings-panel__toggle-label">{{ i18n "settingsPanelButtonLabel" }}</span>
+</button>

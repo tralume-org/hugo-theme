@@ -1,0 +1,21 @@
+{{/* 说明：主题模式切换区，提供自动、浅色、深色三种选项。 */}}
+{{ $modeOptions := slice
+  (dict "id" "auto" "label" (i18n "settingsPanelModeAuto"))
+  (dict "id" "light" "label" (i18n "settingsPanelModeLight"))
+  (dict "id" "dark" "label" (i18n "settingsPanelModeDark"))
+}}
+<section class="settings-panel__section settings-panel__section--modes app-glass app-glass--elevated">
+  <h3 class="settings-panel__section-title">{{ i18n "settingsPanelModeHeading" }}</h3>
+  <div class="settings-panel__mode-grid">
+    {{ range $modeOptions }}
+      <button
+        type="button"
+        class="settings-panel__mode-button"
+        data-theme-mode-option="{{ .id }}"
+        aria-pressed="false"
+      >
+        {{ .label }}
+      </button>
+    {{ end }}
+  </div>
+</section>
