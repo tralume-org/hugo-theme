@@ -1,0 +1,13 @@
+{{/* 说明：友链卡片网格：负责循环渲染卡片；Friends 为空时展示空态文案。 */}}
+{{- $friends := .Friends | default (slice) -}}
+{{- $currentLangName := .CurrentLangName -}}
+
+{{- if gt (len $friends) 0 }}
+  <div class="friend-grid">
+    {{- range $friends }}
+      {{ partial "friends/card.html" (dict "Friend" . "CurrentLangName" $currentLangName) }}
+    {{- end }}
+  </div>
+{{- else }}
+  <p class="friend-list__empty">{{ i18n "friendListEmpty" }}</p>
+{{- end }}

@@ -1,0 +1,77 @@
+{{/* 说明：从 data/friends 归一化友链数据；按“当前语言优先”分组并随机排列；仅做数据处理，不输出 HTML。 */}}
+{{- $currentLang := site.Language.Lang | default "en-US" -}}
+{{- $currentLangKey := lower (replace $currentLang "_" "-" ) -}}
+{{- $currentLangCode := site.Language.LanguageCode | default $currentLang -}}
+{{- $currentLangCodeKey := lower (replace $currentLangCode "_" "-" ) -}}
+{{- $currentLangName := site.Language.LanguageName | default $currentLang -}}
+
+{{/* 说明：将语言代码映射为语言名称（来自 Hugo languages 配置），用于友链卡片展示。 */}}
+{{- $languageNameScratch := newScratch -}}
+{{- range site.Sites }}
+  {{- $langKey := lower (replace (.Language.Lang | default "") "_" "-" ) -}}
+  {{- if $langKey }}
+    {{- $languageNameScratch.Set $langKey .Language.LanguageName -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 说明：name/description 支持 i18n：既可为字符串，也可为按语言代码分组的 map；缺失当前语言时回退 default 或任一已提供语言。 */}}
+{{- $i18nKeyCandidates := slice $currentLangCode (replace $currentLangCode "_" "-" ) $currentLang (replace $currentLang "_" "-" ) $currentLangKey $currentLangCodeKey "default" -}}
+{{- $friendsData := site.Data.friends -}}
+{{- $primaryFriends := slice -}}
+{{- $secondaryFriends := slice -}}
+
+{{- if $friendsData }}
+  {{- range $friendsData }}
+    {{- $name := partial "friends/resolve-i18n-field.html" (dict "Value" .name "Candidates" $i18nKeyCandidates) -}}
+    {{- $description := partial "friends/resolve-i18n-field.html" (dict "Value" .description "Candidates" $i18nKeyCandidates) -}}
+    {{- $url := .url -}}
+
+    {{- if and $name $url }}
+      {{- $rawLang := or .language .lang -}}
+      {{- $normalizedLang := "" -}}
+      {{- $languageNameKey := $currentLangKey -}}
+      {{- $languageCodeLabel := "" -}}
+      {{- with $rawLang }}
+        {{- $normalizedLang = lower (replace (printf "%v" .) "_" "-" ) -}}
+        {{- $languageNameKey = $normalizedLang -}}
+        {{- $languageCodeLabel = replace (printf "%v" .) "_" "-" -}}
+      {{- end -}}
+
+      {{/* 说明：语言展示优先级：languages 配置中的 languageName > 原始 language 代码（如 zh-Hans）> 当前语言名。 */}}
+      {{- $languageDisplay := $currentLangName -}}
+      {{- if $languageCodeLabel }}
+        {{- $languageDisplay = $languageCodeLabel -}}
+      {{- end -}}
+      {{- with ($languageNameScratch.Get $languageNameKey) }}
+        {{- $languageDisplay = . -}}
+      {{- end -}}
+
+      {{- $friend := dict
+        "name" $name
+        "description" $description
+        "url" $url
+        "avatar" .avatar
+        "language" $languageDisplay
+      -}}
+
+      {{- if or (eq $normalizedLang $currentLangKey) (eq $normalizedLang "") }}
+        {{- $primaryFriends = $primaryFriends | append $friend -}}
+      {{- else }}
+        {{- $secondaryFriends = $secondaryFriends | append $friend -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 说明：随机排列；保持“当前语言条目优先，其它语言条目在后”的顺序。 */}}
+{{- $primaryFriends = shuffle $primaryFriends -}}
+{{- $secondaryFriends = shuffle $secondaryFriends -}}
+{{- $friends := $primaryFriends -}}
+{{- range $secondaryFriends }}
+  {{- $friends = $friends | append . -}}
+{{- end -}}
+
+{{- return (dict
+  "Friends" $friends
+  "CurrentLangName" $currentLangName
+) -}}

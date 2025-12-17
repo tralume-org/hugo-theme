@@ -1,0 +1,9 @@
+{{/* 说明：友链页面头部：展示标题与页面简介（来自 Content）。 */}}
+<header class="friends__header app-glass app-card">
+  <h1 class="friends__title">{{ i18n "friendsPageTitle" }}</h1>
+  {{ with .Content }}
+    <div class="friends__intro">
+      {{ . }}
+    </div>
+  {{ end }}
+</header>

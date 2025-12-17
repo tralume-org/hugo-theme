@@ -1,0 +1,26 @@
+{{/* 说明：解析 data/friends 里支持 i18n 的字段值；Value 可为字符串或 map；按 Candidates 依次回退，最后回退到任意已提供语言。 */}}
+{{- $value := .Value -}}
+{{- $candidates := .Candidates | default (slice) -}}
+{{- $resolved := "" -}}
+
+{{- if reflect.IsMap $value }}
+  {{- range $candidates }}
+    {{- if eq $resolved "" }}
+      {{- with (index $value .) }}
+        {{- $resolved = printf "%v" . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if eq $resolved "" }}
+    {{- range $value }}
+      {{- $resolved = printf "%v" . -}}
+      {{- break -}}
+    {{- end -}}
+  {{- end -}}
+{{- else }}
+  {{- with $value }}
+    {{- $resolved = printf "%v" . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $resolved -}}

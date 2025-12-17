@@ -1,0 +1,36 @@
+{{/* 说明：单个友链卡片；Friend 来自 friends/collect.html 的归一化输出。 */}}
+{{- $friend := .Friend -}}
+{{- $currentLangName := .CurrentLangName -}}
+{{- $name := $friend.name -}}
+{{- $description := $friend.description -}}
+{{- $link := $friend.url | safeURL -}}
+{{- $avatar := $friend.avatar -}}
+{{- $language := $friend.language | default $currentLangName -}}
+{{- $initial := cond (gt (len $name) 0) (substr $name 0 1) "?" -}}
+
+<a
+  class="friend-card app-glass app-glass--elevated app-card app-card--interactive"
+  href="{{ $link }}"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="{{ i18n "friendsCardAriaLabel" (dict "Name" $name) }}"
+>
+  <div class="friend-card__avatar app-glass app-card" aria-hidden="true">
+    {{ if $avatar }}
+      <img src="{{ $avatar | safeURL }}" alt="">
+    {{ else }}
+      <span class="friend-card__avatar-fallback">{{ $initial }}</span>
+    {{ end }}
+  </div>
+  <div class="friend-card__content">
+    <div class="friend-card__meta">
+      <span class="friend-card__language" aria-label="{{ i18n "friendsLanguageLabel" (dict "Language" $language) }}">
+        {{ $language }}
+      </span>
+    </div>
+    <h2 class="friend-card__name">{{ $name }}</h2>
+    {{ with $description }}
+      <p class="friend-card__description">{{ . }}</p>
+    {{ end }}
+  </div>
+</a>
