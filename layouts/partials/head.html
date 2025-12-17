@@ -51,18 +51,22 @@
   (resources.Get "css/settings/background.css")
   | resources.Concat "css/settings-panel.css"
 }}
-{{ $main := slice
-  (resources.Get "css/base.css")
-  (resources.Get "css/glass-surfaces.css")
-  (resources.Get "css/app-navigation.css")
-  (resources.Get "css/app-shell.css")
-  (resources.Get "css/article-outline.css")
-  (resources.Get "css/content-blocks.css")
-  $settingsPanel
-  (resources.Get "css/analytics.css")
-  (resources.Get "css/code-blocks.css")
-  | resources.Concat "css/main.css"
-}}
+	{{ $main := slice
+	  (resources.Get "css/base.css")
+	  (resources.Get "css/glass-surfaces.css")
+	  (resources.Get "css/app-navigation.css")
+	  (resources.Get "css/app-shell.css")
+	  (resources.Get "css/article-outline.css")
+	  (resources.Get "css/content-blocks/article-timeline.css")
+	  (resources.Get "css/content-blocks/article-list.css")
+	  (resources.Get "css/content-blocks/article-card.css")
+	  (resources.Get "css/content-blocks/page-intro-card.css")
+	  (resources.Get "css/content-blocks/friends.css")
+	  $settingsPanel
+	  (resources.Get "css/analytics.css")
+	  (resources.Get "css/code-blocks.css")
+	  | resources.Concat "css/main.css"
+	}}
 {{ $material := resources.Get "js/material.js" | js.Build (dict "target" "es2019" "minify" true) }}
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
 <link rel="stylesheet" href="{{ $main.RelPermalink }}">

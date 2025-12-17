@@ -1,0 +1,66 @@
+/* 说明：文章目录容器，使用网格布局自适应排列卡片。 */
+.article-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  /* 说明：中等及以上屏幕采用多列布局，每列最小宽度 18rem。 */
+  .article-list {
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  }
+}
+
+/* 说明：横向排列列表用于主页与 Posts Section，按行排布并自动换行。 */
+.article-list--horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+
+.article-list--horizontal .article-card {
+  flex: 1 1 100%;
+  max-width: none;
+}
+
+/* 说明：列表为空时的占位提示样式，也使用亚克力底色避免割裂。 */
+.article-list__empty {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-radius: var(--app-radius-section);
+  border: 1px dashed var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+/* 说明：列表超过展示数量时的“查看更多”按钮，保持居中与亚克力质感。 */
+.article-list__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.article-list__more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.85rem 1.15rem;
+  color: var(--md-sys-color-primary);
+  font-weight: 700;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  --app-glass-radius: var(--app-radius-pill);
+  --app-card-lift-y: -2px;
+}
+
+.article-list__more-link:hover,
+.article-list__more-link:focus-visible {
+  text-decoration: none;
+}

@@ -1,0 +1,79 @@
+/* 说明：文章卡片基础样式，使用 Material 风格阴影与圆角。 */
+.article-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  color: var(--md-sys-color-on-surface);
+  text-decoration: none;
+}
+
+.article-card:hover,
+.article-card:focus-visible {
+  text-decoration: none;
+}
+
+.article-card__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-large-size);
+  line-height: var(--md-sys-typescale-title-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.article-card__meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.article-card__meta-item {
+  /* 说明：Meta 项采用行内布局，便于插入图标或分隔点。 */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.article-card__meta-separator {
+  opacity: 0.5;
+}
+
+.article-card__summary {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+  /* 说明：通过 line-clamp 控制摘要最大显示行数，避免超长内容。 */
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+@media (max-width: 47.99rem) {
+  /* 说明：移动端仅展示 3 行摘要，避免占据过多纵向空间。 */
+  .article-card__summary {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+}
+
+@media (min-width: 64rem) {
+  /* 说明：桌面大屏适当增加摘要行数，提升可读性。 */
+  .article-card__summary {
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
+}
+
+@media (max-width: 48rem) {
+  /* 说明：移动端压缩文章卡片内边距，保证列表更易浏览。 */
+  .article-card {
+    padding: 1.25rem;
+  }
+}

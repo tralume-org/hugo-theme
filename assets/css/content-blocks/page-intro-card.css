@@ -1,0 +1,26 @@
+/* 说明：通用页面引导卡片，供首页与 Section 顶部简介复用。 */
+.page-intro-card {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.25rem 1.35rem;
+  color: var(--md-sys-color-on-surface);
+  --app-glass-radius: var(--app-radius-panel);
+}
+
+.page-intro-card--section {
+  --app-glass-bg-color: var(--app-glass-elevated-color);
+}
+
+.page-intro-card__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-headline-small-size);
+  line-height: var(--md-sys-typescale-headline-small-line-height);
+  font-weight: 700;
+}
+
+.page-intro-card__body {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+}
