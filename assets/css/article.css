@@ -1,0 +1,89 @@
+/* 说明：文章页面基础布局与正文容器样式。
+ * 作用：定义文章卡片（surface）、标题区与正文排版的默认间距/收缩规则，避免内容溢出。
+ * 注意：目录（outline）、Callout/blockquote、信息卡片与阅读进度按钮的样式在各自文件中维护。
+ */
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 说明：文章正文块独立成亚克力表面，避免与大纲共享同一背景。 */
+.article__surface {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: var(--article-surface-padding, 1.75rem);
+  /* 说明：文章正文卡片复用通用亚克力表面，这里仅覆盖圆角与阴影层级。 */
+  --app-glass-radius: var(--article-surface-radius, var(--app-radius-card));
+  --app-card-shadow: var(--md-sys-elevation-level2);
+}
+
+.article__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.article__title {
+  margin: 0;
+  font-size: var(--md-sys-typescale-headline-large-size);
+  line-height: var(--md-sys-typescale-headline-large-line-height);
+  font-weight: 600;
+}
+
+.article__time {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+.article__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-layout-gap, 1.75rem);
+}
+
+.article__content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--article-section-gap, 0.75rem);
+}
+
+/* 说明：正文容器使用 flex 列布局时，默认 min-width:auto 会让宽图/长代码按内容最小宽度撑破卡片；这里强制直接子元素可收缩。 */
+.article__content > * {
+  min-width: 0;
+}
+
+/* 说明：Markdown 图片默认按固有尺寸渲染；限制为不超过容器宽度并保持比例，避免溢出正文卡片。 */
+.article__content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 说明：行内 code 经常用于展示 Token/Key/长路径；允许在必要时断行，避免撑破卡片宽度。 */
+.article__content :not(pre) > code {
+  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* 说明：章节标题与段落的间距由 CSS 变量控制，便于脚本按章节数量自适应。 */
+.article__content h2,
+.article__content h3,
+.article__content h4,
+.article__content h5,
+.article__content h6 {
+  margin-top: var(--article-heading-margin-top, 1.1rem);
+  margin-bottom: var(--article-heading-margin-bottom, 0.4rem);
+}
+
+.article__content > p {
+  margin: var(--article-paragraph-margin, 0.4rem) 0;
+}
+
+.article__content > hr {
+  margin: var(--article-divider-margin, 1.25rem) 0;
+}
+

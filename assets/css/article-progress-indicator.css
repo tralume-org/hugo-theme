@@ -1,0 +1,66 @@
+/* 说明：阅读进度浮动按钮（Progress Indicator）的样式。
+ * 作用：配合脚本更新圆环进度与百分比，提供“回到顶部/进度提示”等阅读辅助。
+ * 注意：按钮的亚克力表面与交互反馈使用 `.app-glass` / `.app-card--interactive`，此处只处理布局与图形细节。
+ */
+
+.progress-indicator {
+  position: fixed;
+  right: 1.5rem;
+  bottom: calc(1.5rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.75rem));
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  inline-size: var(--floating-control-width, 7.5rem);
+  block-size: var(--floating-control-height, 3.5rem);
+  padding: 0 1rem;
+  color: var(--md-sys-color-on-surface);
+  cursor: pointer;
+  /* 说明：阅读进度按钮复用通用卡片交互，提升阴影并降低抬升幅度。 */
+  --app-glass-radius: var(--app-radius-section);
+  --app-card-shadow: var(--md-sys-elevation-level3);
+  --app-card-shadow-hover: var(--md-sys-elevation-level4);
+  --app-card-lift-y: -2px;
+  --app-card-hover-border-color: var(--md-sys-color-outline-variant);
+}
+
+.progress-indicator__chart {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.progress-indicator__track {
+  fill: none;
+  stroke: var(--md-sys-color-outline-variant);
+  stroke-width: 3;
+  opacity: 0.4;
+}
+
+.progress-indicator__meter {
+  fill: none;
+  stroke: var(--md-sys-color-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 0 100;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.2s ease-out;
+}
+
+.progress-indicator__label {
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 600;
+  /* 说明：固定最小宽度并启用等宽数字，防止百分比变化时圆环位置跳动。 */
+  min-inline-size: 3ch;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-indicator[hidden] {
+  display: none;
+}
+

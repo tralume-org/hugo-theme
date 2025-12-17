@@ -1,0 +1,51 @@
+/* 说明：文章信息卡片（Article Info）的布局样式。
+ * 作用：为 `layouts/partials/article-info.html` 输出的结构提供间距与文字层级。
+ * 注意：表面质感由 `.article__surface app-glass app-card` 组合提供，这里不重复声明亚克力表面。
+ */
+
+/* 说明：文章信息卡片直接复用 article__surface 的亚克力样式，这里仅保留布局弹性。 */
+.article__info {
+  flex: 1 1 auto;
+}
+
+.article-info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.article-info-card__heading {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-medium-size);
+  line-height: var(--md-sys-typescale-title-medium-line-height);
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+}
+
+.article-info-card__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.85rem;
+}
+
+.article-info-card__section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.article-info-card__section-label {
+  margin: 0;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 400;
+  color: var(--md-sys-color-on-surface);
+}
+
+.article-info-card__section-text {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+

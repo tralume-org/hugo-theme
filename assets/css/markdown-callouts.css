@@ -1,0 +1,138 @@
+/* 说明：Markdown 引用块与 Callout（> [!NOTE] 等）的样式。
+ * 作用：为 render hook 输出的 blockquote/callout 提供一致外观，避免正文排版文件堆叠内容块逻辑。
+ * 注意：Callout 的文本由 i18n 提供；这里只处理容器、图标与层级配色。
+ */
+
+/* 说明：统一引用块与 Callout 的外观，沿用亚克力表面与描边。 */
+.article__content blockquote {
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.article__content blockquote > :first-child {
+  margin-top: 0;
+}
+
+.article__content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* 说明：GitHub 风格提示块（> [!WARNING]）的主题样式，使用数据属性区分类型。 */
+.callout {
+  --callout-accent: var(--md-sys-color-primary);
+  --callout-on-accent: var(--md-sys-color-on-primary);
+  --callout-surface: var(--app-glass-surface-color);
+  margin: 0.35rem 0;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--app-glass-border-color);
+  border-inline-start: 4px solid var(--callout-accent);
+  background-color: var(--callout-surface);
+  color: var(--md-sys-color-on-surface);
+  box-shadow: var(--md-sys-elevation-level1);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.callout__header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.35rem;
+}
+
+.callout__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.85rem;
+  color: var(--callout-on-accent);
+  background: color-mix(in srgb, var(--callout-accent) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--callout-accent) 62%, transparent);
+  box-shadow: var(--md-sys-elevation-level1);
+  font-family: "Material Symbols Rounded", sans-serif;
+  font-size: 1.55rem;
+  font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 24;
+  font-feature-settings: "liga";
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.callout__icon-glyph {
+  display: block;
+  transform: translateY(5px);
+}
+
+.callout__title {
+  font-weight: 700;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+}
+
+.callout__content {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--md-sys-color-on-surface);
+}
+
+.callout__content > :first-child {
+  margin-top: 0;
+}
+
+.callout__content > :last-child {
+  margin-bottom: 0;
+}
+
+.callout[data-callout-kind="note"] {
+  --callout-accent: var(--md-sys-color-secondary);
+  --callout-on-accent: var(--md-sys-color-on-secondary);
+}
+
+.callout[data-callout-kind="tip"] {
+  --callout-accent: var(--md-sys-color-primary);
+  --callout-on-accent: var(--md-sys-color-on-primary);
+}
+
+.callout[data-callout-kind="important"] {
+  --callout-accent: color-mix(in srgb, var(--md-sys-color-primary) 70%, var(--md-sys-color-on-surface) 30%);
+  --callout-on-accent: var(--md-sys-color-on-primary);
+}
+
+.callout[data-callout-kind="warning"],
+.callout[data-callout-kind="caution"] {
+  --callout-accent: color-mix(in srgb, #f59e0b 70%, var(--md-sys-color-on-surface) 30%);
+  --callout-on-accent: #1f1300;
+}
+
+.callout[data-callout-kind="danger"] {
+  --callout-accent: color-mix(in srgb, #d92d20 78%, var(--md-sys-color-on-surface) 22%);
+  --callout-on-accent: #ffffff;
+}
+
+/* 说明：Material Symbols Rounded 字体设置，启用连字图标显示。 */
+.material-symbols-rounded {
+  font-family: "Material Symbols Rounded";
+  font-style: normal;
+  font-weight: 400;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  line-height: 1;
+  font-feature-settings: "liga";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: normal;
+}
+
