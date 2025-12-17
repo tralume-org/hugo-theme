@@ -1,0 +1,68 @@
+/* 说明：通用亚克力表面/卡片样式。
+ * 作用：将 background / border / blur / radius / elevation 抽成可复用类，减少重复声明。
+ * 注意：布局（display/padding/grid 等）仍由各组件自行定义；这里只负责“表面质感”。
+ */
+
+.app-glass {
+  /* 说明：通过 CSS 变量让组件可覆盖不同层级的底色、描边、模糊与圆角。 */
+  --app-glass-bg-color: var(--app-glass-surface-color);
+  --app-glass-border-color: var(--app-glass-border-color);
+  --app-glass-blur: var(--app-glass-blur-radius);
+  --app-glass-radius: var(--app-radius-card, 1.5rem);
+
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-bg-color);
+  border-radius: var(--app-glass-radius);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur));
+  backdrop-filter: blur(var(--app-glass-blur));
+}
+
+/* 说明：三档亚克力表面语义，推荐与 .app-glass 搭配使用。 */
+.app-glass--surface {
+  --app-glass-bg-color: var(--app-glass-surface-color);
+  --app-glass-border-color: var(--app-glass-border-color);
+}
+
+.app-glass--elevated {
+  --app-glass-bg-color: var(--app-glass-elevated-color);
+  --app-glass-border-color: var(--app-glass-border-color);
+}
+
+.app-glass--strong {
+  --app-glass-bg-color: var(--app-glass-strong-color);
+  --app-glass-border-color: var(--app-glass-border-strong-color);
+}
+
+/* 说明：卡片阴影（不含交互），默认与文章卡片保持一致，可按组件覆盖。 */
+.app-card {
+  --app-card-shadow: var(--md-sys-elevation-level1);
+  box-shadow: var(--app-card-shadow);
+}
+
+/* 说明：统一交互反馈：抬升 + 边框强化 + 阴影提升。
+ * 注意：仅在“可点击/可聚焦”的卡片上使用，避免静态容器出现不必要的 hover 动效。
+ */
+.app-card--interactive {
+  --app-card-shadow-hover: var(--md-sys-elevation-level2);
+  --app-card-hover-border-color: var(--md-sys-color-outline);
+  --app-card-lift-y: -4px;
+  --app-card-lift-transform: translateY(var(--app-card-lift-y));
+  --app-card-active-transform: translateY(0);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.app-card--interactive:hover,
+.app-card--interactive:focus-visible,
+.app-card--interactive:focus-within {
+  transform: var(--app-card-lift-transform);
+  box-shadow: var(--app-card-shadow-hover);
+  border-color: var(--app-card-hover-border-color);
+}
+
+.app-card--interactive:active {
+  transform: var(--app-card-active-transform);
+}

@@ -34,7 +34,7 @@
       {{- range $grouped }}
         {{- $year := .Key -}}
         {{- $yearPages := .Pages.ByDate.Reverse -}}
-        <div class="timeline-year" data-year="{{ $year }}">
+        <div class="timeline-year app-glass app-glass--elevated app-card app-card--interactive" data-year="{{ $year }}">
           {{/* 说明：标题区域展示年份，并说明文章可在悬停/聚焦时展开摘要。 */}}
           <header class="timeline-year__header">
             <span class="timeline-year__label">{{ $year }}</span>
@@ -48,7 +48,7 @@
               {{- $page := . -}}
               {{- $publishedDate := $page.Date | time.Format ":date_medium" -}}
               {{- $publishedISO := $page.Date | time.Format "2006-01-02" -}}
-              <article class="timeline-post">
+              <article class="timeline-post app-glass app-card app-card--interactive">
                 <a class="timeline-post__link" href="{{ $page.RelPermalink }}">
                   <div class="timeline-post__meta">
                     <time class="timeline-post__date" datetime="{{ $publishedISO }}" aria-label="{{ i18n "articlePublishedOn" (dict "Date" $publishedDate) }}">

@@ -51,6 +51,12 @@ body::before {
   --floating-control-width: 7.5rem;
   --floating-control-height: 3.5rem;
   --floating-control-gap: 0.25rem;
+  /* 说明：统一圆角尺度，供卡片/面板/控件复用，避免各文件重复写死数值。 */
+  --app-radius-card: 1.5rem;
+  --app-radius-panel: 1.25rem;
+  --app-radius-section: 1rem;
+  --app-radius-inline: 0.75rem;
+  --app-radius-pill: 999px;
   /* 说明：阅读区域最大宽度，默认与桌面版内容区一致，可在设置面板中覆盖。 */
   --reader-width-max: 64rem;
   /* 说明：玻璃拟态统一变量，控制透明度、色调与模糊半径以便多处复用。 */

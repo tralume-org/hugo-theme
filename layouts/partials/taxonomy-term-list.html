@@ -39,7 +39,7 @@
       {{- range sort $visibleTerms "title" "asc" -}}
         {{- $term := .page -}}
         {{- $count := .count -}}
-        <a class="article-card term-card" href="{{ $term.RelPermalink }}">
+        <a class="article-card term-card app-glass app-glass--elevated app-card app-card--interactive" href="{{ $term.RelPermalink }}">
           <header class="article-card__header">
             <h2 class="article-card__title">{{ $term.LinkTitle }}</h2>
             <p class="article-card__meta">
@@ -59,4 +59,3 @@
     {{ i18n "articleListEmpty" }}
   </p>
 {{- end -}}
-

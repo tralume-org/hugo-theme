@@ -1,6 +1,6 @@
 {{/* 说明：文章卡片组件，统一输出标题、Meta 信息与摘要。 */}}
 {{- $page := . -}}
-<a class="article-card" href="{{ $page.RelPermalink }}">
+<a class="article-card app-glass app-glass--elevated app-card app-card--interactive" href="{{ $page.RelPermalink }}">
   <header class="article-card__header">
     <h2 class="article-card__title">{{ $page.LinkTitle }}</h2>
     <p class="article-card__meta">

@@ -53,7 +53,7 @@
     {{- if and $showMore $hasLimit (ne $moreURL "") -}}
       {{/* 说明：仅当总数超出限制时展示“查看更多”按钮，引导至完整列表。 */}}
       <div class="article-list__more">
-        <a class="article-list__more-link" href="{{ $moreURL }}">
+        <a class="article-list__more-link app-glass app-card app-card--interactive" href="{{ $moreURL }}">
           {{ i18n "articleListViewMore" }}
         </a>
       </div>

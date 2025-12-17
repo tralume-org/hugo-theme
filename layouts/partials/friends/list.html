@@ -104,7 +104,7 @@
 {{- end -}}
 
 <section class="friends">
-  <header class="friends__header">
+  <header class="friends__header app-glass app-card">
     <h1 class="friends__title">{{ i18n "friendsPageTitle" }}</h1>
     {{ with .Content }}
       <div class="friends__intro">
@@ -122,13 +122,13 @@
         {{- $language := .language | default $currentLangName -}}
         {{- $initial := cond (gt (len $name) 0) (substr $name 0 1) "?" -}}
         <a
-          class="friend-card"
+          class="friend-card app-glass app-glass--elevated app-card app-card--interactive"
           href="{{ $link }}"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="{{ i18n "friendsCardAriaLabel" (dict "Name" $name) }}"
         >
-          <div class="friend-card__avatar" aria-hidden="true">
+          <div class="friend-card__avatar app-glass app-card" aria-hidden="true">
             {{ if $avatar }}
               <img src="{{ $avatar | safeURL }}" alt="">
             {{ else }}

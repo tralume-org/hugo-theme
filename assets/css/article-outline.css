@@ -10,12 +10,9 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: var(--article-surface-padding, 1.75rem);
-  border-radius: var(--article-surface-radius, 1.5rem);
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
-  box-shadow: var(--md-sys-elevation-level2);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
+  /* 说明：文章正文卡片复用通用亚克力表面，这里仅覆盖圆角与阴影层级。 */
+  --app-glass-radius: var(--article-surface-radius, var(--app-radius-card));
+  --app-card-shadow: var(--md-sys-elevation-level2);
 }
 
 .article__header {
@@ -395,22 +392,14 @@
   inline-size: var(--floating-control-width, 7.5rem);
   block-size: var(--floating-control-height, 3.5rem);
   padding: 0 1rem;
-  border: 1px solid var(--app-glass-border-color);
-  border-radius: 1rem;
-  background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface);
-  box-shadow: var(--md-sys-elevation-level3);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
-}
-
-.progress-indicator:hover,
-.progress-indicator:focus-visible {
-  border-color: var(--md-sys-color-outline-variant);
-  box-shadow: var(--md-sys-elevation-level4);
-  transform: translateY(-2px);
+  /* 说明：阅读进度按钮复用通用卡片交互，提升阴影并降低抬升幅度。 */
+  --app-glass-radius: var(--app-radius-section);
+  --app-card-shadow: var(--md-sys-elevation-level3);
+  --app-card-shadow-hover: var(--md-sys-elevation-level4);
+  --app-card-lift-y: -2px;
+  --app-card-hover-border-color: var(--md-sys-color-outline-variant);
 }
 
 .progress-indicator__chart {

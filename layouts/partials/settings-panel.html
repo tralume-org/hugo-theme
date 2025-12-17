@@ -1,5 +1,5 @@
 {{/* 说明：右下角设置按钮与展开卡片的结构，交由前端脚本控制状态。 */}}
-<div class="settings-panel" data-component="settings-panel">
+<div class="settings-panel app-glass app-glass--elevated app-card" data-component="settings-panel">
   <button
     class="settings-panel__toggle"
     type="button"
@@ -11,7 +11,7 @@
     <span class="settings-panel__toggle-label">{{ i18n "settingsPanelButtonLabel" }}</span>
   </button>
   <section
-    class="settings-panel__surface"
+    class="settings-panel__surface app-glass app-glass--strong"
     id="settings-panel-surface"
     role="dialog"
     aria-labelledby="settings-panel-title"
@@ -23,7 +23,7 @@
     <header class="settings-panel__header">
       <h2 class="settings-panel__title" id="settings-panel-title">{{ i18n "settingsPanelTitle" }}</h2>
       <button
-        class="settings-panel__close"
+        class="settings-panel__close app-glass app-glass--surface"
         type="button"
         aria-label="{{ i18n "settingsPanelCloseLabel" }}"
         data-settings-close
@@ -36,7 +36,7 @@
       {{ $currentSite := .Site }}
       {{ $translations := .AllTranslations }}
       {{ $scratch := newScratch }}
-      <section class="settings-panel__section">
+      <section class="settings-panel__section app-glass app-glass--elevated">
         <h3 class="settings-panel__section-title">{{ i18n "settingsPanelLanguageHeading" }}</h3>
         <div class="settings-panel__select">
           <select class="settings-panel__language-select" data-language-select aria-label="{{ i18n "settingsPanelLanguageHeading" }}">
@@ -89,7 +89,7 @@
         (dict "id" "light" "label" (i18n "settingsPanelModeLight"))
         (dict "id" "dark" "label" (i18n "settingsPanelModeDark"))
       }}
-      <section class="settings-panel__section settings-panel__section--modes">
+      <section class="settings-panel__section settings-panel__section--modes app-glass app-glass--elevated">
         <h3 class="settings-panel__section-title">{{ i18n "settingsPanelModeHeading" }}</h3>
         <div class="settings-panel__mode-grid">
           {{ range $modeOptions }}
@@ -105,7 +105,7 @@
         </div>
       </section>
       {{/* 说明：玻璃强度滑动块，支持连续调节透明度。 */}}
-      <section class="settings-panel__section settings-panel__section--glass">
+      <section class="settings-panel__section settings-panel__section--glass app-glass app-glass--elevated">
         <div class="settings-panel__glass-header">
           <h3 class="settings-panel__section-title">{{ i18n "settingsPanelGlassHeading" }}</h3>
           <span class="settings-panel__glass-value" data-glass-strength-label>45%</span>
@@ -171,7 +171,7 @@
         </div>
       </section>
       {{/* 说明：阅读器宽度滑动条，允许在更大范围内微调正文最大宽度。 */}}
-      <section class="settings-panel__section settings-panel__section--reader">
+      <section class="settings-panel__section settings-panel__section--reader app-glass app-glass--elevated">
         <div class="settings-panel__reader-header">
           <h3 class="settings-panel__section-title">{{ i18n "settingsPanelReaderHeading" }}</h3>
           <span class="settings-panel__reader-value">
@@ -206,7 +206,7 @@
         </div>
       </section>
       {{/* 说明：自定义背景图链接输入区，允许使用任意可访问的图片 URL。 */}}
-      <section class="settings-panel__section settings-panel__section--background">
+      <section class="settings-panel__section settings-panel__section--background app-glass app-glass--elevated">
         <h3 class="settings-panel__section-title">{{ i18n "settingsPanelBackgroundHeading" }}</h3>
         <p class="settings-panel__description">{{ i18n "settingsPanelBackgroundDescription" }}</p>
         <label class="settings-panel__background-label" for="settings-panel-background-input">

@@ -100,6 +100,15 @@
   * 描边：`var(--app-glass-border-color | --app-glass-border-strong-color)`；  
   * 模糊：统一调用 `backdrop-filter: blur(var(--app-glass-blur-radius))`（含 `-webkit-`）。  
   新增组件若具卡片/浮层语义，必须使用上述变量，禁止直接引用 `--md-sys-color-surface-*`。
+* **统一实现（必须）**：新增/修改“卡片/表面”时，优先复用通用类，禁止在各组件里重复手写同一套亚克力声明（`border/background/backdrop-filter/border-radius/box-shadow`）。  
+  * 通用类定义：`assets/css/glass-surfaces.css`  
+  * 表面（必选其一）：`app-glass` + `app-glass--surface|app-glass--elevated|app-glass--strong`  
+  * 阴影：`app-card`（可按组件覆盖 `--app-card-shadow`）  
+  * 交互卡片：`app-card--interactive`（可覆盖 `--app-card-shadow-hover` / `--app-card-hover-border-color` / `--app-card-lift-y` 等）  
+  * 只改圆角/模糊：在组件 CSS 覆盖 `--app-glass-radius` / `--app-glass-blur`，不要改写 `backdrop-filter` 本体。
+* **圆角尺度（必须）**：圆角统一走全局 token（定义于 `assets/css/base.css`），禁止在新组件里直接写死 `1rem/1.25rem/1.5rem/999px` 等常用值。  
+  * `--app-radius-card` / `--app-radius-panel` / `--app-radius-section` / `--app-radius-inline` / `--app-radius-pill`
+  * 组件需要特例时：只覆盖 `--app-glass-radius`，并在 PR 说明里说明原因与对齐策略。
 * 透明度仅通过 `--app-glass-surface-alpha` 等变量调节，不得在组件内部硬编码百分比。若需特殊层级，先评估是否可以复用 `surface / elevated / strong` 三档。
 * **主题色功能已统一为亚克力方案**：禁止新增/恢复 `data-theme-color`、色板预设、背景动态取色等逻辑。色彩变化仅能依赖默认 MD3 Token 与 `--app-glass-*` 变量。
 * 设置面板的“磨砂强度”滑块（`data-glass-strength-range`）负责写入 CSS 变量；  
@@ -112,6 +121,16 @@
   * 继续提供阴影与描边；  
   * 若添加新特性，务必在 PR 说明中列出降级策略或验证路径（如启用 Firefox flag）。
 * 添加/修改表面时，请自检是否需要暴露新变量或设置项；若答案为是，需同步更新 `assets/js/main.js`、`i18n/*` 与本文件。
+
+> 示例（最小化，避免重复声明）：  
+>
+> ```html
+> <!-- 说明：可点击卡片，复用统一亚克力表面 + 阴影 + 抬升交互。 -->
+> <a class="app-glass app-glass--elevated app-card app-card--interactive" href="/posts/xxx/">
+>   <!-- 说明：卡片内容布局/排版仍由组件自身的 class 负责。 -->
+>   <h2 class="article-card__title">...</h2>
+> </a>
+> ```
 
 ---
 
@@ -144,4 +163,4 @@
 
 ---
 
-**最后更新**：2025-12-14（UTC+8）
+**最后更新**：2025-12-17（UTC+8）

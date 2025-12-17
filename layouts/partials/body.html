@@ -23,7 +23,7 @@
   {{ else if eq $kind "home" }}
     {{/* 说明：主页欢迎语使用亚克力卡片容器，保持与友链页一致的质感。 */}}
     {{ with .Content }}
-      <section class="page-intro-card">
+      <section class="page-intro-card app-glass app-card">
         {{ . }}
       </section>
     {{ end }}
@@ -40,7 +40,7 @@
     {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal" "Limit" $homeLimit "ShowMore" true "MoreURL" $moreURL) }}
   {{ else if eq $kind "section" }}
     {{/* 说明：Section 页统一以卡片展示标题与简介，保持视觉一致。 */}}
-    <section class="page-intro-card page-intro-card--section">
+    <section class="page-intro-card page-intro-card--section app-glass app-card">
       <h1 class="page-intro-card__title">{{ .Title }}</h1>
       {{ with .Content }}
         <div class="page-intro-card__body">
@@ -57,7 +57,7 @@
     {{ end }}
   {{ else if eq $kind "term" }}
     {{/* 说明：标签/分类详情页与 Section 页保持一致：顶部简介卡片 + 文章卡片列表。 */}}
-    <section class="page-intro-card page-intro-card--section">
+    <section class="page-intro-card page-intro-card--section app-glass app-card">
       <h1 class="page-intro-card__title">{{ .Title }}</h1>
       {{ with .Content }}
         <div class="page-intro-card__body">
@@ -68,7 +68,7 @@
     {{ partial "article-list.html" (dict "Pages" .Pages "Context" .) }}
   {{ else if eq $kind "taxonomy" }}
     {{/* 说明：Tags/分类概览页与其它列表页保持一致：顶部简介卡片 + 词条卡片网格。 */}}
-    <section class="page-intro-card page-intro-card--section">
+    <section class="page-intro-card page-intro-card--section app-glass app-card">
       <h1 class="page-intro-card__title">{{ .Title }}</h1>
       {{ with .Content }}
         <div class="page-intro-card__body">
