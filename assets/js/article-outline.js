@@ -203,17 +203,63 @@ export const setupArticleOutline = () => {
 
     if (progressHost instanceof HTMLElement) {
       progressHost.setAttribute('aria-valuenow', String(percent));
-      if (percent > 0) {
-        progressHost.removeAttribute('hidden');
-      } else {
-        progressHost.setAttribute('hidden', 'hidden');
-      }
     }
   };
 
   applyProgressVisuals(0);
 
   let activeId = '';
+  let isScrollingToTop = false;
+
+  const getScrollRoot = () => {
+    const scrollRoot = document.scrollingElement || document.documentElement;
+    return scrollRoot instanceof HTMLElement ? scrollRoot : null;
+  };
+
+  const scrollToPageTop = () => {
+    const scrollRoot = getScrollRoot();
+    if (!scrollRoot) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    const behavior = getScrollBehavior();
+    if (behavior === 'auto') {
+      isScrollingToTop = false;
+      scrollRoot.scrollTop = 0;
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // 说明：使用脚本驱动的平滑回顶，避免部分浏览器在长文场景下 `window.scrollTo({ behavior: "smooth" })` 被中途打断。
+    const startTop = scrollRoot.scrollTop;
+    if (startTop <= 1) {
+      return;
+    }
+
+    isScrollingToTop = true;
+    const durationMs = clamp(280 + startTop / 6, 320, 1200);
+    const startTime = typeof performance !== 'undefined' && typeof performance.now === 'function' ? performance.now() : Date.now();
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const t = clamp(elapsed / durationMs, 0, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const nextTop = Math.round(startTop * (1 - eased));
+
+      scrollRoot.scrollTop = nextTop;
+
+      if (nextTop <= 1 || t >= 1) {
+        scrollRoot.scrollTop = 0;
+        isScrollingToTop = false;
+        return;
+      }
+
+      window.requestAnimationFrame(step);
+    };
+
+    window.requestAnimationFrame(step);
+  };
 
   // 说明：同步激活态样式，保证仅一个标题高亮，同时保持大纲视窗内可见。
   const applyActiveId = (nextId) => {
@@ -230,7 +276,7 @@ export const setupArticleOutline = () => {
       }
     });
 
-    if (activeEntry) {
+    if (activeEntry && !isScrollingToTop) {
       ensureOutlineVisibility(activeEntry.link);
     }
   };
@@ -275,6 +321,17 @@ export const setupArticleOutline = () => {
     }
 
     applyProgressVisuals(progressValue);
+
+    // 说明：仅在真正回到页面顶部后再隐藏进度按钮。
+    // 注意：阅读进度以正文起点为基准，接近正文顶部时会变为 0%；
+    // 若此时直接隐藏（display:none），在长文平滑滚动回顶过程中可能中断滚动动画或造成“无法完全回到顶部”的观感。
+    if (progressHost instanceof HTMLElement) {
+      if (scrollTop <= 1) {
+        progressHost.setAttribute('hidden', 'hidden');
+      } else {
+        progressHost.removeAttribute('hidden');
+      }
+    }
   };
 
   // 说明：定位当前视口内最接近的标题，驱动大纲高亮。
@@ -349,8 +406,7 @@ export const setupArticleOutline = () => {
 
   if (progressHost instanceof HTMLElement) {
     progressHost.addEventListener('click', () => {
-      const behavior = prefersReducedMotion && prefersReducedMotion.matches ? 'auto' : 'smooth';
-      window.scrollTo({ top: 0, left: 0, behavior });
+      scrollToPageTop();
     });
   }
 };
