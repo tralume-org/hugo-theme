@@ -119,7 +119,7 @@
   translation: Control the maximum article width so desktop reading keeps a comfortable line length.
 
 - id: settingsPanelReaderRangeLabel
-  translation: Reading width (rem)
+  translation: Reading width (%)
 
 - id: settingsPanelReaderScaleCompact
   translation: Tighter
@@ -127,8 +127,8 @@
 - id: settingsPanelReaderScaleWide
   translation: Wider
 
-- id: settingsPanelReaderUnitRem
-  translation: rem
+- id: settingsPanelReaderUnitPercent
+  translation: "%"
 
 - id: settingsPanelReaderUnitPx
   translation: px

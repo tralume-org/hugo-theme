@@ -108,8 +108,8 @@ defaultContentLanguageInSubdir = true
     defaultGlassStrength = 'soft'
     # Note: Reader width presets.
     defaultReaderWidth = 'balanced'
-    # Note: Custom width in rem with higher priority than presets.
-    defaultReaderWidthValue = 64
+    # Note: Custom width in viewport % with higher priority than presets (e.g. 80 means 80vw).
+    defaultReaderWidthValue = 80
   [params.home]
     # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
     recentPostsLimit = 4
@@ -208,7 +208,7 @@ hugo --minify
 - `params.articleCardSummaryLength` / `params.articleTimelineSummaryLength`: Truncate lengths for list cards and timeline items.
 - `params.theme.defaultMode`: `auto` / `light` / `dark`.
 - `params.theme.defaultGlassStrength`: `soft` / `balanced` / `bold`.
-- `params.theme.defaultReaderWidth` or `params.theme.defaultReaderWidthValue`: Width preset or custom rem value (custom overrides preset).
+- `params.theme.defaultReaderWidth` or `params.theme.defaultReaderWidthValue`: Width preset or custom viewport percentage (custom overrides preset).
 - `params.analytics.provider`: Analytics provider name (e.g. `umami`).
 - `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`: Enable Umami tracking; optional `dataHost`/`dataDomains` to control reporting hosts/domains.
 - `params.analytics.providers.umami.blockNotice`: Detect blocked Umami requests and surface a dismissible edge banner.

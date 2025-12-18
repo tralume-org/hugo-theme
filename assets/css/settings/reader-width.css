@@ -1,5 +1,5 @@
 /* 说明：阅读宽度滑动条样式，对应 reader-width.js 实时更新正文宽度。 */
-/* 说明：阅读宽度滑动条，使用 rem 作为单位，实时更新正文最大宽度。 */
+/* 说明：阅读宽度滑动条，使用视口宽度占比（%）作为单位，实时更新正文最大宽度。 */
 .settings-panel__section--reader {
   gap: 0.5rem;
 }
@@ -21,7 +21,7 @@
   color: var(--md-sys-color-on-surface);
 }
 
-.settings-panel__reader-value span[data-reader-width-rem],
+.settings-panel__reader-value span[data-reader-width-percent],
 .settings-panel__reader-value span[data-reader-width-px] {
   min-width: 3ch;
   text-align: right;

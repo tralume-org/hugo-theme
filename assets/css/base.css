@@ -57,8 +57,8 @@ body::before {
   --app-radius-section: 1rem;
   --app-radius-inline: 0.75rem;
   --app-radius-pill: 999px;
-  /* 说明：阅读区域最大宽度，默认与桌面版内容区一致，可在设置面板中覆盖。 */
-  --reader-width-max: 64rem;
+  /* 说明：阅读区域最大宽度（视口宽度占比，单位为 % 对应 vw），可在设置面板中覆盖。 */
+  --reader-width-max: 80;
   /* 说明：玻璃拟态统一变量，控制透明度、色调与模糊半径以便多处复用。 */
   --app-glass-blur-radius: 24px;
   --app-glass-surface-alpha: 45%;
@@ -112,15 +112,15 @@ body::before {
 
 /* 说明：阅读器宽度预设，供设置面板在桌面端调整内容占比。 */
 :root[data-reader-width="compact"] {
-  --reader-width-max: 56rem;
+  --reader-width-max: 72;
 }
 
 :root[data-reader-width="balanced"] {
-  --reader-width-max: 64rem;
+  --reader-width-max: 80;
 }
 
 :root[data-reader-width="wide"] {
-  --reader-width-max: 80rem;
+  --reader-width-max: 88;
 }
 
 a {

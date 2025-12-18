@@ -5,8 +5,8 @@
     {{ $readerDefault = . }}
   {{ end }}
 {{ end }}
-{{ $readerPresetValues := dict "compact" 56 "balanced" 64 "wide" 80 }}
-{{ $readerDefaultValue := 64.0 }}
+{{ $readerPresetValues := dict "compact" 72 "balanced" 80 "wide" 88 }}
+{{ $readerDefaultValue := 80.0 }}
 {{ with (index $readerPresetValues $readerDefault) }}
   {{ $readerDefaultValue = . }}
 {{ end }}
@@ -15,16 +15,16 @@
     {{ $readerDefaultValue = float . }}
   {{ end }}
 {{ end }}
-{{ $readerSliderMin := 52 }}
-{{ $readerSliderMax := 104 }}
-{{ $readerInitialRem := printf "%.0f" $readerDefaultValue }}
-{{ $readerInitialPx := printf "%.0f" (mul $readerDefaultValue 16) }}
+{{ $readerSliderMin := 60 }}
+{{ $readerSliderMax := 92 }}
+{{ $readerInitialPercent := printf "%.0f" $readerDefaultValue }}
+{{ $readerInitialPx := "—" }}
 <section class="settings-panel__section settings-panel__section--reader app-glass app-glass--elevated">
   <div class="settings-panel__reader-header">
     <h3 class="settings-panel__section-title">{{ i18n "settingsPanelReaderHeading" }}</h3>
     <span class="settings-panel__reader-value">
-      <span data-reader-width-rem>{{ $readerInitialRem }}</span>
-      <span>{{ i18n "settingsPanelReaderUnitRem" }}</span>
+      <span data-reader-width-percent>{{ $readerInitialPercent }}</span>
+      <span>{{ i18n "settingsPanelReaderUnitPercent" }}</span>
       <span aria-hidden="true">·</span>
       <span data-reader-width-px>{{ $readerInitialPx }}</span>
       <span>{{ i18n "settingsPanelReaderUnitPx" }}</span>
@@ -41,10 +41,10 @@
     min="{{ $readerSliderMin }}"
     max="{{ $readerSliderMax }}"
     step="1"
-    value="{{ $readerInitialRem }}"
+    value="{{ $readerInitialPercent }}"
     aria-valuemin="{{ $readerSliderMin }}"
     aria-valuemax="{{ $readerSliderMax }}"
-    aria-valuenow="{{ $readerInitialRem }}"
+    aria-valuenow="{{ $readerInitialPercent }}"
     aria-label="{{ i18n "settingsPanelReaderRangeLabel" }}"
     data-reader-width-range
   />

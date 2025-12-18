@@ -119,7 +119,7 @@
   translation: 调整单篇文章正文区的最大宽度，让大屏幕阅读时行长更舒适。
 
 - id: settingsPanelReaderRangeLabel
-  translation: 阅读宽度（rem）
+  translation: 阅读宽度（%）
 
 - id: settingsPanelReaderScaleCompact
   translation: 更紧凑
@@ -127,8 +127,8 @@
 - id: settingsPanelReaderScaleWide
   translation: 更宽
 
-- id: settingsPanelReaderUnitRem
-  translation: rem
+- id: settingsPanelReaderUnitPercent
+  translation: "%"
 
 - id: settingsPanelReaderUnitPx
   translation: 像素

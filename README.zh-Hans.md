@@ -102,7 +102,7 @@ defaultContentLanguageInSubdir = true
     defaultMode = 'auto'           # 说明：主题模式，auto/light/dark。
     defaultGlassStrength = 'soft'  # 说明：玻璃预设，soft/balanced/bold。
     defaultReaderWidth = 'balanced'# 说明：阅读区宽度预设，compact/balanced/wide。
-    defaultReaderWidthValue = 64   # 说明：自定义宽度（rem），优先级高于预设。
+    defaultReaderWidthValue = 80   # 说明：自定义宽度（%），优先级高于预设（例如 80 表示 80vw）。
   [params.home]
     recentPostsLimit = 4           # 说明：主页展示的最新文章数量上限，超出时显示“查看更多文章”按钮。
   [params.analytics]
@@ -198,7 +198,7 @@ hugo --minify
 - `params.articleCardSummaryLength` / `params.articleTimelineSummaryLength`：控制列表卡片和时间线摘要截断长度。
 - `params.theme.defaultMode`：`auto` / `light` / `dark`。
 - `params.theme.defaultGlassStrength`：`soft` / `balanced` / `bold`。
-- `params.theme.defaultReaderWidth` 或 `params.theme.defaultReaderWidthValue`：阅读区宽度预设或自定义 rem 值（自定义优先）。
+- `params.theme.defaultReaderWidth` 或 `params.theme.defaultReaderWidthValue`：阅读区宽度预设或自定义视口占比（%）（自定义优先）。
 - `params.analytics.provider`：统计 provider 名称（例如 `umami`）。
 - `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`：Umami 统计脚本的地址与站点 ID，可选 `dataHost` / `dataDomains` 控制上报域名。
 - `params.analytics.providers.umami.blockNotice`：检测统计脚本被拦截时显示贴边提示，可永久忽略。

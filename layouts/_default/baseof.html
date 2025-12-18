@@ -20,15 +20,15 @@
 {{- $defaultMode := $scratch.Get "defaultMode" -}}
 {{- $defaultGlass := $scratch.Get "defaultGlassStrength" -}}
 {{- $defaultReader := $scratch.Get "defaultReaderWidth" -}}
-{{- $readerPresets := dict "compact" 56 "balanced" 64 "wide" 80 -}}
-{{- $defaultReaderValue := 64 -}}
+{{- $readerPresets := dict "compact" 72 "balanced" 80 "wide" 88 -}}
+{{- $defaultReaderValue := 80 -}}
 {{- with (index $readerPresets $defaultReader) -}}
   {{- $defaultReaderValue = . -}}
 {{- end -}}
 {{- with $scratch.Get "defaultReaderWidthValue" -}}
   {{- $defaultReaderValue = float . -}}
 {{- end -}}
-{{- $readerWidthStyle := printf "--reader-width-max: %.2frem;" $defaultReaderValue -}}
+{{- $readerWidthStyle := printf "--reader-width-max: %.2f;" $defaultReaderValue -}}
 <html
   lang="{{ site.Language.LanguageCode }}"
   dir="{{ or site.Language.LanguageDirection `ltr` }}"
