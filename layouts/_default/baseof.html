@@ -2,7 +2,6 @@
 {{- $scratch := newScratch -}}
 {{- $scratch.Set "defaultMode" "auto" -}}
 {{- $scratch.Set "defaultGlassStrength" "soft" -}}
-{{- $scratch.Set "defaultReaderWidth" "balanced" -}}
 {{- with site.Params.theme -}}
   {{- with .defaultMode -}}
     {{- $scratch.Set "defaultMode" . -}}
@@ -10,31 +9,24 @@
   {{- with .defaultGlassStrength -}}
     {{- $scratch.Set "defaultGlassStrength" . -}}
   {{- end -}}
-  {{- with .defaultReaderWidth -}}
-    {{- $scratch.Set "defaultReaderWidth" . -}}
-  {{- end -}}
   {{- with .defaultReaderWidthValue -}}
     {{- $scratch.Set "defaultReaderWidthValue" . -}}
   {{- end -}}
 {{- end -}}
 {{- $defaultMode := $scratch.Get "defaultMode" -}}
 {{- $defaultGlass := $scratch.Get "defaultGlassStrength" -}}
-{{- $defaultReader := $scratch.Get "defaultReaderWidth" -}}
-{{- $readerPresets := dict "compact" 72 "balanced" 80 "wide" 88 -}}
-{{- $defaultReaderValue := 80 -}}
-{{- with (index $readerPresets $defaultReader) -}}
-  {{- $defaultReaderValue = . -}}
-{{- end -}}
+{{- $defaultReaderValue := 80.0 -}}
 {{- with $scratch.Get "defaultReaderWidthValue" -}}
   {{- $defaultReaderValue = float . -}}
 {{- end -}}
+{{- $defaultReaderValue = math.Max 60 $defaultReaderValue -}}
+{{- $defaultReaderValue = math.Min 92 $defaultReaderValue -}}
 {{- $readerWidthStyle := printf "--reader-width-max: %.2f;" $defaultReaderValue -}}
 <html
   lang="{{ site.Language.LanguageCode }}"
   dir="{{ or site.Language.LanguageDirection `ltr` }}"
   {{ printf `data-theme-mode="%s"` $defaultMode | safeHTMLAttr }}
   {{ printf `data-glass-strength="%s"` $defaultGlass | safeHTMLAttr }}
-  {{ printf `data-reader-width="%s"` $defaultReader | safeHTMLAttr }}
   {{ printf `data-reader-width-default="%.2f"` $defaultReaderValue | safeHTMLAttr }}
   style="{{ $readerWidthStyle | safeHTMLAttr }}"
 >

@@ -110,19 +110,6 @@ body::before {
   --app-glass-border-strong-alpha: 74%;
 }
 
-/* 说明：阅读器宽度预设，供设置面板在桌面端调整内容占比。 */
-:root[data-reader-width="compact"] {
-  --reader-width-max: 72;
-}
-
-:root[data-reader-width="balanced"] {
-  --reader-width-max: 80;
-}
-
-:root[data-reader-width="wide"] {
-  --reader-width-max: 88;
-}
-
 a {
   color: var(--md-sys-color-primary);
   font-weight: 500;

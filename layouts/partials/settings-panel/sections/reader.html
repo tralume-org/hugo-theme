@@ -1,15 +1,5 @@
 {{/* 说明：阅读器宽度滑动条，允许在更大范围内微调正文最大宽度。 */}}
-{{ $readerDefault := "balanced" }}
-{{ with site.Params.theme }}
-  {{ with .defaultReaderWidth }}
-    {{ $readerDefault = . }}
-  {{ end }}
-{{ end }}
-{{ $readerPresetValues := dict "compact" 72 "balanced" 80 "wide" 88 }}
 {{ $readerDefaultValue := 80.0 }}
-{{ with (index $readerPresetValues $readerDefault) }}
-  {{ $readerDefaultValue = . }}
-{{ end }}
 {{ with site.Params.theme }}
   {{ with .defaultReaderWidthValue }}
     {{ $readerDefaultValue = float . }}
@@ -17,6 +7,8 @@
 {{ end }}
 {{ $readerSliderMin := 60 }}
 {{ $readerSliderMax := 92 }}
+{{ $readerDefaultValue = math.Max $readerSliderMin $readerDefaultValue }}
+{{ $readerDefaultValue = math.Min $readerSliderMax $readerDefaultValue }}
 {{ $readerInitialPercent := printf "%.0f" $readerDefaultValue }}
 {{ $readerInitialPx := "—" }}
 <section class="settings-panel__section settings-panel__section--reader app-glass app-glass--elevated">

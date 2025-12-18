@@ -4,11 +4,6 @@ export const setupReaderWidth = (panel, root) => {
   const readerWidthPercentNode = panel.querySelector('[data-reader-width-percent]');
   const readerWidthPxNode = panel.querySelector('[data-reader-width-px]');
   const readerWidthStorageKey = 'tralume-reader-width';
-  const readerWidthPresets = new Map([
-    ['compact', 72],
-    ['balanced', 80],
-    ['wide', 88],
-  ]);
 
   const defaultReaderBounds = { min: 60, max: 92 };
   const readerWidthBounds = {
@@ -45,10 +40,6 @@ export const setupReaderWidth = (panel, root) => {
   };
 
   const resolveDefaultReaderWidth = () => {
-    const presetAttr = root.getAttribute('data-reader-width');
-    if (presetAttr && readerWidthPresets.has(presetAttr)) {
-      return readerWidthPresets.get(presetAttr);
-    }
     const explicitDefault = Number.parseFloat(root.getAttribute('data-reader-width-default') || '');
     if (Number.isFinite(explicitDefault)) {
       return explicitDefault;
@@ -68,6 +59,7 @@ export const setupReaderWidth = (panel, root) => {
 
   const applyReaderWidth = (value, shouldPersist = true) => {
     const nextValue = clampReaderWidth(value);
+    currentValue = nextValue;
     root.style.setProperty('--reader-width-max', String(nextValue));
     if (readerWidthRange instanceof HTMLInputElement) {
       readerWidthRange.value = String(nextValue);
@@ -81,7 +73,17 @@ export const setupReaderWidth = (panel, root) => {
 
   const storedReaderWidth = readStoredReaderWidth();
   const initialReaderWidth = typeof storedReaderWidth === 'number' ? storedReaderWidth : resolveDefaultReaderWidth();
-  applyReaderWidth(initialReaderWidth, false);
+  let currentValue = clampReaderWidth(initialReaderWidth);
+  applyReaderWidth(currentValue, false);
+
+  window.addEventListener(
+    'resize',
+    () => {
+      // 说明：像素显示依赖视口宽度，窗口尺寸变化时需重新计算。
+      updateReaderValueLabel(currentValue);
+    },
+    { passive: true },
+  );
 
   if (readerWidthRange instanceof HTMLInputElement) {
     readerWidthRange.addEventListener('input', (event) => {
