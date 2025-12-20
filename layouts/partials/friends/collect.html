@@ -12,6 +12,10 @@
   {{- if $langKey }}
     {{- $languageNameScratch.Set $langKey .Language.LanguageName -}}
   {{- end -}}
+  {{- $langCodeKey := lower (replace (.Language.LanguageCode | default "") "_" "-" ) -}}
+  {{- if $langCodeKey }}
+    {{- $languageNameScratch.Set $langCodeKey .Language.LanguageName -}}
+  {{- end -}}
 {{- end -}}
 
 {{/* 说明：name/description 支持 i18n：既可为字符串，也可为按语言代码分组的 map；缺失当前语言时回退 default 或任一已提供语言。 */}}
@@ -28,22 +32,43 @@
 
     {{- if and $name $url }}
       {{- $rawLang := or .language .lang -}}
-      {{- $normalizedLang := "" -}}
-      {{- $languageNameKey := $currentLangKey -}}
-      {{- $languageCodeLabel := "" -}}
-      {{- with $rawLang }}
-        {{- $normalizedLang = lower (replace (printf "%v" .) "_" "-" ) -}}
-        {{- $languageNameKey = $normalizedLang -}}
-        {{- $languageCodeLabel = replace (printf "%v" .) "_" "-" -}}
+      {{- $normalizedLangs := slice -}}
+      {{- $languageCodeLabels := slice -}}
+
+      {{/* 说明：language 支持字符串或数组；用于“当前语言优先”分组与卡片语言标签展示。 */}}
+      {{- if $rawLang }}
+        {{- if reflect.IsSlice $rawLang }}
+          {{- range $rawLang }}
+            {{- $codeLabel := replace (printf "%v" .) "_" "-" -}}
+            {{- $normalized := lower $codeLabel -}}
+            {{- if $normalized }}
+              {{- $languageCodeLabels = $languageCodeLabels | append $codeLabel -}}
+              {{- $normalizedLangs = $normalizedLangs | append $normalized -}}
+            {{- end -}}
+          {{- end -}}
+        {{- else }}
+          {{- $codeLabel := replace (printf "%v" $rawLang) "_" "-" -}}
+          {{- $normalized := lower $codeLabel -}}
+          {{- if $normalized }}
+            {{- $languageCodeLabels = $languageCodeLabels | append $codeLabel -}}
+            {{- $normalizedLangs = $normalizedLangs | append $normalized -}}
+          {{- end -}}
+        {{- end -}}
       {{- end -}}
 
-      {{/* 说明：语言展示优先级：languages 配置中的 languageName > 原始 language 代码（如 zh-Hans）> 当前语言名。 */}}
+      {{/* 说明：语言展示优先级：languages 配置中的 LanguageName > language 原始代码（如 zh-Hans）；多语言时用分隔符拼接。 */}}
       {{- $languageDisplay := $currentLangName -}}
-      {{- if $languageCodeLabel }}
-        {{- $languageDisplay = $languageCodeLabel -}}
-      {{- end -}}
-      {{- with ($languageNameScratch.Get $languageNameKey) }}
-        {{- $languageDisplay = . -}}
+      {{- if gt (len $languageCodeLabels) 0 }}
+        {{- $displayParts := slice -}}
+        {{- range $languageCodeLabels }}
+          {{- $languageKey := lower . -}}
+          {{- $part := . -}}
+          {{- with ($languageNameScratch.Get $languageKey) }}
+            {{- $part = . -}}
+          {{- end -}}
+          {{- $displayParts = $displayParts | append $part -}}
+        {{- end -}}
+        {{- $languageDisplay = delimit $displayParts " / " -}}
       {{- end -}}
 
       {{- $friend := dict
@@ -54,7 +79,18 @@
         "language" $languageDisplay
       -}}
 
-      {{- if or (eq $normalizedLang $currentLangKey) (eq $normalizedLang "") }}
+      {{/* 说明：排序优先级：language 为空或包含当前语言 → 主分组；否则 → 次分组。 */}}
+      {{- $isPrimary := true -}}
+      {{- if gt (len $normalizedLangs) 0 }}
+        {{- $isPrimary = false -}}
+        {{- range $normalizedLangs }}
+          {{- if eq . $currentLangKey }}
+            {{- $isPrimary = true -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- if $isPrimary }}
         {{- $primaryFriends = $primaryFriends | append $friend -}}
       {{- else }}
         {{- $secondaryFriends = $secondaryFriends | append $friend -}}
