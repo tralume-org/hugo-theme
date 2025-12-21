@@ -50,5 +50,15 @@
         {{- end -}}
       </p>
     </section>
+
+    {{/* 说明：在文章信息块底部输出“编辑本页”链接；仅在 Gitkeeper 配置完整且当前页面有源文件时显示。 */}}
+    {{- $editUrl := partial "source/edit-url.html" . -}}
+    {{- if $editUrl -}}
+      <section class="article-info-card__section article-info-card__section--edit" data-article-edit>
+        <p class="article-info-card__section-text">
+          <a class="article-info-card__edit-link" href="{{ $editUrl }}" target="_blank" rel="noopener noreferrer">{{ i18n "articleInfoEditThisPage" }}</a>
+        </p>
+      </section>
+    {{- end -}}
   </div>
 </section>

@@ -47,3 +47,4 @@ defaultContentLanguageInSubdir = true
   [module.hugoVersion]
     min = '0.146.0'
     extended = false
+

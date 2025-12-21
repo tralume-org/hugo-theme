@@ -199,6 +199,9 @@
 - id: articleInfoLicenseTitle
   translation: License
 
+- id: articleInfoEditThisPage
+  translation: Edit this page
+
 - id: articleLicenseFull_cc-by-4.0
   translation: CC BY 4.0 – For copying, remixing, and commercial use, as long as you give credit.
 

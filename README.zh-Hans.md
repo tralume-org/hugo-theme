@@ -135,6 +135,21 @@ license: "cc-by-sa-4.0"
   contentLicense = "cc-by-nc-4.0"
 ```
 
+## 编辑本页链接
+
+文章信息卡片底部可显示“编辑此页面”，并按 Git 托管服务生成对应路径（GitHub/GitLab/Forgejo/Gitea）。
+
+```toml
+# 说明：配置“编辑此页面”指向的仓库位置。
+[params.source]
+  provider = 'github' # 说明：github / gitlab / gitea / forgejo
+  repo = 'https://github.com/<owner>/<repo>' # 说明：仓库地址，末尾不要带 /
+  branch = 'main' # 说明：默认分支；不填时默认为 main
+  pathPrefix = 'content' # 说明：内容文件在仓库中的路径前缀；不填时默认为 content
+```
+
+如需为单篇文章覆盖（例如不同分支/不同仓库），可在 Front Matter 添加 `source` 字段覆盖对应参数。
+
 ## 内容结构与多语言写作
 
 - 文章建议放在 `content/posts/`。主题会过滤 `_index` 文件，并按 `.Lang` 展示对应语言。

@@ -1,0 +1,96 @@
+{{- /* 说明：基于 Gitkeeper 配置生成“编辑本页”的仓库链接。
+  - 作用：为文章信息块等位置提供统一的编辑链接生成逻辑，避免在模板中重复拼接 URL。
+  - 配置来源：优先使用页面 Front Matter 的 `.Params.source.*`，未设置时回退到站点 `.Site.Params.source.*`。
+  - 注意：仅在当前页面有源文件（`.File`）且配置完整时返回 URL，否则返回空字符串。
+  - Provider 路径规则（按需求约定）：
+    - GitHub：/edit/<branch>/<path>
+    - GitLab：/-/edit/<branch>/<path>
+    - Forgejo/Gitea：/src/branch/<branch>/<path>
+*/ -}}
+
+{{- $page := . -}}
+
+{{- $siteCfg := dict -}}
+{{- with $page.Site.Params.source -}}
+  {{- $siteCfg = . -}}
+{{- end -}}
+
+{{- $pageCfg := dict -}}
+{{- with $page.Params.source -}}
+  {{- $pageCfg = . -}}
+{{- end -}}
+
+{{- $editUrl := "" -}}
+
+{{- $enabled := true -}}
+{{- with $siteCfg.enabled -}}
+  {{- $enabled = . -}}
+{{- end -}}
+{{- with $pageCfg.enabled -}}
+  {{- $enabled = . -}}
+{{- end -}}
+
+{{- if $enabled -}}
+  {{- $provider := "" -}}
+  {{- with $siteCfg.provider -}}
+    {{- $provider = lower (trim . " \t\r\n") -}}
+  {{- end -}}
+  {{- with $pageCfg.provider -}}
+    {{- $provider = lower (trim . " \t\r\n") -}}
+  {{- end -}}
+
+  {{- $repo := "" -}}
+  {{- with $siteCfg.repo -}}
+    {{- $repo = trim . " \t\r\n" -}}
+  {{- end -}}
+  {{- with $pageCfg.repo -}}
+    {{- $repo = trim . " \t\r\n" -}}
+  {{- end -}}
+
+  {{- if and $provider $repo -}}
+    {{- $repo = strings.TrimSuffix "/" $repo -}}
+
+    {{- $branch := "main" -}}
+    {{- with $siteCfg.branch -}}
+      {{- $branch = trim . " \t\r\n" -}}
+    {{- end -}}
+    {{- with $pageCfg.branch -}}
+      {{- $branch = trim . " \t\r\n" -}}
+    {{- end -}}
+    {{- if not $branch -}}
+      {{- $branch = "main" -}}
+    {{- end -}}
+
+    {{- $pathPrefix := "content" -}}
+    {{- with $siteCfg.pathPrefix -}}
+      {{- $pathPrefix = trim . " \t\r\n" -}}
+    {{- end -}}
+    {{- with $pageCfg.pathPrefix -}}
+      {{- $pathPrefix = trim . " \t\r\n" -}}
+    {{- end -}}
+    {{- $pathPrefix = strings.TrimSuffix "/" (strings.TrimPrefix "/" $pathPrefix) -}}
+
+    {{- with $page.File -}}
+      {{- $repoPath := .Path -}}
+      {{- if $pathPrefix -}}
+        {{- $repoPath = printf "%s/%s" $pathPrefix $repoPath -}}
+      {{- end -}}
+      {{- $repoPath = path.Clean $repoPath -}}
+
+      {{- $editPath := "" -}}
+      {{- if eq $provider "github" -}}
+        {{- $editPath = printf "edit/%s/%s" $branch $repoPath -}}
+      {{- else if eq $provider "gitlab" -}}
+        {{- $editPath = printf "-/edit/%s/%s" $branch $repoPath -}}
+      {{- else if or (eq $provider "gitea") (eq $provider "forgejo") -}}
+        {{- $editPath = printf "src/branch/%s/%s" $branch $repoPath -}}
+      {{- end -}}
+
+      {{- if $editPath -}}
+        {{- $editUrl = printf "%s/%s" $repo $editPath -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $editUrl -}}

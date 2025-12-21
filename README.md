@@ -142,6 +142,21 @@ license: "cc-by-sa-4.0"
   contentLicense = "cc-by-nc-4.0"
 ```
 
+## Edit This Page
+
+The article info card can show an “Edit this page” link at the bottom, pointing to your Git repository.
+
+```toml
+# Note: Configure where “Edit this page” should point to.
+[params.source]
+  provider = 'github' # github / gitlab / gitea / forgejo
+  repo = 'https://github.com/<owner>/<repo>' # No trailing slash.
+  branch = 'main' # Optional; defaults to main.
+  pathPrefix = 'content' # Optional; defaults to content.
+```
+
+You can override per page via front matter `source` (e.g., a different branch or repository).
+
 ## Content Structure & Multilingual Writing
 
 - Put posts under `content/posts/`. The theme ignores `_index` files and renders pages by `.Lang`.

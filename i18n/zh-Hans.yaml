@@ -199,6 +199,9 @@
 - id: articleInfoLicenseTitle
   translation: 许可证
 
+- id: articleInfoEditThisPage
+  translation: 编辑此页面
+
 - id: articleLicenseFull_cc-by-4.0
   translation: CC BY 4.0 - 可自由转载、修改或商用，仅需署名。
 
