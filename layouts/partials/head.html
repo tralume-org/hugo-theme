@@ -7,8 +7,25 @@
   {{- $desc = .Params.description -}}
 {{- else if .IsHome -}}
   {{- $desc = site.Params.description -}}
+  {{- if not $desc -}}
+    {{- $desc = i18n "metaDescriptionHomeFallback" (dict "SiteTitle" site.Title) -}}
+  {{- end -}}
 {{- else if .IsPage -}}
   {{- $desc = .Summary | plainify | truncate 160 -}}
+{{- else if eq .Kind "term" -}}
+  {{- if eq .Data.Plural "tags" -}}
+    {{- $term := .Title -}}
+    {{- with .Data.Term -}}
+      {{- $term = . -}}
+    {{- end -}}
+    {{- $desc = i18n "metaDescriptionTagTermFallback" (dict "Tag" $term "SiteTitle" site.Title) -}}
+  {{- else -}}
+    {{- $desc = i18n "metaDescriptionListFallback" (dict "PageTitle" .Title "SiteTitle" site.Title) -}}
+  {{- end -}}
+{{- else if and (eq .Kind "taxonomy") (eq .Data.Plural "tags") -}}
+  {{- $desc = i18n "metaDescriptionTagsFallback" (dict "SiteTitle" site.Title) -}}
+{{- else -}}
+  {{- $desc = i18n "metaDescriptionListFallback" (dict "PageTitle" .Title "SiteTitle" site.Title) -}}
 {{- end -}}
 
 {{- if $desc -}}

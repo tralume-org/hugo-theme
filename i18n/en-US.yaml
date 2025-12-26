@@ -169,6 +169,18 @@
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'
 
+- id: metaDescriptionHomeFallback
+  translation: Explore the latest posts and pages on {{ .SiteTitle }}.
+
+- id: metaDescriptionListFallback
+  translation: Browse {{ .PageTitle }} on {{ .SiteTitle }}.
+
+- id: metaDescriptionTagsFallback
+  translation: Browse all tags on {{ .SiteTitle }}.
+
+- id: metaDescriptionTagTermFallback
+  translation: Posts tagged “{{ .Tag }}” on {{ .SiteTitle }}.
+
 - id: codeBlockCopy
   translation: Copy code
 

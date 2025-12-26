@@ -169,6 +169,18 @@
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'
 
+- id: metaDescriptionHomeFallback
+  translation: 浏览 {{ .SiteTitle }} 的最新文章与页面。
+
+- id: metaDescriptionListFallback
+  translation: 在 {{ .SiteTitle }} 浏览「{{ .PageTitle }}」相关内容。
+
+- id: metaDescriptionTagsFallback
+  translation: 浏览 {{ .SiteTitle }} 的全部标签。
+
+- id: metaDescriptionTagTermFallback
+  translation: 查看 {{ .SiteTitle }} 中标记为「{{ .Tag }}」的文章。
+
 - id: codeBlockCopy
   translation: 复制代码
 
