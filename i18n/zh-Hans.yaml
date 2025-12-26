@@ -253,6 +253,9 @@
 - id: friendsCardAriaLabel
   translation: 打开友链：{{ .Name }}
 
+- id: friendsAvatarAlt
+  translation: "{{ .Name }} 的头像"
+
 - id: friendsLanguageLabel
   translation: 站点语言：{{ .Language }}
 

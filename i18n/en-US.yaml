@@ -254,6 +254,9 @@
 - id: friendsCardAriaLabel
   translation: "Open friend link: {{ .Name }}"
 
+- id: friendsAvatarAlt
+  translation: "{{ .Name }}'s avatar"
+
 - id: friendsLanguageLabel
   translation: "Language: {{ .Language }}"
 

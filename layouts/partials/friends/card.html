@@ -7,6 +7,7 @@
 {{- $avatar := $friend.avatar -}}
 {{- $language := $friend.language | default $currentLangName -}}
 {{- $initial := cond (gt (len $name) 0) (substr $name 0 1) "?" -}}
+{{- $avatarAlt := i18n "friendsAvatarAlt" (dict "Name" $name) -}}
 
 <a
   class="friend-card app-glass app-glass--elevated app-card app-card--interactive"
@@ -17,7 +18,7 @@
 >
   <div class="friend-card__avatar app-glass app-card" aria-hidden="true">
     {{ if $avatar }}
-      <img src="{{ $avatar | safeURL }}" alt="">
+      <img src="{{ $avatar | safeURL }}" alt="{{ $avatarAlt }}">
     {{ else }}
       <span class="friend-card__avatar-fallback">{{ $initial }}</span>
     {{ end }}
