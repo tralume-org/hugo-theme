@@ -1,4 +1,6 @@
 {{ define "main" }}
+  {{/* 说明：主页补充语义化 H1，提升 SEO 与无障碍；使用 sr-only 避免改变现有视觉布局。 */}}
+  <h1 class="sr-only">{{ site.Title }}</h1>
   {{/* 说明：主页欢迎语使用亚克力卡片容器，保持与其它列表页一致的质感。 */}}
   {{ with .Content }}
     <section class="page-intro-card app-glass app-card">
