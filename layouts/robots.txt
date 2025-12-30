@@ -1,0 +1,29 @@
+{{- /*
+  说明：站点 robots.txt。
+  - 作用：给搜索引擎提供爬取策略，并默认给出 sitemap 指引（Sitemap: ...）。
+  - 默认：启用（Allow: / + Sitemap）。
+  - 关闭：设置 `params.robotsTxt.enabled = false`，将输出全站禁爬（Disallow: /）。
+  - 前置：需要在站点配置中启用 Hugo 输出 `enableRobotsTXT = true`。
+*/ -}}
+
+{{- $enabled := true -}}
+{{- $sitemap := true -}}
+{{- with .Site.Params.robotsTxt -}}
+  {{- if isset . "enabled" -}}
+    {{- $enabled = index . "enabled" -}}
+  {{- end -}}
+  {{- if isset . "sitemap" -}}
+    {{- $sitemap = index . "sitemap" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $lines := slice "User-agent: *" -}}
+{{- if not $enabled -}}
+  {{- $lines = $lines | append "Disallow: /" -}}
+{{- else -}}
+  {{- $lines = $lines | append "Allow: /" -}}
+  {{- if $sitemap -}}
+    {{- $lines = $lines | append (printf "Sitemap: %s" ("sitemap.xml" | absURL)) -}}
+  {{- end -}}
+{{- end -}}
+{{- printf "%s\n" (delimit $lines "\n") -}}

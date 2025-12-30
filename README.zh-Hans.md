@@ -42,6 +42,7 @@ npm install
 baseURL = 'https://example.com/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
+enableRobotsTXT = true # 说明：启用 robots.txt 输出（会使用主题的 `layouts/robots.txt`）。
 
 [outputs]
   home = ['HTML', 'RSS']
@@ -98,6 +99,10 @@ defaultContentLanguageInSubdir = true
   articleCardSummaryLength = 160      # 说明：列表卡片摘要长度（字符）。
   articleTimelineSummaryLength = 160  # 说明：时间线摘要长度（字符）。
 
+  [params.robotsTxt]
+    enabled = true # 说明：是否启用 robots 规则；设为 false 则全站禁爬（Disallow: /）。
+    sitemap = true # 说明：是否在 robots.txt 中输出 Sitemap 指引。
+
   [params.theme]
     defaultMode = 'auto'           # 说明：主题模式，auto/light/dark。
     defaultGlassStrength = 'soft'  # 说明：玻璃预设，soft/balanced/bold。
@@ -117,6 +122,7 @@ defaultContentLanguageInSubdir = true
 ```
 
 提示：菜单当前为全局共享配置，如需中英文显示不同名称，请改用 `languages.*.menus.main` 在各语言下分别声明。
+提示：若你希望临时关闭爬虫（例如预发布/内网环境），设置 `params.robotsTxt.enabled = false`；若希望完全不输出 `robots.txt`，设置 `enableRobotsTXT = false`。
 
 ## 文章许可证配置
 

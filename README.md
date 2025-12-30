@@ -42,6 +42,7 @@ npm install
 baseURL = 'https://example.com/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
+enableRobotsTXT = true # Note: Enable robots.txt output (uses the theme's `layouts/robots.txt`).
 
 [outputs]
   home = ['HTML', 'RSS']
@@ -101,6 +102,12 @@ defaultContentLanguageInSubdir = true
   # Note: Summary length for timeline items (characters).
   articleTimelineSummaryLength = 160
 
+  [params.robotsTxt]
+    # Note: Toggle robots rules; set to false to block all crawlers (Disallow: /).
+    enabled = true
+    # Note: Include a Sitemap: ... hint in robots.txt.
+    sitemap = true
+
   [params.theme]
     # Note: Theme mode options.
     defaultMode = 'auto'
@@ -124,6 +131,7 @@ defaultContentLanguageInSubdir = true
 ```
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
+Tip: to temporarily block crawlers (e.g. staging/intranet), set `params.robotsTxt.enabled = false`; to disable generating `robots.txt` entirely, set `enableRobotsTXT = false`.
 
 ## Article License
 
