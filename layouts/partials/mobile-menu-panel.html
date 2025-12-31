@@ -30,6 +30,7 @@
       </button>
     </header>
     <nav class="app-mobile-menu__nav" aria-label="{{ i18n "mainNavAriaLabel" }}">
+      {{/* 说明：先渲染除 Pages 外的主导航项，Pages 分组最后渲染以便固定在菜单末尾。 */}}
       {{ range $menu }}
         {{ $resolved := or (and .PageRef (site.GetPage .PageRef)) .Page }}
         {{ $href := "" }}
@@ -51,38 +52,64 @@
           {{ end }}
         {{ end }}
         {{ $label := or (and .Identifier (T .Identifier)) .Name }}
-        {{/* 说明：Pages 在移动端默认展示全部页面列表，同时保留进入列表页（/pages/）的入口。 */}}
         {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
-        {{- if $isPagesEntry -}}
-          {{- with $page -}}
-            {{- if or (eq .Section "pages") (eq .Type "pages") -}}
-              {{- $isActive = true -}}
-            {{- end -}}
-          {{- end -}}
-          <div class="app-mobile-menu__pages">
-            <a class="app-mobile-menu__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
-              {{ $label | safeHTML }}
-            </a>
-	            <div class="app-mobile-menu__pages-list">
-	              {{- if gt (len $pagesList) 0 -}}
-	                {{ range $pagesList }}
-	                  {{- $entry := . -}}
-	                  {{- $pageLinkActive := false -}}
-	                  {{- with $page -}}
-	                    {{- $pageLinkActive = or (eq .RelPermalink $entry.RelPermalink) (and (and .File $entry.File) (eq .File.Path $entry.File.Path)) -}}
-	                  {{- end -}}
-	                  <a class="app-mobile-menu__subitem{{ if $pageLinkActive }} is-active{{ end }}" href="{{ $entry.RelPermalink }}">{{ $entry.LinkTitle }}</a>
-	                {{ end }}
-	              {{- else -}}
-	                <p class="app-mobile-menu__subempty">{{ i18n "pagesMenuEmpty" }}</p>
-	              {{- end -}}
-	            </div>
-          </div>
-        {{- else -}}
+        {{- if not $isPagesEntry -}}
           <a class="app-mobile-menu__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
             {{ $label | safeHTML }}
           </a>
         {{- end -}}
+      {{ end }}
+
+      {{/* 说明：Pages 在移动端默认展示全部页面列表，同时保留进入列表页（/pages/）的入口。 */}}
+      {{ range $menu }}
+        {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
+        {{- if not $isPagesEntry -}}
+          {{- continue -}}
+        {{- end -}}
+        {{ $resolved := or (and .PageRef (site.GetPage .PageRef)) .Page }}
+        {{ $href := "" }}
+        {{ $isActive := false }}
+        {{ if $page }}
+          {{ if $resolved }}
+            {{/* 说明：优先用当前语言解析到的 Page 与上下文 Page 比较，避免默认语言的菜单缓存导致失活。 */}}
+            {{ $isActive = or (eq $page.RelPermalink $resolved.RelPermalink) (and (and $page.File $resolved.File) (eq $page.File.Path $resolved.File.Path)) }}
+          {{ end }}
+          {{ $isActive = or $isActive ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+        {{ end }}
+        {{ if $resolved }}
+          {{ $href = $resolved.RelPermalink }}
+        {{ else if .URL }}
+          {{ if or (hasPrefix .URL "http://") (hasPrefix .URL "https://") (hasPrefix .URL "//") }}
+            {{ $href = .URL }}
+          {{ else }}
+            {{ $href = relLangURL .URL }}
+          {{ end }}
+        {{ end }}
+        {{ $label := or (and .Identifier (T .Identifier)) .Name }}
+        {{- with $page -}}
+          {{- if or (eq .Section "pages") (eq .Type "pages") -}}
+            {{- $isActive = true -}}
+          {{- end -}}
+        {{- end -}}
+        <div class="app-mobile-menu__pages">
+          <a class="app-mobile-menu__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
+            {{ $label | safeHTML }}
+          </a>
+          <div class="app-mobile-menu__pages-list">
+            {{- if gt (len $pagesList) 0 -}}
+              {{ range $pagesList }}
+                {{- $entry := . -}}
+                {{- $pageLinkActive := false -}}
+                {{- with $page -}}
+                  {{- $pageLinkActive = or (eq .RelPermalink $entry.RelPermalink) (and (and .File $entry.File) (eq .File.Path $entry.File.Path)) -}}
+                {{- end -}}
+                <a class="app-mobile-menu__subitem{{ if $pageLinkActive }} is-active{{ end }}" href="{{ $entry.RelPermalink }}">{{ $entry.LinkTitle }}</a>
+              {{ end }}
+            {{- else -}}
+              <p class="app-mobile-menu__subempty">{{ i18n "pagesMenuEmpty" }}</p>
+            {{- end -}}
+          </div>
+        </div>
       {{ end }}
     </nav>
   </section>

@@ -334,7 +334,7 @@
   align-items: center;
   justify-content: flex-start;
   padding: 0.7rem 0.85rem;
-  border-radius: var(--app-radius-inline);
+  border-radius: var(--app-radius-pill);
   color: var(--md-sys-color-on-surface-variant);
   text-decoration: none;
   font-size: var(--md-sys-typescale-body-large-size);
@@ -358,7 +358,7 @@
 .app-mobile-menu__subempty {
   margin: 0;
   padding: 0.7rem 0.85rem;
-  border-radius: var(--app-radius-inline);
+  border-radius: var(--app-radius-pill);
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-body-small-size);
   line-height: var(--md-sys-typescale-body-small-line-height);
@@ -369,7 +369,7 @@
   align-items: center;
   justify-content: flex-start;
   padding: 0.9rem 1rem;
-  border-radius: var(--app-radius-section);
+  border-radius: var(--app-radius-pill);
   border: 1px solid var(--app-glass-border-color);
   background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
