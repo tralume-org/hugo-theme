@@ -214,6 +214,33 @@
 - id: articleInfoLicenseTitle
   translation: 许可证
 
+- id: articleInfoTitleLabel
+  translation: 标题
+
+- id: articleInfoPermalinkLabel
+  translation: 文章链接
+
+- id: articleInfoWordCountLabel
+  translation: 字数
+
+- id: articleInfoWordCountValue
+  translation: "{{ .Count }} 字"
+
+- id: articleInfoPublishedAtLabel
+  translation: 发布时间
+
+- id: articleInfoUpdatedAtLabel
+  translation: 更新时间
+
+- id: articleInfoCopyPermalink
+  translation: 复制文章链接
+
+- id: articleInfoCopyPermalinkAriaLabel
+  translation: 复制永久链接
+
+- id: articleInfoCopied
+  translation: 已复制
+
 - id: articleInfoEditThisPage
   translation: 编辑此页面
 

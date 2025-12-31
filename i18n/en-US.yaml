@@ -214,6 +214,33 @@
 - id: articleInfoLicenseTitle
   translation: License
 
+- id: articleInfoTitleLabel
+  translation: Title
+
+- id: articleInfoPermalinkLabel
+  translation: Permalink
+
+- id: articleInfoWordCountLabel
+  translation: Word count
+
+- id: articleInfoWordCountValue
+  translation: "{{ .Count }} words"
+
+- id: articleInfoPublishedAtLabel
+  translation: Published
+
+- id: articleInfoUpdatedAtLabel
+  translation: Updated
+
+- id: articleInfoCopyPermalink
+  translation: Copy article link
+
+- id: articleInfoCopyPermalinkAriaLabel
+  translation: Copy permalink
+
+- id: articleInfoCopied
+  translation: Copied
+
 - id: articleInfoEditThisPage
   translation: Edit this page
 

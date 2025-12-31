@@ -1,8 +1,11 @@
-{{/* 说明：文章信息卡片，当前仅呈现许可证分区，后续可扩展更多段落。 */}}
+{{/* 说明：文章信息卡片。
+  - 作用：集中展示文章关键元信息（标题、许可证、永久链接、字数、发布时间、更新时间），并在底部提供“编辑此页面”按钮。
+  - 注意：页面模板中禁止写死文案，这里所有标签均通过 i18n key 输出；更新时间在缺失或与发布时间差值 < 30 分钟时自动隐藏。
+*/}}
 <section class="article__info article__surface app-glass app-glass--surface app-card" data-article-info aria-label="{{ i18n "articleInfoAriaLabel" }}">
   <div class="article-info-card">
     <p class="article-info-card__heading">{{ i18n "articleInfoHeading" }}</p>
-    {{/* 说明：许可证分区按页面 → 站点 → 默认优先级解析并输出描述文案。 */}}
+    {{/* 说明：许可证按“页面 → 站点 → 默认”优先级解析并输出描述文案。 */}}
     {{- $knownLicenses := slice "cc-by-4.0" "cc-by-sa-4.0" "cc-by-nd-4.0" "cc-by-nc-4.0" "cc-by-nc-sa-4.0" "cc-by-nc-nd-4.0" "cc0-1.0" "arr" -}}
     {{/* 说明：CC 许可证到官网说明页的映射，ARR 不提供跳转。 */}}
     {{- $licenseUrlMap := dict
@@ -40,25 +43,90 @@
       {{- $licenseFull = i18n "articleLicenseFull_arr" -}}
     {{- end -}}
     {{- $licenseUrl := default "" (index $licenseUrlMap $licenseKey) -}}
+
+    {{/* 说明：构造发布时间/更新时间与显示规则。 */}}
+    {{- $publishedAt := .Date -}}
+    {{- $publishedAtMachine := $publishedAt | time.Format "2006-01-02T15:04:05-07:00" -}}
+    {{- $publishedAtHuman := printf "%s %s" ($publishedAt | time.Format ":date_long") ($publishedAt | time.Format "15:04") -}}
+
+    {{- $updatedAt := .Lastmod -}}
+    {{- $showUpdatedAt := false -}}
+    {{- if and $updatedAt (ne $updatedAt $publishedAt) -}}
+      {{- $diffSeconds := sub $updatedAt.Unix $publishedAt.Unix -}}
+      {{- if lt $diffSeconds 0 -}}
+        {{- $diffSeconds = mul $diffSeconds -1 -}}
+      {{- end -}}
+      {{- if ge $diffSeconds 1800 -}}
+        {{- $showUpdatedAt = true -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $updatedAtMachine := $updatedAt | time.Format "2006-01-02T15:04:05-07:00" -}}
+    {{- $updatedAtHuman := printf "%s %s" ($updatedAt | time.Format ":date_long") ($updatedAt | time.Format "15:04") -}}
+
+    <section class="article-info-card__section article-info-card__section--title" data-article-title>
+      <p class="article-info-card__section-label">{{ i18n "articleInfoTitleLabel" }}</p>
+      <p class="article-info-card__section-text">{{ .Title }}</p>
+    </section>
+
     <section class="article-info-card__section article-info-card__section--license" data-article-license>
       <p class="article-info-card__section-label">{{ i18n "articleInfoLicenseTitle" }}</p>
       <p class="article-info-card__section-text">
         {{- if $licenseUrl -}}
-          <a class="article-info-card__license-link" href="{{ $licenseUrl }}" target="_blank" rel="noopener noreferrer">{{ $licenseFull }}</a>
+          <a class="article-info-card__link" href="{{ $licenseUrl }}" target="_blank" rel="noopener noreferrer">{{ $licenseFull }}</a>
         {{- else -}}
           {{- $licenseFull -}}
         {{- end -}}
       </p>
     </section>
 
-    {{/* 说明：在文章信息块底部输出“编辑本页”链接；仅在 Gitkeeper 配置完整且当前页面有源文件时显示。 */}}
-    {{- $editUrl := partial "source/edit-url.html" . -}}
-    {{- if $editUrl -}}
-      <section class="article-info-card__section article-info-card__section--edit" data-article-edit>
-        <p class="article-info-card__section-text">
-          <a class="article-info-card__edit-link" href="{{ $editUrl }}" target="_blank" rel="noopener noreferrer">{{ i18n "articleInfoEditThisPage" }}</a>
-        </p>
-      </section>
-    {{- end -}}
-  </div>
-</section>
+	    <section class="article-info-card__section article-info-card__section--permalink" data-article-permalink>
+	      <p class="article-info-card__section-label">{{ i18n "articleInfoPermalinkLabel" }}</p>
+	      <p class="article-info-card__section-text article-info-card__section-text--permalink">
+	        <a class="article-info-card__link article-info-card__link--permalink" href="{{ .Permalink }}">{{ .Permalink }}</a>
+	      </p>
+	    </section>
+
+    <section class="article-info-card__section article-info-card__section--wordcount" data-article-wordcount>
+      <p class="article-info-card__section-label">{{ i18n "articleInfoWordCountLabel" }}</p>
+      <p class="article-info-card__section-text">{{ i18n "articleInfoWordCountValue" (dict "Count" .WordCount) }}</p>
+    </section>
+
+    <section class="article-info-card__section article-info-card__section--published" data-article-published>
+      <p class="article-info-card__section-label">{{ i18n "articleInfoPublishedAtLabel" }}</p>
+      <p class="article-info-card__section-text">
+        <time datetime="{{ $publishedAtMachine }}">{{ $publishedAtHuman }}</time>
+      </p>
+    </section>
+
+	    {{- if $showUpdatedAt -}}
+	      <section class="article-info-card__section article-info-card__section--updated" data-article-updated>
+	        <p class="article-info-card__section-label">{{ i18n "articleInfoUpdatedAtLabel" }}</p>
+	        <p class="article-info-card__section-text">
+	          <time datetime="{{ $updatedAtMachine }}">{{ $updatedAtHuman }}</time>
+	        </p>
+	      </section>
+	    {{- end -}}
+
+	    {{- $editUrl := partial "source/edit-url.html" . -}}
+	    {{/* 说明：底部操作区。
+	      - 复制永久链接：始终显示，方便在移动端快速操作。
+	      - 编辑此页面：仅在 Gitkeeper 配置完整且当前页面有源文件时显示。
+	    */}}
+	    <div class="article-info-card__actions" data-article-actions>
+	      <button
+	        type="button"
+	        class="article-info-card__button"
+	        data-article-permalink-copy
+	        data-copy-text="{{ .Permalink }}"
+	        data-copy-label="{{ i18n "articleInfoCopyPermalink" }}"
+	        data-copied-label="{{ i18n "articleInfoCopied" }}"
+	        aria-label="{{ i18n "articleInfoCopyPermalinkAriaLabel" }}"
+	      >
+	        {{ i18n "articleInfoCopyPermalink" }}
+	      </button>
+	      {{- if $editUrl -}}
+	        <a class="article-info-card__button" href="{{ $editUrl }}" target="_blank" rel="noopener noreferrer">{{ i18n "articleInfoEditThisPage" }}</a>
+	      {{- end -}}
+	    </div>
+	  </div>
+	</section>

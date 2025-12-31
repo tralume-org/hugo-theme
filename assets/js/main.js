@@ -2,6 +2,7 @@ import { setupAppNavigation } from './app-navigation.js';
 import { setupSettingsPanel } from './settings-panel.js';
 import { setupCodeBlocks } from './code-blocks.js';
 import { setupArticleOutline } from './article-outline.js';
+import { setupArticleInfo } from './article-info.js';
 import { setupAnalytics } from './analytics.js';
 import { setupPagesMenu } from './pages-menu.js';
 
@@ -12,6 +13,7 @@ const bootstrap = () => {
   setupSettingsPanel();
   setupCodeBlocks();
   setupArticleOutline();
+  setupArticleInfo();
   setupAnalytics();
 };
 
