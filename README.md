@@ -116,6 +116,11 @@ enableRobotsTXT = true # Note: Enable robots.txt output (uses the theme's `layou
     defaultGlassStrength = 'soft'
     # Note: Reader max width in viewport % (e.g. 80 means 80vw).
     defaultReaderWidthValue = 80
+    # Note: Default background provider tab (localStorage overrides this if present).
+    # Note: Allowed values: url / upload / pixaroa.
+    defaultBackgroundProvider = 'url'
+    # Note: Default Pixaroa host base URL (leave empty to use same-origin /api/random).
+    pixaroaHost = 'https://pixaroa.example.com/'
   [params.home]
     # Note: Max latest posts shown on the homepage; shows “View more posts” when exceeded.
     recentPostsLimit = 4
@@ -237,6 +242,8 @@ hugo --minify
 - `params.theme.defaultMode`: `auto` / `light` / `dark`.
 - `params.theme.defaultGlassStrength`: `soft` / `balanced` / `bold`.
 - `params.theme.defaultReaderWidthValue`: Reader max width in viewport percentage (e.g. `80` for `80vw`).
+- `params.theme.defaultBackgroundProvider`: Default background provider (`url` / `upload` / `pixaroa`); overridden by browser `localStorage` when set.
+- `params.theme.pixaroaHost`: Default Pixaroa API host base URL (leave empty to use same-origin `/api/random`).
 - `params.analytics.provider`: Analytics provider name (e.g. `umami`).
 - `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`: Enable Umami tracking; optional `dataHost`/`dataDomains` to control reporting hosts/domains.
 - `params.analytics.providers.umami.blockNotice`: Detect blocked Umami requests and surface a dismissible edge banner.

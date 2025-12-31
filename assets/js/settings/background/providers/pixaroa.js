@@ -221,7 +221,7 @@ const buildAcceptHeader = async ({ detector }) => {
   return accepts.join(', ');
 };
 
-export const createPixaroaBackgroundProvider = ({ root, storage } = {}) => {
+export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '' } = {}) => {
   if (!(root instanceof HTMLElement)) {
     throw new Error('createPixaroaBackgroundProvider: "root" must be an HTMLElement.');
   }
@@ -240,7 +240,7 @@ export const createPixaroaBackgroundProvider = ({ root, storage } = {}) => {
   };
 
   const defaults = {
-    host: '',
+    host: typeof defaultHost === 'string' ? defaultHost.trim() : '',
     tier: 'auto',
     orientation: 'auto',
     format: 'auto',

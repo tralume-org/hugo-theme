@@ -40,7 +40,11 @@ export const setupBackgroundControl = (panel, root) => {
   });
   const backgroundProviderStorageKey = 'tralume-custom-background-provider';
   const backgroundUploadProvider = createUploadBackgroundProvider({ root });
-  const pixaroaBackgroundProvider = createPixaroaBackgroundProvider({ root });
+  const pixaroaDefaultHost =
+    pixaroaHostInput instanceof HTMLInputElement
+      ? (pixaroaHostInput.getAttribute('data-default-host') || '').trim()
+      : '';
+  const pixaroaBackgroundProvider = createPixaroaBackgroundProvider({ root, defaultHost: pixaroaDefaultHost });
   let activeProvider = 'url';
 
   const readStoredProvider = () => {
@@ -354,7 +358,9 @@ export const setupBackgroundControl = (panel, root) => {
   // 说明：初始化 Pixaroa 表单：回填已保存的配置，避免每次打开都要重新输入。
   const initialPixaroaConfig = pixaroaBackgroundProvider.readStoredConfig();
   if (pixaroaHostInput instanceof HTMLInputElement) {
-    pixaroaHostInput.value = initialPixaroaConfig.host || '';
+    // 说明：优先使用已存储配置；若未存储则回退到模板注入的默认 host。
+    pixaroaHostInput.value =
+      initialPixaroaConfig.host || (pixaroaHostInput.getAttribute('data-default-host') || '');
   }
   if (pixaroaTierSelect instanceof HTMLSelectElement) {
     pixaroaTierSelect.value = initialPixaroaConfig.tier || 'auto';

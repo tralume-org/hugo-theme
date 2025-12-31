@@ -108,6 +108,8 @@ enableRobotsTXT = true # 说明：启用 robots.txt 输出（会使用主题的 
     defaultMode = 'auto'           # 说明：主题模式，auto/light/dark。
     defaultGlassStrength = 'soft'  # 说明：玻璃预设，soft/balanced/bold。
     defaultReaderWidthValue = 80   # 说明：阅读区最大宽度（%），例如 80 表示 80vw。
+    defaultBackgroundProvider = 'url' # 说明：默认背景来源（如 url/upload/pixaroa）；若浏览器 localStorage 已保存选择则以其为准。
+    pixaroaHost = 'https://pixaroa.example.com/' # 说明：Pixaroa 默认 Host（base URL）；留空则请求同源 /api/random。
   [params.home]
     recentPostsLimit = 4           # 说明：主页展示的最新文章数量上限，超出时显示“查看更多文章”按钮。
   [params.analytics]
@@ -227,6 +229,8 @@ hugo --minify
 - `params.theme.defaultMode`：`auto` / `light` / `dark`。
 - `params.theme.defaultGlassStrength`：`soft` / `balanced` / `bold`。
 - `params.theme.defaultReaderWidthValue`：阅读区最大宽度（%），例如 `80` 表示 `80vw`。
+- `params.theme.defaultBackgroundProvider`：默认背景来源（`url` / `upload` / `pixaroa`）；若浏览器 `localStorage` 已保存选择则优先使用。
+- `params.theme.pixaroaHost`：Pixaroa 默认 Host（base URL）；留空则使用同源 `/api/random`。
 - `params.analytics.provider`：统计 provider 名称（例如 `umami`）。
 - `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`：Umami 统计脚本的地址与站点 ID，可选 `dataHost` / `dataDomains` 控制上报域名。
 - `params.analytics.providers.umami.blockNotice`：检测统计脚本被拦截时显示贴边提示，可永久忽略。
