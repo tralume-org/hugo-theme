@@ -1,0 +1,38 @@
+/* 说明：本地托管 Material Symbols Rounded（替代 Google Fonts 外链）。
+ * 作用：为 `.material-symbols-rounded` 连字图标提供离线可用的字体资源。
+ * 注意：
+ * 1) 字体文件位于 `static/fonts/material-symbols-rounded/`（woff2 优先，woff 兼容兜底）。
+ * 2) 这里使用相对路径（`../fonts/...`）是因为最终 CSS 输出在 `/css/main.css` 下，便于兼容站点部署在子路径的场景。
+ * 3) 如需升级字体版本：替换字体文件并同步更新 LICENSE（保持来源与版本可追溯）。
+ */
+
+@font-face {
+  font-family: "Material Symbols Rounded";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url("../fonts/material-symbols-rounded/material-symbols-rounded-latin-400-normal.woff2") format("woff2"),
+    url("../fonts/material-symbols-rounded/material-symbols-rounded-latin-400-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Material Symbols Rounded";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    url("../fonts/material-symbols-rounded/material-symbols-rounded-latin-500-normal.woff2") format("woff2"),
+    url("../fonts/material-symbols-rounded/material-symbols-rounded-latin-500-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Material Symbols Rounded";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    url("../fonts/material-symbols-rounded/material-symbols-rounded-latin-600-normal.woff2") format("woff2"),
+    url("../fonts/material-symbols-rounded/material-symbols-rounded-latin-600-normal.woff") format("woff");
+}
+
