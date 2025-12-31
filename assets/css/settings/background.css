@@ -4,6 +4,74 @@
   gap: 0.4rem;
 }
 
+/* 说明：Secondary tabs（背景 provider 切换），用于表达多种背景来源（URL / Upload / ...）。 */
+.settings-panel__background-provider-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--app-glass-border-color);
+}
+
+/* 说明：tab 本体为按钮元素，默认使用次要文字色；选中态显示主色指示条。 */
+.settings-panel__background-provider-tab {
+  flex: 1 1 auto;
+  padding: 0.45rem 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.settings-panel__background-provider-tab::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.25rem;
+  inset-block-end: -0.25rem;
+  height: 0.2rem;
+  border-radius: var(--app-radius-pill);
+  background: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.settings-panel__background-provider-tab[aria-selected="true"] {
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__background-provider-tab[aria-selected="true"]::after {
+  background: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-provider-tab:hover {
+  color: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-provider-tab:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+  border-radius: var(--app-radius-inline);
+}
+
+/* 说明：tab panel 容器保持与原布局一致；占位文案使用弱化颜色。 */
+.settings-panel__background-provider-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.settings-panel__background-provider-placeholder {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
 .settings-panel__description {
   margin: 0;
   color: var(--md-sys-color-on-surface-variant);

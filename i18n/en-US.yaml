@@ -142,6 +142,18 @@
 - id: settingsPanelBackgroundDescription
   translation: Paste any accessible image URL to paint the site backdrop.
 
+- id: settingsPanelBackgroundProviderTabsLabel
+  translation: Background source
+
+- id: settingsPanelBackgroundProviderUrl
+  translation: URL
+
+- id: settingsPanelBackgroundProviderUpload
+  translation: Upload
+
+- id: settingsPanelBackgroundProviderUploadHint
+  translation: Uploading a local background image is not available yet.
+
 - id: settingsPanelBackgroundLabel
   translation: Image URL
 

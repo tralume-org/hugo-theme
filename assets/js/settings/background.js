@@ -2,17 +2,67 @@
 import { createUrlBackgroundProvider } from './background/providers/url.js';
 
 export const setupBackgroundControl = (panel, root) => {
-  const backgroundInput = panel.querySelector('[data-background-input]');
-  const backgroundApplyButton = panel.querySelector('[data-background-apply]');
-  const backgroundResetButton = panel.querySelector('[data-background-reset]');
-  const backgroundBlurRange = panel.querySelector('[data-background-blur-range]');
-  const backgroundBlurLabel = panel.querySelector('[data-background-blur-label]');
+  const backgroundSection = panel.querySelector('[data-background-section]');
+  if (!backgroundSection) {
+    return;
+  }
+
+  const providerTabs = Array.from(
+    backgroundSection.querySelectorAll('[data-background-provider-tab]'),
+  );
+  const providerPanels = Array.from(
+    backgroundSection.querySelectorAll('[data-background-provider-panel]'),
+  );
+
+  const backgroundInput = backgroundSection.querySelector('[data-background-input]');
+  const backgroundApplyButton = backgroundSection.querySelector('[data-background-apply]');
+  const backgroundResetButton = backgroundSection.querySelector('[data-background-reset]');
+  const backgroundBlurRange = backgroundSection.querySelector('[data-background-blur-range]');
+  const backgroundBlurLabel = backgroundSection.querySelector('[data-background-blur-label]');
   const backgroundBlurStorageKey = 'tralume-custom-background-blur';
   const backgroundUrlProvider = createUrlBackgroundProvider({
     root,
     // 说明：存储键保持不变，确保历史配置可继续读取。
     storageKey: 'tralume-custom-background-url',
   });
+  let activeProvider = 'url';
+
+  // 说明：provider 切换逻辑只负责显示/隐藏对应面板；具体读写与应用由各 provider 自行处理。
+  const setActiveProvider = (nextProvider, { shouldFocusTab = false } = {}) => {
+    const normalized = typeof nextProvider === 'string' ? nextProvider.trim() : '';
+    const resolved = normalized.length > 0 ? normalized : 'url';
+    activeProvider = resolved;
+
+    providerTabs.forEach((tab) => {
+      const provider = tab.getAttribute('data-provider') || '';
+      const isSelected = provider === resolved;
+      tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      tab.tabIndex = isSelected ? 0 : -1;
+      if (shouldFocusTab && isSelected) {
+        tab.focus();
+      }
+    });
+
+    providerPanels.forEach((panelEl) => {
+      const provider = panelEl.getAttribute('data-provider') || '';
+      panelEl.hidden = provider !== resolved;
+    });
+
+    // 说明：当前只有 URL provider 可交互；其他 provider 面板仅展示占位信息。
+    const shouldDisableControls = resolved !== 'url';
+    if (backgroundInput instanceof HTMLInputElement) {
+      backgroundInput.disabled = shouldDisableControls;
+    }
+    if (backgroundBlurRange instanceof HTMLInputElement) {
+      backgroundBlurRange.disabled = shouldDisableControls;
+    }
+    if (backgroundApplyButton instanceof HTMLButtonElement) {
+      backgroundApplyButton.disabled = shouldDisableControls || backgroundApplyButton.disabled;
+    }
+    if (backgroundResetButton instanceof HTMLButtonElement) {
+      backgroundResetButton.disabled = shouldDisableControls || backgroundResetButton.disabled;
+    }
+  };
 
   // 说明：壁纸智能取色的默认调色板，确保亮/暗模式拥有安全回退。
   const wallpaperColorFallback = {
@@ -139,6 +189,17 @@ export const setupBackgroundControl = (panel, root) => {
   };
 
   const updateBackgroundButtons = () => {
+    // 说明：非 URL provider 时，不允许操作 URL 输入对应的应用/清除按钮，避免误导。
+    if (activeProvider !== 'url') {
+      if (backgroundApplyButton instanceof HTMLButtonElement) {
+        backgroundApplyButton.disabled = true;
+      }
+      if (backgroundResetButton instanceof HTMLButtonElement) {
+        backgroundResetButton.disabled = true;
+      }
+      return;
+    }
+
     const hasTypedValue = readBackgroundInputValue().length > 0;
     const hasCustomBackground = backgroundUrlProvider.isActive();
     if (backgroundApplyButton instanceof HTMLButtonElement) {
@@ -161,6 +222,65 @@ export const setupBackgroundControl = (panel, root) => {
   }
   applyBackgroundImage(initialBackgroundImage, false);
   updateBackgroundButtons();
+
+  // 说明：初始化 secondary tabs：读取模板默认选中项并绑定点击/键盘导航。
+  if (providerTabs.length > 0 && providerPanels.length > 0) {
+    const selectedTab = providerTabs.find((tab) => tab.getAttribute('aria-selected') === 'true');
+    const initialProvider =
+      (selectedTab && selectedTab.getAttribute('data-provider')) ||
+      providerTabs[0]?.getAttribute('data-provider') ||
+      'url';
+    setActiveProvider(initialProvider, { shouldFocusTab: false });
+
+    providerTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const provider = tab.getAttribute('data-provider') || 'url';
+        setActiveProvider(provider, { shouldFocusTab: false });
+        updateBackgroundButtons();
+      });
+
+      tab.addEventListener('keydown', (event) => {
+        const { key } = event;
+        const currentIndex = providerTabs.indexOf(tab);
+        if (currentIndex < 0) {
+          return;
+        }
+
+        const focusProviderAt = (index) => {
+          const target = providerTabs[index];
+          if (!target) {
+            return;
+          }
+          const provider = target.getAttribute('data-provider') || 'url';
+          setActiveProvider(provider, { shouldFocusTab: true });
+          updateBackgroundButtons();
+        };
+
+        if (key === 'ArrowRight') {
+          event.preventDefault();
+          focusProviderAt((currentIndex + 1) % providerTabs.length);
+          return;
+        }
+        if (key === 'ArrowLeft') {
+          event.preventDefault();
+          focusProviderAt((currentIndex - 1 + providerTabs.length) % providerTabs.length);
+          return;
+        }
+        if (key === 'Home') {
+          event.preventDefault();
+          focusProviderAt(0);
+          return;
+        }
+        if (key === 'End') {
+          event.preventDefault();
+          focusProviderAt(providerTabs.length - 1);
+        }
+      });
+    });
+  } else {
+    // 说明：若模板未启用 provider tabs，默认按 URL provider 处理。
+    setActiveProvider('url', { shouldFocusTab: false });
+  }
 
   const handleBackgroundApply = () => {
     const nextValue = readBackgroundInputValue();
