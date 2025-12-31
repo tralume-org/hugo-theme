@@ -37,6 +37,108 @@
 - id: articlePageviewsLabel
   translation: Views
 
+- id: aiMarkerListSeparator
+  translation: ", "
+
+- id: aiLevel_none
+  translation: No AI
+
+- id: aiLevel_assist
+  translation: AI assisted
+
+- id: aiLevel_coauthor
+  translation: AI co-authored
+
+- id: aiLevel_generate
+  translation: AI generated
+
+- id: aiLevel_translate
+  translation: AI translated
+
+- id: aiReview_none
+  translation: Not stated / not reviewed
+
+- id: aiReview_light
+  translation: Light review
+
+- id: aiReview_edited
+  translation: Edited
+
+- id: aiReview_fact_checked
+  translation: Fact-checked (key facts/data/citations)
+
+- id: aiUsage_outline
+  translation: Outline / structure
+
+- id: aiUsage_rewrite
+  translation: Rewrite / restructure
+
+- id: aiUsage_expand
+  translation: Expand (add details)
+
+- id: aiUsage_summarize
+  translation: Summarize / compress
+
+- id: aiUsage_tone
+  translation: Tone / style adjustment
+
+- id: aiUsage_grammar
+  translation: Grammar fixes
+
+- id: aiUsage_wording
+  translation: Wording improvements
+
+- id: aiUsage_title
+  translation: Title / heading suggestions
+
+- id: aiUsage_translate
+  translation: Translation
+
+- id: aiUsage_research
+  translation: Research direction / synthesis
+
+- id: aiUsage_citation
+  translation: Citation guidance
+
+- id: aiUsage_fact_check_help
+  translation: Fact-check assistance (flagging suspects)
+
+- id: aiUsage_code
+  translation: Code generation / refactor
+
+- id: aiUsage_debug
+  translation: Debugging suggestions
+
+- id: aiUsage_data
+  translation: Data/table transformation
+
+- id: aiUsage_image
+  translation: Image/prompt assistance
+
+- id: aiUsage_privacy
+  translation: Privacy / redaction tips
+
+- id: aiUsage_policy
+  translation: Policy/compliance wording check
+
+- id: aiTool_chatgpt
+  translation: ChatGPT
+
+- id: aiTool_claude
+  translation: Claude
+
+- id: aiTool_gemini
+  translation: Gemini
+
+- id: aiTool_deepseek
+  translation: DeepSeek
+
+- id: aiTool_qwen
+  translation: Qwen
+
+- id: aiTool_other
+  translation: Other
+
 - id: articleReadMore
   translation: Read the full post
 

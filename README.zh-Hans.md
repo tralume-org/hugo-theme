@@ -150,6 +150,25 @@ license: "cc-by-sa-4.0"
   contentLicense = "cc-by-nc-4.0"
 ```
 
+## AI 参与度标记
+
+在文章 Front Matter 添加 `ai` 字段后，主题会在文章页**标题下方**自动渲染标准化说明（无需手写 `notes`）。
+
+```yaml
+# 说明：AI 参与度字段（示例）。
+# 注意：未声明 ai 时不展示；ai.level=none 视为未使用 AI。
+ai:
+  level: assist
+  usage: [grammar, wording]
+  review: edited
+  tools: [chatgpt]
+```
+
+- `ai.level`：`none` / `assist` / `coauthor` / `generate` / `translate`
+- `ai.review`：`none` / `light` / `edited` / `fact_checked`
+- `ai.usage`：`outline` / `rewrite` / `expand` / `summarize` / `tone` / `grammar` / `wording` / `title` / `translate` / `research` / `citation` / `fact_check_help` / `code` / `debug` / `data` / `image` / `privacy` / `policy`
+- `ai.tools`（可选）：`chatgpt` / `claude` / `gemini` / `deepseek` / `qwen` / `other`
+
 ## 编辑本页链接
 
 文章信息卡片底部可显示“编辑此页面”，并按 Git 托管服务生成对应路径（GitHub/GitLab/Forgejo/Gitea）。

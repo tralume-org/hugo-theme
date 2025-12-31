@@ -162,6 +162,25 @@ license: "cc-by-sa-4.0"
   contentLicense = "cc-by-nc-4.0"
 ```
 
+## AI Contribution Marker
+
+Add an `ai` object in a post's front matter and the theme will render a standardized marker **below the title** (no free-form `notes` needed).
+
+```yaml
+# Note: AI contribution fields (example).
+# Note: Omit `ai` to hide; `ai.level=none` is treated as no AI.
+ai:
+  level: assist
+  usage: [grammar, wording]
+  review: edited
+  tools: [chatgpt]
+```
+
+- `ai.level`: `none` / `assist` / `coauthor` / `generate` / `translate`
+- `ai.review`: `none` / `light` / `edited` / `fact_checked`
+- `ai.usage`: `outline` / `rewrite` / `expand` / `summarize` / `tone` / `grammar` / `wording` / `title` / `translate` / `research` / `citation` / `fact_check_help` / `code` / `debug` / `data` / `image` / `privacy` / `policy`
+- `ai.tools` (optional): `chatgpt` / `claude` / `gemini` / `deepseek` / `qwen` / `other`
+
 ## Edit This Page
 
 The article info card can show an “Edit this page” link at the bottom, pointing to your Git repository.

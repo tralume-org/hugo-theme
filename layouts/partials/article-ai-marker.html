@@ -1,0 +1,70 @@
+{{/*
+  说明：文章页 AI 参与度标记（标题下方）。
+  作用：从 Front Matter 的 ai 字段生成标准化说明，避免手写 notes 文案造成口径不一。
+  注意：
+  - 未声明 .Params.ai 时不展示（视为 level=none）。
+  - 仅当 ai.level != none 时展示；review 默认回退为 none。
+  - 所有枚举均通过 i18n 映射，避免模板写死文案。
+*/}}
+{{- with .Params.ai -}}
+  {{- $ai := . -}}
+  {{- $levelRaw := (index $ai "level" | default "none") -}}
+  {{- if ne $levelRaw "none" -}}
+    {{- $listSeparatorKey := "aiMarkerListSeparator" -}}
+    {{- $listSeparator := (i18n $listSeparatorKey | default ", ") -}}
+
+    {{- $levelKey := printf "aiLevel_%s" $levelRaw -}}
+    {{- $levelLabel := i18n $levelKey -}}
+    {{- if eq $levelLabel $levelKey -}}
+      {{- $levelLabel = $levelRaw -}}
+    {{- end -}}
+
+    {{- $reviewRaw := (index $ai "review" | default "none") -}}
+    {{- $reviewKey := printf "aiReview_%s" $reviewRaw -}}
+    {{- $reviewLabel := i18n $reviewKey -}}
+    {{- if eq $reviewLabel $reviewKey -}}
+      {{- $reviewLabel = $reviewRaw -}}
+    {{- end -}}
+
+    {{- $usageLabels := slice -}}
+    {{- with (index $ai "usage") -}}
+      {{- range . -}}
+        {{- $usageKey := printf "aiUsage_%s" . -}}
+        {{- $usageLabel := i18n $usageKey -}}
+        {{- if eq $usageLabel $usageKey -}}
+          {{- $usageLabel = . -}}
+        {{- end -}}
+        {{- $usageLabels = $usageLabels | append $usageLabel -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $usageText := delimit $usageLabels $listSeparator -}}
+
+    {{- $toolLabels := slice -}}
+    {{- with (index $ai "tools") -}}
+      {{- range . -}}
+        {{- $toolKey := printf "aiTool_%s" . -}}
+        {{- $toolLabel := i18n $toolKey -}}
+        {{- if eq $toolLabel $toolKey -}}
+          {{- $toolLabel = . -}}
+        {{- end -}}
+        {{- $toolLabels = $toolLabels | append $toolLabel -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $toolText := delimit $toolLabels $listSeparator -}}
+
+    {{/* 说明：AI 标记独立占一行，但复用与日期/阅读时间相同的 Meta 样式。 */}}
+    <p class="article__meta article__meta--ai">
+      <span class="article__meta-item article__ai-level">{{ $levelLabel }}</span>
+      {{- if gt (len $usageLabels) 0 -}}
+        <span class="article__meta-separator" aria-hidden="true">·</span>
+        <span class="article__meta-item article__ai-usage">{{ $usageText }}</span>
+      {{- end -}}
+      <span class="article__meta-separator" aria-hidden="true">·</span>
+      <span class="article__meta-item article__ai-review">{{ $reviewLabel }}</span>
+      {{- if gt (len $toolLabels) 0 -}}
+        <span class="article__meta-separator" aria-hidden="true">·</span>
+        <span class="article__meta-item article__ai-tools">{{ $toolText }}</span>
+      {{- end -}}
+    </p>
+  {{- end -}}
+{{- end -}}

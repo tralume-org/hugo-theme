@@ -37,6 +37,108 @@
 - id: articlePageviewsLabel
   translation: 阅读量
 
+- id: aiMarkerListSeparator
+  translation: "、"
+
+- id: aiLevel_none
+  translation: 未使用 AI
+
+- id: aiLevel_assist
+  translation: AI 辅助
+
+- id: aiLevel_coauthor
+  translation: AI 协作撰写
+
+- id: aiLevel_generate
+  translation: AI 生成
+
+- id: aiLevel_translate
+  translation: AI 翻译
+
+- id: aiReview_none
+  translation: 未说明/未做人工检查
+
+- id: aiReview_light
+  translation: 已通读检查
+
+- id: aiReview_edited
+  translation: 已逐段校对与修订
+
+- id: aiReview_fact_checked
+  translation: 关键事实/数据/引用已人工核对来源
+
+- id: aiUsage_outline
+  translation: 提纲/结构建议
+
+- id: aiUsage_rewrite
+  translation: 改写/重组段落
+
+- id: aiUsage_expand
+  translation: 扩写（补充细节）
+
+- id: aiUsage_summarize
+  translation: 摘要/压缩
+
+- id: aiUsage_tone
+  translation: 语气/风格调整
+
+- id: aiUsage_grammar
+  translation: 语法纠错
+
+- id: aiUsage_wording
+  translation: 措辞优化/同义替换
+
+- id: aiUsage_title
+  translation: 标题/小标题建议
+
+- id: aiUsage_translate
+  translation: 翻译
+
+- id: aiUsage_research
+  translation: 资料搜集方向/整理
+
+- id: aiUsage_citation
+  translation: 引用格式/引用建议
+
+- id: aiUsage_fact_check_help
+  translation: 核对辅助（提示可疑点）
+
+- id: aiUsage_code
+  translation: 代码生成/改写
+
+- id: aiUsage_debug
+  translation: 排错/日志分析建议
+
+- id: aiUsage_data
+  translation: 表格/数据整理与转换
+
+- id: aiUsage_image
+  translation: 图片/插图提示词或生成辅助
+
+- id: aiUsage_privacy
+  translation: 隐私/脱敏建议
+
+- id: aiUsage_policy
+  translation: 合规/措辞风险提示
+
+- id: aiTool_chatgpt
+  translation: ChatGPT
+
+- id: aiTool_claude
+  translation: Claude
+
+- id: aiTool_gemini
+  translation: Gemini
+
+- id: aiTool_deepseek
+  translation: DeepSeek
+
+- id: aiTool_qwen
+  translation: Qwen
+
+- id: aiTool_other
+  translation: 其他
+
 - id: articleReadMore
   translation: 阅读全文
 
