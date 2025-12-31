@@ -119,6 +119,12 @@ enableRobotsTXT = true # 说明：启用 robots.txt 输出（会使用主题的 
       # dataHost = 'https://umami.example.com'   # 可选：自定义 data-host。
       # dataDomains = 'example.com'             # 可选：限定追踪域名，逗号分隔。
       # blockNotice = true                      # 可选：被拦截时贴边提示并支持永久忽略。
+      [params.analytics.providers.umami.pageviews]
+        # 说明：文章页标题下展示“阅读量”时使用（通过 shareId 获取 token 并查询 stats）。
+        # 注意：这里填写 Umami 的站点根地址（不要带 /script.js）。
+        host = 'https://umami.example.com'
+        # 说明：Umami share 链接中的 shareId；无需账号密码。
+        shareId = '<shareId>'
 ```
 
 提示：菜单当前为全局共享配置，如需中英文显示不同名称，请改用 `languages.*.menus.main` 在各语言下分别声明。
@@ -222,3 +228,4 @@ hugo --minify
 - `params.analytics.provider`：统计 provider 名称（例如 `umami`）。
 - `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`：Umami 统计脚本的地址与站点 ID，可选 `dataHost` / `dataDomains` 控制上报域名。
 - `params.analytics.providers.umami.blockNotice`：检测统计脚本被拦截时显示贴边提示，可永久忽略。
+- `params.analytics.providers.umami.pageviews.host` / `params.analytics.providers.umami.pageviews.shareId`：为文章页标题信息栏启用“阅读量”显示（从 0 到当前时间的 pageviews）。

@@ -34,6 +34,9 @@
 - id: articleReadingTime
   translation: 约 {{ .Minutes }} 分钟读完
 
+- id: articlePageviewsLabel
+  translation: 阅读量
+
 - id: articleReadMore
   translation: 阅读全文
 

@@ -53,6 +53,11 @@
   font-weight: inherit;
 }
 
+.article__pageviews {
+  /* 说明：阅读量由“标签 + 数字”组成，使用 gap 保持与其它 Meta 项一致的视觉节奏。 */
+  gap: 0.35rem;
+}
+
 .article__time,
 .article__reading-time {
   color: inherit;

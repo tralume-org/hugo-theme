@@ -15,6 +15,24 @@
             <span class="article__meta-separator" aria-hidden="true">·</span>
             <span class="article__meta-item article__reading-time">{{ i18n "articleReadingTime" (dict "Minutes" .) }}</span>
           {{- end }}
+          {{/* 说明：阅读量（浏览量）由前端从 Umami share API 拉取并填充；未配置则不渲染。 */}}
+          {{- $umamiConfig := index (site.Params.analytics.providers | default dict) "umami" | default dict -}}
+          {{- $pageviewsConfig := $umamiConfig.pageviews | default dict -}}
+          {{- $pageviewsHost := $pageviewsConfig.host | default "" -}}
+          {{- $pageviewsShareId := $pageviewsConfig.shareId | default "" -}}
+          {{- if and $pageviewsHost $pageviewsShareId -}}
+            <span class="article__meta-separator" aria-hidden="true">·</span>
+            <span
+              class="article__meta-item article__pageviews"
+              data-umami-pageviews
+              data-umami-pageviews-host="{{ $pageviewsHost }}"
+              data-umami-pageviews-share-id="{{ $pageviewsShareId }}"
+              data-umami-pageviews-path="{{ .RelPermalink }}"
+            >
+              <span class="article__pageviews-label">{{ i18n "articlePageviewsLabel" }}</span>
+              <span class="article__pageviews-count" data-umami-pageviews-count aria-live="polite">—</span>
+            </span>
+          {{- end }}
         </p>
       </header>
       <div class="article__content" data-article-content>

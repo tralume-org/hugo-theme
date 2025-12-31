@@ -128,6 +128,12 @@ enableRobotsTXT = true # Note: Enable robots.txt output (uses the theme's `layou
       # dataHost = 'https://umami.example.com'   # Optional: override data-host.
       # dataDomains = 'example.com'             # Optional: restrict tracked domains, comma-separated.
       # blockNotice = true                      # Optional: show an edge notice if Umami gets blocked.
+      [params.analytics.providers.umami.pageviews]
+        # Note: Used by the post header “Views” badge (fetches a share token then queries stats).
+        # Note: Use the Umami base URL (do not include /script.js).
+        host = 'https://umami.example.com'
+        # Note: The shareId from Umami's share link; no username/password needed.
+        shareId = '<shareId>'
 ```
 
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
@@ -233,3 +239,4 @@ hugo --minify
 - `params.analytics.provider`: Analytics provider name (e.g. `umami`).
 - `params.analytics.providers.umami.scriptUrl` / `params.analytics.providers.umami.websiteId`: Enable Umami tracking; optional `dataHost`/`dataDomains` to control reporting hosts/domains.
 - `params.analytics.providers.umami.blockNotice`: Detect blocked Umami requests and surface a dismissible edge banner.
+- `params.analytics.providers.umami.pageviews.host` / `params.analytics.providers.umami.pageviews.shareId`: Enable the post header “Views” badge (pageviews from 0 to now).

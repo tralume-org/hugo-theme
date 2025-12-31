@@ -34,6 +34,9 @@
 - id: articleReadingTime
   translation: Approx. {{ .Minutes }} min read
 
+- id: articlePageviewsLabel
+  translation: Views
+
 - id: articleReadMore
   translation: Read the full post
 
