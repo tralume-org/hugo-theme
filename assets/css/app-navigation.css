@@ -1,7 +1,8 @@
 /* \u8bf4\u660e\uff1a\u9876\u680f\u91c7\u7528\u73bb\u7483\u62df\u6001\u80cc\u666f\uff0c\u914d\u5408\u6a21\u7cca\u4e0e\u63cf\u8fb9\u4fdd\u6301\u5c42\u6b21\u611f\u3002 */
 .app-header {
-  /* 说明：为顶栏创建独立层叠上下文，确保导航弹层不会被页面浮动组件（设置面板/进度按钮）遮挡。 */
-  position: relative;
+  /* 说明：顶栏吸顶，滚动页面时保持可见（不随内容一起滚走）。 */
+  position: sticky;
+  top: 0;
   z-index: 240;
   background-color: var(--app-glass-surface-color);
   border-bottom: 1px solid var(--app-glass-border-color);

@@ -10,6 +10,18 @@ body {
   line-height: var(--md-sys-typescale-body-large-line-height);
 }
 
+html {
+  /* 说明：顶栏吸顶后，使用锚点（#hash）或 scrollIntoView 跳转时预留顶部空间，避免标题被顶栏遮挡。 */
+  scroll-padding-top: var(--app-header-scroll-offset, 6rem);
+}
+
+@media (max-width: 48rem) {
+  html {
+    /* 说明：移动端顶栏通常为两行（标题 + 导航），锚点跳转需预留更多空间。 */
+    scroll-padding-top: var(--app-header-scroll-offset-mobile, 10rem);
+  }
+}
+
 /* 说明：固定伪元素承载用户自定义的背景图，避免干扰主体排版。 */
 body::before {
   content: "";
@@ -51,6 +63,9 @@ body::before {
   --floating-control-width: 7.5rem;
   --floating-control-height: 3.5rem;
   --floating-control-gap: 0.25rem;
+  /* 说明：锚点跳转顶部偏移（吸顶顶栏高度的近似值），移动端单独设置以覆盖双行顶栏场景。 */
+  --app-header-scroll-offset: 6rem;
+  --app-header-scroll-offset-mobile: 10rem;
   /* 说明：统一圆角尺度，供卡片/面板/控件复用，避免各文件重复写死数值。 */
   --app-radius-card: 1.5rem;
   --app-radius-panel: 1.25rem;
