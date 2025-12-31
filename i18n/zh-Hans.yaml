@@ -151,14 +151,26 @@
 - id: settingsPanelBackgroundProviderUpload
   translation: 上传
 
-- id: settingsPanelBackgroundProviderUploadHint
-  translation: 上传背景图片功能尚在开发中，暂不可用。
-
 - id: settingsPanelBackgroundLabel
   translation: 图片链接
 
 - id: settingsPanelBackgroundPlaceholder
   translation: 例如 https://example.com/hero.webp
+
+- id: settingsPanelBackgroundUploadLabel
+  translation: 选择图片
+
+- id: settingsPanelBackgroundUploadHint
+  translation: 图片仅保存在本地浏览器，不会上传到服务器。
+
+- id: settingsPanelBackgroundUploadStatusEmpty
+  translation: 尚未选择图片。
+
+- id: settingsPanelBackgroundUploadStatusStored
+  translation: 已保存一张背景图片（本地）。
+
+- id: settingsPanelBackgroundUploadStatusSelected
+  translation: 已选择：{{ .Name }}
 
 - id: settingsPanelBackgroundHint
   translation: 为提升可读性，建议使用高分辨率、亮度适中的图片；清空后点击“应用背景”即可恢复默认底色。

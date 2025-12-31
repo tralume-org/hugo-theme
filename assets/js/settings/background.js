@@ -1,5 +1,6 @@
 // 说明：自定义背景图与默认色板逻辑，支持输入 URL、持久化与按钮状态更新。
 import { createUrlBackgroundProvider } from './background/providers/url.js';
+import { createUploadBackgroundProvider } from './background/providers/upload.js';
 
 export const setupBackgroundControl = (panel, root) => {
   const backgroundSection = panel.querySelector('[data-background-section]');
@@ -19,13 +20,40 @@ export const setupBackgroundControl = (panel, root) => {
   const backgroundResetButton = backgroundSection.querySelector('[data-background-reset]');
   const backgroundBlurRange = backgroundSection.querySelector('[data-background-blur-range]');
   const backgroundBlurLabel = backgroundSection.querySelector('[data-background-blur-label]');
+  const uploadInput = backgroundSection.querySelector('[data-background-upload-input]');
+  const uploadApplyButton = backgroundSection.querySelector('[data-background-upload-apply]');
+  const uploadResetButton = backgroundSection.querySelector('[data-background-upload-reset]');
+  const uploadStatus = backgroundSection.querySelector('[data-background-upload-status]');
   const backgroundBlurStorageKey = 'tralume-custom-background-blur';
   const backgroundUrlProvider = createUrlBackgroundProvider({
     root,
     // 说明：存储键保持不变，确保历史配置可继续读取。
     storageKey: 'tralume-custom-background-url',
   });
+  const backgroundProviderStorageKey = 'tralume-custom-background-provider';
+  const backgroundUploadProvider = createUploadBackgroundProvider({ root });
   let activeProvider = 'url';
+
+  const readStoredProvider = () => {
+    try {
+      const stored = window.localStorage.getItem(backgroundProviderStorageKey);
+      return stored === 'upload' || stored === 'url' ? stored : '';
+    } catch (error) {
+      return '';
+    }
+  };
+
+  const persistProvider = (provider) => {
+    try {
+      if (provider) {
+        window.localStorage.setItem(backgroundProviderStorageKey, provider);
+      } else {
+        window.localStorage.removeItem(backgroundProviderStorageKey);
+      }
+    } catch (error) {
+      // 说明：忽略存储失败，避免影响基础功能。
+    }
+  };
 
   // 说明：provider 切换逻辑只负责显示/隐藏对应面板；具体读写与应用由各 provider 自行处理。
   const setActiveProvider = (nextProvider, { shouldFocusTab = false } = {}) => {
@@ -47,21 +75,6 @@ export const setupBackgroundControl = (panel, root) => {
       const provider = panelEl.getAttribute('data-provider') || '';
       panelEl.hidden = provider !== resolved;
     });
-
-    // 说明：当前只有 URL provider 可交互；其他 provider 面板仅展示占位信息。
-    const shouldDisableControls = resolved !== 'url';
-    if (backgroundInput instanceof HTMLInputElement) {
-      backgroundInput.disabled = shouldDisableControls;
-    }
-    if (backgroundBlurRange instanceof HTMLInputElement) {
-      backgroundBlurRange.disabled = shouldDisableControls;
-    }
-    if (backgroundApplyButton instanceof HTMLButtonElement) {
-      backgroundApplyButton.disabled = shouldDisableControls || backgroundApplyButton.disabled;
-    }
-    if (backgroundResetButton instanceof HTMLButtonElement) {
-      backgroundResetButton.disabled = shouldDisableControls || backgroundResetButton.disabled;
-    }
   };
 
   // 说明：壁纸智能取色的默认调色板，确保亮/暗模式拥有安全回退。
@@ -188,18 +201,7 @@ export const setupBackgroundControl = (panel, root) => {
     return '';
   };
 
-  const updateBackgroundButtons = () => {
-    // 说明：非 URL provider 时，不允许操作 URL 输入对应的应用/清除按钮，避免误导。
-    if (activeProvider !== 'url') {
-      if (backgroundApplyButton instanceof HTMLButtonElement) {
-        backgroundApplyButton.disabled = true;
-      }
-      if (backgroundResetButton instanceof HTMLButtonElement) {
-        backgroundResetButton.disabled = true;
-      }
-      return;
-    }
-
+  const updateUrlButtons = () => {
     const hasTypedValue = readBackgroundInputValue().length > 0;
     const hasCustomBackground = backgroundUrlProvider.isActive();
     if (backgroundApplyButton instanceof HTMLButtonElement) {
@@ -210,18 +212,86 @@ export const setupBackgroundControl = (panel, root) => {
     }
   };
 
+  const replacePlaceholderName = (template, name) => {
+    if (typeof template !== 'string' || template.length === 0) {
+      return '';
+    }
+    return template.replace('__NAME__', name);
+  };
+
+  const setUploadStatus = ({ mode, name } = {}) => {
+    if (!(uploadStatus instanceof HTMLElement)) {
+      return;
+    }
+    const emptyText = uploadStatus.getAttribute('data-empty') || '';
+    const storedText = uploadStatus.getAttribute('data-stored') || '';
+    const selectedTemplate = uploadStatus.getAttribute('data-selected-template') || '';
+
+    if (mode === 'selected') {
+      uploadStatus.textContent = replacePlaceholderName(selectedTemplate, name || '') || emptyText;
+      return;
+    }
+    if (mode === 'stored') {
+      uploadStatus.textContent = storedText || emptyText;
+      return;
+    }
+    uploadStatus.textContent = emptyText;
+  };
+
+  const updateUploadButtons = ({ hasSelectedFile = false } = {}) => {
+    const hasStoredUpload = backgroundUploadProvider.hasStoredUpload();
+    if (uploadApplyButton instanceof HTMLButtonElement) {
+      uploadApplyButton.disabled = !(hasSelectedFile || hasStoredUpload);
+    }
+    if (uploadResetButton instanceof HTMLButtonElement) {
+      uploadResetButton.disabled = !hasStoredUpload;
+    }
+  };
+
   // 说明：对外保留原本的“应用”语义（含清空即移除），实际实现委托给 URL provider。
   const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
+    // 说明：URL 生效后可安全释放上传 provider 的 object URL（若存在），避免内存泄漏。
     backgroundUrlProvider.apply(rawUrl, { persistValue: shouldPersist });
-    updateBackgroundButtons();
+    if (shouldPersist) {
+      persistProvider(typeof rawUrl === 'string' && rawUrl.trim() ? 'url' : '');
+    }
+    backgroundUploadProvider.releaseObjectUrl();
+    updateUrlButtons();
+  };
+
+  const applyUploadFile = async (file, { persistValue = true } = {}) => {
+    if (!(file instanceof File)) {
+      return false;
+    }
+    // 说明：切换到上传背景时，仅重置 URL provider 的运行时状态，避免误判“当前已应用 URL 背景”。
+    backgroundUrlProvider.deactivate();
+    const ok = await backgroundUploadProvider.applyBlob(file, { persistValue });
+    if (ok) {
+      if (persistValue) {
+        persistProvider('upload');
+      }
+    }
+    updateUrlButtons();
+    updateUploadButtons({ hasSelectedFile: false });
+    setUploadStatus({ mode: 'stored' });
+    return ok;
+  };
+
+  const applyStoredUploadIfAny = async () => {
+    const ok = await backgroundUploadProvider.applyStored({ persistValue: false });
+    if (ok) {
+      backgroundUrlProvider.deactivate();
+      setUploadStatus({ mode: 'stored' });
+    }
+    updateUploadButtons({ hasSelectedFile: false });
+    updateUrlButtons();
+    return ok;
   };
 
   const initialBackgroundImage = backgroundUrlProvider.readStoredValue();
   if (backgroundInput instanceof HTMLInputElement) {
     backgroundInput.value = initialBackgroundImage;
   }
-  applyBackgroundImage(initialBackgroundImage, false);
-  updateBackgroundButtons();
 
   // 说明：初始化 secondary tabs：读取模板默认选中项并绑定点击/键盘导航。
   if (providerTabs.length > 0 && providerPanels.length > 0) {
@@ -236,7 +306,12 @@ export const setupBackgroundControl = (panel, root) => {
       tab.addEventListener('click', () => {
         const provider = tab.getAttribute('data-provider') || 'url';
         setActiveProvider(provider, { shouldFocusTab: false });
-        updateBackgroundButtons();
+        activeProvider = provider;
+        updateUrlButtons();
+        updateUploadButtons({
+          hasSelectedFile:
+            uploadInput instanceof HTMLInputElement && uploadInput.files && uploadInput.files.length > 0,
+        });
       });
 
       tab.addEventListener('keydown', (event) => {
@@ -253,7 +328,12 @@ export const setupBackgroundControl = (panel, root) => {
           }
           const provider = target.getAttribute('data-provider') || 'url';
           setActiveProvider(provider, { shouldFocusTab: true });
-          updateBackgroundButtons();
+          activeProvider = provider;
+          updateUrlButtons();
+          updateUploadButtons({
+            hasSelectedFile:
+              uploadInput instanceof HTMLInputElement && uploadInput.files && uploadInput.files.length > 0,
+          });
         };
 
         if (key === 'ArrowRight') {
@@ -282,6 +362,28 @@ export const setupBackgroundControl = (panel, root) => {
     setActiveProvider('url', { shouldFocusTab: false });
   }
 
+  // 说明：根据上次使用的 provider 自动应用背景（若有保存），避免每次刷新都需要重新操作。
+  const storedProvider = readStoredProvider();
+  if (storedProvider) {
+    setActiveProvider(storedProvider, { shouldFocusTab: false });
+    activeProvider = storedProvider;
+  }
+  if (storedProvider === 'upload') {
+    void applyStoredUploadIfAny().then((ok) => {
+      if (!ok) {
+        applyBackgroundImage(initialBackgroundImage, false);
+        setUploadStatus({ mode: backgroundUploadProvider.hasStoredUpload() ? 'stored' : 'empty' });
+      }
+    });
+  } else {
+    applyBackgroundImage(initialBackgroundImage, false);
+    void backgroundUploadProvider.readStoredBlob().then((blob) => {
+      setUploadStatus({ mode: blob ? 'stored' : 'empty' });
+      updateUploadButtons({ hasSelectedFile: false });
+    });
+  }
+  updateUrlButtons();
+
   const handleBackgroundApply = () => {
     const nextValue = readBackgroundInputValue();
     applyBackgroundImage(nextValue, true);
@@ -293,7 +395,7 @@ export const setupBackgroundControl = (panel, root) => {
 
   if (backgroundInput instanceof HTMLInputElement) {
     backgroundInput.addEventListener('input', () => {
-      updateBackgroundButtons();
+      updateUrlButtons();
     });
     backgroundInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
@@ -309,6 +411,49 @@ export const setupBackgroundControl = (panel, root) => {
         backgroundInput.value = '';
       }
       applyBackgroundImage('', true);
+    });
+  }
+
+  // 说明：上传 provider：选择文件后可直接应用，并将图片持久化到 IndexedDB。
+  if (uploadInput instanceof HTMLInputElement) {
+    uploadInput.addEventListener('change', () => {
+      const file = uploadInput.files && uploadInput.files[0];
+      if (file) {
+        setUploadStatus({ mode: 'selected', name: file.name });
+        updateUploadButtons({ hasSelectedFile: true });
+        void applyUploadFile(file, { persistValue: true });
+      } else {
+        setUploadStatus({
+          mode: backgroundUploadProvider.hasStoredUpload() ? 'stored' : 'empty',
+        });
+        updateUploadButtons({ hasSelectedFile: false });
+      }
+    });
+  }
+
+  if (uploadApplyButton instanceof HTMLButtonElement) {
+    uploadApplyButton.addEventListener('click', () => {
+      const file =
+        uploadInput instanceof HTMLInputElement && uploadInput.files ? uploadInput.files[0] : null;
+      if (file) {
+        void applyUploadFile(file, { persistValue: true });
+        return;
+      }
+      void applyStoredUploadIfAny();
+    });
+  }
+
+  if (uploadResetButton instanceof HTMLButtonElement) {
+    uploadResetButton.addEventListener('click', () => {
+      if (uploadInput instanceof HTMLInputElement) {
+        uploadInput.value = '';
+      }
+      void backgroundUploadProvider.clear({ persistValue: true }).then(() => {
+        persistProvider('');
+        setUploadStatus({ mode: 'empty' });
+        updateUploadButtons({ hasSelectedFile: false });
+        updateUrlButtons();
+      });
     });
   }
 };

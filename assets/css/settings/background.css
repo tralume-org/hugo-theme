@@ -65,7 +65,12 @@
   gap: 0.4rem;
 }
 
-.settings-panel__background-provider-placeholder {
+/* 说明：确保 hidden 属性能正确隐藏 tab panel，避免被本文件的 display 声明覆盖。 */
+.settings-panel__background-provider-panel[hidden] {
+  display: none;
+}
+
+.settings-panel__background-provider-status {
   margin: 0;
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-body-small-size);
@@ -106,6 +111,52 @@
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
   -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
   backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+/* 说明：上传文件输入与 URL 输入保持一致的亚克力外观，提升一致性。 */
+.settings-panel__background-upload-input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__background-upload-input::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.45rem 0.85rem;
+  border: 0;
+  border-radius: var(--settings-panel-pill-radius);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.settings-panel__background-upload-input::file-selector-button:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 92%, #000 8%);
+}
+
+.settings-panel__background-upload-input:hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-upload-input:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--app-glass-elevated-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent);
 }
 
 .settings-panel__background-input:hover {

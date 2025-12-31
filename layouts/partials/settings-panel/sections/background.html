@@ -65,36 +65,6 @@
     <p class="settings-panel__background-hint" id="settings-panel-background-hint">
       {{ i18n "settingsPanelBackgroundHint" }}
     </p>
-    <div class="settings-panel__background-blur-field">
-      <div class="settings-panel__glass-input-header">
-        <label class="settings-panel__glass-slider-label" for="settings-panel-background-blur-range">
-          {{ i18n "settingsPanelBackgroundBlurLabel" }}
-        </label>
-        <span
-          class="settings-panel__glass-blur-value"
-          data-background-blur-label
-          data-unit="{{ i18n "settingsPanelBackgroundBlurUnit" }}"
-        >0{{ i18n "settingsPanelBackgroundBlurUnit" }}</span>
-      </div>
-      <input
-        id="settings-panel-background-blur-range"
-        class="settings-panel__glass-slider"
-        type="range"
-        min="0"
-        max="40"
-        step="1"
-        value="0"
-        aria-valuemin="0"
-        aria-valuemax="40"
-        aria-valuenow="0"
-        aria-label="{{ i18n "settingsPanelBackgroundBlurLabel" }}"
-        data-background-blur-range
-      />
-      <div class="settings-panel__glass-scale">
-        <span>{{ i18n "settingsPanelBackgroundBlurLow" }}</span>
-        <span>{{ i18n "settingsPanelBackgroundBlurHigh" }}</span>
-      </div>
-    </div>
     <div class="settings-panel__background-actions">
       <button
         type="button"
@@ -124,8 +94,81 @@
     data-provider="upload"
     hidden
   >
-    <p class="settings-panel__background-provider-placeholder">
-      {{ i18n "settingsPanelBackgroundProviderUploadHint" }}
+    <label class="settings-panel__background-label" for="settings-panel-background-upload-input">
+      {{ i18n "settingsPanelBackgroundUploadLabel" }}
+    </label>
+    <div class="settings-panel__background-field">
+      <input
+        id="settings-panel-background-upload-input"
+        class="settings-panel__background-upload-input"
+        type="file"
+        accept="image/*"
+        aria-describedby="settings-panel-background-upload-hint settings-panel-background-upload-status"
+        data-background-upload-input
+      />
+    </div>
+    <p class="settings-panel__background-hint" id="settings-panel-background-upload-hint">
+      {{ i18n "settingsPanelBackgroundUploadHint" }}
     </p>
+    <p
+      class="settings-panel__background-provider-status"
+      id="settings-panel-background-upload-status"
+      data-background-upload-status
+      data-empty="{{ i18n "settingsPanelBackgroundUploadStatusEmpty" }}"
+      data-stored="{{ i18n "settingsPanelBackgroundUploadStatusStored" }}"
+      data-selected-template="{{ i18n "settingsPanelBackgroundUploadStatusSelected" (dict "Name" "__NAME__") }}"
+    >
+      {{ i18n "settingsPanelBackgroundUploadStatusEmpty" }}
+    </p>
+    <div class="settings-panel__background-actions">
+      <button
+        type="button"
+        class="settings-panel__background-apply"
+        data-background-upload-apply
+        disabled
+      >
+        {{ i18n "settingsPanelBackgroundApply" }}
+      </button>
+      <button
+        type="button"
+        class="settings-panel__background-reset"
+        data-background-upload-reset
+        disabled
+      >
+        {{ i18n "settingsPanelBackgroundReset" }}
+      </button>
+    </div>
+  </div>
+
+  {{/* 说明：背景模糊为通用效果，独立于 provider，切换 tab 时仍可调整。 */}}
+  <div class="settings-panel__background-blur-field">
+    <div class="settings-panel__glass-input-header">
+      <label class="settings-panel__glass-slider-label" for="settings-panel-background-blur-range">
+        {{ i18n "settingsPanelBackgroundBlurLabel" }}
+      </label>
+      <span
+        class="settings-panel__glass-blur-value"
+        data-background-blur-label
+        data-unit="{{ i18n "settingsPanelBackgroundBlurUnit" }}"
+      >0{{ i18n "settingsPanelBackgroundBlurUnit" }}</span>
+    </div>
+    <input
+      id="settings-panel-background-blur-range"
+      class="settings-panel__glass-slider"
+      type="range"
+      min="0"
+      max="40"
+      step="1"
+      value="0"
+      aria-valuemin="0"
+      aria-valuemax="40"
+      aria-valuenow="0"
+      aria-label="{{ i18n "settingsPanelBackgroundBlurLabel" }}"
+      data-background-blur-range
+    />
+    <div class="settings-panel__glass-scale">
+      <span>{{ i18n "settingsPanelBackgroundBlurLow" }}</span>
+      <span>{{ i18n "settingsPanelBackgroundBlurHigh" }}</span>
+    </div>
   </div>
 </section>

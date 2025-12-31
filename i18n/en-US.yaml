@@ -151,14 +151,26 @@
 - id: settingsPanelBackgroundProviderUpload
   translation: Upload
 
-- id: settingsPanelBackgroundProviderUploadHint
-  translation: Uploading a local background image is not available yet.
-
 - id: settingsPanelBackgroundLabel
   translation: Image URL
 
 - id: settingsPanelBackgroundPlaceholder
   translation: e.g. https://example.com/hero.webp
+
+- id: settingsPanelBackgroundUploadLabel
+  translation: Choose image
+
+- id: settingsPanelBackgroundUploadHint
+  translation: The image is stored locally in your browser and is not uploaded to the server.
+
+- id: settingsPanelBackgroundUploadStatusEmpty
+  translation: No image selected yet.
+
+- id: settingsPanelBackgroundUploadStatusStored
+  translation: A local background image is saved.
+
+- id: settingsPanelBackgroundUploadStatusSelected
+  translation: "Selected: {{ .Name }}"
 
 - id: settingsPanelBackgroundHint
   translation: Prefer high-resolution, moderately bright assets. Clear the field and press “Apply background” to revert.

@@ -18,6 +18,7 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
     (typeof window !== 'undefined' && window.localStorage ? window.localStorage : null);
 
   let hasCustomBackground = false;
+  let hasStoredValueCache = null;
 
   const persist = (value) => {
     if (!backingStorage) {
@@ -26,8 +27,10 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
     try {
       if (value) {
         backingStorage.setItem(key, value);
+        hasStoredValueCache = true;
       } else {
         backingStorage.removeItem(key);
+        hasStoredValueCache = false;
       }
     } catch (error) {
       // 说明：忽略本地存储失败，避免在隐身模式或存储被禁用时报错。
@@ -39,7 +42,9 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
       return '';
     }
     try {
-      return backingStorage.getItem(key) || '';
+      const value = backingStorage.getItem(key) || '';
+      hasStoredValueCache = value.length > 0;
+      return value;
     } catch (error) {
       return '';
     }
@@ -52,6 +57,7 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
       root.style.setProperty('--app-custom-background-image', 'none');
       root.style.setProperty('--app-custom-background-opacity', '0');
       hasCustomBackground = false;
+      hasStoredValueCache = false;
       if (persistValue) {
         persist('');
       }
@@ -63,6 +69,7 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
     root.style.setProperty('--app-custom-background-image', `url(${sanitized})`);
     root.style.setProperty('--app-custom-background-opacity', '1');
     hasCustomBackground = true;
+    hasStoredValueCache = true;
     if (persistValue) {
       persist(trimmed);
     }
@@ -74,7 +81,16 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
     readStoredValue,
     apply,
     clear: (options) => apply('', options),
+    // 说明：仅重置运行时状态，避免在其他 provider 覆盖背景时误判“当前已应用”。
+    deactivate: () => {
+      hasCustomBackground = false;
+    },
+    hasStoredValue: () => {
+      if (typeof hasStoredValueCache === 'boolean') {
+        return hasStoredValueCache;
+      }
+      return readStoredValue().length > 0;
+    },
     isActive: () => hasCustomBackground,
   };
 };
-
