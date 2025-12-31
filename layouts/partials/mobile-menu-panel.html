@@ -1,0 +1,65 @@
+{{/* 说明：移动端全屏主导航菜单（portal 方式渲染到 header 之外）。
+  - 目标：移动端顶栏仅保留站点名称 + 菜单按钮；导航项集中在全屏菜单中展示。
+  - 注意：面板默认隐藏，仅由 assets/js/mobile-menu.js 控制展开/收起。 */}}
+{{- $menu := site.Menus.main -}}
+{{- if $menu -}}
+  {{- $page := . -}}
+  <section
+    class="app-mobile-menu app-glass app-glass--strong"
+    id="mobile-menu-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="mobile-menu-title"
+    aria-hidden="true"
+    inert
+    data-mobile-menu-panel
+  >
+    <header class="app-mobile-menu__header">
+      <h2 class="app-mobile-menu__title" id="mobile-menu-title">{{ site.Title }}</h2>
+      <button
+        class="app-mobile-menu__close app-glass app-glass--surface"
+        type="button"
+        aria-label="{{ i18n "mobileMenuCloseLabel" }}"
+        data-mobile-menu-close
+      >
+        <span class="material-symbols-rounded" aria-hidden="true">close</span>
+      </button>
+    </header>
+    <nav class="app-mobile-menu__nav" aria-label="{{ i18n "mainNavAriaLabel" }}">
+      {{ range $menu }}
+        {{ $resolved := or (and .PageRef (site.GetPage .PageRef)) .Page }}
+        {{ $href := "" }}
+        {{ $isActive := false }}
+        {{ if $page }}
+          {{ if $resolved }}
+            {{/* 说明：优先用当前语言解析到的 Page 与上下文 Page 比较，避免默认语言的菜单缓存导致失活。 */}}
+            {{ $isActive = or (eq $page.RelPermalink $resolved.RelPermalink) (and (and $page.File $resolved.File) (eq $page.File.Path $resolved.File.Path)) }}
+          {{ end }}
+          {{ $isActive = or $isActive ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+        {{ end }}
+        {{ if $resolved }}
+          {{ $href = $resolved.RelPermalink }}
+        {{ else if .URL }}
+          {{ if or (hasPrefix .URL "http://") (hasPrefix .URL "https://") (hasPrefix .URL "//") }}
+            {{ $href = .URL }}
+          {{ else }}
+            {{ $href = relLangURL .URL }}
+          {{ end }}
+        {{ end }}
+        {{ $label := or (and .Identifier (T .Identifier)) .Name }}
+        {{/* 说明：当位于 pages 分区时高亮入口，提供一致的导航反馈。 */}}
+        {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
+        {{- if $isPagesEntry -}}
+          {{- with $page -}}
+            {{- if or (eq .Section "pages") (eq .Type "pages") -}}
+              {{- $isActive = true -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        <a class="app-mobile-menu__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
+          {{ $label | safeHTML }}
+        </a>
+      {{ end }}
+    </nav>
+  </section>
+{{- end -}}

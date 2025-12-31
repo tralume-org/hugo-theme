@@ -1,8 +1,11 @@
 - id: mainNavAriaLabel
   translation: 主导航
 
-- id: mainNavToggleLabel
-  translation: 菜单
+- id: mobileMenuOpenLabel
+  translation: 打开菜单
+
+- id: mobileMenuCloseLabel
+  translation: 关闭菜单
 
 - id: skipToContent
   translation: 跳转到主要内容

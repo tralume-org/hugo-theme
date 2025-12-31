@@ -3,8 +3,24 @@
 <header class="app-header">
   <div class="app-bar">
     <a class="app-title" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
+    {{- if site.Menus.main -}}
+      {{/* 说明：移动端菜单按钮（桌面端隐藏），点击后展开全屏菜单面板。 */}}
+      <button
+        class="app-mobile-menu__toggle app-glass app-glass--surface"
+        type="button"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="mobile-menu-panel"
+        aria-label="{{ i18n "mobileMenuOpenLabel" }}"
+        data-mobile-menu-toggle
+      >
+        <span class="material-symbols-rounded" aria-hidden="true">menu</span>
+      </button>
+    {{- end -}}
     {{ partial "menu.html" (dict "menu" site.Menus.main "page" .) }}
   </div>
 </header>
+{{/* 说明：移动端全屏菜单面板需渲染在 header 之外，避免 backdrop-filter 的 backdrop root 限制导致“无模糊”。 */}}
+{{ partial "mobile-menu-panel.html" . }}
 {{/* 说明：Pages 下拉面板需渲染在 header 之外，避免 backdrop-filter 的 backdrop root 限制导致“无模糊”。 */}}
 {{ partial "pages-menu-panel.html" . }}

@@ -1,8 +1,11 @@
 - id: mainNavAriaLabel
   translation: Main navigation
 
-- id: mainNavToggleLabel
-  translation: Menu
+- id: mobileMenuOpenLabel
+  translation: Open menu
+
+- id: mobileMenuCloseLabel
+  translation: Close menu
 
 - id: skipToContent
   translation: Skip to main content

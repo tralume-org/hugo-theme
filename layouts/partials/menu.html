@@ -1,70 +1,52 @@
 {{ $menu := .menu }}
 {{ $page := .page }}
 {{ if $menu }}
-  {{/* 说明：外层容器协助在移动端控制折叠状态，桌面端仍直接展示导航链接。 */}}
-  <div class="app-nav__wrapper" data-app-nav>
-    <button
-      class="app-nav__toggle"
-      type="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      aria-controls="main-navigation"
-      data-app-nav-toggle
-    >
-      <span class="app-nav__toggle-label">{{ i18n "mainNavToggleLabel" }}</span>
-    </button>
-    <nav
-      class="app-nav"
-      id="main-navigation"
-      aria-label="{{ i18n "mainNavAriaLabel" }}"
-      data-app-nav-list
-    >
-      {{ range $menu }}
-        {{ $resolved := or (and .PageRef (site.GetPage .PageRef)) .Page }}
-        {{ $href := "" }}
-        {{ $isActive := false }}
-        {{ if $page }}
-          {{ if $resolved }}
-            {{/* 说明：优先用当前语言解析到的 Page 与上下文 Page 比较，避免默认语言的菜单缓存导致失活。 */}}
-            {{ $isActive = or (eq $page.RelPermalink $resolved.RelPermalink) (and (and $page.File $resolved.File) (eq $page.File.Path $resolved.File.Path)) }}
-          {{ end }}
-          {{ $isActive = or $isActive ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
-        {{ end }}
+  <nav class="app-nav" aria-label="{{ i18n "mainNavAriaLabel" }}">
+    {{ range $menu }}
+      {{ $resolved := or (and .PageRef (site.GetPage .PageRef)) .Page }}
+      {{ $href := "" }}
+      {{ $isActive := false }}
+      {{ if $page }}
         {{ if $resolved }}
-          {{ $href = $resolved.RelPermalink }}
-        {{ else if .URL }}
-          {{ if or (hasPrefix .URL "http://") (hasPrefix .URL "https://") (hasPrefix .URL "//") }}
-            {{ $href = .URL }}
-          {{ else }}
-            {{ $href = relLangURL .URL }}
-          {{ end }}
+          {{/* 说明：优先用当前语言解析到的 Page 与上下文 Page 比较，避免默认语言的菜单缓存导致失活。 */}}
+          {{ $isActive = or (eq $page.RelPermalink $resolved.RelPermalink) (and (and $page.File $resolved.File) (eq $page.File.Path $resolved.File.Path)) }}
         {{ end }}
-        {{ $label := or (and .Identifier (T .Identifier)) .Name }}
-        {{/* 说明：Pages 导航项增强为下拉面板，列出 /pages/ 下的静态页面标题。 */}}
-        {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
-        {{- if $isPagesEntry -}}
-          {{/* 说明：当位于 pages 分区时高亮按钮，提供一致的导航反馈。 */}}
-          {{- with $page -}}
-            {{- if or (eq .Section "pages") (eq .Type "pages") -}}
-              {{- $isActive = true -}}
-            {{- end -}}
-          {{- end -}}
-          <div class="app-nav__item-wrapper">
-            <button
-              class="app-nav__item app-nav__item--toggle{{ if $isActive }} is-active{{ end }}"
-              type="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              aria-controls="pages-menu-panel"
-              data-pages-menu-toggle
-            >
-              {{ $label | safeHTML }}
-            </button>
-          </div>
-        {{- else -}}
-          <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | safeHTML }}</a>
-        {{- end -}}
+        {{ $isActive = or $isActive ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
       {{ end }}
-    </nav>
-  </div>
+      {{ if $resolved }}
+        {{ $href = $resolved.RelPermalink }}
+      {{ else if .URL }}
+        {{ if or (hasPrefix .URL "http://") (hasPrefix .URL "https://") (hasPrefix .URL "//") }}
+          {{ $href = .URL }}
+        {{ else }}
+          {{ $href = relLangURL .URL }}
+        {{ end }}
+      {{ end }}
+      {{ $label := or (and .Identifier (T .Identifier)) .Name }}
+      {{/* 说明：Pages 导航项增强为下拉面板，列出 /pages/ 下的静态页面标题。 */}}
+      {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
+      {{- if $isPagesEntry -}}
+        {{/* 说明：当位于 pages 分区时高亮按钮，提供一致的导航反馈。 */}}
+        {{- with $page -}}
+          {{- if or (eq .Section "pages") (eq .Type "pages") -}}
+            {{- $isActive = true -}}
+          {{- end -}}
+        {{- end -}}
+        <div class="app-nav__item-wrapper">
+          <button
+            class="app-nav__item app-nav__item--toggle{{ if $isActive }} is-active{{ end }}"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="pages-menu-panel"
+            data-pages-menu-toggle
+          >
+            {{ $label | safeHTML }}
+          </button>
+        </div>
+      {{- else -}}
+        <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | safeHTML }}</a>
+      {{- end -}}
+    {{ end }}
+  </nav>
 {{ end }}
