@@ -41,21 +41,24 @@
   block-size: 3.25rem;
   padding: 0;
   font-size: 1.75rem;
+  border: 0;
+  background: transparent;
   color: var(--md-sys-color-on-surface);
   cursor: pointer;
-  --app-glass-radius: var(--app-radius-pill);
+  border-radius: var(--app-radius-pill);
   transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
     color 0.2s ease,
     transform 0.2s ease;
 }
 
 .app-mobile-menu__toggle:hover,
 .app-mobile-menu__toggle:focus-visible {
-  border-color: var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
+  color: var(--md-sys-color-primary);
+}
+
+.app-mobile-menu__toggle:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
 }
 
 .app-mobile-menu__toggle:active {
@@ -187,6 +190,11 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+.app-nav__panel-item--index {
+  /* 说明：列表页入口略微加粗，方便在一组页面链接中快速定位。 */
+  font-weight: 600;
+}
+
 .app-nav__panel-item:hover,
 .app-nav__panel-item:focus-visible {
   background-color: var(--md-sys-color-primary-container);
@@ -268,16 +276,7 @@
 .app-mobile-menu__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.app-mobile-menu__title {
-  margin: 0;
-  font-size: var(--md-sys-typescale-title-large-size);
-  line-height: var(--md-sys-typescale-title-large-line-height);
-  font-weight: 600;
-  color: var(--md-sys-color-on-surface);
+  justify-content: flex-end;
 }
 
 .app-mobile-menu__close {
@@ -288,23 +287,81 @@
   block-size: 3.25rem;
   padding: 0;
   font-size: 1.75rem;
+  border: 0;
+  background: transparent;
   color: var(--md-sys-color-on-surface-variant);
   cursor: pointer;
-  --app-glass-radius: var(--app-radius-pill);
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  border-radius: var(--app-radius-pill);
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .app-mobile-menu__close:hover,
 .app-mobile-menu__close:focus-visible {
-  border-color: var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
+  color: var(--md-sys-color-primary);
+}
+
+.app-mobile-menu__close:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.app-mobile-menu__close:active {
+  transform: translateY(1px);
 }
 
 .app-mobile-menu__nav {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+/* 说明：Pages 分组（顶部是 /pages/ 列表页入口，下方默认展开全部页面链接）。 */
+.app-mobile-menu__pages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.app-mobile-menu__pages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-inline-start: 0.5rem;
+}
+
+.app-mobile-menu__subitem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--app-radius-inline);
+  color: var(--md-sys-color-on-surface-variant);
+  text-decoration: none;
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.app-mobile-menu__subitem:hover,
+.app-mobile-menu__subitem:focus-visible {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  text-decoration: none;
+}
+
+.app-mobile-menu__subitem.is-active {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.app-mobile-menu__subempty {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--app-radius-inline);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
 }
 
 .app-mobile-menu__item {
@@ -346,8 +403,8 @@
   }
 
   .app-title {
-    font-size: var(--md-sys-typescale-title-medium-size);
-    line-height: var(--md-sys-typescale-title-medium-line-height);
+    font-size: var(--md-sys-typescale-title-large-size);
+    line-height: var(--md-sys-typescale-title-large-line-height);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

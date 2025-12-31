@@ -1,6 +1,9 @@
 - id: mainNavAriaLabel
   translation: 主导航
 
+- id: mobileMenuTitle
+  translation: 菜单
+
 - id: mobileMenuOpenLabel
   translation: 打开菜单
 

@@ -1,6 +1,9 @@
 - id: mainNavAriaLabel
   translation: Main navigation
 
+- id: mobileMenuTitle
+  translation: Menu
+
 - id: mobileMenuOpenLabel
   translation: Open menu
 
