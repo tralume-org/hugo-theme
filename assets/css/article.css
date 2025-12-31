@@ -33,10 +33,37 @@
   font-weight: 600;
 }
 
-.article__time {
+.article__meta {
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.article__meta-item {
+  /* 说明：Meta 项统一采用 inline-flex，确保不同标签（time/span）视觉字重与对齐一致。 */
+  display: inline-flex;
+  align-items: center;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.article__time,
+.article__reading-time {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.article__meta-separator {
+  color: inherit;
+  opacity: 0.7;
 }
 
 .article__layout {
@@ -86,4 +113,3 @@
 .article__content > hr {
   margin: var(--article-divider-margin, 1.25rem) 0;
 }
-

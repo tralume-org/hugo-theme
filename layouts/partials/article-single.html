@@ -6,7 +6,16 @@
         <h1 class="article__title">{{ .Title }}</h1>
         {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
         {{ $dateHuman := .Date | time.Format ":date_long" }}
-        <time class="article__time" datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+        {{/* 说明：标题下信息栏，输出发布时间与预计阅读时间（Hugo .ReadingTime 为分钟）。 */}}
+        <p class="article__meta">
+          <span class="article__meta-item">
+            <time class="article__time" datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+          </span>
+          {{- with .ReadingTime }}
+            <span class="article__meta-separator" aria-hidden="true">·</span>
+            <span class="article__meta-item article__reading-time">{{ i18n "articleReadingTime" (dict "Minutes" .) }}</span>
+          {{- end }}
+        </p>
       </header>
       <div class="article__content" data-article-content>
         {{ .Content }}
