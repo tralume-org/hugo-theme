@@ -1,13 +1,18 @@
 // 说明：自定义背景图与默认色板逻辑，支持输入 URL、持久化与按钮状态更新。
+import { createUrlBackgroundProvider } from './background/providers/url.js';
+
 export const setupBackgroundControl = (panel, root) => {
   const backgroundInput = panel.querySelector('[data-background-input]');
   const backgroundApplyButton = panel.querySelector('[data-background-apply]');
   const backgroundResetButton = panel.querySelector('[data-background-reset]');
   const backgroundBlurRange = panel.querySelector('[data-background-blur-range]');
   const backgroundBlurLabel = panel.querySelector('[data-background-blur-label]');
-  const backgroundStorageKey = 'tralume-custom-background-url';
   const backgroundBlurStorageKey = 'tralume-custom-background-blur';
-  let hasCustomBackground = false;
+  const backgroundUrlProvider = createUrlBackgroundProvider({
+    root,
+    // 说明：存储键保持不变，确保历史配置可继续读取。
+    storageKey: 'tralume-custom-background-url',
+  });
 
   // 说明：壁纸智能取色的默认调色板，确保亮/暗模式拥有安全回退。
   const wallpaperColorFallback = {
@@ -135,6 +140,7 @@ export const setupBackgroundControl = (panel, root) => {
 
   const updateBackgroundButtons = () => {
     const hasTypedValue = readBackgroundInputValue().length > 0;
+    const hasCustomBackground = backgroundUrlProvider.isActive();
     if (backgroundApplyButton instanceof HTMLButtonElement) {
       backgroundApplyButton.disabled = !(hasTypedValue || hasCustomBackground);
     }
@@ -143,50 +149,13 @@ export const setupBackgroundControl = (panel, root) => {
     }
   };
 
-  const persistBackgroundValue = (value) => {
-    try {
-      if (value) {
-        window.localStorage.setItem(backgroundStorageKey, value);
-      } else {
-        window.localStorage.removeItem(backgroundStorageKey);
-      }
-    } catch (error) {
-      // 说明：忽略本地存储失败，避免在隐身模式报错。
-    }
-  };
-
-  const readStoredBackgroundImage = () => {
-    try {
-      return window.localStorage.getItem(backgroundStorageKey);
-    } catch (error) {
-      return null;
-    }
-  };
-
+  // 说明：对外保留原本的“应用”语义（含清空即移除），实际实现委托给 URL provider。
   const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
-    const trimmed = typeof rawUrl === 'string' ? rawUrl.trim() : '';
-    if (!trimmed) {
-      root.style.setProperty('--app-custom-background-image', 'none');
-      root.style.setProperty('--app-custom-background-opacity', '0');
-      hasCustomBackground = false;
-      if (shouldPersist) {
-        persistBackgroundValue('');
-      }
-      updateBackgroundButtons();
-      return;
-    }
-
-    const sanitized = JSON.stringify(trimmed);
-    root.style.setProperty('--app-custom-background-image', `url(${sanitized})`);
-    root.style.setProperty('--app-custom-background-opacity', '1');
-    hasCustomBackground = true;
-    if (shouldPersist) {
-      persistBackgroundValue(trimmed);
-    }
+    backgroundUrlProvider.apply(rawUrl, { persistValue: shouldPersist });
     updateBackgroundButtons();
   };
 
-  const initialBackgroundImage = readStoredBackgroundImage() || '';
+  const initialBackgroundImage = backgroundUrlProvider.readStoredValue();
   if (backgroundInput instanceof HTMLInputElement) {
     backgroundInput.value = initialBackgroundImage;
   }
