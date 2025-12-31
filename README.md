@@ -42,6 +42,7 @@ npm install
 baseURL = 'https://example.com/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
+hasCJKLanguage = true # Note: Enable CJK word counting so Chinese/Japanese/Korean content isn't treated as a single “word”.
 enableRobotsTXT = true # Note: Enable robots.txt output (uses the theme's `layouts/robots.txt`).
 
 [outputs]

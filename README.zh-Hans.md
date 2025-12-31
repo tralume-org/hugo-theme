@@ -42,6 +42,7 @@ npm install
 baseURL = 'https://example.com/'
 defaultContentLanguage = 'en-US'
 defaultContentLanguageInSubdir = true
+hasCJKLanguage = true # 说明：启用中日韩（CJK）字数/阅读时间统计，避免中文被当作 1 个“word”。
 enableRobotsTXT = true # 说明：启用 robots.txt 输出（会使用主题的 `layouts/robots.txt`）。
 
 [outputs]
@@ -217,6 +218,7 @@ hugo --minify
 - 主题使用浏览器 `localStorage` 记录模式/玻璃/阅读宽度，清理缓存可重置到默认值。
 - 每次更新模块后建议重新执行 `hugo mod npm pack && npm install`，确保本地 npm 依赖与主题同步。
 - 想调整卡片/时间线摘要长度，可通过 `params.articleCardSummaryLength` 与 `params.articleTimelineSummaryLength` 覆盖默认值。
+- 若文章信息卡片“字数”或“预计阅读时间”对中文显示为 0/1 等异常值，请确认已在站点配置中启用 `hasCJKLanguage = true`。
 
 ## 可配置选项
 
