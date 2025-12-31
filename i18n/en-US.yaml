@@ -140,7 +140,7 @@
   translation: Background image
 
 - id: settingsPanelBackgroundDescription
-  translation: Paste any accessible image URL to paint the site backdrop.
+  translation: Paste a URL, upload an image, or fetch a Pixaroa random photo to paint the site backdrop.
 
 - id: settingsPanelBackgroundProviderTabsLabel
   translation: Background source
@@ -150,6 +150,9 @@
 
 - id: settingsPanelBackgroundProviderUpload
   translation: Upload
+
+- id: settingsPanelBackgroundProviderPixaroa
+  translation: Pixaroa
 
 - id: settingsPanelBackgroundLabel
   translation: Image URL
@@ -174,6 +177,87 @@
 
 - id: settingsPanelBackgroundHint
   translation: Prefer high-resolution, moderately bright assets. Clear the field and press “Apply background” to revert.
+
+- id: settingsPanelBackgroundPixaroaHostLabel
+  translation: Pixaroa host
+
+- id: settingsPanelBackgroundPixaroaHostPlaceholder
+  translation: e.g. https://pixaroa.example.com/
+
+- id: settingsPanelBackgroundPixaroaHostHint
+  translation: Leave empty to request /api/random from the current site. Cross-origin requests require proper CORS headers.
+
+- id: settingsPanelBackgroundPixaroaTierLabel
+  translation: Tier
+
+- id: settingsPanelBackgroundPixaroaTierAuto
+  translation: Auto (based on screen size)
+
+- id: settingsPanelBackgroundPixaroaTier1
+  translation: 1 (A · 360px)
+
+- id: settingsPanelBackgroundPixaroaTier2
+  translation: 2 (B · 720px)
+
+- id: settingsPanelBackgroundPixaroaTier3
+  translation: 3 (C · 1080px)
+
+- id: settingsPanelBackgroundPixaroaTier4
+  translation: 4 (D · 1440px)
+
+- id: settingsPanelBackgroundPixaroaTier5
+  translation: 5 (E · 2160px)
+
+- id: settingsPanelBackgroundPixaroaTier6
+  translation: 6 (F · original)
+
+- id: settingsPanelBackgroundPixaroaOrientationLabel
+  translation: Orientation
+
+- id: settingsPanelBackgroundPixaroaOrientationAuto
+  translation: Auto (match screen)
+
+- id: settingsPanelBackgroundPixaroaOrientationLandscape
+  translation: Landscape
+
+- id: settingsPanelBackgroundPixaroaOrientationPortrait
+  translation: Portrait
+
+- id: settingsPanelBackgroundPixaroaOrientationSquare
+  translation: Square
+
+- id: settingsPanelBackgroundPixaroaFormatLabel
+  translation: Image format
+
+- id: settingsPanelBackgroundPixaroaFormatAuto
+  translation: Auto (via Accept)
+
+- id: settingsPanelBackgroundPixaroaFormatJxl
+  translation: JPEG XL (jxl)
+
+- id: settingsPanelBackgroundPixaroaFormatAvif
+  translation: AVIF (avif)
+
+- id: settingsPanelBackgroundPixaroaFormatWebp
+  translation: WebP (webp)
+
+- id: settingsPanelBackgroundPixaroaFormatJpeg
+  translation: JPEG (jpeg)
+
+- id: settingsPanelBackgroundPixaroaFormatPng
+  translation: PNG (png)
+
+- id: settingsPanelBackgroundPixaroaApply
+  translation: Randomize background
+
+- id: settingsPanelBackgroundPixaroaStatusIdle
+  translation: Ready to fetch a Pixaroa random photo.
+
+- id: settingsPanelBackgroundPixaroaStatusLoading
+  translation: Fetching Pixaroa photo…
+
+- id: settingsPanelBackgroundPixaroaStatusError
+  translation: Failed to fetch. Please check host, parameters, and CORS settings.
 
 - id: settingsPanelBackgroundBlurLabel
   translation: Background blur

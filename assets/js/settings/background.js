@@ -1,6 +1,7 @@
 // 说明：自定义背景图与默认色板逻辑，支持输入 URL、持久化与按钮状态更新。
 import { createUrlBackgroundProvider } from './background/providers/url.js';
 import { createUploadBackgroundProvider } from './background/providers/upload.js';
+import { createPixaroaBackgroundProvider } from './background/providers/pixaroa.js';
 
 export const setupBackgroundControl = (panel, root) => {
   const backgroundSection = panel.querySelector('[data-background-section]');
@@ -24,6 +25,13 @@ export const setupBackgroundControl = (panel, root) => {
   const uploadApplyButton = backgroundSection.querySelector('[data-background-upload-apply]');
   const uploadResetButton = backgroundSection.querySelector('[data-background-upload-reset]');
   const uploadStatus = backgroundSection.querySelector('[data-background-upload-status]');
+  const pixaroaHostInput = backgroundSection.querySelector('[data-background-pixaroa-host]');
+  const pixaroaTierSelect = backgroundSection.querySelector('[data-background-pixaroa-tier]');
+  const pixaroaOrientationSelect = backgroundSection.querySelector('[data-background-pixaroa-orientation]');
+  const pixaroaFormatSelect = backgroundSection.querySelector('[data-background-pixaroa-format]');
+  const pixaroaApplyButton = backgroundSection.querySelector('[data-background-pixaroa-apply]');
+  const pixaroaResetButton = backgroundSection.querySelector('[data-background-pixaroa-reset]');
+  const pixaroaStatus = backgroundSection.querySelector('[data-background-pixaroa-status]');
   const backgroundBlurStorageKey = 'tralume-custom-background-blur';
   const backgroundUrlProvider = createUrlBackgroundProvider({
     root,
@@ -32,12 +40,13 @@ export const setupBackgroundControl = (panel, root) => {
   });
   const backgroundProviderStorageKey = 'tralume-custom-background-provider';
   const backgroundUploadProvider = createUploadBackgroundProvider({ root });
+  const pixaroaBackgroundProvider = createPixaroaBackgroundProvider({ root });
   let activeProvider = 'url';
 
   const readStoredProvider = () => {
     try {
       const stored = window.localStorage.getItem(backgroundProviderStorageKey);
-      return stored === 'upload' || stored === 'url' ? stored : '';
+      return stored === 'upload' || stored === 'url' || stored === 'pixaroa' ? stored : '';
     } catch (error) {
       return '';
     }
@@ -114,6 +123,53 @@ export const setupBackgroundControl = (panel, root) => {
   };
 
   applyWallpaperPalette();
+
+  const readPixaroaConfigFromInputs = () => {
+    const host =
+      pixaroaHostInput instanceof HTMLInputElement ? pixaroaHostInput.value.trim() : '';
+    const tier =
+      pixaroaTierSelect instanceof HTMLSelectElement ? pixaroaTierSelect.value.trim() : 'auto';
+    const orientation =
+      pixaroaOrientationSelect instanceof HTMLSelectElement
+        ? pixaroaOrientationSelect.value.trim()
+        : 'auto';
+    const format =
+      pixaroaFormatSelect instanceof HTMLSelectElement ? pixaroaFormatSelect.value.trim() : 'auto';
+    return { host, tier, orientation, format };
+  };
+
+  const persistPixaroaConfigFromInputs = () => {
+    pixaroaBackgroundProvider.persistConfig(readPixaroaConfigFromInputs());
+  };
+
+  const setPixaroaStatus = (mode) => {
+    if (!(pixaroaStatus instanceof HTMLElement)) {
+      return;
+    }
+    const idleText = pixaroaStatus.getAttribute('data-idle') || '';
+    const loadingText = pixaroaStatus.getAttribute('data-loading') || '';
+    const errorText = pixaroaStatus.getAttribute('data-error') || '';
+
+    if (mode === 'loading') {
+      pixaroaStatus.textContent = loadingText || idleText;
+      return;
+    }
+    if (mode === 'error') {
+      pixaroaStatus.textContent = errorText || idleText;
+      return;
+    }
+    pixaroaStatus.textContent = idleText;
+  };
+
+  const updatePixaroaButtons = () => {
+    const hasStoredUrl = pixaroaBackgroundProvider.readStoredUrl().length > 0;
+    const hasActive = pixaroaBackgroundProvider.isActive();
+    const hasStoredProvider = readStoredProvider() === 'pixaroa';
+    if (pixaroaResetButton instanceof HTMLButtonElement) {
+      // 说明：即便 Pixaroa 拉取失败，只要用户曾选中过该 provider，也应允许一键清空并回退。
+      pixaroaResetButton.disabled = !(hasStoredUrl || hasActive || hasStoredProvider);
+    }
+  };
 
   // 说明：背景模糊滑动块（仅影响背景图层），默认关闭（0px），支持持久化。
   if (backgroundBlurRange instanceof HTMLInputElement) {
@@ -274,6 +330,7 @@ export const setupBackgroundControl = (panel, root) => {
     updateUrlButtons();
     updateUploadButtons({ hasSelectedFile: false });
     setUploadStatus({ mode: 'stored' });
+    updatePixaroaButtons();
     return ok;
   };
 
@@ -285,6 +342,7 @@ export const setupBackgroundControl = (panel, root) => {
     }
     updateUploadButtons({ hasSelectedFile: false });
     updateUrlButtons();
+    updatePixaroaButtons();
     return ok;
   };
 
@@ -292,6 +350,23 @@ export const setupBackgroundControl = (panel, root) => {
   if (backgroundInput instanceof HTMLInputElement) {
     backgroundInput.value = initialBackgroundImage;
   }
+
+  // 说明：初始化 Pixaroa 表单：回填已保存的配置，避免每次打开都要重新输入。
+  const initialPixaroaConfig = pixaroaBackgroundProvider.readStoredConfig();
+  if (pixaroaHostInput instanceof HTMLInputElement) {
+    pixaroaHostInput.value = initialPixaroaConfig.host || '';
+  }
+  if (pixaroaTierSelect instanceof HTMLSelectElement) {
+    pixaroaTierSelect.value = initialPixaroaConfig.tier || 'auto';
+  }
+  if (pixaroaOrientationSelect instanceof HTMLSelectElement) {
+    pixaroaOrientationSelect.value = initialPixaroaConfig.orientation || 'auto';
+  }
+  if (pixaroaFormatSelect instanceof HTMLSelectElement) {
+    pixaroaFormatSelect.value = initialPixaroaConfig.format || 'auto';
+  }
+  setPixaroaStatus('idle');
+  updatePixaroaButtons();
 
   // 说明：初始化 secondary tabs：读取模板默认选中项并绑定点击/键盘导航。
   if (providerTabs.length > 0 && providerPanels.length > 0) {
@@ -312,6 +387,7 @@ export const setupBackgroundControl = (panel, root) => {
           hasSelectedFile:
             uploadInput instanceof HTMLInputElement && uploadInput.files && uploadInput.files.length > 0,
         });
+        updatePixaroaButtons();
       });
 
       tab.addEventListener('keydown', (event) => {
@@ -334,6 +410,7 @@ export const setupBackgroundControl = (panel, root) => {
             hasSelectedFile:
               uploadInput instanceof HTMLInputElement && uploadInput.files && uploadInput.files.length > 0,
           });
+          updatePixaroaButtons();
         };
 
         if (key === 'ArrowRight') {
@@ -375,6 +452,46 @@ export const setupBackgroundControl = (panel, root) => {
         setUploadStatus({ mode: backgroundUploadProvider.hasStoredUpload() ? 'stored' : 'empty' });
       }
     });
+  } else if (storedProvider === 'pixaroa') {
+    // 说明：即便当前使用 Pixaroa 背景，也要同步“上传背景”面板的已保存状态提示。
+    void backgroundUploadProvider.readStoredBlob().then((blob) => {
+      setUploadStatus({ mode: blob ? 'stored' : 'empty' });
+      updateUploadButtons({ hasSelectedFile: false });
+    });
+    const applied = pixaroaBackgroundProvider.applyStored({ persistValue: false });
+    if (!applied) {
+      // 说明：若无法从本地恢复（可能是存储不可用），则尝试按当前屏幕/浏览器能力拉取一次随机图。
+      if (pixaroaApplyButton instanceof HTMLButtonElement) {
+        pixaroaApplyButton.disabled = true;
+      }
+      setPixaroaStatus('loading');
+      void pixaroaBackgroundProvider
+        .applyRandom({ config: readPixaroaConfigFromInputs(), persistValue: false })
+        .then(() => {
+          backgroundUrlProvider.deactivate();
+          backgroundUploadProvider.releaseObjectUrl();
+          updateUrlButtons();
+          updateUploadButtons({ hasSelectedFile: false });
+          updatePixaroaButtons();
+          setPixaroaStatus('idle');
+        })
+        .catch(() => {
+          setPixaroaStatus('error');
+        })
+        .finally(() => {
+          if (pixaroaApplyButton instanceof HTMLButtonElement) {
+            pixaroaApplyButton.disabled = false;
+          }
+          updatePixaroaButtons();
+        });
+    } else {
+      backgroundUrlProvider.deactivate();
+      backgroundUploadProvider.releaseObjectUrl();
+      updateUrlButtons();
+      updateUploadButtons({ hasSelectedFile: false });
+      updatePixaroaButtons();
+      setPixaroaStatus('idle');
+    }
   } else {
     applyBackgroundImage(initialBackgroundImage, false);
     void backgroundUploadProvider.readStoredBlob().then((blob) => {
@@ -383,6 +500,7 @@ export const setupBackgroundControl = (panel, root) => {
     });
   }
   updateUrlButtons();
+  updatePixaroaButtons();
 
   const handleBackgroundApply = () => {
     const nextValue = readBackgroundInputValue();
@@ -453,7 +571,75 @@ export const setupBackgroundControl = (panel, root) => {
         setUploadStatus({ mode: 'empty' });
         updateUploadButtons({ hasSelectedFile: false });
         updateUrlButtons();
+        updatePixaroaButtons();
       });
+    });
+  }
+
+  // 说明：Pixaroa provider：保存配置并拉取随机背景图。
+  if (pixaroaHostInput instanceof HTMLInputElement) {
+    pixaroaHostInput.addEventListener('change', () => {
+      persistPixaroaConfigFromInputs();
+      setPixaroaStatus('idle');
+    });
+  }
+  if (pixaroaTierSelect instanceof HTMLSelectElement) {
+    pixaroaTierSelect.addEventListener('change', () => {
+      persistPixaroaConfigFromInputs();
+      setPixaroaStatus('idle');
+    });
+  }
+  if (pixaroaOrientationSelect instanceof HTMLSelectElement) {
+    pixaroaOrientationSelect.addEventListener('change', () => {
+      persistPixaroaConfigFromInputs();
+      setPixaroaStatus('idle');
+    });
+  }
+  if (pixaroaFormatSelect instanceof HTMLSelectElement) {
+    pixaroaFormatSelect.addEventListener('change', () => {
+      persistPixaroaConfigFromInputs();
+      setPixaroaStatus('idle');
+    });
+  }
+
+  if (pixaroaApplyButton instanceof HTMLButtonElement) {
+    pixaroaApplyButton.addEventListener('click', () => {
+      const config = readPixaroaConfigFromInputs();
+      persistPixaroaConfigFromInputs();
+      pixaroaApplyButton.disabled = true;
+      setPixaroaStatus('loading');
+
+      void pixaroaBackgroundProvider
+        .applyRandom({ config, persistValue: true })
+        .then(() => {
+          // 说明：Pixaroa 生效后，清理其他 provider 的运行时状态，避免按钮逻辑误判。
+          backgroundUrlProvider.deactivate();
+          backgroundUploadProvider.releaseObjectUrl();
+          persistProvider('pixaroa');
+          updateUrlButtons();
+          updateUploadButtons({ hasSelectedFile: false });
+          updatePixaroaButtons();
+          setPixaroaStatus('idle');
+        })
+        .catch((error) => {
+          console.warn('[Tralume] Pixaroa background fetch failed.', error);
+          setPixaroaStatus('error');
+        })
+        .finally(() => {
+          pixaroaApplyButton.disabled = false;
+          updatePixaroaButtons();
+        });
+    });
+  }
+
+  if (pixaroaResetButton instanceof HTMLButtonElement) {
+    pixaroaResetButton.addEventListener('click', () => {
+      pixaroaBackgroundProvider.clear({ persistValue: true });
+      persistProvider('');
+      updateUrlButtons();
+      updateUploadButtons({ hasSelectedFile: false });
+      updatePixaroaButtons();
+      setPixaroaStatus('idle');
     });
   }
 };

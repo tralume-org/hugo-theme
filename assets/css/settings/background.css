@@ -97,6 +97,35 @@
   gap: 0.25rem;
 }
 
+/* 说明：Pixaroa 等 provider 使用的下拉选单，外观与 URL/上传输入保持一致的亚克力风格。 */
+.settings-panel__background-select {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__background-select:hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__background-select:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--app-glass-elevated-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent);
+}
+
 /* 说明：背景地址输入同样使用亚克力边框，避免与面板割裂。 */
 .settings-panel__background-input {
   width: 100%;
@@ -256,6 +285,7 @@
     transition: none !important;
   }
   .settings-panel__background-input,
+  .settings-panel__background-select,
   .settings-panel__background-apply,
   .settings-panel__background-reset {
     transition: none !important;

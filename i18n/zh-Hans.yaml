@@ -140,7 +140,7 @@
   translation: 背景图片
 
 - id: settingsPanelBackgroundDescription
-  translation: 粘贴任意可访问的图片 URL，立即预览效果。
+  translation: 支持粘贴链接、上传本地图片，或通过 Pixaroa 随机获取背景。
 
 - id: settingsPanelBackgroundProviderTabsLabel
   translation: 背景来源
@@ -150,6 +150,9 @@
 
 - id: settingsPanelBackgroundProviderUpload
   translation: 上传
+
+- id: settingsPanelBackgroundProviderPixaroa
+  translation: Pixaroa
 
 - id: settingsPanelBackgroundLabel
   translation: 图片链接
@@ -174,6 +177,87 @@
 
 - id: settingsPanelBackgroundHint
   translation: 为提升可读性，建议使用高分辨率、亮度适中的图片；清空后点击“应用背景”即可恢复默认底色。
+
+- id: settingsPanelBackgroundPixaroaHostLabel
+  translation: Pixaroa 服务地址（Host）
+
+- id: settingsPanelBackgroundPixaroaHostPlaceholder
+  translation: 例如 https://pixaroa.example.com/
+
+- id: settingsPanelBackgroundPixaroaHostHint
+  translation: 留空将请求当前站点同源的 /api/random；跨域访问需服务端正确配置 CORS 响应头。
+
+- id: settingsPanelBackgroundPixaroaTierLabel
+  translation: 清晰度（Tier）
+
+- id: settingsPanelBackgroundPixaroaTierAuto
+  translation: 自动（按屏幕尺寸）
+
+- id: settingsPanelBackgroundPixaroaTier1
+  translation: 1（A · 360px）
+
+- id: settingsPanelBackgroundPixaroaTier2
+  translation: 2（B · 720px）
+
+- id: settingsPanelBackgroundPixaroaTier3
+  translation: 3（C · 1080px）
+
+- id: settingsPanelBackgroundPixaroaTier4
+  translation: 4（D · 1440px）
+
+- id: settingsPanelBackgroundPixaroaTier5
+  translation: 5（E · 2160px）
+
+- id: settingsPanelBackgroundPixaroaTier6
+  translation: 6（F · 原图）
+
+- id: settingsPanelBackgroundPixaroaOrientationLabel
+  translation: 方向
+
+- id: settingsPanelBackgroundPixaroaOrientationAuto
+  translation: 自动（匹配屏幕）
+
+- id: settingsPanelBackgroundPixaroaOrientationLandscape
+  translation: 横向
+
+- id: settingsPanelBackgroundPixaroaOrientationPortrait
+  translation: 竖向
+
+- id: settingsPanelBackgroundPixaroaOrientationSquare
+  translation: 方形
+
+- id: settingsPanelBackgroundPixaroaFormatLabel
+  translation: 图像格式
+
+- id: settingsPanelBackgroundPixaroaFormatAuto
+  translation: 自动（按浏览器支持/Accept）
+
+- id: settingsPanelBackgroundPixaroaFormatJxl
+  translation: JPEG XL（jxl）
+
+- id: settingsPanelBackgroundPixaroaFormatAvif
+  translation: AVIF（avif）
+
+- id: settingsPanelBackgroundPixaroaFormatWebp
+  translation: WebP（webp）
+
+- id: settingsPanelBackgroundPixaroaFormatJpeg
+  translation: JPEG（jpeg）
+
+- id: settingsPanelBackgroundPixaroaFormatPng
+  translation: PNG（png）
+
+- id: settingsPanelBackgroundPixaroaApply
+  translation: 随机一张
+
+- id: settingsPanelBackgroundPixaroaStatusIdle
+  translation: 准备从 Pixaroa 获取随机背景。
+
+- id: settingsPanelBackgroundPixaroaStatusLoading
+  translation: 正在获取 Pixaroa 背景…
+
+- id: settingsPanelBackgroundPixaroaStatusError
+  translation: 获取失败，请检查 Host、参数与 CORS 配置。
 
 - id: settingsPanelBackgroundBlurLabel
   translation: 背景模糊
