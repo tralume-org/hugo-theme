@@ -11,7 +11,10 @@ export const getArticleOutlineElements = () => {
   const outline = root.querySelector('[data-article-outline]');
   const list = outline ? outline.querySelector('[data-article-outline-list]') : null;
   const emptyHint = outline ? outline.querySelector('[data-article-outline-empty]') : null;
+  const outlineClose = outline ? outline.querySelector('[data-article-outline-close]') : null;
   const layout = root.querySelector('[data-article-layout]');
+
+  const outlineToggle = document.querySelector('[data-article-outline-toggle]');
 
   const progressHost = document.querySelector('[data-article-progress-floating]');
   const progressMeter = progressHost ? progressHost.querySelector('[data-article-progress-floating-meter]') : null;
@@ -33,6 +36,8 @@ export const getArticleOutlineElements = () => {
     outline,
     list,
     emptyHint,
+    outlineToggle,
+    outlineClose,
     layout,
     progressHost,
     progressMeter,

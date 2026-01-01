@@ -82,14 +82,30 @@ export const createProgressFloating = ({ progressHost, progressMeter, progressLa
   };
 
   // 说明：仅在真正回到页面顶部后再隐藏进度按钮，避免长文回顶动画中断。
+  let isVisible = false;
   const updateVisibilityForScrollTop = (scrollTop) => {
     if (!(progressHost instanceof HTMLElement)) {
       return;
     }
-    if (scrollTop <= 1) {
-      progressHost.setAttribute('hidden', 'hidden');
-    } else {
+
+    const nextVisible = scrollTop > 1;
+    if (nextVisible === isVisible) {
+      return;
+    }
+    isVisible = nextVisible;
+
+    const root = document.documentElement;
+    if (nextVisible) {
       progressHost.removeAttribute('hidden');
+      if (root) {
+        root.setAttribute('data-article-progress-visible', 'true');
+      }
+      return;
+    }
+
+    progressHost.setAttribute('hidden', 'hidden');
+    if (root) {
+      root.removeAttribute('data-article-progress-visible');
     }
   };
 
@@ -109,4 +125,3 @@ export const createProgressFloating = ({ progressHost, progressMeter, progressLa
     getIsScrollingToTop,
   };
 };
-

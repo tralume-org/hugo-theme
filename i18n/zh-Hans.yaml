@@ -412,6 +412,12 @@
 - id: articleOutlineAriaLabel
   translation: 文章大纲
 
+- id: articleOutlineOpenLabel
+  translation: 打开文章大纲
+
+- id: articleOutlineCloseLabel
+  translation: 关闭文章大纲
+
 - id: articleOutlineTitle
   translation: 内容大纲
 

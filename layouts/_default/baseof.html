@@ -47,6 +47,8 @@
   {{ if .IsPage }}
     {{/* 说明：仅在单篇内容展示阅读进度悬浮按钮。 */}}
     {{ partial "progress-floating.html" . }}
+    {{/* 说明：移动端文章大纲全屏入口按钮（存在可用标题时由脚本显示）。 */}}
+    {{ partial "article-outline-floating.html" . }}
   {{ end }}
   {{/* 说明：右下角设置按钮及卡片交互入口。 */}}
   {{ partial "settings-panel.html" . }}

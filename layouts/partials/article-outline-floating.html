@@ -1,0 +1,15 @@
+{{/* 说明：移动端“全屏文章大纲”悬浮按钮。
+  - 默认隐藏：仅在文章存在二级以上标题（脚本生成大纲）时显示。
+  - 交互：点击后以全屏方式展示文章大纲；Esc/点击关闭按钮/点击大纲链接后自动关闭。 */}}
+<button
+  class="article-outline-toggle app-glass app-glass--elevated app-card app-card--interactive"
+  type="button"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="article-outline-panel"
+  aria-label="{{ i18n "articleOutlineOpenLabel" }}"
+  hidden
+  data-article-outline-toggle
+>
+  <span class="material-symbols-rounded" aria-hidden="true">toc</span>
+</button>

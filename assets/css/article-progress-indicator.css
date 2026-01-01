@@ -5,8 +5,8 @@
 
 .progress-indicator {
   position: fixed;
-  right: 1.5rem;
-  bottom: calc(1.5rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.75rem));
+  inset-inline-end: 1.5rem;
+  bottom: calc(1.5rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.25rem));
   z-index: 30;
   display: inline-flex;
   align-items: center;
@@ -23,6 +23,14 @@
   --app-card-shadow-hover: var(--md-sys-elevation-level4);
   --app-card-lift-y: -2px;
   --app-card-hover-border-color: var(--md-sys-color-outline-variant);
+}
+
+@media (max-width: 48rem) {
+  /* 说明：移动端与设置面板对齐，收紧边距避免遮挡内容。 */
+  .progress-indicator {
+    inset-inline-end: 0.75rem;
+    bottom: calc(0.75rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.25rem));
+  }
 }
 
 .progress-indicator__chart {
@@ -63,4 +71,3 @@
 .progress-indicator[hidden] {
   display: none;
 }
-

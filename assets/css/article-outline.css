@@ -7,17 +7,13 @@
 .article__outline {
   min-width: 0;
   padding: 0.85rem 1rem;
-  border-radius: 1.25rem;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface);
-  box-shadow: var(--md-sys-elevation-level1);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
   display: flex;
   flex-direction: column;
   gap: var(--article-outline-gap, 0.75rem);
   scroll-padding-block: 0.75rem;
+  /* 说明：大纲卡片复用通用亚克力表面，这里只覆盖圆角语义。 */
+  --app-glass-radius: var(--app-radius-panel);
 }
 
 .article__outline-header {
@@ -101,6 +97,126 @@
 
 .article__outline-item[data-outline-level="3"] .article__outline-link {
   padding-inline-start: 2.25rem;
+}
+
+/* 说明：移动端全屏文章大纲打开时锁定页面滚动，避免背景内容跟随滚动。 */
+:root[data-article-outline-open="true"],
+:root[data-article-outline-open="true"] body {
+  overflow: hidden;
+}
+
+/* 说明：移动端右下角的大纲入口按钮（图标按钮，宽高一致）。 */
+.article-outline-toggle {
+  position: fixed;
+  inset-inline-end: 1.5rem;
+  /* 说明：默认叠放在设置按钮上方；当进度按钮可见时再向上叠一层。 */
+  inset-block-end: calc(1.5rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.25rem));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--floating-control-height, 3.5rem);
+  block-size: var(--floating-control-height, 3.5rem);
+  padding: 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: 1.75rem;
+  cursor: pointer;
+  /* 说明：入口按钮与设置面板闭合态保持一致的圆角与抬升反馈。 */
+  --app-glass-radius: var(--app-radius-section);
+  --app-card-shadow: var(--md-sys-elevation-level3);
+  --app-card-shadow-hover: var(--md-sys-elevation-level4);
+  --app-card-lift-y: -2px;
+}
+
+:root[data-article-progress-visible="true"] .article-outline-toggle {
+  inset-block-end: calc(
+    1.5rem
+    + var(--floating-control-height, 3.5rem)
+    + var(--floating-control-gap, 0.25rem)
+    + var(--floating-control-height, 3.5rem)
+    + var(--floating-control-gap, 0.25rem)
+  );
+}
+
+.article-outline-toggle[hidden] {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  /* 说明：桌面端大纲常驻侧栏展示，不额外提供全屏入口。 */
+  .article-outline-toggle {
+    display: none;
+  }
+}
+
+@media (max-width: 48rem) {
+  /* 说明：移动端与设置面板对齐，收紧边距避免遮挡内容。 */
+  .article-outline-toggle {
+    inset-inline-end: 0.75rem;
+    inset-block-end: calc(0.75rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.25rem));
+  }
+
+  :root[data-article-progress-visible="true"] .article-outline-toggle {
+    inset-block-end: calc(
+      0.75rem
+      + var(--floating-control-height, 3.5rem)
+      + var(--floating-control-gap, 0.25rem)
+      + var(--floating-control-height, 3.5rem)
+      + var(--floating-control-gap, 0.25rem)
+    );
+  }
+}
+
+/* 说明：全屏大纲模式下的关闭按钮（仅在打开状态显示）。 */
+.article__outline-close {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.25rem;
+  block-size: 3.25rem;
+  padding: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 1.75rem;
+  cursor: pointer;
+  --app-glass-radius: var(--app-radius-pill);
+  --app-card-lift-y: -1px;
+}
+
+.article__outline-close:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 63.999rem) {
+  /* 说明：小屏默认不在正文流中展示大纲卡片，改为通过按钮打开全屏模式。 */
+  .article__outline {
+    display: none;
+  }
+
+  :root[data-article-outline-open="true"] .article__outline {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 240;
+    padding:
+      calc(env(safe-area-inset-top, 0px) + 1rem)
+      calc(env(safe-area-inset-right, 0px) + 1rem)
+      calc(env(safe-area-inset-bottom, 0px) + 1.25rem)
+      calc(env(safe-area-inset-left, 0px) + 1rem);
+    overflow: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    /* 说明：全屏覆盖不使用圆角，避免露出页面角落；并适当降低模糊强度平衡性能。 */
+    --app-glass-radius: 0;
+    --app-glass-blur: calc(var(--app-glass-blur-radius) * 0.85);
+    /* 说明：全屏面板语义更偏“强表面”，提升可读性与边框对比。 */
+    --app-glass-bg-color: var(--app-glass-strong-color);
+    --app-glass-border-color: var(--app-glass-border-strong-color);
+  }
+
+  :root[data-article-outline-open="true"] .article__outline-close {
+    display: inline-flex;
+  }
 }
 
 @media (min-width: 64rem) {

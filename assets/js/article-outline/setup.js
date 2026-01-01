@@ -4,6 +4,7 @@
 import { getArticleOutlineElements } from './dom.js';
 import { collectOutlineHeadings } from './headings.js';
 import { applyOutlineAdaptiveSpacing } from './spacing.js';
+import { setupArticleOutlineOverlay } from './overlay.js';
 import { attachOutlineFocusSync, createOutlineHighlighter, renderArticleOutline } from './outline-view.js';
 import { createProgressFloating } from './progress-floating.js';
 import { setupArticleOutlineSync } from './sync.js';
@@ -14,7 +15,7 @@ export const setupArticleOutline = () => {
     return;
   }
 
-  const { root, content, outline, list, emptyHint, layout, progressHost, progressMeter, progressLabel } = elements;
+  const { root, content, outline, list, emptyHint, outlineToggle, outlineClose, layout, progressHost, progressMeter, progressLabel } = elements;
 
   const prefersReducedMotion =
     typeof window.matchMedia === 'function' ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
@@ -28,6 +29,10 @@ export const setupArticleOutline = () => {
     }
     if (progressHost instanceof HTMLElement) {
       progressHost.setAttribute('hidden', 'hidden');
+    }
+    if (outlineToggle instanceof HTMLButtonElement) {
+      outlineToggle.setAttribute('hidden', 'hidden');
+      outlineToggle.setAttribute('aria-expanded', 'false');
     }
     return;
   }
@@ -72,5 +77,11 @@ export const setupArticleOutline = () => {
     progress,
     highlighter,
   });
-};
 
+  setupArticleOutlineOverlay({
+    outline,
+    toggleButton: outlineToggle,
+    closeButton: outlineClose,
+    highlighter,
+  });
+};

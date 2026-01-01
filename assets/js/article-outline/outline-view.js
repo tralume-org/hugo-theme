@@ -59,6 +59,10 @@ export const createOutlineHighlighter = ({ outline, outlineHeader, outlineEntrie
     if (!(outline instanceof HTMLElement) || !(link instanceof HTMLElement)) {
       return;
     }
+    // 说明：大纲在移动端默认隐藏，仅在“全屏大纲”打开时展示；隐藏状态不应触发 scrollIntoView。
+    if (!outline.getClientRects().length) {
+      return;
+    }
     const headerHeight = outlineHeader instanceof HTMLElement ? outlineHeader.offsetHeight : 0;
     const outlineGap = readOutlineGap(outline);
     const containerRect = outline.getBoundingClientRect();
@@ -102,6 +106,8 @@ export const createOutlineHighlighter = ({ outline, outlineHeader, outlineEntrie
 
   return {
     applyActiveId,
+    // 说明：暴露当前激活的标题 id，便于全屏大纲打开时将对应条目滚动到可见区域。
+    getActiveId: () => activeId,
   };
 };
 
@@ -112,4 +118,3 @@ export const attachOutlineFocusSync = ({ outlineEntries, onFocus }) => {
     });
   });
 };
-

@@ -412,6 +412,12 @@
 - id: articleOutlineAriaLabel
   translation: Article outline
 
+- id: articleOutlineOpenLabel
+  translation: Open outline
+
+- id: articleOutlineCloseLabel
+  translation: Close outline
+
 - id: articleOutlineTitle
   translation: Table of contents
 
