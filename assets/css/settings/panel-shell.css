@@ -1,21 +1,4 @@
 /* 说明：设置面板基础容器与通用元素样式，对应 panel-shell.js 管理的开合与语言切换。 */
-@media (max-width: 48rem) {
-  /* 说明：移动端缩小设置面板闭合尺寸并收紧边距，避免遮挡内容。 */
-  .settings-panel {
-    --settings-panel-closed-width: 3.5rem;
-    --settings-panel-closed-height: 3.5rem;
-    --settings-panel-open-width: calc(100vw - 1.5rem);
-    --settings-panel-open-height: min(26rem, calc(100vh - 2rem));
-    inset-inline-end: 0.75rem;
-    inset-block-end: 0.75rem;
-  }
-
-  .settings-panel__surface {
-    padding: 1.25rem;
-    overflow-y: auto;
-  }
-}
-
 /* 说明：设置面板容器，默认表现为浮动按钮，打开后扩展为卡片。 */
 .settings-panel {
   --settings-panel-closed-width: var(--floating-control-width, 7.5rem);
@@ -47,13 +30,6 @@
     box-shadow 0.3s ease,
     transform 0.2s ease;
   z-index: 200;
-}
-
-/* 说明：移动端将卡片最大宽度限制为 100% 减去间距。 */
-@media (max-width: 30rem) {
-  .settings-panel {
-    --settings-panel-open-width: calc(100vw - 2rem);
-  }
 }
 
 /* 说明：闭合态沿用进度按钮的悬浮反馈，加强视觉一致性。 */
@@ -236,4 +212,26 @@
 .settings-panel__language-select:focus-visible {
   outline: 2px solid var(--md-sys-color-primary);
   outline-offset: 2px;
+}
+
+@media (max-width: 48rem) {
+  /* 说明：移动端收紧边距并限制展开尺寸，闭合态保持与桌面端一致的胶囊外观。 */
+  .settings-panel {
+    --settings-panel-open-width: calc(100vw - 1.5rem);
+    --settings-panel-open-height: min(26rem, calc(100vh - 2rem));
+    inset-inline-end: 0.75rem;
+    inset-block-end: 0.75rem;
+  }
+
+  .settings-panel__surface {
+    padding: 1.25rem;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 30rem) {
+  /* 说明：超小屏幕进一步收紧展开宽度，避免贴边影响触控与可读性。 */
+  .settings-panel {
+    --settings-panel-open-width: calc(100vw - 2rem);
+  }
 }
