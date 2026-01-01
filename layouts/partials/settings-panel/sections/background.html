@@ -4,13 +4,13 @@
 {{- $pixaroaDefaultHost := "" -}}
 {{- with site.Params.theme -}}
   {{- with .defaultBackgroundProvider -}}
-    {{- $candidate := lower (trim .) -}}
+    {{- $candidate := lower (strings.TrimSpace .) -}}
     {{- if or (eq $candidate "url") (eq $candidate "upload") (eq $candidate "pixaroa") -}}
       {{- $defaultBackgroundProvider = $candidate -}}
     {{- end -}}
   {{- end -}}
   {{- with .pixaroaHost -}}
-    {{- $pixaroaDefaultHost = trim . -}}
+    {{- $pixaroaDefaultHost = strings.TrimSpace . -}}
   {{- end -}}
 {{- end -}}
 <section
