@@ -49,7 +49,8 @@
   display: block;
   padding-block: var(--article-outline-link-padding-block, 0.2rem);
   padding-inline: var(--article-outline-link-padding-inline, 0.45rem);
-  border-radius: 0.9rem;
+  /* 说明：章节按钮使用 pill 造型，保持“可点击胶囊”观感与更大的触控命中。 */
+  border-radius: var(--article-outline-link-radius, var(--app-radius-pill));
   color: inherit;
   text-decoration: none;
   font-size: var(--article-outline-font-size, var(--md-sys-typescale-body-small-size));
@@ -180,6 +181,12 @@
   cursor: pointer;
   --app-glass-radius: var(--app-radius-pill);
   --app-card-lift-y: -1px;
+  /* 说明：关闭按钮仅保留图标与可点击区域，避免出现“磨砂圆圈”遮挡视线。 */
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 .article__outline-close:focus-visible {
@@ -212,10 +219,26 @@
     /* 说明：全屏面板语义更偏“强表面”，提升可读性与边框对比。 */
     --app-glass-bg-color: var(--app-glass-strong-color);
     --app-glass-border-color: var(--app-glass-border-strong-color);
+    /* 说明：移动端全屏大纲优先提升可读性与触控命中；不依赖脚本写入的 :root 变量。 */
+    --article-outline-font-size: var(--md-sys-typescale-body-medium-size);
+    --article-outline-line-height: var(--md-sys-typescale-body-medium-line-height);
+    --article-outline-gap: 1rem;
+    --article-outline-item-gap: 0.35rem;
+    --article-outline-link-padding-block: 0.55rem;
+    --article-outline-link-padding-inline: 0.8rem;
   }
 
   :root[data-article-outline-open="true"] .article__outline-close {
     display: inline-flex;
+  }
+
+  :root[data-article-outline-open="true"] .article__outline-title {
+    font-size: var(--md-sys-typescale-title-large-size);
+    line-height: var(--md-sys-typescale-title-large-line-height);
+  }
+
+  :root[data-article-outline-open="true"] .article__outline-link {
+    min-block-size: 2.75rem;
   }
 }
 
