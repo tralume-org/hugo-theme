@@ -26,10 +26,19 @@
 }
 
 @media (max-width: 48rem) {
-  /* 说明：移动端与设置面板对齐，收紧边距避免遮挡内容。 */
+  /* 说明：移动端与设置面板对齐，收紧边距避免遮挡内容；
+   * 同时移除百分比文案，仅保留圆环，并将按钮收敛为与其他悬浮按钮一致的方形尺寸。 */
   .progress-indicator {
     inset-inline-end: 0.75rem;
     bottom: calc(0.75rem + var(--floating-control-height, 3.5rem) + var(--floating-control-gap, 0.25rem));
+    inline-size: var(--floating-control-height, 3.5rem);
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+  }
+
+  .progress-indicator__label {
+    display: none;
   }
 }
 
