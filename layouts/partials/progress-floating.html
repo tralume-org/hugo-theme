@@ -6,9 +6,13 @@
   hidden
   data-article-progress-floating
 >
-  <svg class="progress-indicator__chart" viewBox="0 0 36 36" aria-hidden="true">
-    <circle class="progress-indicator__track" cx="18" cy="18" r="16"></circle>
-    <circle class="progress-indicator__meter" cx="18" cy="18" r="16" data-article-progress-floating-meter></circle>
-  </svg>
+  {{/* 说明：圆环容器内叠放“回到顶部”图标；圆环/图标均为装饰元素，由按钮 aria-label 提供语义。 */}}
+  <span class="progress-indicator__dial" aria-hidden="true">
+    <svg class="progress-indicator__chart" viewBox="0 0 36 36" aria-hidden="true">
+      <circle class="progress-indicator__track" cx="18" cy="18" r="16"></circle>
+      <circle class="progress-indicator__meter" cx="18" cy="18" r="16" data-article-progress-floating-meter></circle>
+    </svg>
+    <span class="progress-indicator__icon material-symbols-rounded" aria-hidden="true">keyboard_double_arrow_up</span>
+  </span>
   <span class="progress-indicator__label" data-article-progress-floating-label>0%</span>
 </button>

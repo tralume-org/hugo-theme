@@ -40,14 +40,49 @@
   .progress-indicator__label {
     display: none;
   }
+
 }
 
-.progress-indicator__chart {
+.progress-indicator__dial {
+  position: relative;
   width: 2.75rem;
   height: 2.75rem;
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-indicator__chart {
+  width: 100%;
+  height: 100%;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
+}
+
+.progress-indicator__icon {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: var(--md-sys-color-primary);
+  /* 说明：桌面端默认比圆环更淡，悬停/聚焦时再加深以提示可点击。 */
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.progress-indicator:hover .progress-indicator__icon,
+.progress-indicator:focus-visible .progress-indicator__icon {
+  opacity: 1;
+}
+
+@media (max-width: 48rem) {
+  /* 说明：移动端图标保持正常颜色浓度（不做淡化处理）。 */
+  .progress-indicator__icon {
+    opacity: 1;
+  }
 }
 
 .progress-indicator__track {
