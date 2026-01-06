@@ -78,6 +78,11 @@
   backdrop-filter: none;
 }
 
+.settings-panel__toggle-icon {
+  display: none;
+  font-size: 1.5rem;
+}
+
 .settings-panel__toggle:focus-visible {
   outline: 2px solid var(--md-sys-color-primary);
   outline-offset: 2px;
@@ -215,12 +220,26 @@
 }
 
 @media (max-width: 48rem) {
-  /* 说明：移动端收紧边距并限制展开尺寸，闭合态保持与桌面端一致的胶囊外观。 */
+  /* 说明：移动端收紧边距并限制展开尺寸；闭合态入口改为“图标按钮”，避免文字占用空间。 */
   .settings-panel {
     --settings-panel-open-width: calc(100vw - 1.5rem);
     --settings-panel-open-height: min(26rem, calc(100vh - 2rem));
+    --settings-panel-closed-width: var(--settings-panel-closed-height);
     inset-inline-end: 0.75rem;
     inset-block-end: 0.75rem;
+  }
+
+  .settings-panel__toggle {
+    padding: 0;
+    gap: 0;
+  }
+
+  .settings-panel__toggle-icon {
+    display: inline-flex;
+  }
+
+  .settings-panel__toggle-label {
+    display: none;
   }
 
   .settings-panel__surface {
