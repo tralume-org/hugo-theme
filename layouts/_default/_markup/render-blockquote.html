@@ -15,7 +15,7 @@
     "DANGER" "dangerous"
   -}}
 {{- if not $isCallout -}}
-<blockquote>
+<blockquote class="markdown-quote">
   {{ $html | safeHTML }}
 </blockquote>
 {{- else -}}
@@ -31,18 +31,13 @@
   {{- $labelKey := index $labelKeyMap $kind | default "" -}}
   {{- $label := cond (ne $labelKey "") (i18n $labelKey) "" -}}
   {{- $iconName := index $iconNames $kind | default (index $iconNames "NOTE") -}}
-  {{- $body := $html -}}
-  <aside class="callout" data-callout-kind="{{ lower $kind }}">
-    <div class="callout__header">
-      <span class="callout__icon material-symbols-rounded" aria-hidden="true">
-        <span class="callout__icon-glyph">{{ $iconName }}</span>
-      </span>
+  <blockquote class="callout" data-callout-kind="{{ lower $kind }}">
+    <p class="attention-title" dir="auto">
+      <span class="attention-icon attention-{{ lower $kind }} material-symbols-rounded" aria-hidden="true">{{ $iconName }}</span>
       {{- if ne $label "" -}}
-        <span class="callout__title">{{ $label }}</span>
+        <strong class="attention-{{ lower $kind }}">{{ $label }}</strong>
       {{- end -}}
-    </div>
-    <div class="callout__content">
-      {{ $body | safeHTML }}
-    </div>
-  </aside>
+    </p>
+    {{ $html | safeHTML }}
+  </blockquote>
 {{- end -}}
