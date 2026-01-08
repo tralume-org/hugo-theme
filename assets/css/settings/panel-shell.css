@@ -47,9 +47,14 @@
   justify-content: stretch;
   width: var(--settings-panel-open-width);
   height: var(--settings-panel-open-height);
-  --app-glass-bg-color: var(--app-glass-strong-color);
-  --app-glass-border-color: var(--app-glass-border-strong-color);
-  --app-card-shadow: var(--md-sys-elevation-level4);
+  /* 说明：展开态外层容器仅负责“定位/裁切/动画”，表面交给内部 .settings-panel__surface。 */
+  --app-glass-bg-color: transparent;
+  --app-glass-border-color: transparent;
+  --app-card-shadow: none;
+  border-color: transparent;
+  background-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   transform: none;
 }
 
@@ -105,6 +110,8 @@
   padding: 1.5rem;
   color: var(--md-sys-color-on-surface);
   --app-glass-radius: inherit;
+  /* 说明：展开态的阴影由内部表面承担，避免外层透明后“悬浮感”消失。 */
+  --app-card-shadow: var(--md-sys-elevation-level4);
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
