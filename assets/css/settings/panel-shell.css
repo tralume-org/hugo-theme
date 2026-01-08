@@ -164,7 +164,8 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  /* 说明：设置项作为“一个整体面板”呈现，因此不再用 gap 把每个分组分隔成独立卡片。 */
+  gap: 0;
   overflow-y: auto;
   padding-right: 0.25rem;
   padding-bottom: 0.25rem;
@@ -176,9 +177,20 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.85rem 1rem;
-  /* 说明：设置面板内部卡片统一使用 1rem 圆角，内容区保持紧凑。 */
-  --app-glass-radius: var(--app-radius-section);
+  /* 说明：每个分组不再是独立卡片，仅保留内边距与分隔线，形成“列表式”设置面板。 */
+  padding: 1.1rem 0;
+}
+
+.settings-panel__section + .settings-panel__section {
+  border-top: 1px solid var(--app-glass-border-color);
+}
+
+.settings-panel__section:first-child {
+  padding-top: 0;
+}
+
+.settings-panel__section:last-child {
+  padding-bottom: 0;
 }
 
 .settings-panel__section-title {

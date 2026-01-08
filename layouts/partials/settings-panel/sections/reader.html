@@ -11,7 +11,7 @@
 {{ $readerDefaultValue = math.Min $readerSliderMax $readerDefaultValue }}
 {{ $readerInitialPercent := printf "%.0f" $readerDefaultValue }}
 {{ $readerInitialPx := "—" }}
-<section class="settings-panel__section settings-panel__section--reader app-glass app-glass--elevated">
+<section class="settings-panel__section settings-panel__section--reader">
   <div class="settings-panel__reader-header">
     <h3 class="settings-panel__section-title">{{ i18n "settingsPanelReaderHeading" }}</h3>
     <span class="settings-panel__reader-value">
