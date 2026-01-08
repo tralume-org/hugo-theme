@@ -5,7 +5,10 @@
   (dict "id" "dark" "label" (i18n "settingsPanelModeDark"))
 }}
 <section class="settings-panel__section settings-panel__section--modes">
-  <h3 class="settings-panel__section-title">{{ i18n "settingsPanelModeHeading" }}</h3>
+  <h3 class="settings-panel__section-title">
+    <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">brightness_6</span>
+    <span class="settings-panel__section-title-text">{{ i18n "settingsPanelModeHeading" }}</span>
+  </h3>
   <div class="settings-panel__mode-grid">
     {{ range $modeOptions }}
       <button
