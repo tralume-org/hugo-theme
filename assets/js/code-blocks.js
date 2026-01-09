@@ -215,6 +215,18 @@ export const setupCodeBlocks = () => {
     }
 
     const codeElement = preElement.querySelector('code') || preElement;
+
+    // 说明：Hugo/Chroma 默认可能在 `<pre style="background-color: #...">` 注入内联背景色（常见为纯黑）。
+    // 注意：内联样式会覆盖主题 CSS，导致“语法高亮版本”与主题玻璃拟态不一致；这里仅移除背景相关属性，保留其余内联样式（如 token 颜色）。
+    preElement.style.removeProperty('background');
+    preElement.style.removeProperty('background-color');
+    preElement.style.removeProperty('background-image');
+    if (codeElement instanceof HTMLElement && codeElement !== preElement) {
+      codeElement.style.removeProperty('background');
+      codeElement.style.removeProperty('background-color');
+      codeElement.style.removeProperty('background-image');
+    }
+
     const rawLanguage = readLanguage(codeElement);
     const language = formatLanguage(rawLanguage);
 

@@ -110,7 +110,8 @@
 .md3-code-block__body pre {
   margin: 0;
   padding: 0.9rem 1.1rem;
-  background: none;
+  /* 说明：覆盖 Chroma 可能注入的内联背景色，确保背景统一由容器的玻璃拟态表面负责。 */
+  background: none !important;
   color: inherit;
   font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 0.875rem;
@@ -119,6 +120,8 @@
 
 .md3-code-block__body code {
   white-space: pre;
+  /* 说明：部分渲染器会把背景挂在 code 上；这里同样强制透明，避免出现“内层黑底”。 */
+  background: none !important;
 }
 
 /* 说明：语法高亮颜色映射，基于 MD3 色板生成相对色。 */
