@@ -124,6 +124,32 @@
   background: none !important;
 }
 
+/* 说明：当代码行数 > 3 时，JS 会注入行号并打上标记类；此处把 pre 变为双列布局，实现行号与代码同级展示。 */
+.md3-code-block--with-line-numbers .md3-code-block__body pre {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: start;
+}
+
+/* 说明：行号列使用逻辑边框分隔代码，并保持不可选中，避免影响复制/选择代码。 */
+.md3-code-block__line-numbers {
+  display: block;
+  padding-inline-end: 0.8rem;
+  border-inline-end: 1px solid var(--app-glass-border-color);
+  text-align: end;
+  user-select: none;
+  pointer-events: none;
+  color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 说明：代码列为分隔线预留左内边距，保持与行号列视觉间距一致。 */
+.md3-code-block--with-line-numbers .md3-code-block__body code {
+  display: block;
+  padding-inline-start: var(--md3-code-block-gutter);
+}
+
 /* 说明：语法高亮颜色映射，基于 MD3 色板生成相对色。 */
 .md3-code-block .chroma {
   color: var(--md-sys-color-on-surface);

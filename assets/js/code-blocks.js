@@ -8,6 +8,44 @@ export const setupCodeBlocks = () => {
   const copyLabel = container.getAttribute('data-code-copy-label') || 'Copy code';
   const copiedLabel = container.getAttribute('data-code-copied-label') || 'Copied';
 
+  // 说明：计算代码的“可见行数”，用于决定是否展示行号（<= 3 行不显示，避免噪音）。
+  // 注意：仅移除末尾单个换行符（若存在），避免把 Hugo/Chroma 常见的尾随换行当作额外一行。
+  const countCodeLines = (text) => {
+    if (!text) {
+      return 0;
+    }
+    const normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const trimmed = normalized.endsWith('\n') ? normalized.slice(0, -1) : normalized;
+    if (!trimmed) {
+      return 0;
+    }
+    return trimmed.split('\n').length;
+  };
+
+  // 说明：为代码块注入行号（与 code 元素同级），并添加标记类以便 CSS 进行双列布局。
+  // 注意：行号被设置为不可选中/不可交互，避免影响复制与文本选择。
+  const ensureLineNumbers = ({ preElement, codeElement, lineCount }) => {
+    if (!(preElement instanceof HTMLElement) || !(codeElement instanceof HTMLElement)) {
+      return false;
+    }
+    if (lineCount <= 3) {
+      return false;
+    }
+    const alreadyInjected = Array.from(preElement.children).some((child) =>
+      child instanceof HTMLElement && child.classList.contains('md3-code-block__line-numbers')
+    );
+    if (alreadyInjected) {
+      return true;
+    }
+
+    const lineNumbers = document.createElement('span');
+    lineNumbers.className = 'md3-code-block__line-numbers';
+    lineNumbers.setAttribute('aria-hidden', 'true');
+    lineNumbers.textContent = Array.from({ length: lineCount }, (_, index) => String(index + 1)).join('\n');
+    preElement.insertBefore(lineNumbers, codeElement);
+    return true;
+  };
+
   // 说明：语言别名到 Devicon 图标名的映射（仅维护主题需要的最小集合）。
   // 注意：这里的“图标名”需与 `assets/css/icons/devicon.css` 中的 `.app-devicon--{name}` 对齐。
   const resolveDeviconName = (language) => {
@@ -214,18 +252,29 @@ export const setupCodeBlocks = () => {
       return;
     }
 
-    const codeElement = preElement.querySelector('code') || preElement;
+    let codeElement = preElement.querySelector('code');
+    if (!(codeElement instanceof HTMLElement)) {
+      // 说明：兼容仅有 `<pre>text</pre>` 的场景：将内容包裹进 code，便于统一复制与行号逻辑。
+      codeElement = document.createElement('code');
+      while (preElement.firstChild) {
+        codeElement.appendChild(preElement.firstChild);
+      }
+      preElement.appendChild(codeElement);
+    }
 
     // 说明：Hugo/Chroma 默认可能在 `<pre style="background-color: #...">` 注入内联背景色（常见为纯黑）。
     // 注意：内联样式会覆盖主题 CSS，导致“语法高亮版本”与主题玻璃拟态不一致；这里仅移除背景相关属性，保留其余内联样式（如 token 颜色）。
     preElement.style.removeProperty('background');
     preElement.style.removeProperty('background-color');
     preElement.style.removeProperty('background-image');
-    if (codeElement instanceof HTMLElement && codeElement !== preElement) {
+    if (codeElement !== preElement) {
       codeElement.style.removeProperty('background');
       codeElement.style.removeProperty('background-color');
       codeElement.style.removeProperty('background-image');
     }
+
+    const lineCount = countCodeLines(codeElement.textContent || '');
+    const hasLineNumbers = ensureLineNumbers({ preElement, codeElement, lineCount });
 
     const rawLanguage = readLanguage(codeElement);
     const language = formatLanguage(rawLanguage);
@@ -233,6 +282,9 @@ export const setupCodeBlocks = () => {
     const wrapper = document.createElement('div');
     wrapper.className = 'md3-code-block';
     wrapper.setAttribute('data-md3-code-block', 'true');
+    if (hasLineNumbers) {
+      wrapper.classList.add('md3-code-block--with-line-numbers');
+    }
 
     const toolbar = document.createElement('div');
     toolbar.className = 'md3-code-block__toolbar';
