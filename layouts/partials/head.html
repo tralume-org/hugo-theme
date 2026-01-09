@@ -70,6 +70,7 @@
 }}
 	{{ $main := slice
 	  (resources.Get "css/fonts/material-symbols-rounded.css")
+	  (resources.Get "css/fonts/devicon.css")
 	  (resources.Get "css/base.css")
 	  (resources.Get "css/glass-surfaces.css")
 	  (resources.Get "css/app-navigation.css")
@@ -86,6 +87,7 @@
 	  (resources.Get "css/content-blocks/friends.css")
 	  $settingsPanel
 	  (resources.Get "css/analytics.css")
+	  (resources.Get "css/icons/devicon.css")
 	  (resources.Get "css/code-blocks.css")
 	  | resources.Concat "css/main.css"
 	}}

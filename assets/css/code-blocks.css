@@ -27,9 +27,20 @@
 
 /* 说明：语言标识使用大写字母增强辨识度。 */
 .md3-code-block__language {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 600;
+}
+
+/* 说明：语言图标使用 Devicon 字体渲染，尺寸与文本保持一致。 */
+.md3-code-block__language-icon {
+  width: 1.05em;
+  height: 1.05em;
+  font-size: 1.05em;
+  opacity: 0.9;
 }
 
 /* 说明：复制按钮契合 MD3 Filled Tonal 按钮风格，并保持键盘可达性。 */

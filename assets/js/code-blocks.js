@@ -8,6 +8,72 @@ export const setupCodeBlocks = () => {
   const copyLabel = container.getAttribute('data-code-copy-label') || 'Copy code';
   const copiedLabel = container.getAttribute('data-code-copied-label') || 'Copied';
 
+  // 说明：语言别名到 Devicon 图标名的映射（仅维护主题需要的最小集合）。
+  // 注意：这里的“图标名”需与 `assets/css/icons/devicon.css` 中的 `.app-devicon--{name}` 对齐。
+  const resolveDeviconName = (language) => {
+    if (!language) {
+      return '';
+    }
+    const normalized = language.trim().toLowerCase();
+    const aliasTable = {
+      sh: 'bash',
+      shell: 'bash',
+      zsh: 'bash',
+      bash: 'bash',
+      c: 'c',
+      cpp: 'cplusplus',
+      cplusplus: 'cplusplus',
+      'c++': 'cplusplus',
+      cs: 'csharp',
+      csharp: 'csharp',
+      'c#': 'csharp',
+      css: 'css3',
+      css3: 'css3',
+      docker: 'docker',
+      dockerfile: 'docker',
+      go: 'go',
+      golang: 'go',
+      gql: 'graphql',
+      graphql: 'graphql',
+      html: 'html5',
+      html5: 'html5',
+      java: 'java',
+      js: 'javascript',
+      javascript: 'javascript',
+      json: 'json',
+      kt: 'kotlin',
+      kotlin: 'kotlin',
+      md: 'markdown',
+      markdown: 'markdown',
+      mysql: 'mysql',
+      node: 'nodejs',
+      nodejs: 'nodejs',
+      php: 'php',
+      postgres: 'postgresql',
+      postgresql: 'postgresql',
+      ps1: 'powershell',
+      powershell: 'powershell',
+      py: 'python',
+      python: 'python',
+      react: 'react',
+      jsx: 'react',
+      tsx: 'react',
+      rb: 'ruby',
+      ruby: 'ruby',
+      rs: 'rust',
+      rust: 'rust',
+      sqlite: 'sqlite',
+      swift: 'swift',
+      ts: 'typescript',
+      typescript: 'typescript',
+      vue: 'vuejs',
+      vuejs: 'vuejs',
+      yml: 'yaml',
+      yaml: 'yaml',
+    };
+    return aliasTable[normalized] || '';
+  };
+
   // 说明：从 code 元素的类名或 data-lang 属性中解析语言名称。
   const readLanguage = (codeElement) => {
     if (!(codeElement instanceof HTMLElement)) {
@@ -41,6 +107,30 @@ export const setupCodeBlocks = () => {
         .join(' ');
     }
     return trimmed[0].toUpperCase() + trimmed.slice(1);
+  };
+
+  // 说明：构建“语言 + 图标”的标签；图标缺失时仅展示语言文本。
+  const createLanguageBadge = (rawLanguage, formattedLanguage) => {
+    if (!formattedLanguage) {
+      return null;
+    }
+    const badge = document.createElement('span');
+    badge.className = 'md3-code-block__language';
+
+    const deviconName = resolveDeviconName(rawLanguage);
+    if (deviconName) {
+      const icon = document.createElement('span');
+      icon.className = `md3-code-block__language-icon app-devicon app-devicon--${deviconName}`;
+      icon.setAttribute('aria-hidden', 'true');
+      badge.appendChild(icon);
+    }
+
+    const text = document.createElement('span');
+    text.className = 'md3-code-block__language-text';
+    text.textContent = formattedLanguage;
+    badge.appendChild(text);
+
+    return badge;
   };
 
   // 说明：复制逻辑同时支持 Clipboard API 与传统命令，提升兼容性。
@@ -125,7 +215,8 @@ export const setupCodeBlocks = () => {
     }
 
     const codeElement = preElement.querySelector('code') || preElement;
-    const language = formatLanguage(readLanguage(codeElement));
+    const rawLanguage = readLanguage(codeElement);
+    const language = formatLanguage(rawLanguage);
 
     const wrapper = document.createElement('div');
     wrapper.className = 'md3-code-block';
@@ -135,10 +226,10 @@ export const setupCodeBlocks = () => {
     toolbar.className = 'md3-code-block__toolbar';
 
     if (language) {
-      const badge = document.createElement('span');
-      badge.className = 'md3-code-block__language';
-      badge.textContent = language;
-      toolbar.appendChild(badge);
+      const badge = createLanguageBadge(rawLanguage, language);
+      if (badge) {
+        toolbar.appendChild(badge);
+      }
     }
 
     const copyButton = createCopyButton(codeElement);
