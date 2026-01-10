@@ -6,6 +6,9 @@
   --md3-code-block-padding-block-start: 0rem;
   --md3-code-block-padding-block-end: 0.9rem;
   --md3-code-block-padding-inline: 1.1rem;
+  /* 说明：工具栏上下内边距独立变量（不与代码区共用），便于后续分别调节。 */
+  --md3-code-block-toolbar-padding-block-start: 0.65rem;
+  --md3-code-block-toolbar-padding-block-end: 0.3rem;
   /* 说明：行号分隔线到代码文本的间距（仅行号模式使用）；之前是未定义变量，定义默认值以确保间距稳定。 */
   --md3-code-block-gutter: 0.9rem;
   border: 1px solid var(--app-glass-border-color);
@@ -23,7 +26,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
-  padding: 0.6rem 0.85rem;
+  /* 说明：上下内边距使用工具栏独立变量（与代码区解耦），避免改动代码区时意外影响工具栏。 */
+  padding-block-start: var(--md3-code-block-toolbar-padding-block-start);
+  padding-block-end: var(--md3-code-block-toolbar-padding-block-end);
+  padding-inline: 0.85rem;
   background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-label-medium-size);
