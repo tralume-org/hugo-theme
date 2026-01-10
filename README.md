@@ -151,6 +151,10 @@ enableRobotsTXT = true # Note: Enable robots.txt output (uses the theme's `layou
 Tip: the menu above is shared across languages. If you need different names per language, use `languages.*.menus.main` under each language section.
 Tip: to temporarily block crawlers (e.g. staging/intranet), set `params.robotsTxt.enabled = false`; to disable generating `robots.txt` entirely, set `enableRobotsTXT = false`.
 
+## Custom Footer Items (After RSS)
+
+Add `params.footer.afterRss` as an array of items. Each item supports `text` (required) and `url` (optional). The footer renders them after the “RSS Subscribe” link, separated by `|`.
+
 ## Article License
 
 - Set per-article `license` in front matter; set a site default via `params.contentLicense` (falls back to `params.license`).

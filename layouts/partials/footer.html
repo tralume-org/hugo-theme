@@ -16,6 +16,29 @@
           title="{{ i18n "rssAlternateTitle" (dict "SiteTitle" site.Title "LanguageName" site.Language.LanguageName) }}"
           aria-label="{{ i18n "footerRssSubscribe" }}"
         >{{ i18n "footerRssSubscribe" }}</a>
+        {{- /* 说明：允许在 RSS 链接后追加自定义页脚条目；使用 "|" 作为分隔符。 */ -}}
+        {{- $afterRssItems := site.Params.footer.afterRss -}}
+        {{- if $afterRssItems -}}
+          {{- $rendered := slice -}}
+          {{- range $afterRssItems -}}
+            {{- $label := "" -}}
+            {{- with .i18n -}}
+              {{- $label = i18n . -}}
+            {{- else -}}
+              {{- with .text -}}{{- $label = . -}}{{- end -}}
+            {{- end -}}
+            {{- if $label -}}
+              {{- with .url -}}
+                {{- $rendered = $rendered | append (printf `<a href="%s">%s</a>` (. | safeURL) ($label | htmlEscape)) -}}
+              {{- else -}}
+                {{- $rendered = $rendered | append (printf `%s` ($label | htmlEscape)) -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          {{- with $rendered -}}
+            <span aria-hidden="true"> | </span>{{ delimit . " <span aria-hidden=\"true\">|</span> " | safeHTML }}
+          {{- end -}}
+        {{- end -}}
       </small>
     {{- end -}}
   {{- end -}}

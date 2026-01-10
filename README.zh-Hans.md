@@ -139,6 +139,20 @@ enableRobotsTXT = true # 说明：启用 robots.txt 输出（会使用主题的 
 提示：菜单当前为全局共享配置，如需中英文显示不同名称，请改用 `languages.*.menus.main` 在各语言下分别声明。
 提示：若你希望临时关闭爬虫（例如预发布/内网环境），设置 `params.robotsTxt.enabled = false`；若希望完全不输出 `robots.txt`，设置 `enableRobotsTXT = false`。
 
+## 自定义页脚（在 RSS 订阅后追加）
+
+```toml
+# 说明：在页脚的“RSS订阅”链接后追加自定义条目。
+# 注意：渲染时会用 `|` 分隔（RSS订阅 | 条目1 | 条目2 ...）。
+[params.footer]
+  afterRss = [
+    # 说明：纯文本条目（不带链接）。
+    { text = "备案号：京ICP备12345678号" },
+    # 说明：带链接条目（适合隐私政策/联系页面等）。
+    { text = "隐私政策", url = "/privacy/" },
+  ]
+```
+
 ## 文章许可证配置
 
 - 每篇文章可在 Front Matter 声明 `license`；站点默认可在 `params.contentLicense`（兼容 `params.license`）设置。
