@@ -1,85 +1,163 @@
 /* 说明：Hugo/Chroma 语法高亮主题（GitHub）。
- * 作用：作为浅色模式（data-theme-mode="light"）的默认高亮主题，同时作为自动模式的“默认/回退”主题。
- * 注意：
- * - 本文件只负责 token 的前景色/语义色；代码块容器背景由主题玻璃拟态样式统一接管。
+ * 用途：提供浅色语法高亮 token 颜色。
+ *
+ * 选择器策略（关键）：
+ * - 显式浅色：`data-theme-mode="light"` 时直接启用本主题。
+ * - 自动模式：`data-theme-mode="auto"` 或未设置时，仅在系统浅色偏好下启用本主题；
+ *   系统深色偏好下由 `assets/css/chroma/chroma-monokai.css` 接管，避免两套主题混用导致 token 颜色细微差异。
+ *
+ * 注意：本文件只负责 token 的前景色/语义色；代码块容器背景由主题玻璃拟态样式统一接管。
  *
  * Generated using: `hugo gen chromastyles --style=github`
  */
 
-/* 说明：选择器策略：
- * - `data-theme-mode="light"`：用户显式选择浅色模式。
- * - `data-theme-mode="auto"` / 未设置属性：自动模式与默认回退（深色会被 monokai 的规则覆盖）。
- */
+/* Background */ :root[data-theme-mode="light"] .bg { background-color:#fff; }
+/* PreWrapper */ :root[data-theme-mode="light"] .chroma { background-color:#fff; }
+/* Error */ :root[data-theme-mode="light"] .chroma .err { color:#f6f8fa;background-color:#82071e }
+/* LineLink */ :root[data-theme-mode="light"] .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+/* LineTableTD */ :root[data-theme-mode="light"] .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+/* LineTable */ :root[data-theme-mode="light"] .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+/* LineHighlight */ :root[data-theme-mode="light"] .chroma .hl { background-color:#e5e5e5 }
+/* LineNumbersTable */ :root[data-theme-mode="light"] .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* LineNumbers */ :root[data-theme-mode="light"] .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* Line */ :root[data-theme-mode="light"] .chroma .line { display:flex; }
+/* Keyword */ :root[data-theme-mode="light"] .chroma .k { color:#cf222e }
+/* KeywordConstant */ :root[data-theme-mode="light"] .chroma .kc { color:#cf222e }
+/* KeywordDeclaration */ :root[data-theme-mode="light"] .chroma .kd { color:#cf222e }
+/* KeywordNamespace */ :root[data-theme-mode="light"] .chroma .kn { color:#cf222e }
+/* KeywordPseudo */ :root[data-theme-mode="light"] .chroma .kp { color:#cf222e }
+/* KeywordReserved */ :root[data-theme-mode="light"] .chroma .kr { color:#cf222e }
+/* KeywordType */ :root[data-theme-mode="light"] .chroma .kt { color:#cf222e }
+/* NameAttribute */ :root[data-theme-mode="light"] .chroma .na { color:#1f2328 }
+/* NameClass */ :root[data-theme-mode="light"] .chroma .nc { color:#1f2328 }
+/* NameConstant */ :root[data-theme-mode="light"] .chroma .no { color:#0550ae }
+/* NameDecorator */ :root[data-theme-mode="light"] .chroma .nd { color:#0550ae }
+/* NameEntity */ :root[data-theme-mode="light"] .chroma .ni { color:#6639ba }
+/* NameLabel */ :root[data-theme-mode="light"] .chroma .nl { color:#900;font-weight:bold }
+/* NameNamespace */ :root[data-theme-mode="light"] .chroma .nn { color:#24292e }
+/* NameOther */ :root[data-theme-mode="light"] .chroma .nx { color:#1f2328 }
+/* NameTag */ :root[data-theme-mode="light"] .chroma .nt { color:#0550ae }
+/* NameBuiltin */ :root[data-theme-mode="light"] .chroma .nb { color:#6639ba }
+/* NameBuiltinPseudo */ :root[data-theme-mode="light"] .chroma .bp { color:#6a737d }
+/* NameVariable */ :root[data-theme-mode="light"] .chroma .nv { color:#953800 }
+/* NameVariableClass */ :root[data-theme-mode="light"] .chroma .vc { color:#953800 }
+/* NameVariableGlobal */ :root[data-theme-mode="light"] .chroma .vg { color:#953800 }
+/* NameVariableInstance */ :root[data-theme-mode="light"] .chroma .vi { color:#953800 }
+/* NameVariableMagic */ :root[data-theme-mode="light"] .chroma .vm { color:#953800 }
+/* NameFunction */ :root[data-theme-mode="light"] .chroma .nf { color:#6639ba }
+/* NameFunctionMagic */ :root[data-theme-mode="light"] .chroma .fm { color:#6639ba }
+/* LiteralString */ :root[data-theme-mode="light"] .chroma .s { color:#0a3069 }
+/* LiteralStringAffix */ :root[data-theme-mode="light"] .chroma .sa { color:#0a3069 }
+/* LiteralStringBacktick */ :root[data-theme-mode="light"] .chroma .sb { color:#0a3069 }
+/* LiteralStringChar */ :root[data-theme-mode="light"] .chroma .sc { color:#0a3069 }
+/* LiteralStringDelimiter */ :root[data-theme-mode="light"] .chroma .dl { color:#0a3069 }
+/* LiteralStringDoc */ :root[data-theme-mode="light"] .chroma .sd { color:#0a3069 }
+/* LiteralStringDouble */ :root[data-theme-mode="light"] .chroma .s2 { color:#0a3069 }
+/* LiteralStringEscape */ :root[data-theme-mode="light"] .chroma .se { color:#0a3069 }
+/* LiteralStringHeredoc */ :root[data-theme-mode="light"] .chroma .sh { color:#0a3069 }
+/* LiteralStringInterpol */ :root[data-theme-mode="light"] .chroma .si { color:#0a3069 }
+/* LiteralStringOther */ :root[data-theme-mode="light"] .chroma .sx { color:#0a3069 }
+/* LiteralStringRegex */ :root[data-theme-mode="light"] .chroma .sr { color:#0a3069 }
+/* LiteralStringSingle */ :root[data-theme-mode="light"] .chroma .s1 { color:#0a3069 }
+/* LiteralStringSymbol */ :root[data-theme-mode="light"] .chroma .ss { color:#032f62 }
+/* LiteralNumber */ :root[data-theme-mode="light"] .chroma .m { color:#0550ae }
+/* LiteralNumberBin */ :root[data-theme-mode="light"] .chroma .mb { color:#0550ae }
+/* LiteralNumberFloat */ :root[data-theme-mode="light"] .chroma .mf { color:#0550ae }
+/* LiteralNumberHex */ :root[data-theme-mode="light"] .chroma .mh { color:#0550ae }
+/* LiteralNumberInteger */ :root[data-theme-mode="light"] .chroma .mi { color:#0550ae }
+/* LiteralNumberIntegerLong */ :root[data-theme-mode="light"] .chroma .il { color:#0550ae }
+/* LiteralNumberOct */ :root[data-theme-mode="light"] .chroma .mo { color:#0550ae }
+/* Operator */ :root[data-theme-mode="light"] .chroma .o { color:#0550ae }
+/* OperatorWord */ :root[data-theme-mode="light"] .chroma .ow { color:#0550ae }
+/* Punctuation */ :root[data-theme-mode="light"] .chroma .p { color:#1f2328 }
+/* Comment */ :root[data-theme-mode="light"] .chroma .c { color:#57606a }
+/* CommentHashbang */ :root[data-theme-mode="light"] .chroma .ch { color:#57606a }
+/* CommentMultiline */ :root[data-theme-mode="light"] .chroma .cm { color:#57606a }
+/* CommentSingle */ :root[data-theme-mode="light"] .chroma .c1 { color:#57606a }
+/* CommentSpecial */ :root[data-theme-mode="light"] .chroma .cs { color:#57606a }
+/* CommentPreproc */ :root[data-theme-mode="light"] .chroma .cp { color:#57606a }
+/* CommentPreprocFile */ :root[data-theme-mode="light"] .chroma .cpf { color:#57606a }
+/* GenericDeleted */ :root[data-theme-mode="light"] .chroma .gd { color:#82071e;background-color:#ffebe9 }
+/* GenericEmph */ :root[data-theme-mode="light"] .chroma .ge { color:#1f2328 }
+/* GenericInserted */ :root[data-theme-mode="light"] .chroma .gi { color:#116329;background-color:#dafbe1 }
+/* GenericOutput */ :root[data-theme-mode="light"] .chroma .go { color:#1f2328 }
+/* GenericUnderline */ :root[data-theme-mode="light"] .chroma .gl { text-decoration:underline }
+/* TextWhitespace */ :root[data-theme-mode="light"] .chroma .w { color:#fff }
 
-/* Background */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .bg { background-color:#fff; }
-/* PreWrapper */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma { background-color:#fff; }
-/* Error */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .err { color:#f6f8fa;background-color:#82071e }
-/* LineLink */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
-/* LineTableTD */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
-/* LineTable */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
-/* LineHighlight */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .hl { background-color:#e5e5e5 }
-/* LineNumbersTable */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
-/* LineNumbers */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
-/* Line */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .line { display:flex; }
-/* Keyword */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .k { color:#cf222e }
-/* KeywordConstant */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .kc { color:#cf222e }
-/* KeywordDeclaration */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .kd { color:#cf222e }
-/* KeywordNamespace */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .kn { color:#cf222e }
-/* KeywordPseudo */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .kp { color:#cf222e }
-/* KeywordReserved */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .kr { color:#cf222e }
-/* KeywordType */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .kt { color:#cf222e }
-/* NameAttribute */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .na { color:#1f2328 }
-/* NameClass */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nc { color:#1f2328 }
-/* NameConstant */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .no { color:#0550ae }
-/* NameDecorator */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nd { color:#0550ae }
-/* NameEntity */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .ni { color:#6639ba }
-/* NameLabel */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nl { color:#900;font-weight:bold }
-/* NameNamespace */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nn { color:#24292e }
-/* NameOther */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nx { color:#1f2328 }
-/* NameTag */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nt { color:#0550ae }
-/* NameBuiltin */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nb { color:#6639ba }
-/* NameBuiltinPseudo */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .bp { color:#6a737d }
-/* NameVariable */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nv { color:#953800 }
-/* NameVariableClass */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .vc { color:#953800 }
-/* NameVariableGlobal */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .vg { color:#953800 }
-/* NameVariableInstance */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .vi { color:#953800 }
-/* NameVariableMagic */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .vm { color:#953800 }
-/* NameFunction */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .nf { color:#6639ba }
-/* NameFunctionMagic */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .fm { color:#6639ba }
-/* LiteralString */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .s { color:#0a3069 }
-/* LiteralStringAffix */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .sa { color:#0a3069 }
-/* LiteralStringBacktick */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .sb { color:#0a3069 }
-/* LiteralStringChar */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .sc { color:#0a3069 }
-/* LiteralStringDelimiter */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .dl { color:#0a3069 }
-/* LiteralStringDoc */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .sd { color:#0a3069 }
-/* LiteralStringDouble */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .s2 { color:#0a3069 }
-/* LiteralStringEscape */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .se { color:#0a3069 }
-/* LiteralStringHeredoc */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .sh { color:#0a3069 }
-/* LiteralStringInterpol */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .si { color:#0a3069 }
-/* LiteralStringOther */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .sx { color:#0a3069 }
-/* LiteralStringRegex */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .sr { color:#0a3069 }
-/* LiteralStringSingle */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .s1 { color:#0a3069 }
-/* LiteralStringSymbol */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .ss { color:#032f62 }
-/* LiteralNumber */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .m { color:#0550ae }
-/* LiteralNumberBin */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .mb { color:#0550ae }
-/* LiteralNumberFloat */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .mf { color:#0550ae }
-/* LiteralNumberHex */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .mh { color:#0550ae }
-/* LiteralNumberInteger */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .mi { color:#0550ae }
-/* LiteralNumberIntegerLong */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .il { color:#0550ae }
-/* LiteralNumberOct */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .mo { color:#0550ae }
-/* Operator */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .o { color:#0550ae }
-/* OperatorWord */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .ow { color:#0550ae }
-/* Punctuation */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .p { color:#1f2328 }
-/* Comment */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .c { color:#57606a }
-/* CommentHashbang */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .ch { color:#57606a }
-/* CommentMultiline */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .cm { color:#57606a }
-/* CommentSingle */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .c1 { color:#57606a }
-/* CommentSpecial */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .cs { color:#57606a }
-/* CommentPreproc */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .cp { color:#57606a }
-/* CommentPreprocFile */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .cpf { color:#57606a }
-/* GenericDeleted */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .gd { color:#82071e;background-color:#ffebe9 }
-/* GenericEmph */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .ge { color:#1f2328 }
-/* GenericInserted */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .gi { color:#116329;background-color:#dafbe1 }
-/* GenericOutput */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .go { color:#1f2328 }
-/* GenericUnderline */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .gl { text-decoration:underline }
-/* TextWhitespace */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"], [data-theme-mode="light"]) .chroma .w { color:#fff }
+/* 说明：自动模式（data-theme-mode="auto" 或未设置）在系统浅色偏好时启用 GitHub 高亮主题。
+ * 目的：避免自动深色模式下仍残留浅色主题 token 颜色，导致与显式深色模式出现细微差异。
+ */
+@media (prefers-color-scheme: light) {
+  /* Background */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .bg { background-color:#fff; }
+  /* PreWrapper */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma { background-color:#fff; }
+  /* Error */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .err { color:#f6f8fa;background-color:#82071e }
+  /* LineLink */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+  /* LineTableTD */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+  /* LineTable */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+  /* LineHighlight */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .hl { background-color:#e5e5e5 }
+  /* LineNumbersTable */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+  /* LineNumbers */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+  /* Line */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .line { display:flex; }
+  /* Keyword */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .k { color:#cf222e }
+  /* KeywordConstant */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .kc { color:#cf222e }
+  /* KeywordDeclaration */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .kd { color:#cf222e }
+  /* KeywordNamespace */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .kn { color:#cf222e }
+  /* KeywordPseudo */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .kp { color:#cf222e }
+  /* KeywordReserved */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .kr { color:#cf222e }
+  /* KeywordType */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .kt { color:#cf222e }
+  /* NameAttribute */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .na { color:#1f2328 }
+  /* NameClass */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nc { color:#1f2328 }
+  /* NameConstant */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .no { color:#0550ae }
+  /* NameDecorator */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nd { color:#0550ae }
+  /* NameEntity */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .ni { color:#6639ba }
+  /* NameLabel */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nl { color:#900;font-weight:bold }
+  /* NameNamespace */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nn { color:#24292e }
+  /* NameOther */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nx { color:#1f2328 }
+  /* NameTag */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nt { color:#0550ae }
+  /* NameBuiltin */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nb { color:#6639ba }
+  /* NameBuiltinPseudo */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .bp { color:#6a737d }
+  /* NameVariable */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nv { color:#953800 }
+  /* NameVariableClass */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .vc { color:#953800 }
+  /* NameVariableGlobal */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .vg { color:#953800 }
+  /* NameVariableInstance */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .vi { color:#953800 }
+  /* NameVariableMagic */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .vm { color:#953800 }
+  /* NameFunction */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .nf { color:#6639ba }
+  /* NameFunctionMagic */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .fm { color:#6639ba }
+  /* LiteralString */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .s { color:#0a3069 }
+  /* LiteralStringAffix */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .sa { color:#0a3069 }
+  /* LiteralStringBacktick */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .sb { color:#0a3069 }
+  /* LiteralStringChar */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .sc { color:#0a3069 }
+  /* LiteralStringDelimiter */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .dl { color:#0a3069 }
+  /* LiteralStringDoc */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .sd { color:#0a3069 }
+  /* LiteralStringDouble */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .s2 { color:#0a3069 }
+  /* LiteralStringEscape */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .se { color:#0a3069 }
+  /* LiteralStringHeredoc */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .sh { color:#0a3069 }
+  /* LiteralStringInterpol */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .si { color:#0a3069 }
+  /* LiteralStringOther */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .sx { color:#0a3069 }
+  /* LiteralStringRegex */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .sr { color:#0a3069 }
+  /* LiteralStringSingle */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .s1 { color:#0a3069 }
+  /* LiteralStringSymbol */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .ss { color:#032f62 }
+  /* LiteralNumber */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .m { color:#0550ae }
+  /* LiteralNumberBin */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .mb { color:#0550ae }
+  /* LiteralNumberFloat */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .mf { color:#0550ae }
+  /* LiteralNumberHex */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .mh { color:#0550ae }
+  /* LiteralNumberInteger */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .mi { color:#0550ae }
+  /* LiteralNumberIntegerLong */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .il { color:#0550ae }
+  /* LiteralNumberOct */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .mo { color:#0550ae }
+  /* Operator */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .o { color:#0550ae }
+  /* OperatorWord */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .ow { color:#0550ae }
+  /* Punctuation */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .p { color:#1f2328 }
+  /* Comment */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .c { color:#57606a }
+  /* CommentHashbang */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .ch { color:#57606a }
+  /* CommentMultiline */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .cm { color:#57606a }
+  /* CommentSingle */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .c1 { color:#57606a }
+  /* CommentSpecial */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .cs { color:#57606a }
+  /* CommentPreproc */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .cp { color:#57606a }
+  /* CommentPreprocFile */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .cpf { color:#57606a }
+  /* GenericDeleted */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .gd { color:#82071e;background-color:#ffebe9 }
+  /* GenericEmph */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .ge { color:#1f2328 }
+  /* GenericInserted */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .gi { color:#116329;background-color:#dafbe1 }
+  /* GenericOutput */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .go { color:#1f2328 }
+  /* GenericUnderline */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .gl { text-decoration:underline }
+  /* TextWhitespace */ :root:is(:not([data-theme-mode]), [data-theme-mode="auto"]) .chroma .w { color:#fff }
+}
