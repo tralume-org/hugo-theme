@@ -1,0 +1,36 @@
+{{/*
+  说明：为主题内置的“固定入口页面”提供可本地化的标题。
+  作用：解决 /posts、/pages、/tags 等列表页默认 .Title 为英文或受内容文件影响的问题。
+  注意：
+  - 仅对少数“约定的入口”做映射，其它页面保持 Hugo 默认 .Title 行为，避免误伤自定义 Section/Taxonomy。
+  - Term 页（如 /tags/foo/）默认仍使用标签名 .Title，不在此处强行替换。
+*/}}
+
+{{- $ctx := . -}}
+{{- $kind := $ctx.Kind | default "" -}}
+{{- $section := $ctx.Section | default "" -}}
+{{- $plural := "" -}}
+{{- with $ctx.Data -}}
+  {{- with .Plural -}}
+    {{- $plural = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $title := $ctx.Title -}}
+
+{{- /* 说明：优先处理 Taxonomy 概览页（如 /tags/）。 */ -}}
+{{- if and (eq $kind "taxonomy") (eq $plural "tags") -}}
+  {{- $title = i18n "tags" -}}
+{{- end -}}
+
+{{- /* 说明：处理 Section 入口页（如 /posts/、/pages/）。 */ -}}
+{{- if eq $kind "section" -}}
+  {{- if eq $section "posts" -}}
+    {{- $title = i18n "posts" -}}
+  {{- end -}}
+  {{- if eq $section "pages" -}}
+    {{- $title = i18n "pages" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $title -}}

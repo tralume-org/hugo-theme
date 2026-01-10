@@ -1,7 +1,8 @@
 {{ define "main" }}
   {{/* 说明：Section 页统一以卡片展示标题与简介，保持视觉一致。 */}}
   <section class="page-intro-card page-intro-card--section app-glass app-card">
-    <h1 class="page-intro-card__title">{{ .Title }}</h1>
+    {{/* 说明：/posts 与 /pages 使用 i18n 标题，其它 Section 保持 .Title。 */}}
+    <h1 class="page-intro-card__title">{{ partial "page-title-i18n.html" . }}</h1>
     {{ with .Content }}
       <div class="page-intro-card__body">
         {{ . }}

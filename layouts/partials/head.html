@@ -1,6 +1,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+{{/* 说明：为 /posts、/pages、/tags 等固定入口页提供 i18n 标题，避免默认 .Title 为英文。 */}}
+{{- $pageTitle := partial "page-title-i18n.html" . -}}
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" $pageTitle site.Title }}{{ end }}</title>
 {{- $desc := "" -}}
 
 {{- if .Params.description -}}

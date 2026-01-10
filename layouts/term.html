@@ -1,6 +1,7 @@
 {{ define "main" }}
   {{/* 说明：标签/分类详情页与 Section 页保持一致：顶部简介卡片 + 文章卡片列表。 */}}
   <section class="page-intro-card page-intro-card--section app-glass app-card">
+    {{/* 说明：Term 页默认展示具体词条名（如标签名），不强行 i18n。 */}}
     <h1 class="page-intro-card__title">{{ .Title }}</h1>
     {{ with .Content }}
       <div class="page-intro-card__body">
