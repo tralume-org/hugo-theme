@@ -1,6 +1,13 @@
 /* 说明：Markdown 代码块采用 MD3 风格容器，统一外观并为复制按钮预留位置，同时保持紧凑排列。 */
 .md3-code-block {
   margin: 1rem 0;
+  /* 说明：代码区内边距统一走变量，便于把 padding 从 pre 下放到行号列/代码列时复用同一套数值。 */
+  /* 说明：block 轴两端允许分别设置（例如上紧下松）；默认保持一致。 */
+  --md3-code-block-padding-block-start: 0rem;
+  --md3-code-block-padding-block-end: 0.9rem;
+  --md3-code-block-padding-inline: 1.1rem;
+  /* 说明：行号分隔线到代码文本的间距（仅行号模式使用）；之前是未定义变量，定义默认值以确保间距稳定。 */
+  --md3-code-block-gutter: 0.9rem;
   border: 1px solid var(--app-glass-border-color);
   border-radius: 0.75rem;
   background-color: var(--app-glass-strong-color);
@@ -109,7 +116,8 @@
 
 .md3-code-block__body pre {
   margin: 0;
-  padding: 0.9rem 1.1rem;
+  /* 说明：pre 不再负责 padding，避免“行号列分隔线从顶部断开/出现整层空白”；内边距改由行号列与代码列各自承担。 */
+  padding: 0;
   /* 说明：覆盖 Chroma 可能注入的内联背景色，确保背景统一由容器的玻璃拟态表面负责。 */
   background: none !important;
   color: inherit;
@@ -120,6 +128,11 @@
 
 .md3-code-block__body code {
   white-space: pre;
+  /* 说明：无行号时由 code 提供统一内边距；有行号时会在下方规则中按列拆分覆盖。 */
+  display: block;
+  padding-block-start: var(--md3-code-block-padding-block-start);
+  padding-block-end: var(--md3-code-block-padding-block-end);
+  padding-inline: var(--md3-code-block-padding-inline);
   /* 说明：部分渲染器会把背景挂在 code 上；这里同样强制透明，避免出现“内层黑底”。 */
   background: none !important;
 }
@@ -135,6 +148,10 @@
 .md3-code-block__line-numbers {
   display: block;
   padding-inline-end: 0.8rem;
+  /* 说明：行号列承担左侧与上下内边距，使分隔线从顶部贴近工具栏，同时文本仍有呼吸感。 */
+  padding-block-start: var(--md3-code-block-padding-block-start);
+  padding-block-end: var(--md3-code-block-padding-block-end);
+  padding-inline-start: var(--md3-code-block-padding-inline);
   border-inline-end: 1px solid var(--app-glass-border-color);
   text-align: end;
   user-select: none;
@@ -147,6 +164,10 @@
 /* 说明：代码列为分隔线预留左内边距，保持与行号列视觉间距一致。 */
 .md3-code-block--with-line-numbers .md3-code-block__body code {
   display: block;
+  /* 说明：代码列承担右侧与上下内边距；左侧使用 gutter 与行号分隔线拉开距离。 */
+  padding-block-start: var(--md3-code-block-padding-block-start);
+  padding-block-end: var(--md3-code-block-padding-block-end);
+  padding-inline-end: var(--md3-code-block-padding-inline);
   padding-inline-start: var(--md3-code-block-gutter);
 }
 
