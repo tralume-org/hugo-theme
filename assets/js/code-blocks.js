@@ -280,7 +280,8 @@ export const setupCodeBlocks = () => {
     const language = formatLanguage(rawLanguage);
 
     const wrapper = document.createElement('div');
-    wrapper.className = 'md3-code-block';
+    // 说明：代码块外层复用统一玻璃拟态表面与卡片阴影，避免在组件 CSS 里重复声明 border/background/backdrop-filter。
+    wrapper.className = 'md3-code-block app-glass app-glass--surface app-card';
     wrapper.setAttribute('data-md3-code-block', 'true');
     if (hasLineNumbers) {
       wrapper.classList.add('md3-code-block--with-line-numbers');

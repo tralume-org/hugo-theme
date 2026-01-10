@@ -1,6 +1,8 @@
 /* 说明：Markdown 代码块采用 MD3 风格容器，统一外观并为复制按钮预留位置，同时保持紧凑排列。 */
 .md3-code-block {
   margin: 1rem 0;
+  /* 说明：代码块圆角走全局 token；玻璃拟态表面由 .app-glass 提供，这里仅覆盖半径。 */
+  --app-glass-radius: var(--app-radius-inline);
   /* 说明：代码区内边距统一走变量，便于把 padding 从 pre 下放到行号列/代码列时复用同一套数值。 */
   /* 说明：block 轴两端允许分别设置（例如上紧下松）；默认保持一致。 */
   --md3-code-block-padding-block-start: 0rem;
@@ -11,13 +13,7 @@
   --md3-code-block-toolbar-padding-block-end: 0.3rem;
   /* 说明：行号分隔线到代码文本的间距（仅行号模式使用）；之前是未定义变量，定义默认值以确保间距稳定。 */
   --md3-code-block-gutter: 0.9rem;
-  border: 1px solid var(--app-glass-border-color);
-  border-radius: 0.75rem;
-  background-color: var(--app-glass-strong-color);
-  box-shadow: var(--md-sys-elevation-level1);
   overflow: hidden;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 /* 说明：语法高亮 token 颜色由 Chroma 主题 CSS 提供（按明暗模式切换），不在本文件内做 token 映射。
@@ -35,12 +31,9 @@
   padding-block-start: var(--md3-code-block-toolbar-padding-block-start);
   padding-block-end: var(--md3-code-block-toolbar-padding-block-end);
   padding-inline: 0.85rem;
-  background-color: var(--app-glass-elevated-color);
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-label-medium-size);
   line-height: var(--md-sys-typescale-label-medium-line-height);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 /* 说明：语言标识使用大写字母增强辨识度。 */
@@ -99,18 +92,16 @@
 /* 说明：代码区域保持独立滚动，避免长行撑破布局。 */
 .md3-code-block__body {
   position: relative;
-  background-color: var(--app-glass-elevated-color);
   overflow-x: auto;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-content pre:not([data-md3-code-processed="true"]) {
   margin: 1rem 0;
   padding: 0.9rem 1.1rem;
-  border-radius: 0.75rem;
+  border-radius: var(--app-radius-inline);
   border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-strong-color);
+  /* 说明：兜底样式使用最透明的 surface 档，避免在弱玻璃（soft）下显得过“重”。 */
+  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
   font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 0.875rem;

@@ -6,7 +6,6 @@
 .app-glass {
   /* 说明：通过 CSS 变量让组件可覆盖不同层级的底色、描边、模糊与圆角。 */
   --app-glass-bg-color: var(--app-glass-surface-color);
-  --app-glass-border-color: var(--app-glass-border-color);
   --app-glass-blur: var(--app-glass-blur-radius);
   --app-glass-radius: var(--app-radius-card, 1.5rem);
 
@@ -20,12 +19,10 @@
 /* 说明：三档亚克力表面语义，推荐与 .app-glass 搭配使用。 */
 .app-glass--surface {
   --app-glass-bg-color: var(--app-glass-surface-color);
-  --app-glass-border-color: var(--app-glass-border-color);
 }
 
 .app-glass--elevated {
   --app-glass-bg-color: var(--app-glass-elevated-color);
-  --app-glass-border-color: var(--app-glass-border-color);
 }
 
 .app-glass--strong {
