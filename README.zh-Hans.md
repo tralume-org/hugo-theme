@@ -95,6 +95,12 @@ enableRobotsTXT = true # 说明：启用 robots.txt 输出（会使用主题的 
     min = '0.146.0'
     extended = false
 
+# 说明：语法高亮需要启用 Chroma 的 class 输出，主题才能按明暗模式切换（GitHub/Monokai 等）高亮样式。
+[markup]
+  [markup.highlight]
+    lineNos = false
+    noClasses = false
+
 [params]
   description = 'Tralume：Material 3 玻璃拟态 Hugo 主题。'
   articleCardSummaryLength = 160      # 说明：列表卡片摘要长度（字符）。

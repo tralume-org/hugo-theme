@@ -20,6 +20,11 @@
   backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
+/* 说明：语法高亮 token 颜色由 Chroma 主题 CSS 提供（按明暗模式切换），不在本文件内做 token 映射。
+ * - 浅色：`assets/css/chroma/chroma-github.css`
+ * - 深色：`assets/css/chroma/chroma-monokai.css`
+ */
+
 /* 说明：工具栏展示语言标签与复制按钮，采用紧凑布局。 */
 .md3-code-block__toolbar {
   display: flex;
@@ -175,71 +180,4 @@
   padding-block-end: var(--md3-code-block-padding-block-end);
   padding-inline-end: var(--md3-code-block-padding-inline);
   padding-inline-start: var(--md3-code-block-gutter);
-}
-
-/* 说明：语法高亮颜色映射，基于 MD3 色板生成相对色。 */
-.md3-code-block .chroma {
-  color: var(--md-sys-color-on-surface);
-}
-
-.md3-code-block .chroma .c,
-.md3-code-block .chroma .cm,
-.md3-code-block .chroma .c1,
-.md3-code-block .chroma .cs {
-  color: var(--md-sys-color-on-surface-variant);
-  font-style: italic;
-}
-
-.md3-code-block .chroma .k,
-.md3-code-block .chroma .kc,
-.md3-code-block .chroma .kd,
-.md3-code-block .chroma .kn,
-.md3-code-block .chroma .kp,
-.md3-code-block .chroma .kr,
-.md3-code-block .chroma .kt {
-  color: color-mix(in srgb, var(--md-sys-color-primary) 85%, var(--md-sys-color-on-surface) 15%);
-  font-weight: 600;
-}
-
-.md3-code-block .chroma .nf,
-.md3-code-block .chroma .na,
-.md3-code-block .chroma .nc,
-.md3-code-block .chroma .nd,
-.md3-code-block .chroma .ne {
-  color: color-mix(in srgb, var(--md-sys-color-secondary) 80%, var(--md-sys-color-on-surface) 20%);
-  font-weight: 600;
-}
-
-.md3-code-block .chroma .s,
-.md3-code-block .chroma .s1,
-.md3-code-block .chroma .s2,
-.md3-code-block .chroma .sb,
-.md3-code-block .chroma .sd,
-.md3-code-block .chroma .sh,
-.md3-code-block .chroma .sx,
-.md3-code-block .chroma .sr,
-.md3-code-block .chroma .ss {
-  color: color-mix(in srgb, var(--md-sys-color-secondary-container) 75%, var(--md-sys-color-primary) 25%);
-}
-
-.md3-code-block .chroma .m,
-.md3-code-block .chroma .mb,
-.md3-code-block .chroma .mf,
-.md3-code-block .chroma .mh,
-.md3-code-block .chroma .mi,
-.md3-code-block .chroma .il {
-  color: color-mix(in srgb, var(--md-sys-color-secondary) 70%, var(--md-sys-color-primary) 30%);
-  font-weight: 600;
-}
-
-.md3-code-block .chroma .o,
-.md3-code-block .chroma .ow,
-.md3-code-block .chroma .p {
-  color: var(--md-sys-color-on-surface);
-}
-
-.md3-code-block .chroma .err {
-  color: var(--md-sys-color-error, #b3261e);
-  text-decoration: underline;
-  text-decoration-color: var(--md-sys-color-error, #b3261e);
 }

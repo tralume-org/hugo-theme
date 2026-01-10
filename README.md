@@ -95,6 +95,12 @@ enableRobotsTXT = true # Note: Enable robots.txt output (uses the theme's `layou
     min = '0.146.0'
     extended = false
 
+# Note: Chroma syntax highlighting must use class output so the theme can apply light/dark highlight styles.
+[markup]
+  [markup.highlight]
+    lineNos = false
+    noClasses = false
+
 [params]
   # Note: Site description and summary length settings.
   description = 'Tralume: Material 3 glassmorphism Hugo theme.'
