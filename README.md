@@ -153,7 +153,17 @@ Tip: to temporarily block crawlers (e.g. staging/intranet), set `params.robotsTx
 
 ## Custom Footer Items (After RSS)
 
-Add `params.footer.afterRss` as an array of items. Each item supports `text` (required) and `url` (optional). The footer renders them after the “RSS Subscribe” link, separated by `|`.
+```toml
+# Note: Append custom entries after the footer “RSS Subscribe” link.
+# Note: The renderer uses `|` as a separator (RSS Subscribe | Item 1 | Item 2 ...).
+[params.footer]
+  afterRss = [
+    # Note: Plain text entry (no link).
+    { text = "ICP Filing: ICP-12345678" },
+    # Note: Linked entry (useful for privacy policy / contact pages, etc.).
+    { text = "Privacy Policy", url = "/privacy/" },
+  ]
+```
 
 ## Article License
 
@@ -263,6 +273,7 @@ hugo --minify
 - The theme stores mode/glass/reader width in browser `localStorage`; clearing cache resets to defaults.
 - After updating the module, run `hugo mod npm pack && npm install` again to sync npm dependencies.
 - Adjust card/timeline summary length via `params.articleCardSummaryLength` and `params.articleTimelineSummaryLength` if needed.
+- If the article info card shows abnormal word count / reading time for Chinese (e.g. 0/1), ensure `hasCJKLanguage = true` is enabled in your site config.
 
 ## Configurable Options
 
