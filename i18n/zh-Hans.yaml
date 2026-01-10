@@ -375,6 +375,9 @@
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS 订阅'
 
+- id: footerRssSubscribe
+  translation: RSS 订阅
+
 - id: metaDescriptionHomeFallback
   translation: 浏览 {{ .SiteTitle }} 的最新文章与页面。
 

@@ -375,6 +375,9 @@
 - id: rssAlternateTitle
   translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'
 
+- id: footerRssSubscribe
+  translation: RSS Subscribe
+
 - id: metaDescriptionHomeFallback
   translation: Explore the latest posts and pages on {{ .SiteTitle }}.
 

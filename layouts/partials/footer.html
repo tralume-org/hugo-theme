@@ -6,6 +6,19 @@
       "Tralume" (printf `<a href="https://forgejo.alexma.top/tralume-org/hugo-theme" target="_blank" rel="noopener">Tralume</a>`)
     ) | safeHTML }}
   </small>
+  <br>
+  {{- /* 说明：输出“当前语言”的 RSS 链接；在多语言站点中每个语言都有各自的 Feed。 */ -}}
+  {{- with site.Home -}}
+    {{- with .OutputFormats.Get "RSS" -}}
+      <small>
+        <a
+          href="{{ .RelPermalink }}"
+          title="{{ i18n "rssAlternateTitle" (dict "SiteTitle" site.Title "LanguageName" site.Language.LanguageName) }}"
+          aria-label="{{ i18n "footerRssSubscribe" }}"
+        >{{ i18n "footerRssSubscribe" }}</a>
+      </small>
+    {{- end -}}
+  {{- end -}}
 </footer>
 {{ $mainJS := resources.Get "js/main.js" | js.Build (dict "target" "es2019" "format" "iife" "minify" true) }}
 <script src="{{ $mainJS.RelPermalink }}" defer></script>
