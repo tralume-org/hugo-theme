@@ -40,11 +40,7 @@ export const setupBackgroundControl = (panel, root) => {
   });
   const backgroundProviderStorageKey = 'tralume-custom-background-provider';
   const backgroundUploadProvider = createUploadBackgroundProvider({ root });
-  const pixaroaDefaultHost =
-    pixaroaHostInput instanceof HTMLInputElement
-      ? (pixaroaHostInput.getAttribute('data-default-host') || '').trim()
-      : '';
-  const pixaroaBackgroundProvider = createPixaroaBackgroundProvider({ root, defaultHost: pixaroaDefaultHost });
+  const pixaroaBackgroundProvider = createPixaroaBackgroundProvider({ root });
   let activeProvider = 'url';
 
   const readStoredProvider = () => {
@@ -358,9 +354,8 @@ export const setupBackgroundControl = (panel, root) => {
   // 说明：初始化 Pixaroa 表单：回填已保存的配置，避免每次打开都要重新输入。
   const initialPixaroaConfig = pixaroaBackgroundProvider.readStoredConfig();
   if (pixaroaHostInput instanceof HTMLInputElement) {
-    // 说明：优先使用已存储配置；若未存储则回退到模板注入的默认 host。
-    pixaroaHostInput.value =
-      initialPixaroaConfig.host || (pixaroaHostInput.getAttribute('data-default-host') || '');
+    // 说明：仅回填本地已保存的 host；不提供任何“留空回退”默认值。
+    pixaroaHostInput.value = initialPixaroaConfig.host || '';
   }
   if (pixaroaTierSelect instanceof HTMLSelectElement) {
     pixaroaTierSelect.value = initialPixaroaConfig.tier || 'auto';
@@ -612,6 +607,10 @@ export const setupBackgroundControl = (panel, root) => {
     pixaroaApplyButton.addEventListener('click', () => {
       const config = readPixaroaConfigFromInputs();
       persistPixaroaConfigFromInputs();
+      if (!config.host) {
+        setPixaroaStatus('error');
+        return;
+      }
       pixaroaApplyButton.disabled = true;
       setPixaroaStatus('loading');
 

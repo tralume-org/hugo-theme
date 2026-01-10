@@ -1,5 +1,5 @@
 // 说明：Pixaroa 背景图片 provider。
-// 作用：从 Pixaroa 的 `/api/random` 拉取随机图片，并将返回的 `imgproxy_url` 映射为 CSS 变量（--app-custom-background-*）。
+// 作用：从 Pixaroa 服务的 `api/random` 拉取随机图片，并将返回的 `imgproxy_url` 映射为 CSS 变量（--app-custom-background-*）。
 // 注意：
 // - 本模块不处理 UI（输入框/按钮/提示文案），仅负责“存储 + 组装请求 + 拉取 + 应用/清除”；
 // - `tier` 为必填参数：若用户选择 “auto”，会按当前屏幕尺寸计算；
@@ -128,18 +128,14 @@ const normalizeHostBase = (value) => {
 
 const buildPixaroaRandomEndpoint = (hostBase) => {
   const trimmed = typeof hostBase === 'string' ? hostBase.trim() : '';
-  if (trimmed) {
-    const base = normalizeHostBase(trimmed);
-    if (!base) {
-      return null;
-    }
-    return new URL('api/random', base);
+  if (!trimmed) {
+    return null;
   }
-  // 说明：默认同源请求 `/api/random`（从站点根路径开始，避免被当前页面路径影响）。
-  return new URL(
-    '/api/random',
-    typeof window !== 'undefined' ? window.location.origin : 'http://localhost',
-  );
+  const base = normalizeHostBase(trimmed);
+  if (!base) {
+    return null;
+  }
+  return new URL('api/random', base);
 };
 
 const setCssBackgroundFromUrl = (root, url) => {
