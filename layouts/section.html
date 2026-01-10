@@ -12,7 +12,8 @@
   {{/* 说明：Posts Section 使用时间线，其余 Section 保持卡片列表。 */}}
   {{ $isPosts := or (eq .Section "posts") (eq .Type "posts") }}
   {{ if $isPosts }}
-    {{ partial "article-timeline.html" (dict "Pages" .RegularPages "Context" . "Section" .Section) }}
+    {{/* 说明：/posts 列表摘要优先展示 description（若缺失则回退正文截断），与主页保持一致。 */}}
+    {{ partial "article-timeline.html" (dict "Pages" .RegularPages "Context" . "Section" .Section "PreferDescription" true) }}
   {{ else }}
     {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Section" .Section) }}
   {{ end }}

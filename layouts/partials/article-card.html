@@ -1,5 +1,10 @@
 {{/* 说明：文章卡片组件，统一输出标题、Meta 信息与摘要。 */}}
 {{- $page := . -}}
+{{- $preferDescription := false -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .Page -}}
+  {{- $preferDescription = and .PreferDescription true -}}
+{{- end -}}
 <a class="article-card app-glass app-glass--elevated app-card app-card--interactive" href="{{ $page.RelPermalink }}">
   <header class="article-card__header">
     <h2 class="article-card__title">{{ $page.LinkTitle }}</h2>
@@ -17,13 +22,20 @@
       {{- end }}
     </p>
   </header>
-  {{ with $page.Summary }}
-    {{/* 说明：为摘要添加字符级截断，确保中文内容不会撑破卡片布局。 */}}
-    {{- $maxLength := or site.Params.articleCardSummaryLength 160 -}}
-    {{- $plainSummary := . | plainify | htmlUnescape | strings.TrimSpace -}}
+  {{/* 说明：主页可优先展示 description（更可控的列表简介）；缺失时回退到 Summary/正文截断。 */}}
+  {{- $maxLength := or site.Params.articleCardSummaryLength 160 -}}
+  {{- $rawSummary := "" -}}
+  {{- if and $preferDescription $page.Params.description -}}
+    {{- $rawSummary = $page.Params.description -}}
+  {{- else -}}
+    {{/* 说明：优先使用 Hugo Summary（支持 <!--more-->）；否则回退到 Plain 正文，再做截断。 */}}
+    {{- $rawSummary = default $page.Plain $page.Summary -}}
+  {{- end -}}
+  {{- $plainSummary := $rawSummary | plainify | htmlUnescape | strings.TrimSpace -}}
+  {{- if ne $plainSummary "" -}}
     {{- $shortSummary := truncate $maxLength $plainSummary -}}
     <div class="article-card__summary">
       <p>{{ $shortSummary }}</p>
     </div>
-  {{ end }}
+  {{- end -}}
 </a>

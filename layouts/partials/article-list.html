@@ -5,6 +5,7 @@
 {{- $orientation := or .Orientation "vertical" -}}
 {{- $limit := int (or .Limit 0) -}}
 {{- $showMore := and .ShowMore (gt $limit 0) -}}
+{{- $preferDescription := and .PreferDescription true -}}
 {{- $moreURL := "" -}}
 {{- with .MoreURL }}
   {{- $moreURL = . -}}
@@ -47,7 +48,7 @@
     {{- $visible := cond $hasLimit (first $limit $sorted) $sorted -}}
     <div class="{{ delimit $listClasses " " }}">
       {{- range $visible }}
-        {{ partial "article-card.html" . }}
+        {{ partial "article-card.html" (dict "Page" . "PreferDescription" $preferDescription) }}
       {{- end }}
     </div>
     {{- if and $showMore $hasLimit (ne $moreURL "") -}}

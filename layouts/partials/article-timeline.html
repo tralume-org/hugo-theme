@@ -1,6 +1,7 @@
 {{/* 说明：文章时间线组件，按年度分组文章并提供悬停展开效果。 */}}
 {{- $context := .Context -}}
 {{- $pages := .Pages -}}
+{{- $preferDescription := and .PreferDescription true -}}
 {{- if and $pages (gt (len $pages) 0) }}
   {{- $lang := "" -}}
   {{- with $context }}
@@ -56,15 +57,22 @@
                     </time>
                   </div>
                   <h3 class="timeline-post__title">{{ $page.LinkTitle }}</h3>
-                  {{ with $page.Summary }}
-                    {{/* 说明：时间线摘要转换为纯文本并截断，避免未闭合标签导致 HTML 校验失败。 */}}
-                    {{- $maxLength := or site.Params.articleTimelineSummaryLength 160 -}}
-                    {{- $plainSummary := . | plainify | htmlUnescape | strings.TrimSpace -}}
+                  {{/* 说明：/posts 可优先展示 description（更可控的列表简介）；缺失时回退到 Summary/正文截断。 */}}
+                  {{- $maxLength := or site.Params.articleTimelineSummaryLength 160 -}}
+                  {{- $rawSummary := "" -}}
+                  {{- if and $preferDescription $page.Params.description -}}
+                    {{- $rawSummary = $page.Params.description -}}
+                  {{- else -}}
+                    {{/* 说明：优先使用 Hugo Summary（支持 <!--more-->）；否则回退到 Plain 正文，再做截断。 */}}
+                    {{- $rawSummary = default $page.Plain $page.Summary -}}
+                  {{- end -}}
+                  {{- $plainSummary := $rawSummary | plainify | htmlUnescape | strings.TrimSpace -}}
+                  {{- if ne $plainSummary "" -}}
                     {{- $shortSummary := truncate $maxLength $plainSummary -}}
                     <div class="timeline-post__summary">
                       <p>{{ $shortSummary }}</p>
                     </div>
-                  {{ end }}
+                  {{- end }}
                 </a>
               </article>
             {{- end }}

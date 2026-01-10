@@ -17,5 +17,6 @@
   {{- with $postsPage }}
     {{- $moreURL = .RelPermalink -}}
   {{- end }}
-  {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal" "Limit" $homeLimit "ShowMore" true "MoreURL" $moreURL) }}
+  {{/* 说明：主页文章卡片摘要优先展示 description（若缺失则回退正文截断），便于在列表页展示更可控的简介。 */}}
+  {{ partial "article-list.html" (dict "Pages" .Site.RegularPages "Context" . "Section" "posts" "Orientation" "horizontal" "Limit" $homeLimit "ShowMore" true "MoreURL" $moreURL "PreferDescription" true) }}
 {{ end }}
