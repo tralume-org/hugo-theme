@@ -211,14 +211,27 @@ export const setupCodeBlocks = () => {
     button.className = 'md3-code-block__copy-button';
     button.dataset.copyLabel = copyLabel;
     button.dataset.copiedLabel = copiedLabel;
-    button.textContent = copyLabel;
     button.title = copyLabel;
     button.setAttribute('aria-label', copyLabel);
+
+    // 说明：复制按钮采用“文字 + 图标”呈现，图标使用 Material Symbols（本地字体）。
+    // 注意：不要用 `innerHTML`，避免引入 XSS 面；同时保留 aria-label 保障可访问性。
+    const icon = document.createElement('span');
+    icon.className = 'material-symbols-rounded md3-code-block__copy-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = 'content_copy';
+    button.appendChild(icon);
+
+    const label = document.createElement('span');
+    label.className = 'md3-code-block__copy-label';
+    label.textContent = copyLabel;
+    button.appendChild(label);
 
     let revertTimer = 0;
     const resetState = () => {
       button.classList.remove('is-copied');
-      button.textContent = copyLabel;
+      icon.textContent = 'content_copy';
+      label.textContent = copyLabel;
       button.title = copyLabel;
       button.setAttribute('aria-label', copyLabel);
     };
@@ -230,7 +243,8 @@ export const setupCodeBlocks = () => {
         window.clearTimeout(revertTimer);
         if (success) {
           button.classList.add('is-copied');
-          button.textContent = copiedLabel;
+          icon.textContent = 'check';
+          label.textContent = copiedLabel;
           button.title = copiedLabel;
           button.setAttribute('aria-label', copiedLabel);
           revertTimer = window.setTimeout(resetState, 2000);

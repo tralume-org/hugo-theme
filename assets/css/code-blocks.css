@@ -60,28 +60,35 @@
   opacity: 0.9;
 }
 
-/* 说明：复制按钮契合 MD3 Filled Tonal 按钮风格，并保持键盘可达性。 */
+/* 说明：复制按钮采用“Text icon”风格：无胶囊（pill）外观、默认淡色，悬浮/按下变深，并保持键盘可达性。 */
 .md3-code-block__copy-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
   margin-left: auto;
-  padding: 0.35rem 0.75rem;
+  padding: 0.25rem 0.4rem;
   border: none;
-  border-radius: 999px;
-  background-color: var(--md-sys-color-secondary-container);
-  color: var(--md-sys-color-on-secondary-container);
+  /* 说明：去掉 pill，圆角统一走 token，避免写死 999px。 */
+  border-radius: var(--app-radius-inline);
+  background-color: transparent;
+  /* 说明：默认使用“淡色”文本，悬浮/按下再变深。 */
+  color: color-mix(in srgb, var(--md-sys-color-on-surface-variant) 78%, transparent);
   font-family: inherit;
   font-size: var(--md-sys-typescale-label-medium-size);
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 .md3-code-block__copy-button:hover {
-  transform: translateY(-1px);
-  background-color: color-mix(in srgb, var(--md-sys-color-secondary-container) 90%, var(--md-sys-color-primary) 10%);
+  color: var(--md-sys-color-on-surface);
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent);
+}
+
+.md3-code-block__copy-button:active {
+  color: var(--md-sys-color-on-surface);
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 16%, transparent);
 }
 
 .md3-code-block__copy-button:focus-visible {
@@ -91,8 +98,19 @@
 
 /* 说明：复制成功后短暂高亮按钮，提示用户操作完成。 */
 .md3-code-block__copy-button.is-copied {
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
+  color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 14%, transparent);
+}
+
+/* 说明：Material Symbols 图标作为“文字图标按钮”的前缀，跟随按钮颜色。 */
+.md3-code-block__copy-icon {
+  font-size: 1.1em;
+  line-height: 1;
+  opacity: 0.92;
+}
+
+.md3-code-block__copy-label {
+  line-height: 1;
 }
 
 /* 说明：代码区域保持独立滚动，避免长行撑破布局。 */
