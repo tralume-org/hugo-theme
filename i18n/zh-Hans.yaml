@@ -196,9 +196,6 @@
 - id: settingsPanelGlassHeading
   translation: 磨砂强度
 
-- id: settingsPanelGlassDescription
-  translation: 调节半透明面板的不透明度与模糊半径，兼顾背景透出与文字对比。
-
 - id: settingsPanelGlassRangeLabel
   translation: 透明度（%）
 
@@ -226,9 +223,6 @@
 - id: settingsPanelReaderHeading
   translation: 阅读器宽度
 
-- id: settingsPanelReaderDescription
-  translation: 调整单篇文章正文区的最大宽度，让大屏幕阅读时行长更舒适。
-
 - id: settingsPanelReaderRangeLabel
   translation: 阅读宽度（%）
 
@@ -247,9 +241,6 @@
 - id: settingsPanelBackgroundHeading
   translation: 背景图片
 
-- id: settingsPanelBackgroundDescription
-  translation: 支持粘贴链接、上传本地图片，或通过 Pixaroa 随机获取背景。
-
 - id: settingsPanelBackgroundProviderTabsLabel
   translation: 背景来源
 
@@ -257,7 +248,7 @@
   translation: 链接
 
 - id: settingsPanelBackgroundProviderUpload
-  translation: 上传
+  translation: 本地图片
 
 - id: settingsPanelBackgroundProviderPixaroa
   translation: Pixaroa
@@ -283,8 +274,6 @@
 - id: settingsPanelBackgroundUploadStatusSelected
   translation: 已选择：{{ .Name }}
 
-- id: settingsPanelBackgroundHint
-  translation: 为提升可读性，建议使用高分辨率、亮度适中的图片；清空后点击“应用背景”即可恢复默认底色。
 
 - id: settingsPanelBackgroundPixaroaHostLabel
   translation: Pixaroa 服务地址（Host）
@@ -292,8 +281,6 @@
 - id: settingsPanelBackgroundPixaroaHostPlaceholder
   translation: 例如 https://pixaroa.example.com/
 
-- id: settingsPanelBackgroundPixaroaHostHint
-  translation: 留空将请求当前站点同源的 /api/random；跨域访问需服务端正确配置 CORS 响应头。
 
 - id: settingsPanelBackgroundPixaroaTierLabel
   translation: 清晰度（Tier）

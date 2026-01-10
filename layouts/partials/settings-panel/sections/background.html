@@ -1,16 +1,12 @@
 {{/* 说明：自定义背景图链接输入区，允许使用任意可访问的图片 URL。 */}}
-{{/* 说明：允许通过 params 预设默认 provider 与 Pixaroa host（仅作为“首次默认值”，localStorage 优先生效）。 */}}
+{{/* 说明：允许通过 params 预设默认 provider（仅作为“首次默认值”，localStorage 优先生效）。 */}}
 {{- $defaultBackgroundProvider := "url" -}}
-{{- $pixaroaDefaultHost := "" -}}
 {{- with site.Params.theme -}}
   {{- with .defaultBackgroundProvider -}}
     {{- $candidate := lower (strings.TrimSpace .) -}}
     {{- if or (eq $candidate "url") (eq $candidate "upload") (eq $candidate "pixaroa") -}}
       {{- $defaultBackgroundProvider = $candidate -}}
     {{- end -}}
-  {{- end -}}
-  {{- with .pixaroaHost -}}
-    {{- $pixaroaDefaultHost = strings.TrimSpace . -}}
   {{- end -}}
 {{- end -}}
 <section
@@ -21,7 +17,6 @@
     <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">wallpaper</span>
     <span class="settings-panel__section-title-text">{{ i18n "settingsPanelBackgroundHeading" }}</span>
   </h3>
-  <p class="settings-panel__description">{{ i18n "settingsPanelBackgroundDescription" }}</p>
   {{/* 说明：背景 provider 切换使用 secondary tabs，便于后续扩展（URL / Upload / ...）。 */}}
   <div
     class="settings-panel__background-provider-tabs"
@@ -88,14 +83,10 @@
         type="url"
         inputmode="url"
         placeholder="{{ i18n "settingsPanelBackgroundPlaceholder" }}"
-        aria-describedby="settings-panel-background-hint"
         autocomplete="off"
         data-background-input
       />
     </div>
-    <p class="settings-panel__background-hint" id="settings-panel-background-hint">
-      {{ i18n "settingsPanelBackgroundHint" }}
-    </p>
     <div class="settings-panel__background-actions">
       <button
         type="button"
@@ -189,17 +180,11 @@
         class="settings-panel__background-input"
         type="url"
         inputmode="url"
-        value="{{ $pixaroaDefaultHost }}"
         placeholder="{{ i18n "settingsPanelBackgroundPixaroaHostPlaceholder" }}"
-        aria-describedby="settings-panel-background-pixaroa-host-hint"
         autocomplete="off"
         data-background-pixaroa-host
-        data-default-host="{{ $pixaroaDefaultHost }}"
       />
     </div>
-    <p class="settings-panel__background-hint" id="settings-panel-background-pixaroa-host-hint">
-      {{ i18n "settingsPanelBackgroundPixaroaHostHint" }}
-    </p>
 
     <label class="settings-panel__background-label" for="settings-panel-background-pixaroa-tier">
       {{ i18n "settingsPanelBackgroundPixaroaTierLabel" }}
