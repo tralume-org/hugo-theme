@@ -1,6 +1,7 @@
 {{/* 说明：自定义背景图链接输入区，允许使用任意可访问的图片 URL。 */}}
 {{/* 说明：允许通过 params 预设默认 provider（仅作为“首次默认值”，localStorage 优先生效）。 */}}
 {{- $defaultBackgroundProvider := "url" -}}
+{{- $pixaroaDefaultHost := "" -}}
 {{- with site.Params.theme -}}
   {{- with .defaultBackgroundProvider -}}
     {{- $candidate := lower (strings.TrimSpace .) -}}
@@ -8,10 +9,16 @@
       {{- $defaultBackgroundProvider = $candidate -}}
     {{- end -}}
   {{- end -}}
+  {{- with .pixaroaHost -}}
+    {{- $pixaroaDefaultHost = strings.TrimSpace . -}}
+  {{- end -}}
 {{- end -}}
 <section
   class="settings-panel__section settings-panel__section--background"
   data-background-section
+  {{- if $pixaroaDefaultHost -}}
+    {{ printf `data-pixaroa-default-host="%s"` $pixaroaDefaultHost | safeHTMLAttr }}
+  {{- end -}}
 >
   <h3 class="settings-panel__section-title">
     <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">wallpaper</span>

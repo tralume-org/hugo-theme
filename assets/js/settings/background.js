@@ -32,6 +32,14 @@ export const setupBackgroundControl = (panel, root) => {
   const pixaroaApplyButton = backgroundSection.querySelector('[data-background-pixaroa-apply]');
   const pixaroaResetButton = backgroundSection.querySelector('[data-background-pixaroa-reset]');
   const pixaroaStatus = backgroundSection.querySelector('[data-background-pixaroa-status]');
+
+  // 说明：从 Hugo 模板透传的 Pixaroa 默认 host（仅在本地未保存 host 时作为回退）。
+  // 注意：最终仍以 localStorage 的 `tralume-pixaroa-host` 为准，避免覆盖用户配置。
+  const pixaroaDefaultHost =
+    backgroundSection instanceof HTMLElement
+      ? (backgroundSection.getAttribute('data-pixaroa-default-host') || '').trim()
+      : '';
+
   const backgroundBlurStorageKey = 'tralume-custom-background-blur';
   const backgroundUrlProvider = createUrlBackgroundProvider({
     root,
@@ -40,7 +48,12 @@ export const setupBackgroundControl = (panel, root) => {
   });
   const backgroundProviderStorageKey = 'tralume-custom-background-provider';
   const backgroundUploadProvider = createUploadBackgroundProvider({ root });
-  const pixaroaBackgroundProvider = createPixaroaBackgroundProvider({ root });
+  const pixaroaBackgroundProvider = createPixaroaBackgroundProvider({
+    root,
+    // 说明：允许通过 Hugo 配置预设 Pixaroa host，用于首次访问时免输入。
+    // 注意：若用户已在本地保存过 host，则 provider 内部会优先读取本地存储值。
+    defaultHost: pixaroaDefaultHost,
+  });
   let activeProvider = 'url';
 
   const readStoredProvider = () => {
@@ -446,6 +459,47 @@ export const setupBackgroundControl = (panel, root) => {
     setActiveProvider(storedProvider, { shouldFocusTab: false });
     activeProvider = storedProvider;
   }
+
+  // 说明：首次访问（尚未在 localStorage 保存 provider）时，可按 Hugo 配置自动应用默认 provider。
+  // 注意：此逻辑只在“没有 storedProvider”的情况下触发，避免覆盖用户历史选择。
+  let didKickoffDefaultPixaroa = false;
+  if (!storedProvider && activeProvider === 'pixaroa') {
+    const config = readPixaroaConfigFromInputs();
+    // 说明：host 为空则无法请求 Pixaroa；此时保持仅切到 tab，不做自动拉取。
+    if (config.host) {
+      didKickoffDefaultPixaroa = true;
+      if (pixaroaApplyButton instanceof HTMLButtonElement) {
+        pixaroaApplyButton.disabled = true;
+      }
+      setPixaroaStatus('loading');
+
+      void pixaroaBackgroundProvider
+        .applyRandom({ config, persistValue: true })
+        .then(() => {
+          backgroundUrlProvider.deactivate();
+          backgroundUploadProvider.releaseObjectUrl();
+          // 说明：将 provider 选择也持久化，确保刷新后继续使用 Pixaroa。
+          persistProvider('pixaroa');
+          updateUrlButtons();
+          updateUploadButtons({ hasSelectedFile: false });
+          updatePixaroaButtons();
+          setPixaroaStatus('idle');
+        })
+        .catch((error) => {
+          console.warn('[Tralume] Pixaroa background fetch failed.', error);
+          setPixaroaStatus('error');
+        })
+        .finally(() => {
+          if (pixaroaApplyButton instanceof HTMLButtonElement) {
+            pixaroaApplyButton.disabled = false;
+          }
+          updatePixaroaButtons();
+        });
+    } else {
+      setPixaroaStatus('error');
+    }
+  }
+
   if (storedProvider === 'upload') {
     void applyStoredUploadIfAny().then((ok) => {
       if (!ok) {
@@ -494,7 +548,10 @@ export const setupBackgroundControl = (panel, root) => {
       setPixaroaStatus('idle');
     }
   } else {
-    applyBackgroundImage(initialBackgroundImage, false);
+    // 说明：若已按 Hugo 默认 provider 自动触发了 Pixaroa 拉取，则不要再立刻应用 URL 背景，避免闪烁与覆盖。
+    if (!didKickoffDefaultPixaroa) {
+      applyBackgroundImage(initialBackgroundImage, false);
+    }
     void backgroundUploadProvider.readStoredBlob().then((blob) => {
       setUploadStatus({ mode: blob ? 'stored' : 'empty' });
       updateUploadButtons({ hasSelectedFile: false });
