@@ -3,13 +3,13 @@
 {{- $defaultBackgroundProvider := "url" -}}
 {{- $pixaroaDefaultHost := "" -}}
 {{- with site.Params.theme -}}
-  {{- with .defaultBackgroundProvider -}}
+  {{- with .defaultbackgroundprovider -}}
     {{- $candidate := lower (strings.TrimSpace .) -}}
     {{- if or (eq $candidate "url") (eq $candidate "upload") (eq $candidate "pixaroa") -}}
       {{- $defaultBackgroundProvider = $candidate -}}
     {{- end -}}
   {{- end -}}
-  {{- with .pixaroaHost -}}
+  {{- with .pixaroahost -}}
     {{- $pixaroaDefaultHost = strings.TrimSpace . -}}
   {{- end -}}
 {{- end -}}
@@ -17,7 +17,8 @@
   class="settings-panel__section settings-panel__section--background"
   data-background-section
   {{- if $pixaroaDefaultHost -}}
-    {{ printf `data-pixaroa-default-host="%s"` $pixaroaDefaultHost | safeHTMLAttr }}
+    {{/* 说明：属性字符串前置空格，避免被 `{{- -}}` 裁剪换行后与上一属性粘连。 */}}
+    {{ printf ` data-pixaroa-default-host="%s"` $pixaroaDefaultHost | safeHTMLAttr }}
   {{- end -}}
 >
   <h3 class="settings-panel__section-title">
