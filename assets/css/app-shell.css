@@ -35,22 +35,19 @@
 
 .app-terms a {
   padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
+  /* 说明：标签胶囊复用 .app-glass 表面质感，仅覆盖圆角语义。 */
+  --app-glass-radius: var(--app-radius-pill);
   color: var(--md-sys-color-on-surface);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-footer {
   padding: 1.5rem;
   text-align: center;
+  /* 说明：页脚表面复用 .app-glass；不需要四边框与圆角，仅保留顶部分隔线。 */
+  --app-glass-radius: 0;
+  border: 0;
   border-top: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
   color: var(--md-sys-color-on-surface);
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
