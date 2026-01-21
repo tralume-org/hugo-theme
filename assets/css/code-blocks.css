@@ -5,10 +5,14 @@
   --app-glass-radius: var(--app-radius-inline);
   /* 说明：代码块不需要“卡片抬升感”，这里通过覆盖变量移除 app-card 阴影。 */
   --app-card-shadow: none;
-  /* 说明：只让代码块“更轻”：降低磨砂强度与描边存在感（不写死百分比，按全局值比例缩放）。 */
-  --app-glass-blur-radius: calc(var(--app-glass-blur-radius) * 0.85);
-  --app-glass-surface-alpha: calc(var(--app-glass-surface-alpha) * 0.82);
-  --app-glass-border-alpha: calc(var(--app-glass-border-alpha) * 0.75);
+  /* 说明：只让代码块“更轻”：适当降低模糊半径，避免过度影响性能。
+   * 注意：避免在组件内硬编码 alpha 百分比；透明度仍由全局 glass strength 控制。
+   */
+  --app-glass-blur: clamp(
+    0px,
+    calc(var(--app-glass-blur-radius) - 4px),
+    var(--app-glass-blur-radius)
+  );
   /* 说明：代码区内边距统一走变量，便于把 padding 从 pre 下放到行号列/代码列时复用同一套数值。 */
   /* 说明：block 轴两端允许分别设置（例如上紧下松）；默认保持一致。 */
   --md3-code-block-padding-block-start: 0rem;
@@ -122,14 +126,15 @@
 .app-content pre:not([data-md3-code-processed="true"]) {
   margin: 1rem 0;
   padding: 0.9rem 1.1rem;
-  /* 说明：兜底样式与增强版保持一致：同样按比例降低磨砂强度与描边存在感。 */
-  --app-glass-blur-radius: calc(var(--app-glass-blur-radius) * 0.85);
-  --app-glass-surface-alpha: calc(var(--app-glass-surface-alpha) * 0.82);
-  --app-glass-border-alpha: calc(var(--app-glass-border-alpha) * 0.75);
-  border-radius: var(--app-radius-inline);
-  border: 1px solid var(--app-glass-border-color);
-  /* 说明：兜底样式使用最透明的 surface 档，避免在弱玻璃（soft）下显得过“重”。 */
-  background-color: var(--app-glass-surface-color);
+  /* 说明：兜底样式复用 .app-glass 的通用表面实现，只在这里覆盖圆角与模糊。
+   * 注意：不要在这里重复声明 border/background/backdrop-filter，本体由 glass-surfaces.css 统一维护。
+   */
+  --app-glass-radius: var(--app-radius-inline);
+  --app-glass-blur: clamp(
+    0px,
+    calc(var(--app-glass-blur-radius) - 4px),
+    var(--app-glass-blur-radius)
+  );
   color: var(--md-sys-color-on-surface);
   font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 0.875rem;
@@ -137,8 +142,6 @@
   overflow-x: auto;
   /* 说明：兜底 pre 同样移除阴影，确保与 JS 增强后的代码块一致。 */
   box-shadow: none;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-content pre:not([data-md3-code-processed="true"]) code {
