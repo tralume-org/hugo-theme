@@ -140,12 +140,10 @@
 .friend-list__empty {
   margin: 0;
   padding: 1rem 1.25rem;
-  border-radius: var(--app-radius-section);
-  border: 1px dashed var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
+  /* 说明：空状态复用 .app-glass 表面，只覆盖圆角与虚线描边语义。 */
+  --app-glass-radius: var(--app-radius-section);
+  border-style: dashed;
   color: var(--md-sys-color-on-surface-variant);
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
