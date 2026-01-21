@@ -4,11 +4,12 @@
   position: sticky;
   top: 0;
   z-index: 240;
-  background-color: var(--app-glass-surface-color);
+  /* 说明：表面质感由 .app-glass/.app-card 提供，这里只做“顶栏语义”的必要覆盖。
+   * - 顶栏不需要四边框与圆角；仅保留底边分隔线。
+   */
+  --app-glass-radius: 0;
+  border: 0;
   border-bottom: 1px solid var(--app-glass-border-color);
-  box-shadow: var(--md-sys-elevation-level1);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
 }
 
 .app-bar {
@@ -71,12 +72,8 @@
   gap: 0.5rem;
   flex-wrap: wrap;
   padding: 0.35rem 0.5rem;
-  border-radius: 999px;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
-  box-shadow: var(--md-sys-elevation-level1);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
+  /* 说明：表面质感由 .app-glass/.app-card 提供；导航条为胶囊形圆角。 */
+  --app-glass-radius: var(--app-radius-pill);
 }
 
 .app-nav__item {
@@ -84,7 +81,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.45rem 1rem;
-  border-radius: 999px;
+  border-radius: var(--app-radius-pill);
   border: 1px solid transparent;
   background-color: transparent;
   color: var(--md-sys-color-primary);
@@ -132,12 +129,9 @@
   overflow: auto;
   overscroll-behavior: contain;
   padding: 0.65rem;
-  border-radius: 1.25rem;
-  border: 1px solid var(--app-glass-border-strong-color);
-  background-color: var(--app-glass-strong-color);
-  box-shadow: var(--md-sys-elevation-level2);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
+  /* 说明：表面质感由 .app-glass/.app-card 提供；圆角走全局 token。 */
+  --app-glass-radius: var(--app-radius-panel);
+  --app-card-shadow: var(--md-sys-elevation-level2);
   /* 说明：为动画保持元素可测量（避免 display: none 导致无法获取尺寸），用 opacity/visibility 控制显隐。 */
   display: block;
   opacity: 0;
@@ -180,7 +174,7 @@
 
 .app-nav__panel-item {
   padding: 0.55rem 0.75rem;
-  border-radius: 0.95rem;
+  border-radius: var(--app-radius-section);
   color: var(--md-sys-color-on-surface);
   text-decoration: none;
   /* 说明：确保链接文本在自身区域内居中。 */
@@ -369,9 +363,8 @@
   align-items: center;
   justify-content: flex-start;
   padding: 0.9rem 1rem;
-  border-radius: var(--app-radius-pill);
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
+  /* 说明：条目表面由 .app-glass 提供；这里仅指定为胶囊圆角。 */
+  --app-glass-radius: var(--app-radius-pill);
   color: var(--md-sys-color-on-surface);
   text-decoration: none;
   font-size: var(--md-sys-typescale-title-small-size);

@@ -1,7 +1,7 @@
 {{ $menu := .menu }}
 {{ $page := .page }}
 {{ if $menu }}
-  <nav class="app-nav" aria-label="{{ i18n "mainNavAriaLabel" }}">
+  <nav class="app-nav app-glass app-glass--surface app-card" aria-label="{{ i18n "mainNavAriaLabel" }}">
     {{ range $menu }}
       {{ $resolved := or (and .PageRef (site.GetPage .PageRef)) .Page }}
       {{ $href := "" }}

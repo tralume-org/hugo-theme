@@ -54,7 +54,7 @@
         {{ $label := or (and .Identifier (T .Identifier)) .Name }}
         {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
         {{- if not $isPagesEntry -}}
-          <a class="app-mobile-menu__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
+          <a class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
             {{ $label | safeHTML }}
           </a>
         {{- end -}}
@@ -92,7 +92,7 @@
           {{- end -}}
         {{- end -}}
         <div class="app-mobile-menu__pages">
-          <a class="app-mobile-menu__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
+          <a class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
             {{ $label | safeHTML }}
           </a>
           <div class="app-mobile-menu__pages-list">
