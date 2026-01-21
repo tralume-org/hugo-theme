@@ -55,7 +55,8 @@
         {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
         {{- if not $isPagesEntry -}}
           <a class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
-            {{ $label | safeHTML }}
+            {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
+            {{ $label | plainify }}
           </a>
         {{- end -}}
       {{ end }}
@@ -93,7 +94,8 @@
         {{- end -}}
         <div class="app-mobile-menu__pages">
           <a class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
-            {{ $label | safeHTML }}
+            {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
+            {{ $label | plainify }}
           </a>
           <div class="app-mobile-menu__pages-list">
             {{- if gt (len $pagesList) 0 -}}

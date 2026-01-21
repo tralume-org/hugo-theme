@@ -1,43 +1,65 @@
-{{/* 说明：识别 > [!NOTE]/[!WARNING] 等前缀，将引用块渲染为带标签的提醒卡片；否则回退到默认引用样式。 */}}
-{{- /* 说明：Goldmark 新增 alert 语法会把 > [!WARNING] 解析成 blockquote.typ=alert，这里通过 dump 反推类型。 */ -}}
-{{- $html := .Text | default "" -}}
-{{- $dump := printf "%+v" . -}}
-{{- $hookType := lower (replaceRE `(?s)^.*?typ:([a-z]+).*` "$1" $dump) -}}
-{{- $alertKind := lower (replaceRE `(?s)^.*?alert:{typ:([a-z]+).*` "$1" $dump) -}}
-{{- $isCallout := and (eq $hookType "alert") (ne $alertKind "") -}}
-{{- /* 说明：使用 Material Symbols 字体的连字名称映射到不同级别的提醒图标。 */ -}}
-{{- $iconNames := dict
-    "NOTE" "info"
-    "TIP" "tips_and_updates"
-    "IMPORTANT" "priority_high"
-    "WARNING" "warning"
-    "CAUTION" "warning"
-    "DANGER" "dangerous"
-  -}}
-{{- if not $isCallout -}}
-<blockquote class="markdown-quote">
-  {{ $html | safeHTML }}
-</blockquote>
-{{- else -}}
-  {{- $kind := upper $alertKind -}}
-  {{- $labelKeyMap := dict
-      "NOTE" "calloutNoteLabel"
-      "TIP" "calloutTipLabel"
-      "IMPORTANT" "calloutImportantLabel"
-      "WARNING" "calloutWarningLabel"
-      "CAUTION" "calloutCautionLabel"
-      "DANGER" "calloutDangerLabel"
+{{/* 说明：渲染 Markdown blockquote。
+  - 当识别到 > [!NOTE] 等 alert designator 时，Hugo 会提供稳定字段（.Type/.AlertType/.AlertTitle/.Text）。
+  - 这里直接使用字段判断与渲染，避免依赖 printf dump + regex（可维护性更高，也更不易随 Hugo 内部结构变动而失效）。
+*/}}
+
+{{- if eq .Type "alert" -}}
+  {{- $alertType := .AlertType | default "note" -}}
+
+  {{- /* 说明：使用 Material Symbols 字体的连字名称映射到不同级别的提醒图标。 */ -}}
+  {{- $iconNames := dict
+      "note" "info"
+      "tip" "tips_and_updates"
+      "important" "priority_high"
+      "warning" "warning"
+      "caution" "warning"
+      "danger" "dangerous"
     -}}
-  {{- $labelKey := index $labelKeyMap $kind | default "" -}}
-  {{- $label := cond (ne $labelKey "") (i18n $labelKey) "" -}}
-  {{- $iconName := index $iconNames $kind | default (index $iconNames "NOTE") -}}
-  <blockquote class="callout" data-callout-kind="{{ lower $kind }}">
+
+  {{- /* 说明：沿用现有 i18n key（calloutNoteLabel 等），避免引入新的翻译键。 */ -}}
+  {{- $labelKeyMap := dict
+      "note" "calloutNoteLabel"
+      "tip" "calloutTipLabel"
+      "important" "calloutImportantLabel"
+      "warning" "calloutWarningLabel"
+      "caution" "calloutCautionLabel"
+      "danger" "calloutDangerLabel"
+    -}}
+  {{- $labelKey := index $labelKeyMap $alertType | default "" -}}
+  {{- $fallbackLabel := cond (ne $labelKey "") (i18n $labelKey) "" -}}
+
+  {{- /* 说明：AlertTitle 来自 Markdown 的扩展语法（例如 [!WARNING]+ Title）。
+    - 文档类型为 template.HTML，但这里将其 plainify 为纯文本，避免标题成为 HTML 注入入口。
+  */ -}}
+  {{- $titleText := "" -}}
+  {{- with .AlertTitle -}}
+    {{- $titleText = . | plainify -}}
+  {{- end -}}
+  {{- if eq $titleText "" -}}
+    {{- $titleText = $fallbackLabel -}}
+  {{- end -}}
+  {{- if eq $titleText "" -}}
+    {{- /* 说明：极端情况下（未知 alert type 且无翻译/标题）回退到 title-cased 文本，避免空标题。 */ -}}
+    {{- $titleText = title $alertType -}}
+  {{- end -}}
+
+  {{- $iconName := index $iconNames $alertType | default (index $iconNames "note") -}}
+  <blockquote
+    class="callout"
+    data-callout-kind="{{ $alertType }}"
+    {{- /* 说明：AlertSign 目前不做折叠交互，仅作为未来扩展点透传到 DOM。 */ -}}
+    {{- with .AlertSign }} data-callout-sign="{{ . }}"{{ end -}}
+  >
     <p class="attention-title" dir="auto">
-      <span class="attention-icon attention-{{ lower $kind }} material-symbols-rounded" aria-hidden="true">{{ $iconName }}</span>
-      {{- if ne $label "" -}}
-        <strong class="attention-{{ lower $kind }}">{{ $label }}</strong>
+      <span class="attention-icon attention-{{ $alertType }} material-symbols-rounded" aria-hidden="true">{{ $iconName }}</span>
+      {{- if ne $titleText "" -}}
+        <strong class="attention-{{ $alertType }}">{{ $titleText }}</strong>
       {{- end -}}
     </p>
-    {{ $html | safeHTML }}
+    {{ .Text }}
+  </blockquote>
+{{- else -}}
+  <blockquote class="markdown-quote">
+    {{ .Text }}
   </blockquote>
 {{- end -}}

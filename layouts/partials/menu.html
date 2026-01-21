@@ -22,7 +22,7 @@
           {{ $href = relLangURL .URL }}
         {{ end }}
       {{ end }}
-      {{ $label := or (and .Identifier (T .Identifier)) .Name }}
+       {{ $label := or (and .Identifier (T .Identifier)) .Name }}
       {{/* 说明：Pages 导航项增强为下拉面板，列出 /pages/ 下的静态页面标题。 */}}
       {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
       {{- if $isPagesEntry -}}
@@ -41,12 +41,13 @@
             aria-controls="pages-menu-panel"
             data-pages-menu-toggle
           >
-            {{ $label | safeHTML }}
-          </button>
-        </div>
-      {{- else -}}
-        <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | safeHTML }}</a>
-      {{- end -}}
-    {{ end }}
+             {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
+             {{ $label | plainify }}
+           </button>
+         </div>
+       {{- else -}}
+        <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | plainify }}</a>
+       {{- end -}}
+     {{ end }}
   </nav>
 {{ end }}
