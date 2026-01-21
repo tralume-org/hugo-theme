@@ -11,7 +11,7 @@
   {{- if and $src $websiteId $blockNotice }}
     {{/* 说明：Umami 拦截检测提示条，占位元素默认隐藏，待 JS 判定后再显式展示。 */}}
     <div
-      class="umami-block-notice"
+      class="umami-block-notice app-glass app-glass--strong app-card"
       data-component="umami-block-notice"
       role="alert"
       aria-live="polite"
@@ -21,14 +21,14 @@
       <div class="umami-block-notice__actions">
         <button
           type="button"
-          class="umami-block-notice__button umami-block-notice__button--primary"
+          class="umami-block-notice__button app-glass app-glass--elevated umami-block-notice__button--primary"
           data-umami-action="dismiss"
         >
           {{ i18n "umamiBlockedIgnore" }}
         </button>
         <button
           type="button"
-          class="umami-block-notice__button"
+          class="umami-block-notice__button app-glass app-glass--elevated"
           data-umami-action="more"
         >
           {{ i18n "umamiBlockedMore" }}
@@ -47,7 +47,7 @@
         aria-hidden="true"
       ></div>
       <div
-        class="umami-block-dialog__panel"
+        class="umami-block-dialog__panel app-glass app-glass--elevated app-card"
         role="dialog"
         aria-modal="true"
         aria-label="{{ i18n "umamiBlockedNotice" }}"
@@ -88,7 +88,7 @@
         </div>
         <button
           type="button"
-          class="umami-block-dialog__close"
+          class="umami-block-dialog__close app-glass app-glass--elevated"
           data-umami-dialog-action="close"
         >
           {{ i18n "umamiBlockedClose" }}
@@ -97,4 +97,3 @@
     </div>
   {{- end }}
 {{- end }}
-

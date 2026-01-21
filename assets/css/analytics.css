@@ -5,17 +5,14 @@
   width: fit-content;
   max-width: min(36rem, calc(100% - 1.5rem));
   padding: 1rem 1.25rem;
-  border-radius: 1rem;
-  border: 1px solid var(--app-glass-border-strong-color);
-  background-color: var(--app-glass-strong-color);
+  /* 说明：提示条表面复用 .app-glass/.app-card；这里仅覆盖圆角与阴影层级。 */
+  --app-glass-radius: var(--app-radius-section);
+  --app-card-shadow: var(--md-sys-elevation-level3);
   color: var(--md-sys-color-on-surface);
-  box-shadow: var(--md-sys-elevation-level3);
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 0.75rem;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
   opacity: 0;
   visibility: hidden;
   transform: none;
@@ -46,9 +43,8 @@
 
 .umami-block-notice__button {
   padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-elevated-color);
+  /* 说明：按钮表面复用 .app-glass；这里仅覆盖圆角语义。 */
+  --app-glass-radius: var(--app-radius-pill);
   color: var(--md-sys-color-on-surface);
   font-size: var(--md-sys-typescale-label-large-size);
   line-height: var(--md-sys-typescale-label-large-line-height);
@@ -111,12 +107,9 @@
   min-width: min(32rem, 92vw);
   min-height: 10rem;
   padding: 1.5rem;
-  border-radius: 1.25rem;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-elevated-color);
-  box-shadow: var(--md-sys-elevation-level4);
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
+  /* 说明：弹窗面板表面复用 .app-glass/.app-card；这里仅覆盖圆角与阴影层级。 */
+  --app-glass-radius: var(--app-radius-panel);
+  --app-card-shadow: var(--md-sys-elevation-level4);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -160,9 +153,8 @@
   margin-top: auto;
   align-self: center;
   padding: 0.65rem 1.4rem;
-  border-radius: 999px;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-elevated-color);
+  /* 说明：按钮表面复用 .app-glass；这里仅覆盖圆角语义。 */
+  --app-glass-radius: var(--app-radius-pill);
   color: var(--md-sys-color-on-surface);
   font-size: var(--md-sys-typescale-label-large-size);
   line-height: var(--md-sys-typescale-label-large-line-height);
