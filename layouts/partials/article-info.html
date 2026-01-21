@@ -5,7 +5,7 @@
 <section class="article__info article__surface app-glass app-glass--surface app-card" data-article-info aria-label="{{ i18n "articleInfoAriaLabel" }}">
   <div class="article-info-card">
     <p class="article-info-card__heading">{{ i18n "articleInfoHeading" }}</p>
-    {{/* 说明：许可证按“页面 → 站点 → 默认”优先级解析并输出描述文案。 */}}
+    {{/* 说明：许可证按“页面（.Params.license）→ 站点（params.contentLicense）→ arr”优先级解析并输出描述文案。 */}}
     {{- $knownLicenses := slice "cc-by-4.0" "cc-by-sa-4.0" "cc-by-nd-4.0" "cc-by-nc-4.0" "cc-by-nc-sa-4.0" "cc-by-nc-nd-4.0" "cc0-1.0" "arr" -}}
     {{/* 说明：CC 许可证到官网说明页的映射，ARR 不提供跳转。 */}}
     {{- $licenseUrlMap := dict
@@ -24,11 +24,6 @@
     {{- $siteLicense := "" -}}
     {{- with .Site.Params.contentLicense -}}
       {{- $siteLicense = trim . " \t\r\n" -}}
-    {{- end -}}
-    {{- if not $siteLicense -}}
-      {{- with .Site.Params.license -}}
-        {{- $siteLicense = trim . " \t\r\n" -}}
-      {{- end -}}
     {{- end -}}
     {{- $fallbackKey := cond (ne $siteLicense "") $siteLicense "arr" -}}
     {{- $licenseKey := default $fallbackKey $pageLicense -}}

@@ -155,7 +155,7 @@ enableRobotsTXT = true # 说明：启用 robots.txt 输出（会使用主题的 
 
 ## 文章许可证配置
 
-- 每篇文章可在 Front Matter 声明 `license`；站点默认可在 `params.contentLicense`（兼容 `params.license`）设置。
+- 每篇文章可在 Front Matter 声明 `license`；站点默认可在 `params.contentLicense` 设置。
 - 支持的 key：`cc-by-4.0`、`cc-by-sa-4.0`、`cc-by-nd-4.0`、`cc-by-nc-4.0`、`cc-by-nc-sa-4.0`、`cc-by-nc-nd-4.0`、`cc0-1.0`、`arr`（保留所有权利）。
 - CC 许可证会自动跳转到 Creative Commons 官网对应页面；未知或缺失值回退为 ARR 的完整说明文案。
 

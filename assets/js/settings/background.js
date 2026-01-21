@@ -99,43 +99,6 @@ export const setupBackgroundControl = (panel, root) => {
     });
   };
 
-  // 说明：壁纸智能取色的默认调色板，确保亮/暗模式拥有安全回退。
-  const wallpaperColorFallback = {
-    lightPrimary: '#1f2329',
-    lightOnPrimary: '#f7f8fb',
-    lightPrimaryContainer: '#f6f8fc',
-    lightOnPrimaryContainer: '#1c2026',
-    darkPrimary: '#dfe3ea',
-    darkOnPrimary: '#101215',
-    darkPrimaryContainer: '#2c3038',
-    darkOnPrimaryContainer: '#e7eaf2',
-  };
-
-  // 说明：加载时立即写入默认色板，避免历史缓存影响。
-  const applyWallpaperPalette = () => {
-    root.style.setProperty('--app-dynamic-primary-light', wallpaperColorFallback.lightPrimary);
-    root.style.setProperty('--app-dynamic-on-primary-light', wallpaperColorFallback.lightOnPrimary);
-    root.style.setProperty(
-      '--app-dynamic-primary-container-light',
-      wallpaperColorFallback.lightPrimaryContainer,
-    );
-    root.style.setProperty(
-      '--app-dynamic-on-primary-container-light',
-      wallpaperColorFallback.lightOnPrimaryContainer,
-    );
-    root.style.setProperty('--app-dynamic-primary-dark', wallpaperColorFallback.darkPrimary);
-    root.style.setProperty('--app-dynamic-on-primary-dark', wallpaperColorFallback.darkOnPrimary);
-    root.style.setProperty(
-      '--app-dynamic-primary-container-dark',
-      wallpaperColorFallback.darkPrimaryContainer,
-    );
-    root.style.setProperty(
-      '--app-dynamic-on-primary-container-dark',
-      wallpaperColorFallback.darkOnPrimaryContainer,
-    );
-  };
-
-  applyWallpaperPalette();
 
   const readPixaroaConfigFromInputs = () => {
     const host =

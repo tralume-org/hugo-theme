@@ -167,7 +167,7 @@ Tip: to temporarily block crawlers (e.g. staging/intranet), set `params.robotsTx
 
 ## Article License
 
-- Set per-article `license` in front matter; set a site default via `params.contentLicense` (falls back to `params.license`).
+- Set per-article `license` in front matter; set a site default via `params.contentLicense`.
 - Supported keys: `cc-by-4.0`, `cc-by-sa-4.0`, `cc-by-nd-4.0`, `cc-by-nc-4.0`, `cc-by-nc-sa-4.0`, `cc-by-nc-nd-4.0`, `cc0-1.0`, `arr` (all rights reserved).
 - CC licenses link to the official Creative Commons page automatically; unknown or missing values fall back to the ARR full description.
 
