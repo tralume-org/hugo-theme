@@ -40,3 +40,7 @@ out/
 content/
 data/
 .hugo_build.lock
+
+# Dev
+public_test/
+todo.md

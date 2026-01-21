@@ -6,11 +6,10 @@ Modern Material Design 3 + acrylic glassmorphism Hugo theme with built-in multil
 
 ## Quick Start
 
-1. Prepare Hugo ≥ 0.146.0 (no extended required) plus Node 18+ and npm.
+1. Prepare Hugo ≥ 0.146.0 (no extended required).
 2. Initialize Hugo Modules at your site root and pull the theme.
-3. Generate the npm package manifest and install dependencies (the theme only depends on `@material/web`).
-4. Write the base config (languages, menu, theme parameters).
-5. Create content and data files, then run `hugo server` to preview.
+3. Write the base config (languages, menu, theme parameters).
+4. Create content and data files, then run `hugo server` to preview.
 
 ## Install & Initialize
 
@@ -19,9 +18,7 @@ Modern Material Design 3 + acrylic glassmorphism Hugo theme with built-in multil
 hugo mod init example.com/blog
 hugo mod get forgejo.alexma.top/tralume-org/hugo-theme
 
-# Note: Generate package.json from module dependencies (package.hugo.json) and install npm deps.
-hugo mod npm pack
-npm install
+
 ```
 
 If you prefer Git submodules instead of Hugo Modules:
@@ -30,9 +27,7 @@ If you prefer Git submodules instead of Hugo Modules:
 # Note: Pull the theme via Git submodule for setups not using Hugo Modules.
 git submodule add https://forgejo.alexma.top/tralume-org/hugo-theme.git themes/tralume
 
-# Note: Enter the theme directory and install npm dependencies (no hugo mod npm pack needed in submodule mode).
-cd themes/tralume
-npm install
+
 ```
 
 ## Base Config Example (`config/_default/hugo.toml`)
@@ -271,7 +266,7 @@ hugo --minify
 
 - When adding template text, update both `i18n/en-US.yaml` and `i18n/zh-Hans.yaml` to avoid missing translations.
 - The theme stores mode/glass/reader width in browser `localStorage`; clearing cache resets to defaults.
-- After updating the module, run `hugo mod npm pack && npm install` again to sync npm dependencies.
+- After updating the module, restart `hugo server` so Hugo reloads module changes.
 - Adjust card/timeline summary length via `params.articleCardSummaryLength` and `params.articleTimelineSummaryLength` if needed.
 - If the article info card shows abnormal word count / reading time for Chinese (e.g. 0/1), ensure `hasCJKLanguage = true` is enabled in your site config.
 

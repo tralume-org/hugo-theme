@@ -27,16 +27,7 @@ jobs:
           hugo mod tidy
           hugo mod verify
 
-      - name: Generate npm manifest from Hugo modules
-        run: hugo mod npm pack
 
-      - name: Install npm dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
 
       - name: Build site
         run: hugo --minify -d public

@@ -156,21 +156,6 @@ a:focus-visible {
   text-decoration: none;
 }
 
-md-filled-button,
-md-outlined-text-field {
-  --md-focus-ring-color: var(--md-sys-color-primary);
-}
-
-md-filled-button {
-  align-self: flex-start;
-  margin-top: 1rem;
-}
-
-md-outlined-text-field {
-  width: min(100%, 24rem);
-  margin-top: 0.5rem;
-}
-
 /* 说明：统一使用单一亚克力色板，依赖系统/手动模式切换明暗状态。 */
 :root {
   color-scheme: light;

@@ -103,7 +103,6 @@
   {{- $main = $main | resources.Minify | resources.Fingerprint "sha256" -}}
   {{- $settingsPanel = $settingsPanel | resources.Minify | resources.Fingerprint "sha256" -}}
 {{- end -}}
-{{ $material := resources.Get "js/material.js" | js.Build (dict "target" "es2019" "minify" true) }}
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
 <link rel="stylesheet" href="{{ $main.RelPermalink }}" {{ with $main.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
 <link rel="stylesheet" href="{{ $settingsPanel.RelPermalink }}" {{ with $settingsPanel.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
@@ -117,5 +116,4 @@
     {{- end }}
   {{- end }}
 {{- end }}
-<script type="module" src="{{ $material.RelPermalink }}"></script>
 {{ partial "analytics.html" . }}

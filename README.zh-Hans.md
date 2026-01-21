@@ -6,11 +6,10 @@
 
 ## 快速上手
 
-1. 准备 Hugo ≥ 0.146.0（无需 extended）与 Node 18+、npm。
+1. 准备 Hugo ≥ 0.146.0（无需 extended）。
 2. 在站点根目录初始化 Hugo Modules 并拉取主题。
-3. 生成 npm 包清单并安装依赖（本主题仅依赖 `@material/web`）。
-4. 写入基础配置（语言、菜单、主题参数）。
-5. 创建内容与数据文件，运行 `hugo server` 预览。
+3. 写入基础配置（语言、菜单、主题参数）。
+4. 创建内容与数据文件，运行 `hugo server` 预览。
 
 ## 安装与初始化
 
@@ -19,9 +18,7 @@
 hugo mod init example.com/blog
 hugo mod get forgejo.alexma.top/tralume-org/hugo-theme
 
-# 说明：根据模块依赖生成 package.json（源于 package.hugo.json），然后安装 npm 依赖。
-hugo mod npm pack
-npm install
+
 ```
 
 如需使用 Git 子模块，也可在站点根目录执行：
@@ -30,9 +27,7 @@ npm install
 # 说明：以子模块方式拉取主题代码，适合不使用 Hugo Modules 的场景。
 git submodule add https://forgejo.alexma.top/tralume-org/hugo-theme.git themes/tralume
 
-# 说明：进入站点根目录，同样执行 npm 依赖安装（子模块场景无需 hugo mod npm pack）。
-cd themes/tralume
-npm install
+
 ```
 
 ## 基础配置示例（`config/_default/hugo.toml`）
@@ -257,7 +252,7 @@ hugo --minify
 
 - 新增模板文案请同步更新 `i18n/en-US.yaml` 与 `i18n/zh-Hans.yaml`，避免缺失翻译。
 - 主题使用浏览器 `localStorage` 记录模式/玻璃/阅读宽度，清理缓存可重置到默认值。
-- 每次更新模块后建议重新执行 `hugo mod npm pack && npm install`，确保本地 npm 依赖与主题同步。
+- 每次更新模块后建议重启 `hugo server`，确保 Hugo 重新加载主题模块内容。
 - 想调整卡片/时间线摘要长度，可通过 `params.articleCardSummaryLength` 与 `params.articleTimelineSummaryLength` 覆盖默认值。
 - 若文章信息卡片“字数”或“预计阅读时间”对中文显示为 0/1 等异常值，请确认已在站点配置中启用 `hasCJKLanguage = true`。
 
