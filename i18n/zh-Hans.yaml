@@ -325,7 +325,7 @@
   translation: 图像格式
 
 - id: settingsPanelBackgroundPixaroaFormatAuto
-  translation: 自动（按浏览器支持/Accept）
+  translation: 自动（按浏览器支持/测试图）
 
 - id: settingsPanelBackgroundPixaroaFormatJxl
   translation: JPEG XL（jxl）

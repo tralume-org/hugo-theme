@@ -325,7 +325,7 @@
   translation: Image format
 
 - id: settingsPanelBackgroundPixaroaFormatAuto
-  translation: Auto (via Accept)
+  translation: Auto (via data URI test)
 
 - id: settingsPanelBackgroundPixaroaFormatJxl
   translation: JPEG XL (jxl)

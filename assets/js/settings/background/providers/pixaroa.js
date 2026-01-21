@@ -4,7 +4,7 @@
 // - 本模块不处理 UI（输入框/按钮/提示文案），仅负责“存储 + 组装请求 + 拉取 + 应用/清除”；
 // - `tier` 为必填参数：若用户选择 “auto”，会按当前屏幕尺寸计算；
 // - `orientation` 选择 “auto” 时，会按视口宽高比推断横/竖/方；
-// - `format` 选择 “auto” 时，会根据浏览器支持的图片格式组装 `Accept`，让服务端做内容协商。
+// - `format` 选择 “auto” 时，会用 data URI 测试图片探测浏览器支持的格式，并把最终格式写进 URL 参数。
 
 const createStorageAccessor = (storage) => ({
   read: (key) => {
@@ -149,10 +149,18 @@ const clearCssBackground = (root) => {
   root.style.setProperty('--app-custom-background-opacity', '0');
 };
 
-// 说明：检测浏览器是否支持某个图片 MIME（用于构造 `Accept`，避免服务端返回浏览器无法解码的格式）。
+// 说明：探测浏览器是否支持某个图片 MIME（用于选择 Pixaroa 的 `format` 参数）。
 // 注意：此检测依赖 data URI 的解码能力，结果会缓存到内存中。
 const createImageSupportDetector = () => {
   const cache = new Map();
+
+  // 说明：用于探测解码能力的“最小测试图片”。
+  // 注意：请保持为 data URI，避免额外网络请求引入 CORS/缓存等不确定因素。
+  const testImages = {
+    webp: 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==',
+    avif: 'data:image/avif;base64,AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAWptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAALGlsb2MAAAAARAAAAgABAAAAAQAAAY4AAAAUAAIAAAABAAABjgAAABQAAABCaWluZgAAAAAAAgAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAGmluZmUCAAAAAAIAAGF2MDFBbHBoYQAAAAAaaXJlZgAAAAAAAAAOYXV4bAACAAEAAQAAAKdpcHJwAAAAgWlwY28AAAAUaXNwZQAAAAAAAAABAAAAAQAAAA5waXhpAAAAAAEIAAAADGF2MUOBABwAAAAAE2NvbHJuY2x4AAEAAgAGgAAAADhhdXhDAAAAAHVybjptcGVnOm1wZWdCOmNpY3A6c3lzdGVtczphdXhpbGlhcnk6YWxwaGEAAAAAHmlwbWEAAAAAAAAAAgABBAECgwQAAgQBAoMFAAAAHG1kYXQSAAoEGAAGFTIKF4AkkQABdVRSoA==',
+    jxl: 'data:image/jxl;base64,/woAEAwMBgCKGwEIEBAAGABLGIsVggE=',
+  };
 
   const testImage = (dataUrl) =>
     new Promise((resolve) => {
@@ -174,18 +182,14 @@ const createImageSupportDetector = () => {
     let promise;
     // 说明：只检测 auto 可能用到的格式（jxl/avif/webp）；jpeg/png 默认认为可用。
     if (mime === 'image/webp') {
-      // 说明：1x1 WebP（来自常见 feature-detect 片段），用于判断浏览器解码能力。
-      promise = testImage(
-        'data:image/webp;base64,UklGRiIAAABXRUJQVlA4TAYAAAAvAAAAAAfQ//73v/+BiOh/AAA=',
-      );
+      // 说明：使用最小 WebP 测试图探测解码能力。
+      promise = testImage(testImages.webp);
     } else if (mime === 'image/avif') {
-      // 说明：1x1 AVIF（来自常见 feature-detect 片段），用于判断浏览器解码能力。
-      promise = testImage(
-        'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAG1pZjFhdmlmAAAAIG1ldGEAAAAAaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAAAgAAAAaaW5mZQAAAAAAAQAAABwAAAABAAEAAAAeAAAAFWlwcnAAAAAqaXBjbwAAABRpcG1hAAAAAAEAAQAAAAEAAAABAAAAAQAAAAEAAAAAAAAAAAAAAABPcGl4aQAAAAADCAgIAAAAFGlzbHAAAAABAAAAAQAAABJpcGNvAAAAFGlwY28AAAAADGlwbWEAAAAAAAEAAQAAAAEAAAABAAAAAQAAAAEAAAAAAAAAAAAAAABPcGl4aQAAAAADCAgIAAAAFGlzbHAAAAABAAAAAQAAABRpcGNvAAAADG1kYXQAAAAA',
-      );
+      // 说明：使用最小 AVIF 测试图探测解码能力。
+      promise = testImage(testImages.avif);
     } else if (mime === 'image/jxl') {
-      // 说明：JXL 在多数浏览器尚未默认支持；此处直接返回 false，避免误发 `Accept: image/jxl`。
-      promise = Promise.resolve(false);
+      // 说明：JXL 在多数浏览器尚未默认支持；此处用测试图探测，失败则自动回退。
+      promise = testImage(testImages.jxl);
     } else {
       promise = Promise.resolve(false);
     }
@@ -197,24 +201,19 @@ const createImageSupportDetector = () => {
   return { detect };
 };
 
-const buildAcceptHeader = async ({ detector }) => {
-  const accepts = [];
-
-  // 说明：协商顺序按文档：jxl → avif → webp → jpeg → png。
-  // 注意：仅在浏览器支持时才加入对应类型，避免拿到无法解码的图片 URL。
+// 说明：当用户选择 `format=auto` 时，按优先级探测并返回 Pixaroa 的 format。
+// 注意：JPEG/PNG 视为浏览器必备能力，因此无需探测；仅探测 jxl/avif/webp。
+const resolveAutoFormat = async ({ detector }) => {
   if (await detector.detect('image/jxl')) {
-    accepts.push('image/jxl');
+    return 'jxl';
   }
   if (await detector.detect('image/avif')) {
-    accepts.push('image/avif');
+    return 'avif';
   }
   if (await detector.detect('image/webp')) {
-    accepts.push('image/webp');
+    return 'webp';
   }
-  accepts.push('image/jpeg');
-  accepts.push('image/png');
-
-  return accepts.join(', ');
+  return 'jpeg';
 };
 
 export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '' } = {}) => {
@@ -319,15 +318,17 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
     const resolvedTier = normalizeTierLevel(tier) ?? resolveAutoTierLevel();
     const resolvedOrientation = normalizeOrientation(orientation) ?? resolveAutoOrientation();
     const resolvedFormat = normalizeFormat(format);
+    const resolvedAutoFormat = resolvedFormat ? null : await resolveAutoFormat({ detector });
+    const finalFormat = resolvedFormat || resolvedAutoFormat;
 
     endpoint.searchParams.set('tier', String(resolvedTier));
     endpoint.searchParams.set('limit', '1');
     if (resolvedOrientation) {
       endpoint.searchParams.set('orientation', resolvedOrientation);
     }
-    if (resolvedFormat) {
-      endpoint.searchParams.set('format', resolvedFormat);
-    }
+    // 说明：无论用户显式选择某格式，还是选择 auto，我们都把最终 format 写入 URL，
+    // 以避免依赖请求头内容协商。
+    endpoint.searchParams.set('format', finalFormat);
 
     if (inflightController) {
       try {
@@ -338,14 +339,9 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
     }
 
     inflightController = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    const headers = {};
-    if (!resolvedFormat) {
-      headers.Accept = await buildAcceptHeader({ detector });
-    }
 
     const response = await fetch(endpoint.toString(), {
       method: 'GET',
-      headers,
       cache: 'no-store',
       signal: inflightController ? inflightController.signal : undefined,
     });
