@@ -62,6 +62,7 @@
   })();
 </script>
 {{ $tokens := resources.Get "css/md3-tokens.css" }}
+{{/* 说明：构建 settings-panel.css（独立 bundle），生产环境压缩 + 指纹化以获得更好的缓存效果。 */}}
 {{ $settingsPanel := slice
   (resources.Get "css/settings/panel-shell.css")
   (resources.Get "css/settings/theme-mode.css")
@@ -70,6 +71,8 @@
   (resources.Get "css/settings/background.css")
   | resources.Concat "css/settings-panel.css"
 }}
+
+{{/* 说明：构建 main.css（站点主样式），避免将 settings-panel.css 内联进来，减少重复内容与无意义的缓存失效。 */}}
 	{{ $main := slice
 	  (resources.Get "css/fonts/material-symbols-rounded.css")
 	  (resources.Get "css/fonts/devicon.css")
@@ -87,7 +90,6 @@
 	  (resources.Get "css/content-blocks/article-card.css")
 	  (resources.Get "css/content-blocks/page-intro-card.css")
 	  (resources.Get "css/content-blocks/friends.css")
-	  $settingsPanel
 	  (resources.Get "css/analytics.css")
 	  (resources.Get "css/icons/devicon.css")
 	  (resources.Get "css/chroma/chroma-github.css")
@@ -95,9 +97,16 @@
 	  (resources.Get "css/code-blocks.css")
 	  | resources.Concat "css/main.css"
 	}}
+
+{{/* 说明：仅在生产环境做压缩与指纹化，开发模式保留可读 URL 与更快构建。 */}}
+{{- if hugo.IsProduction -}}
+  {{- $main = $main | resources.Minify | resources.Fingerprint "sha256" -}}
+  {{- $settingsPanel = $settingsPanel | resources.Minify | resources.Fingerprint "sha256" -}}
+{{- end -}}
 {{ $material := resources.Get "js/material.js" | js.Build (dict "target" "es2019" "minify" true) }}
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
-<link rel="stylesheet" href="{{ $main.RelPermalink }}">
+<link rel="stylesheet" href="{{ $main.RelPermalink }}" {{ with $main.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
+<link rel="stylesheet" href="{{ $settingsPanel.RelPermalink }}" {{ with $settingsPanel.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
 {{- /* RSS 订阅入口：为所有已配置语言输出对应的 Feed 地址，便于阅读器区分语言。 */ -}}
 {{- $home := site.Home -}}
 {{- if $home }}
