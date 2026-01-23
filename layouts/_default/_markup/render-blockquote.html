@@ -51,7 +51,7 @@
     {{- with .AlertSign }} data-callout-sign="{{ . }}"{{ end -}}
   >
     <p class="attention-title" dir="auto">
-      <span class="attention-icon attention-{{ $alertType }} material-symbols-rounded" aria-hidden="true">{{ $iconName }}</span>
+      {{ partial "icons/icon.html" (dict "name" $iconName "class" (printf "attention-icon attention-%s" $alertType)) }}
       {{- if ne $titleText "" -}}
         <strong class="attention-{{ $alertType }}">{{ $titleText }}</strong>
       {{- end -}}

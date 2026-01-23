@@ -1,0 +1,18 @@
+{{/* 说明：渲染单个 SVG sprite 图标。
+  - 用法：{{ partial "icons/icon.html" (dict "name" "settings" "class" "some-class") }}
+  - 输出：<svg class="app-icon ..."><use href="#app-icon-..." /></svg>
+  - 注意：默认作为装饰元素（aria-hidden），语义由外层按钮/标题承担。
+*/}}
+
+{{- $name := default "" .name -}}
+{{- $extraClass := default "" .class -}}
+{{- $classAttr := "app-icon" -}}
+{{- if ne $extraClass "" -}}
+  {{- $classAttr = printf "%s %s" $classAttr $extraClass -}}
+{{- end -}}
+
+{{- if ne $name "" -}}
+  <svg class="{{ $classAttr }}" aria-hidden="true" focusable="false">
+    <use href="#app-icon-{{ $name }}" xlink:href="#app-icon-{{ $name }}"></use>
+  </svg>
+{{- end -}}

@@ -26,7 +26,7 @@
         aria-label="{{ i18n "mobileMenuCloseLabel" }}"
         data-mobile-menu-close
       >
-        <span class="material-symbols-rounded" aria-hidden="true">close</span>
+        {{ partial "icons/icon.html" (dict "name" "close") }}
       </button>
     </header>
     <nav class="app-mobile-menu__nav" aria-label="{{ i18n "mainNavAriaLabel" }}">

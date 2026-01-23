@@ -12,7 +12,7 @@
       <circle class="progress-indicator__track" cx="18" cy="18" r="16"></circle>
       <circle class="progress-indicator__meter" cx="18" cy="18" r="16" data-article-progress-floating-meter></circle>
     </svg>
-    <span class="progress-indicator__icon material-symbols-rounded" aria-hidden="true">keyboard_double_arrow_up</span>
+    {{ partial "icons/icon.html" (dict "name" "keyboard_double_arrow_up" "class" "progress-indicator__icon") }}
   </span>
   <span class="progress-indicator__label" data-article-progress-floating-label>0%</span>
 </button>

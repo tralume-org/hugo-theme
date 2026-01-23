@@ -8,6 +8,32 @@ export const setupCodeBlocks = () => {
   const copyLabel = container.getAttribute('data-code-copy-label') || 'Copy code';
   const copiedLabel = container.getAttribute('data-code-copied-label') || 'Copied';
 
+  // 说明：SVG sprite 图标命名空间与构建函数。
+  // 作用：替代字体图标（Material Symbols），避免基线/度量导致的“看起来不居中”。
+  // 注意：图标 `<symbol>` 由 `layouts/partials/icons/sprite.html` 注入到页面中。
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const XLINK_NS = 'http://www.w3.org/1999/xlink';
+
+  const setUseHref = (useEl, href) => {
+    if (!(useEl instanceof SVGElement)) {
+      return;
+    }
+    useEl.setAttribute('href', href);
+    useEl.setAttributeNS(XLINK_NS, 'xlink:href', href);
+  };
+
+  const createAppIcon = (name, className) => {
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', className ? `app-icon ${className}` : 'app-icon');
+
+    const use = document.createElementNS(SVG_NS, 'use');
+    setUseHref(use, `#app-icon-${name}`);
+    svg.appendChild(use);
+    return { svg, use };
+  };
+
   // 说明：计算代码的“可见行数”，用于决定是否展示行号（<= 3 行不显示，避免噪音）。
   // 注意：仅移除末尾单个换行符（若存在），避免把 Hugo/Chroma 常见的尾随换行当作额外一行。
   const countCodeLines = (text) => {
@@ -214,12 +240,9 @@ export const setupCodeBlocks = () => {
     button.title = copyLabel;
     button.setAttribute('aria-label', copyLabel);
 
-    // 说明：复制按钮采用“文字 + 图标”呈现，图标使用 Material Symbols（本地字体）。
+    // 说明：复制按钮采用“文字 + 图标”呈现，图标使用 SVG sprite（更稳定的居中与跨字体一致性）。
     // 注意：不要用 `innerHTML`，避免引入 XSS 面；同时保留 aria-label 保障可访问性。
-    const icon = document.createElement('span');
-    icon.className = 'material-symbols-rounded md3-code-block__copy-icon';
-    icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = 'content_copy';
+    const { svg: icon, use: iconUse } = createAppIcon('content_copy', 'md3-code-block__copy-icon');
     button.appendChild(icon);
 
     const label = document.createElement('span');
@@ -230,7 +253,7 @@ export const setupCodeBlocks = () => {
     let revertTimer = 0;
     const resetState = () => {
       button.classList.remove('is-copied');
-      icon.textContent = 'content_copy';
+      setUseHref(iconUse, '#app-icon-content_copy');
       label.textContent = copyLabel;
       button.title = copyLabel;
       button.setAttribute('aria-label', copyLabel);
@@ -243,7 +266,7 @@ export const setupCodeBlocks = () => {
         window.clearTimeout(revertTimer);
         if (success) {
           button.classList.add('is-copied');
-          icon.textContent = 'check';
+          setUseHref(iconUse, '#app-icon-check');
           label.textContent = copiedLabel;
           button.title = copiedLabel;
           button.setAttribute('aria-label', copiedLabel);
