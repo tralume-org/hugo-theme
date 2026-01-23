@@ -74,7 +74,6 @@
 
 {{/* 说明：构建 main.css（站点主样式），避免将 settings-panel.css 内联进来，减少重复内容与无意义的缓存失效。 */}}
 	{{ $main := slice
-	  (resources.Get "css/fonts/devicon.css")
 	  (resources.Get "css/icons/app-icons.css")
 	  (resources.Get "css/base.css")
 	  (resources.Get "css/glass-surfaces.css")
@@ -91,7 +90,6 @@
 	  (resources.Get "css/content-blocks/page-intro-card.css")
 	  (resources.Get "css/content-blocks/friends.css")
 	  (resources.Get "css/analytics.css")
-	  (resources.Get "css/icons/devicon.css")
 	  (resources.Get "css/chroma/chroma-github.css")
 	  (resources.Get "css/chroma/chroma-monokai.css")
 	  (resources.Get "css/code-blocks.css")
