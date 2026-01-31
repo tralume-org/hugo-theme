@@ -22,14 +22,13 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Home', link: '/en-us/' },
-          { text: 'Examples', link: '/en-us/markdown-examples' },
+          { text: 'Quick Start', link: '/en-us/quick-start' },
         ],
         sidebar: [
           {
-            text: 'Examples',
+            text: 'Getting Started',
             items: [
-              { text: 'Markdown Examples', link: '/en-us/markdown-examples' },
-              { text: 'Runtime API Examples', link: '/en-us/api-examples' },
+              { text: 'Quick Start', link: '/en-us/quick-start' },
             ],
           },
         ],
@@ -42,14 +41,13 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: '首页', link: '/zh-hans/' },
-          { text: '示例', link: '/zh-hans/markdown-examples' },
+          { text: '快速开始', link: '/zh-hans/quick-start' },
         ],
         sidebar: [
           {
-            text: '示例',
+            text: '入门',
             items: [
-              { text: 'Markdown 示例', link: '/zh-hans/markdown-examples' },
-              { text: '运行时 API 示例', link: '/zh-hans/api-examples' },
+              { text: '快速开始', link: '/zh-hans/quick-start' },
             ],
           },
         ],
