@@ -37,10 +37,14 @@ tmp/
 out/
 
 # Content
-content/
+/content/
 data/
 .hugo_build.lock
 
 # Dev
 public_test/
 todo.md
+
+# Docs
+docs/.vitepress/cache/
+docs/.vitepress/dist/
