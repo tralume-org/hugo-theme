@@ -20,6 +20,9 @@ export default defineConfig({
       lang: 'en-US',
       description: 'A modern acrylic glassmorphism Hugo theme',
       themeConfig: {
+        editLink: {
+          pattern: 'https://forgejo.alexma.top/tralume-org/hugo-theme/_edit/main/docs/content/:path',
+        },
         nav: [
           { text: 'Home', link: '/en-us/' },
           { text: 'Quick Start', link: '/en-us/quick-start' },
@@ -39,6 +42,9 @@ export default defineConfig({
       lang: 'zh-Hans',
       description: '现代亚克力风格的 Hugo 主题',
       themeConfig: {
+        editLink: {
+          pattern: 'https://forgejo.alexma.top/tralume-org/hugo-theme/_edit/main/docs/content/:path',
+        },
         nav: [
           { text: '首页', link: '/zh-hans/' },
           { text: '快速开始', link: '/zh-hans/quick-start' },
