@@ -9,8 +9,10 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      # 说明：使用相对链接，避免语言前缀写死。
       link: ./quick-start
+    - theme: alt
+      text: 查看仓库
+      link: https://forgejo.alexma.top/tralume-org/hugo-theme
 
 features:
   - title: 统一的亚克力表面
