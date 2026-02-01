@@ -20,6 +20,7 @@ export default defineConfig({
         },
         nav: [
           { text: 'Home', link: '/' },
+          { text: 'Config', link: '/config/' },
           { text: 'Quick Start', link: '/quick-start' },
         ],
         sidebar: [
@@ -27,6 +28,31 @@ export default defineConfig({
             text: 'Getting Started',
             items: [
               { text: 'Quick Start', link: '/quick-start' },
+            ],
+          },
+          {
+            text: 'Configuration',
+            items: [
+              { text: 'Overview', link: '/config/' },
+              {
+                text: 'Settings Panel',
+                collapsed: true,
+                items: [
+                  { text: 'Theme Mode', link: '/config/appearance/theme-mode' },
+                  { text: 'Acrylic Effect', link: '/config/appearance/acrylic' },
+                  { text: 'Reading Width', link: '/config/appearance/reader-width' },
+                  { text: 'Custom Background', link: '/config/appearance/background' },
+                ],
+              },
+              { text: 'Site Info & SEO', link: '/config/site-info' },
+              { text: 'Content Display & Summaries', link: '/config/content-display' },
+              { text: 'Content License', link: '/config/license' },
+              { text: 'RSS Visibility', link: '/config/rss' },
+              { text: 'AI Contribution Marker', link: '/config/ai-marker' },
+              { text: 'Edit this Page Link', link: '/config/edit-source' },
+              { text: 'Custom Footer', link: '/config/footer' },
+              { text: 'Analytics (Umami)', link: '/config/analytics' },
+              { text: 'Friends Links', link: '/config/friends' },
             ],
           },
         ],
