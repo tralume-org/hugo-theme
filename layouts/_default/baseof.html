@@ -1,21 +1,16 @@
 <!DOCTYPE html>
-{{- $scratch := newScratch -}}
-{{- $scratch.Set "defaultMode" "auto" -}}
-{{- $scratch.Set "defaultGlassStrength" "soft" -}}
-{{- with site.Params.theme -}}
-  {{- with .defaultMode -}}
-    {{- $scratch.Set "defaultMode" . -}}
+  {{- $scratch := newScratch -}}
+  {{- $scratch.Set "defaultMode" "auto" -}}
+  {{- with site.Params.theme -}}
+    {{- with .defaultMode -}}
+      {{- $scratch.Set "defaultMode" . -}}
+    {{- end -}}
+    {{- with .defaultReaderWidthValue -}}
+      {{- $scratch.Set "defaultReaderWidthValue" . -}}
+    {{- end -}}
   {{- end -}}
-  {{- with .defaultGlassStrength -}}
-    {{- $scratch.Set "defaultGlassStrength" . -}}
-  {{- end -}}
-  {{- with .defaultReaderWidthValue -}}
-    {{- $scratch.Set "defaultReaderWidthValue" . -}}
-  {{- end -}}
-{{- end -}}
-{{- $defaultMode := $scratch.Get "defaultMode" -}}
-{{- $defaultGlass := $scratch.Get "defaultGlassStrength" -}}
-{{- $defaultReaderValue := 80.0 -}}
+  {{- $defaultMode := $scratch.Get "defaultMode" -}}
+  {{- $defaultReaderValue := 80.0 -}}
 {{- with $scratch.Get "defaultReaderWidthValue" -}}
   {{- $defaultReaderValue = float . -}}
 {{- end -}}
@@ -26,7 +21,6 @@
   lang="{{ site.Language.LanguageCode }}"
   dir="{{ or site.Language.LanguageDirection `ltr` }}"
   {{ printf `data-theme-mode="%s"` $defaultMode | safeHTMLAttr }}
-  {{ printf `data-glass-strength="%s"` $defaultGlass | safeHTMLAttr }}
   {{ printf `data-reader-width-default="%.2f"` $defaultReaderValue | safeHTMLAttr }}
   style="{{ $readerWidthStyle | safeHTMLAttr }}"
 >

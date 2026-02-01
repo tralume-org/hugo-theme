@@ -9,11 +9,6 @@ export const setupGlassControls = (panel, root) => {
   const glassBlurStorageKey = 'tralume-glass-blur';
   const defaultGlassValue = 45;
   const defaultBlurValue = 24;
-  const presetGlassValues = new Map([
-    ['soft', 45],
-    ['balanced', 65],
-    ['bold', 80],
-  ]);
 
   const clampNumber = (value, min, max) => {
     if (!Number.isFinite(value)) {
@@ -76,10 +71,6 @@ export const setupGlassControls = (panel, root) => {
       const stored = readStoredGlassValue();
       if (stored !== null) {
         return clampNumber(stored, sliderMin, sliderMax);
-      }
-      const preset = presetGlassValues.get(root.getAttribute('data-glass-strength') || '');
-      if (typeof preset === 'number') {
-        return preset;
       }
       const inputValue = parseFloat(glassRange.value);
       if (!Number.isNaN(inputValue)) {

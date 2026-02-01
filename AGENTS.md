@@ -126,8 +126,8 @@
   * 组件需要特例时：只覆盖 `--app-glass-radius`，并在 PR 说明里说明原因与对齐策略。
 * 透明度仅通过 `--app-glass-surface-alpha` 等变量调节，不得在组件内部硬编码百分比。若需特殊层级，先评估是否可以复用 `surface / elevated / strong` 三档。
 * **主题色功能已统一为亚克力方案**：禁止新增/恢复 `data-theme-color`、色板预设、背景动态取色等逻辑。色彩变化仅能依赖默认 MD3 Token 与 `--app-glass-*` 变量。
-* 设置面板的“磨砂强度”滑块（`data-glass-strength-range`）负责写入 CSS 变量；  
-  * 默认值 45%，范围 15%–95%，变更会同时更新多层 alpha 与边框。  
+* 设置面板的“磨砂强度”滑块（`data-glass-strength-range`）负责写入 CSS 变量；
+  * 默认值 45%，范围 0%–95%，变更会同时更新多层 alpha 与边框。  
   * **不提供任何“关闭亚克力”入口**，禁止移除模糊或回落到纯色表面。
 * 需要在 JS 中读取用户偏好时：  
   * 透明度存储键：`tralume-glass-strength`；  

@@ -1,11 +1,19 @@
 {{/* 说明：玻璃强度与模糊滑动块，支持连续调节透明度与模糊半径。 */}}
+{{- $defaultGlassValue := 45.0 -}}
+{{- with site.Params.theme -}}
+  {{- with .defaultGlassStrength -}}
+    {{- $defaultGlassValue = float . -}}
+  {{- end -}}
+{{- end -}}
+{{- $defaultGlassValue = math.Max 0 $defaultGlassValue -}}
+{{- $defaultGlassValue = math.Min 95 $defaultGlassValue -}}
 <section class="settings-panel__section settings-panel__section--glass">
   <div class="settings-panel__glass-header">
     <h3 class="settings-panel__section-title">
       {{ partial "icons/icon.html" (dict "name" "blur_on" "class" "settings-panel__section-icon") }}
       <span class="settings-panel__section-title-text">{{ i18n "settingsPanelGlassHeading" }}</span>
     </h3>
-    <span class="settings-panel__glass-value" data-glass-strength-label>45%</span>
+    <span class="settings-panel__glass-value" data-glass-strength-label>{{ printf "%.0f%%" $defaultGlassValue }}</span>
   </div>
   <div class="settings-panel__glass-field">
     <label class="settings-panel__glass-slider-label" for="settings-panel-glass-range">
@@ -18,10 +26,10 @@
       min="0"
       max="95"
       step="1"
-      value="45"
+      value="{{ printf "%.0f" $defaultGlassValue }}"
       aria-valuemin="0"
       aria-valuemax="95"
-      aria-valuenow="45"
+      aria-valuenow="{{ printf "%.0f" $defaultGlassValue }}"
       aria-label="{{ i18n "settingsPanelGlassRangeLabel" }}"
       data-glass-strength-range
     />
