@@ -10,39 +10,41 @@
 
 ## 2. i18n 约定（必须）
 
-- 默认语言：`en-US`
-- 额外语言：`zh-Hans`
+- 默认语言：`en-us`
+- 额外语言：`zh-hans`
 - 禁止在同一篇页面里做“中英对照/双语并排”；用“按语言分目录 + 独立页面”实现 i18n。
 
 建议的目录结构（推荐）：
 
-- `docs/content/en-US/...`
-- `docs/content/zh-Hans/...`
+- `docs/content/en-us/...`
+- `docs/content/zh-hans/...`
 
-⚠️ 注意：当前仓库未启用 VitePress `locales` 配置；如果你要新增 i18n，请同时改 `docs/.vitepress/config.mts` 并补齐两套导航/侧边栏。
+说明：当前仓库已启用 VitePress `locales` 配置（见 `docs/.vitepress/config.mts`）。
+
+- 路由约定：English 为默认语言，使用根路由 `/`；简体中文使用前缀路由 `/zh-hans/`。
 
 最小 i18n 配置示例（仅示例，改动前请先对照现有配置）：
 
 ```ts
-// 说明：为 VitePress 启用双语言路由（en-US / zh-Hans）。
-// 注意：示例假设内容按 `content/<locale>/...` 组织；如采用其他结构需同步调整 rewrites。
+// 说明：为 VitePress 启用双语言路由（en-us / zh-hans）。
+// 注意：示例假设内容按 `content/<locale>/...` 组织，并用 rewrites 把 en-us 映射到根路由。
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   // 说明：把文档源设为 content/，再用 rewrites 映射多语言路径。
   srcDir: 'content',
 
-  // 说明：VitePress i18n；默认 en-US，并额外提供 zh-Hans。
+  // 说明：VitePress i18n；默认语言使用 root（无前缀），并额外提供 zh-hans。
   locales: {
     root: { label: 'English', lang: 'en-US' },
-    'zh-Hans': { label: '简体中文', lang: 'zh-Hans' }
+    'zh-hans': { label: '简体中文', lang: 'zh-Hans' }
   },
 
-  // 说明：按目录写作：content/en-US/foo.md -> /foo
-  // 说明：按目录写作：content/zh-Hans/foo.md -> /zh-Hans/foo
+  // 说明：按目录写作：content/en-us/foo.md -> /foo
+  // 说明：按目录写作：content/zh-hans/foo.md -> /zh-hans/foo
   rewrites: {
-    'en-US/:rest*': ':rest*',
-    'zh-Hans/:rest*': 'zh-Hans/:rest*'
+    'en-us/:rest*': ':rest*',
+    'zh-hans/:rest*': 'zh-hans/:rest*'
   }
 })
 ```
@@ -104,8 +106,8 @@ bunx vitest -t "should render nav"
 
 ```bash
 # 说明：把一次性验证构建输出写到 public_test/，避免污染默认 dist 目录。
-# 注意：仅用于本地验证/CI；不要提交 public_test/。
-bunx vitepress build --outDir public_test/vitepress-dist
+# 注意：在 docs/ 目录内执行；仅用于本地验证/CI；不要提交 public_test/。
+bun run build -- --outDir ../public_test/vitepress-dist
 ```
 
 ## 4. 代码与内容风格（必须）
@@ -142,7 +144,7 @@ bunx vitepress build --outDir public_test/vitepress-dist
 
 Frontmatter 约定：
 
-- 首页可使用 VitePress 默认主题的 `layout: home`（见 `docs/content/index.md`）
+- 首页可使用 VitePress 默认主题的 `layout: home`（例如 `docs/content/en-us/index.md`、`docs/content/zh-hans/index.md`）
 - 其他页面仅在需要时添加 frontmatter；避免堆叠无用字段
 
 ## 5. 变更边界与清理策略
@@ -161,4 +163,4 @@ bun run build
 可选但推荐：
 
 - 手动打开预览，检查导航/侧边栏链接是否 404
-- 若改动涉及 i18n：确认 en-US 与 zh-Hans 两套内容均可访问且无“半句英文占位”
+- 若改动涉及 i18n：确认 en-us 与 zh-hans 两套内容均可访问且无“半句英文占位”
