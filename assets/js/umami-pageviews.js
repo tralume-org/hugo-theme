@@ -7,6 +7,42 @@
 const shareCache = new Map();
 const statsCache = new Map();
 
+// 说明：请求超时（毫秒）。
+// 用途：当统计域名被拦截导致 fetch 长时间挂起时，避免页面一直停留在“加载中”。
+const DEFAULT_REQUEST_TIMEOUT = 4500;
+
+const fetchWithTimeout = async (url, options = {}, timeoutMs = DEFAULT_REQUEST_TIMEOUT) => {
+  const resolvedTimeout = Number(timeoutMs);
+  const shouldTimeout = Number.isFinite(resolvedTimeout) && resolvedTimeout > 0;
+
+  if (!shouldTimeout) {
+    return fetch(url, options);
+  }
+
+  const hasSignal = Boolean(options && options.signal);
+  const controller = !hasSignal && typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const signal = controller ? controller.signal : options.signal;
+  const mergedOptions = signal ? { ...options, signal } : options;
+
+  let timer = null;
+  const timeoutPromise = new Promise((_, reject) => {
+    timer = window.setTimeout(() => {
+      if (controller) {
+        controller.abort();
+      }
+      reject(new Error('Umami request timeout'));
+    }, resolvedTimeout);
+  });
+
+  try {
+    return await Promise.race([fetch(url, mergedOptions), timeoutPromise]);
+  } finally {
+    if (timer) {
+      window.clearTimeout(timer);
+    }
+  }
+};
+
 const normalizeHost = (rawHost) => {
   if (!rawHost) {
     return '';
@@ -52,18 +88,18 @@ const formatCount = (count) => {
   }
 };
 
-const fetchShareInfo = async (host, shareId) => {
+const fetchShareInfo = async (host, shareId, timeoutMs) => {
   const cacheKey = `${host}::${shareId}`;
   const cached = shareCache.get(cacheKey);
   if (cached) {
     return cached;
   }
 
-  const response = await fetch(`${host}/api/share/${encodeURIComponent(shareId)}`, {
+  const response = await fetchWithTimeout(`${host}/api/share/${encodeURIComponent(shareId)}`, {
     method: 'GET',
     headers: { Accept: 'application/json' },
     credentials: 'omit',
-  });
+  }, timeoutMs);
 
   if (!response.ok) {
     throw new Error(`Umami share request failed: ${response.status}`);
@@ -81,21 +117,21 @@ const fetchShareInfo = async (host, shareId) => {
   return result;
 };
 
-const fetchPageviews = async ({ host, shareId, path, endAt }) => {
+const fetchPageviews = async ({ host, shareId, path, endAt, timeoutMs }) => {
   const cacheKey = `${host}::${shareId}::${path}::${endAt}`;
   const cached = statsCache.get(cacheKey);
   if (cached) {
     return cached;
   }
 
-  const { websiteId, shareToken } = await fetchShareInfo(host, shareId);
+  const { websiteId, shareToken } = await fetchShareInfo(host, shareId, timeoutMs);
   const params = new URLSearchParams();
   params.set('startAt', '0');
   params.set('endAt', String(endAt));
   // 说明：使用 path 过滤到某个页面路径（例如 /posts/hello/），避免传入完整 URL。
   params.set('path', path);
 
-  const response = await fetch(`${host}/api/websites/${encodeURIComponent(websiteId)}/stats?${params.toString()}`, {
+  const response = await fetchWithTimeout(`${host}/api/websites/${encodeURIComponent(websiteId)}/stats?${params.toString()}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -103,7 +139,7 @@ const fetchPageviews = async ({ host, shareId, path, endAt }) => {
       'x-umami-share-token': shareToken,
     },
     credentials: 'omit',
-  });
+  }, timeoutMs);
 
   if (!response.ok) {
     throw new Error(`Umami stats request failed: ${response.status}`);
@@ -129,6 +165,7 @@ export const setupUmamiPageviews = () => {
     const host = normalizeHost(node.getAttribute('data-umami-pageviews-host') || '');
     const shareId = (node.getAttribute('data-umami-pageviews-share-id') || '').trim();
     const path = node.getAttribute('data-umami-pageviews-path') || '';
+    const timeoutMs = Number(node.getAttribute('data-umami-pageviews-timeout')) || DEFAULT_REQUEST_TIMEOUT;
     const countEl = node.querySelector('[data-umami-pageviews-count]');
 
     // 说明：配置不完整或缺少占位节点时直接隐藏，避免展示“半成品”信息。
@@ -140,7 +177,7 @@ export const setupUmamiPageviews = () => {
     countEl.textContent = '…';
     const endAt = Date.now();
 
-    fetchPageviews({ host, shareId, path, endAt })
+    fetchPageviews({ host, shareId, path, endAt, timeoutMs })
       .then((count) => {
         countEl.textContent = formatCount(count);
       })

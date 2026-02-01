@@ -21,7 +21,6 @@
           {{- $pageviewsHost := $pageviewsConfig.host | default "" -}}
           {{- $pageviewsShareId := $pageviewsConfig.shareId | default "" -}}
           {{- if and $pageviewsHost $pageviewsShareId -}}
-            <span class="article__meta-separator" aria-hidden="true">·</span>
             <span
               class="article__meta-item article__pageviews"
               data-umami-pageviews
@@ -29,6 +28,7 @@
               data-umami-pageviews-share-id="{{ $pageviewsShareId }}"
               data-umami-pageviews-path="{{ .RelPermalink }}"
             >
+              <span class="article__meta-separator" aria-hidden="true">·</span>
               <span class="article__pageviews-label">{{ i18n "articlePageviewsLabel" }}</span>
               <span class="article__pageviews-count" data-umami-pageviews-count aria-live="polite">—</span>
             </span>
