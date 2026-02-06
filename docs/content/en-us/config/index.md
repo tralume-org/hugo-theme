@@ -5,7 +5,7 @@ Tralume provides a rich set of customization options. You can tune the look and 
 ## Appearance
 
 - [Theme mode (light/dark)](./appearance/theme-mode)
-- [Acrylic effect (glass strength)](./appearance/acrylic)
+- [Acrylic effect (acrylic strength)](./appearance/acrylic)
 - [Reading width](./appearance/reader-width)
 - [Custom background](./appearance/background)
 

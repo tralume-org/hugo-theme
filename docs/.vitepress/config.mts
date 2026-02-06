@@ -22,12 +22,14 @@ export default defineConfig({
           { text: 'Home', link: '/' },
           { text: 'Config', link: '/config/' },
           { text: 'Quick Start', link: '/quick-start' },
+          { text: 'Terminology', link: '/terminology' },
         ],
         sidebar: [
           {
             text: 'Getting Started',
             items: [
               { text: 'Quick Start', link: '/quick-start' },
+              { text: 'Terminology', link: '/terminology' },
             ],
           },
           {
@@ -70,12 +72,14 @@ export default defineConfig({
           { text: '首页', link: '/zh-hans/' },
           { text: '配置', link: '/zh-hans/config/' },
           { text: '快速开始', link: '/zh-hans/quick-start' },
+          { text: '术语表', link: '/zh-hans/terminology' },
         ],
         sidebar: [
           {
             text: '入门',
             items: [
               { text: '快速开始', link: '/zh-hans/quick-start' },
+              { text: '术语表', link: '/zh-hans/terminology' },
             ],
           },
           {
@@ -87,7 +91,7 @@ export default defineConfig({
                 collapsed: true,
                 items: [
                   { text: '外观模式', link: '/zh-hans/config/appearance/theme-mode' },
-                  { text: '玻璃拟态', link: '/zh-hans/config/appearance/acrylic' },
+                  { text: '亚克力效果', link: '/zh-hans/config/appearance/acrylic' },
                   { text: '阅读宽度', link: '/zh-hans/config/appearance/reader-width' },
                   { text: '自定义背景', link: '/zh-hans/config/appearance/background' },
                 ],

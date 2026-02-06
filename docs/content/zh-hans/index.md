@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: 'Tralume'
-  text: '现代亚克力玻璃拟态风格的 Hugo 主题'
+  text: '现代亚克力风格的 Hugo 主题'
   tagline: '文档'
   actions:
     - theme: brand
@@ -35,7 +35,7 @@ features:
       dark: /icons/md-rounded-tune-dark.svg
       alt: Tune
       height: 32
-    details: 不仅是明暗模式切换，而是一套完整的 用户级个性化系统。支持实时调整玻璃拟态强度、自定义背景、切换阅读宽度，所有偏好均在本地持久化存储，完全由用户掌控。
+    details: 不仅是明暗模式切换，而是一套完整的 用户级个性化系统。支持实时调整磨砂强度（亚克力效果）、自定义背景、切换阅读宽度，所有偏好均在本地持久化存储，完全由用户掌控。
   - title: 极致阅读体验
     icon:
       light: /icons/md-rounded-menu-book-light.svg

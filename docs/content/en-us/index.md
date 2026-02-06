@@ -35,7 +35,7 @@ features:
       dark: /icons/md-rounded-tune-dark.svg
       alt: Tune
       height: 32
-    details: More than just dark mode switching, it's a complete user-level personalization system. Supports real-time adjustments for glassmorphism intensity, custom backgrounds, and reading width settings—all preferences are persisted locally and fully controlled by the user.
+    details: More than just dark mode switching, it's a complete user-level personalization system. Supports real-time adjustments for acrylic strength, custom backgrounds, and reading width settings—all preferences are persisted locally and fully controlled by the user.
   - title: Ultimate Reading Experience
     icon:
       light: /icons/md-rounded-menu-book-light.svg

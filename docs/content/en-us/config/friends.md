@@ -4,7 +4,7 @@ Controls how links are displayed on the “Friends” page, including i18n group
 
 ## Data file location
 
-Create `data/friends.yaml` in your Hugo site (you can also use `.toml` or `.json`).
+Create `data/friends.yaml` in your Hugo site (you can also use `.toml` or `.json`). The reader-facing page is typically labeled "Friends".
 
 ## Example data
 

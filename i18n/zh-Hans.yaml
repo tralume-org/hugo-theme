@@ -182,7 +182,7 @@
   translation: 语言
 
 - id: settingsPanelModeHeading
-  translation: 显示模式
+  translation: 外观模式
 
 - id: settingsPanelModeAuto
   translation: 跟随系统
@@ -221,7 +221,7 @@
   translation: 恢复默认值
 
 - id: settingsPanelReaderHeading
-  translation: 阅读器宽度
+  translation: 阅读宽度
 
 - id: settingsPanelReaderRangeLabel
   translation: 阅读宽度（%）
@@ -239,7 +239,7 @@
   translation: 像素
 
 - id: settingsPanelBackgroundHeading
-  translation: 背景图片
+  translation: 自定义背景
 
 - id: settingsPanelBackgroundProviderTabsLabel
   translation: 背景来源
@@ -505,7 +505,7 @@
   translation: 朋友们
 
 - id: friendsCardAriaLabel
-  translation: 打开友链：{{ .Name }}
+  translation: 打开链接：{{ .Name }}
 
 - id: friendsAvatarAlt
   translation: "{{ .Name }} 的头像"
@@ -514,7 +514,7 @@
   translation: 站点语言：{{ .Language }}
 
 - id: friendListEmpty
-  translation: 暂无友链，请在 data/friends.yaml 中补充。
+  translation: 暂无链接。站点管理员可在 data/friends.yaml 中添加友链条目。
 
 - id: umamiBlockedNotice
   translation: 统计请求被拦截，阅读量等统计功能将无法显示。

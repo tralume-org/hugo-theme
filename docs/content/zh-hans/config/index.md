@@ -5,8 +5,8 @@ Tralume 主题提供了丰富的自定义选项，你可以通过修改站点的
 ## 外观
 
 - [外观模式（明暗）](./appearance/theme-mode)
-- [玻璃拟态（磨砂感）](./appearance/acrylic)
-- [阅读区宽度](./appearance/reader-width)
+- [亚克力效果（磨砂强度）](./appearance/acrylic)
+- [阅读宽度](./appearance/reader-width)
 - [自定义背景](./appearance/background)
 
 ## 内容与展示

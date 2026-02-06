@@ -182,7 +182,7 @@
   translation: Language
 
 - id: settingsPanelModeHeading
-  translation: Appearance mode
+  translation: Theme mode
 
 - id: settingsPanelModeAuto
   translation: Follow system
@@ -194,7 +194,7 @@
   translation: Dark mode
 
 - id: settingsPanelGlassHeading
-  translation: Frosted strength
+  translation: Acrylic strength
 
 - id: settingsPanelGlassRangeLabel
   translation: Opacity (%)
@@ -221,7 +221,7 @@
   translation: Reset to default
 
 - id: settingsPanelReaderHeading
-  translation: Reader width
+  translation: Reading width
 
 - id: settingsPanelReaderRangeLabel
   translation: Reading width (%)
@@ -239,7 +239,7 @@
   translation: px
 
 - id: settingsPanelBackgroundHeading
-  translation: Background image
+  translation: Custom background
 
 - id: settingsPanelBackgroundProviderTabsLabel
   translation: Background source
@@ -506,7 +506,7 @@
   translation: Friends
 
 - id: friendsCardAriaLabel
-  translation: "Open friend link: {{ .Name }}"
+  translation: "Open link: {{ .Name }}"
 
 - id: friendsAvatarAlt
   translation: "{{ .Name }}'s avatar"
@@ -515,7 +515,7 @@
   translation: "Language: {{ .Language }}"
 
 - id: friendListEmpty
-  translation: No friend links yet. Add entries in data/friends.yaml to display them.
+  translation: 'No links yet. Site owner: add entries in data/friends.yaml to display friends links.'
 
 - id: umamiBlockedNotice
   translation: Analytics are blocked, so page views and other statistics cannot be displayed.
