@@ -19,7 +19,7 @@
     inert
     data-mobile-menu-panel
   >
-    <header class="app-mobile-menu__header">
+    <div class="app-mobile-menu__header">
       <button
         class="app-mobile-menu__close"
         type="button"
@@ -28,7 +28,7 @@
       >
         {{ partial "icons/icon.html" (dict "name" "close") }}
       </button>
-    </header>
+    </div>
     <nav class="app-mobile-menu__nav" aria-label="{{ i18n "mainNavAriaLabel" }}">
       {{/* 说明：先渲染除 Pages 外的主导航项，Pages 分组最后渲染以便固定在菜单末尾。 */}}
       {{ range $menu }}
