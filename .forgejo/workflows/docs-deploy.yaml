@@ -3,6 +3,9 @@ name: Build and Deploy Docs to Cloudflare Pages
 on:
   push:
     branches: [main]
+    paths:
+      - "docs/**"
+      - ".forgejo/workflows/docs-deploy.yaml"
   workflow_dispatch:
 
 jobs:
