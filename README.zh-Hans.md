@@ -6,7 +6,6 @@ Tralume 是一款现代 Material Design 3 风格的 Hugo 主题，提供一致�
 
 ## 文档
 
-- 文档（建议从这里开始）：https://tralume.org
-- 快速开始：https://tralume.org/quick-start
-- 配置参考：https://tralume.org/config/
-
+- 文档（建议从这里开始）：https://docs.tralume.org
+- 快速开始：https://docs.tralume.org/quick-start
+- 配置参考：https://docs.tralume.org/config/

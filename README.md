@@ -6,7 +6,6 @@ Tralume is a modern Material Design 3 Hugo theme with a consistent acrylic (glas
 
 ## Documentation
 
-- Docs (start here): https://tralume.org
-- Quick Start: https://tralume.org/quick-start
-- Configuration reference: https://tralume.org/config/
-
+- Docs (start here): https://docs.tralume.org
+- Quick Start: https://docs.tralume.org/quick-start
+- Configuration reference: https://docs.tralume.org/config/
