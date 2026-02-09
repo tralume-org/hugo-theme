@@ -4,6 +4,19 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   srcDir: 'content',
 
+  // 说明：为 docs 文档站注入 Umami 统计脚本。
+  // 注意：使用 defer 避免阻塞首屏渲染；此配置对所有 locales 生效。
+  head: [
+    [
+      'script',
+      {
+        defer: '',
+        src: 'https://umami.alexma.top/script.js',
+        'data-website-id': 'bf8787e9-d608-447c-a787-80535c42cb00',
+      },
+    ],
+  ],
+
   title: 'Tralume',
   description: 'A modern acrylic glassmorphism Hugo theme',
 
