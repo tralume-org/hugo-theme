@@ -216,11 +216,9 @@
     position: fixed;
     inset: 0;
     z-index: 240;
-    padding:
-      calc(env(safe-area-inset-top, 0px) + 1rem)
-      calc(env(safe-area-inset-right, 0px) + 1rem)
-      calc(env(safe-area-inset-bottom, 0px) + 1.25rem)
-      calc(env(safe-area-inset-left, 0px) + 1rem);
+    /* 说明：面板本体不再内缩；内边距交由 header/nav/empty 各自控制，确保顶栏背景可覆盖全宽。 */
+    padding: 0;
+    gap: 0;
     overflow: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -245,6 +243,31 @@
       opacity 180ms ease,
       transform 180ms ease,
       visibility 0s linear 180ms;
+  }
+
+  .article__outline-header {
+    /* 说明：移动端全屏大纲展开后，标题与关闭按钮以“顶栏”形式固定，滚动时不消失；并完整覆盖全宽。 */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-block-start: calc(env(safe-area-inset-top, 0px) + 1rem);
+    padding-block-end: 0.75rem;
+    padding-inline:
+      calc(env(safe-area-inset-left, 0px) + 1rem)
+      calc(env(safe-area-inset-right, 0px) + 1rem);
+    background-color: var(--app-glass-bg-color);
+    -webkit-backdrop-filter: blur(var(--app-glass-blur));
+    backdrop-filter: blur(var(--app-glass-blur));
+    border-bottom: 1px solid var(--app-glass-border-color);
+  }
+
+  .article__outline-nav,
+  .article__outline-empty {
+    padding-block-start: 1rem;
+    padding-block-end: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+    padding-inline:
+      calc(env(safe-area-inset-left, 0px) + 1rem)
+      calc(env(safe-area-inset-right, 0px) + 1rem);
   }
 
   .article__outline.is-open {
