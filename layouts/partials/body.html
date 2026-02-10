@@ -14,7 +14,7 @@
         aria-label="{{ i18n "mobileMenuOpenLabel" }}"
         data-mobile-menu-toggle
       >
-        {{ partial "icons/icon.html" (dict "name" "menu") }}
+        <span class="material-symbols-rounded" aria-hidden="true">menu</span>
       </button>
     {{- end -}}
     {{ partial "menu.html" (dict "menu" site.Menus.main "page" .) }}

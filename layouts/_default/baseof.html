@@ -28,8 +28,6 @@
   {{ partial "head.html" . }}
 </head>
 <body>
-  {{/* 说明：注入 SVG sprite（只渲染一次），供页面各处通过 <use> 复用图标。 */}}
-  {{ partial "icons/sprite.html" . }}
   {{ partial "body.html" . }}
   <main
     id="main-content"

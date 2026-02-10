@@ -22,7 +22,7 @@
   {{- end -}}
 >
   <h3 class="settings-panel__section-title">
-    {{ partial "icons/icon.html" (dict "name" "wallpaper" "class" "settings-panel__section-icon") }}
+    <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">wallpaper</span>
     <span class="settings-panel__section-title-text">{{ i18n "settingsPanelBackgroundHeading" }}</span>
   </h3>
   {{/* 说明：背景 provider 切换使用 secondary tabs，便于后续扩展（URL / Upload / ...）。 */}}

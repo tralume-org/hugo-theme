@@ -106,9 +106,10 @@
   background-color: color-mix(in srgb, var(--md-sys-color-primary) 14%, transparent);
 }
 
-/* 说明：SVG sprite 图标作为“文字图标按钮”的前缀，跟随按钮颜色。 */
+/* 说明：Material Symbols 图标作为“文字图标按钮”的前缀，跟随按钮颜色。 */
 .md3-code-block__copy-icon {
   font-size: 1.1em;
+  line-height: 1;
   opacity: 0.92;
 }
 

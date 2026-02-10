@@ -4,7 +4,7 @@
 {{ $scratch := newScratch }}
 <section class="settings-panel__section">
   <h3 class="settings-panel__section-title">
-    {{ partial "icons/icon.html" (dict "name" "translate" "class" "settings-panel__section-icon") }}
+    <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">translate</span>
     <span class="settings-panel__section-title-text">{{ i18n "settingsPanelLanguageHeading" }}</span>
   </h3>
   <div class="settings-panel__select">

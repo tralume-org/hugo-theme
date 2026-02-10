@@ -10,7 +10,7 @@
 <section class="settings-panel__section settings-panel__section--glass">
   <div class="settings-panel__glass-header">
     <h3 class="settings-panel__section-title">
-      {{ partial "icons/icon.html" (dict "name" "blur_on" "class" "settings-panel__section-icon") }}
+      <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">blur_on</span>
       <span class="settings-panel__section-title-text">{{ i18n "settingsPanelGlassHeading" }}</span>
     </h3>
     <span class="settings-panel__glass-value" data-glass-strength-label>{{ printf "%.0f%%" $defaultGlassValue }}</span>
