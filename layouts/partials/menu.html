@@ -33,18 +33,18 @@
           {{- end -}}
         {{- end -}}
         <div class="app-nav__item-wrapper">
-          <button
+          <a
             class="app-nav__item app-nav__item--toggle{{ if $isActive }} is-active{{ end }}"
-            type="button"
+            href="{{ $href }}"
             aria-haspopup="true"
             aria-expanded="false"
             aria-controls="pages-menu-panel"
             data-pages-menu-toggle
           >
-             {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
-             {{ $label | plainify }}
-           </button>
-         </div>
+            {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
+            {{ $label | plainify }}
+          </a>
+        </div>
        {{- else -}}
         <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | plainify }}</a>
        {{- end -}}

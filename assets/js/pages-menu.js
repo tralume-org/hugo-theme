@@ -4,7 +4,7 @@
 export const setupPagesMenu = () => {
   const toggle = document.querySelector('[data-pages-menu-toggle]');
   const panel = document.querySelector('[data-pages-menu-panel]');
-  if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) {
+  if (!(toggle instanceof HTMLElement) || !(panel instanceof HTMLElement)) {
     return;
   }
 
@@ -134,21 +134,23 @@ export const setupPagesMenu = () => {
     closePanel();
   };
 
-  // 说明：按钮点击时在展开与收起之间切换。
-  toggle.addEventListener('click', (event) => {
-    // 说明：桌面端 hover 模式下，点击保持展开，避免“悬浮打开但点击立刻关闭”的违和感。
-    if (supportsHover && isOpen) {
-      event.preventDefault();
-      return;
-    }
+  // 说明：仅对 button 触发器启用“点击展开/收起”；若触发器是链接则保留默认导航行为。
+  if (toggle instanceof HTMLButtonElement) {
+    toggle.addEventListener('click', (event) => {
+      // 说明：桌面端 hover 模式下，点击保持展开，避免“悬浮打开但点击立刻关闭”的违和感。
+      if (supportsHover && isOpen) {
+        event.preventDefault();
+        return;
+      }
 
-    if (isOpen) {
-      closePanel();
-      return;
-    }
+      if (isOpen) {
+        closePanel();
+        return;
+      }
 
-    openPanel();
-  });
+      openPanel();
+    });
+  }
 
   if (supportsHover) {
     // 说明：鼠标悬浮自动展开；离开按钮/面板后延迟收起，避免跨越间隙时误关。
