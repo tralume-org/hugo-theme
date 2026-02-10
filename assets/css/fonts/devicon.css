@@ -1,0 +1,19 @@
+/* 说明：本地托管 Devicon（替代外链，供代码块语言图标使用）。
+ * 作用：为 `.app-devicon` 提供离线可用的字体资源。
+ * 来源：https://github.com/devicons/devicon
+ * 注意：
+ * 1) 字体文件位于 `static/fonts/devicon/`（woff2 优先，woff 兼容兜底）。
+ * 2) 这里使用相对路径（`../fonts/...`）是因为最终 CSS 输出在 `/css/main.css` 下，便于兼容站点部署在子路径的场景。
+ * 3) 如需升级 Devicon：替换字体文件并同步更新 `static/fonts/devicon/LICENSE`（保持来源与版本可追溯）。
+ */
+
+@font-face {
+  font-family: "Devicon";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url("../fonts/devicon/devicon.woff2") format("woff2"),
+    url("../fonts/devicon/devicon.woff") format("woff");
+}
+

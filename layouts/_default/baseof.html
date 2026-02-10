@@ -30,8 +30,6 @@
 <body>
   {{/* 说明：注入 SVG sprite（只渲染一次），供页面各处通过 <use> 复用图标。 */}}
   {{ partial "icons/sprite.html" . }}
-  {{/* 说明：注入 Devicon SVG sprite（只渲染一次），供代码块语言标识复用。 */}}
-  {{ partial "icons/devicon-sprite.html" . }}
   {{ partial "body.html" . }}
   <main
     id="main-content"

@@ -22,14 +22,14 @@ export const setupCodeBlocks = () => {
     useEl.setAttributeNS(XLINK_NS, 'xlink:href', href);
   };
 
-  const createSpriteIcon = ({ prefix, name, className }) => {
+  const createAppIcon = (name, className) => {
     const svg = document.createElementNS(SVG_NS, 'svg');
     svg.setAttribute('aria-hidden', 'true');
     svg.setAttribute('focusable', 'false');
     svg.setAttribute('class', className ? `app-icon ${className}` : 'app-icon');
 
     const use = document.createElementNS(SVG_NS, 'use');
-    setUseHref(use, `#${prefix}-${name}`);
+    setUseHref(use, `#app-icon-${name}`);
     svg.appendChild(use);
     return { svg, use };
   };
@@ -73,7 +73,7 @@ export const setupCodeBlocks = () => {
   };
 
   // 说明：语言别名到 Devicon 图标名的映射（仅维护主题需要的最小集合）。
-  // 注意：这里的“图标名”需与 `layouts/partials/icons/devicon-sprite.html` 中的 `<symbol id="app-devicon-{name}">` 对齐。
+  // 注意：这里的“图标名”需与 `assets/css/icons/devicon.css` 中的 `.app-devicon--{name}` 对齐。
   const resolveDeviconName = (language) => {
     if (!language) {
       return '';
@@ -183,11 +183,9 @@ export const setupCodeBlocks = () => {
 
     const deviconName = resolveDeviconName(rawLanguage);
     if (deviconName) {
-      const { svg: icon } = createSpriteIcon({
-        prefix: 'app-devicon',
-        name: deviconName,
-        className: 'md3-code-block__language-icon',
-      });
+      const icon = document.createElement('span');
+      icon.className = `md3-code-block__language-icon app-devicon app-devicon--${deviconName}`;
+      icon.setAttribute('aria-hidden', 'true');
       badge.appendChild(icon);
     }
 
@@ -244,11 +242,7 @@ export const setupCodeBlocks = () => {
 
     // 说明：复制按钮采用“文字 + 图标”呈现，图标使用 SVG sprite（更稳定的居中与跨字体一致性）。
     // 注意：不要用 `innerHTML`，避免引入 XSS 面；同时保留 aria-label 保障可访问性。
-    const { svg: icon, use: iconUse } = createSpriteIcon({
-      prefix: 'app-icon',
-      name: 'content_copy',
-      className: 'md3-code-block__copy-icon',
-    });
+    const { svg: icon, use: iconUse } = createAppIcon('content_copy', 'md3-code-block__copy-icon');
     button.appendChild(icon);
 
     const label = document.createElement('span');

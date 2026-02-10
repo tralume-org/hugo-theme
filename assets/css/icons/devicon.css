@@ -1,0 +1,138 @@
+/* 说明：Devicon 图标映射（按需裁剪），用于代码块语言标识等场景。
+ * 作用：通过 `--app-devicon-glyph` 设置字形码点，避免直接复用上游选择器与整包 CSS。
+ * 来源：https://github.com/devicons/devicon
+ * 注意：
+ * 1) 这里只维护“图标名 -> 字形码点”的映射；升级字体版本时需同步校验码点是否变化。
+ * 2) 码点来自上游 `devicon-base.css`，但本文件为主题内重新组织的最小实现（非直接拷贝）。
+ */
+
+.app-devicon {
+  font-family: "Devicon";
+  font-style: normal;
+  font-weight: 400;
+  speak: never;
+  text-transform: none;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-devicon::before {
+  content: var(--app-devicon-glyph, "");
+}
+
+/* 说明：常见语言/生态图标（用于代码块语言标识）。 */
+.app-devicon--bash {
+  --app-devicon-glyph: "\ed55";
+}
+
+.app-devicon--c {
+  --app-devicon-glyph: "\edae";
+}
+
+.app-devicon--cplusplus {
+  --app-devicon-glyph: "\e99a";
+}
+
+.app-devicon--csharp {
+  --app-devicon-glyph: "\e9a0";
+}
+
+.app-devicon--css3 {
+  --app-devicon-glyph: "\e9a1";
+}
+
+.app-devicon--docker {
+  --app-devicon-glyph: "\e9c3";
+}
+
+.app-devicon--go {
+  --app-devicon-glyph: "\ea3d";
+}
+
+.app-devicon--graphql {
+  --app-devicon-glyph: "\ea45";
+}
+
+.app-devicon--html5 {
+  --app-devicon-glyph: "\ea67";
+}
+
+.app-devicon--java {
+  --app-devicon-glyph: "\ea7f";
+}
+
+.app-devicon--javascript {
+  --app-devicon-glyph: "\ea81";
+}
+
+.app-devicon--json {
+  --app-devicon-glyph: "\ea94";
+}
+
+.app-devicon--kotlin {
+  --app-devicon-glyph: "\eab5";
+}
+
+.app-devicon--markdown {
+  --app-devicon-glyph: "\eadb";
+}
+
+.app-devicon--mysql {
+  --app-devicon-glyph: "\eafd";
+}
+
+.app-devicon--nodejs {
+  --app-devicon-glyph: "\ed9e";
+}
+
+.app-devicon--php {
+  --app-devicon-glyph: "\eb68";
+}
+
+.app-devicon--postgresql {
+  --app-devicon-glyph: "\eb79";
+}
+
+.app-devicon--powershell {
+  --app-devicon-glyph: "\eb7d";
+}
+
+.app-devicon--python {
+  --app-devicon-glyph: "\eb9c";
+}
+
+.app-devicon--react {
+  --app-devicon-glyph: "\ebbc";
+}
+
+.app-devicon--ruby {
+  --app-devicon-glyph: "\ebe3";
+}
+
+.app-devicon--rust {
+  --app-devicon-glyph: "\ebe6";
+}
+
+.app-devicon--sqlite {
+  --app-devicon-glyph: "\ec1e";
+}
+
+.app-devicon--swift {
+  --app-devicon-glyph: "\ec34";
+}
+
+.app-devicon--typescript {
+  --app-devicon-glyph: "\ec63";
+}
+
+.app-devicon--vuejs {
+  --app-devicon-glyph: "\ec96";
+}
+
+.app-devicon--yaml {
+  --app-devicon-glyph: "\ecb5";
+}

@@ -56,10 +56,11 @@
   font-weight: 600;
 }
 
-/* 说明：语言图标使用 Devicon SVG sprite 渲染，尺寸与文本保持一致。 */
+/* 说明：语言图标使用 Devicon 字体渲染，尺寸与文本保持一致。 */
 .md3-code-block__language-icon {
-  inline-size: 1.05em;
-  block-size: 1.05em;
+  width: 1.05em;
+  height: 1.05em;
+  font-size: 1.05em;
   opacity: 0.9;
 }
 
