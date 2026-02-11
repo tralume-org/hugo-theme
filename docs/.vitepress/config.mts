@@ -4,6 +4,12 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   srcDir: 'content',
 
+  // 说明：为文档站生成 sitemap.xml（用于搜索引擎收录）。
+  // 注意：hostname 必须是线上可访问的 docs 域名，否则生成的 URL 不正确。
+  sitemap: {
+    hostname: 'https://docs.tralume.org',
+  },
+
   // 说明：为 docs 文档站注入 Umami 统计脚本。
   // 注意：使用 defer 避免阻塞首屏渲染；此配置对所有 locales 生效。
   head: [
