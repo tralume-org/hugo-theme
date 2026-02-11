@@ -1,11 +1,35 @@
 {{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" | safeHTML }}
-{{/* 说明：该模板为当前语言生成 RSS Feed，默认仅输出最新 20 篇公开内容。 */}}
+{{/*
+  说明：该模板为当前语言生成 RSS Feed，默认仅输出最新 20 篇公开内容。
+
+  规则：
+  - posts：默认进入 RSS；rssHidden: true 可排除。
+  - pages：默认不进入 RSS；rssHidden: false 可强制包含。
+*/}}
 {{- $context := . -}}
 {{- $site := $context.Site -}}
 {{/* 筛选逻辑：主页使用全站文章，列表/分类页使用其分页集合。 */}}
 {{- $rawPages := cond $context.IsHome $site.RegularPages $context.Pages -}}
-{{/* 允许通过 Front Matter 中的 rssHidden 参数手动排除指定内容。 */}}
-{{- $visiblePages := where $rawPages "Params.rssHidden" "ne" true -}}
+{{/*
+  说明：筛选 RSS 可见内容。
+  - rssHidden: true  -> 始终排除
+  - pages 分区：仅当 rssHidden 显式为 false 时才包含
+*/}}
+{{- $visiblePages := first 0 $rawPages -}}
+{{- range $rawPages -}}
+  {{- $rssHidden := .Params.rssHidden -}}
+  {{- $explicitInclude := eq $rssHidden false -}}
+  {{- $explicitHidden := eq $rssHidden true -}}
+  {{- $isPagesSection := eq .Section "pages" -}}
+
+  {{- if $explicitHidden -}}
+    {{/* 说明：显式隐藏，直接跳过。 */}}
+  {{- else if and $isPagesSection (not $explicitInclude) -}}
+    {{/* 说明：pages 默认隐藏；未显式设置 rssHidden: false 时跳过。 */}}
+  {{- else -}}
+    {{- $visiblePages = $visiblePages | append . -}}
+  {{- end -}}
+{{- end -}}
 {{- $sortedPages := $visiblePages.ByDate.Reverse -}}
 {{- $limitedPages := first 20 $sortedPages -}}
 {{- $feedDesc := default $site.Title $site.Params.description -}}
