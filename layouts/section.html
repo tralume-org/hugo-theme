@@ -9,16 +9,16 @@
       </div>
     {{ end }}
   </section>
-  {{/* 说明：Posts Section 与首页统一使用横向卡片列表，并启用分页。 */}}
-  {{ $isPosts := or (eq .Section "posts") (eq .Type "posts") }}
-  {{ if $isPosts }}
-    {{/* 说明：每页文章数量支持通过 params.posts.pageSize 自定义，未配置时默认 10。 */}}
-    {{- $postsPageSize := 10 -}}
+  {{/* 说明：/posts 与 /pages 总览统一使用横向卡片 + 分页，保持完全一致的浏览体验。 */}}
+  {{ $isPostOrPageSection := or (or (eq .Section "posts") (eq .Type "posts")) (or (eq .Section "pages") (eq .Type "pages")) }}
+  {{ if $isPostOrPageSection }}
+    {{/* 说明：分页大小与 /posts 保持一致，统一读取 params.posts.pageSize，未配置时默认 10。 */}}
+    {{- $sectionPageSize := 10 -}}
     {{- with site.Params.posts.pageSize }}
-      {{- $postsPageSize = int . -}}
+      {{- $sectionPageSize = int . -}}
     {{- end }}
-    {{/* 说明：/posts 列表摘要优先展示 description（若缺失则回退正文截断），并禁用“查看更多”入口。 */}}
-    {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Section" .Section "Orientation" "horizontal" "PreferDescription" true "Paginate" true "PageSize" $postsPageSize) }}
+    {{/* 说明：列表摘要优先展示 description（若缺失则回退正文截断），并禁用“查看更多”入口。 */}}
+    {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Section" .Section "Orientation" "horizontal" "PreferDescription" true "Paginate" true "PageSize" $sectionPageSize) }}
   {{ else }}
     {{ partial "article-list.html" (dict "Pages" .RegularPages "Context" . "Section" .Section) }}
   {{ end }}

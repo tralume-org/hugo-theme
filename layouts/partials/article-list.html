@@ -66,7 +66,8 @@
       {{- end }}
     {{- end -}}
     {{- $sectionKey := lower $section -}}
-    {{- $enableInfiniteScroll := and (eq $sectionKey "posts") $hasPagination (gt $totalPages 1) -}}
+    {{/* 说明：/posts 与 /pages 统一支持“分页 / 无限滚动”双模式。 */}}
+    {{- $enableInfiniteScroll := and (or (eq $sectionKey "posts") (eq $sectionKey "pages")) $hasPagination (gt $totalPages 1) -}}
     <div
       data-article-list-feed="{{ $sectionKey }}"
       data-article-list-default-mode="pagination"

@@ -1,8 +1,11 @@
-// 说明：/posts 列表的“分页 / 无限滚动”渐进增强。
+// 说明：/posts 与 /pages 列表的“分页 / 无限滚动”渐进增强。
 // - 模式开关位于设置面板；本模块只负责按当前模式渲染与加载。
 // - 无 JS 时自动回退 Hugo 原生分页，不影响 SEO 与可访问性。
 export const setupArticleListInfiniteScroll = () => {
-  const feeds = Array.from(document.querySelectorAll('[data-article-list-feed="posts"]'));
+  const feeds = Array.from(document.querySelectorAll('[data-article-list-feed]')).filter((feed) => {
+    const section = (feed.getAttribute('data-article-list-feed') || '').toLowerCase();
+    return section === 'posts' || section === 'pages';
+  });
   if (!feeds.length) {
     return;
   }
