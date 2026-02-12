@@ -48,7 +48,7 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.85rem 1.15rem;
-  color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-surface);
   font-weight: 700;
   font-size: var(--md-sys-typescale-label-large-size);
   line-height: var(--md-sys-typescale-label-large-line-height);
@@ -56,10 +56,12 @@
   text-decoration: none;
   --app-glass-radius: var(--app-radius-pill);
   --app-card-lift-y: -2px;
+  transition: color 0.2s ease;
 }
 
 .article-list__more-link:hover,
 .article-list__more-link:focus-visible {
+  color: var(--md-sys-color-primary);
   text-decoration: none;
 }
 

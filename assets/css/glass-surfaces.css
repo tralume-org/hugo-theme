@@ -7,7 +7,13 @@
   /* 说明：通过 CSS 变量让组件可覆盖不同层级的底色、描边、模糊与圆角。
    * 注意：为了避免在各组件里重复声明亚克力表面实现，这里也覆盖“无 JS 兜底”的代码块 pre。
    */
-  --app-glass-bg-color: var(--app-glass-surface-color);
+  --app-glass-base-bg-color: var(--app-glass-surface-color);
+  --app-glass-tint-alpha-resolved: var(--app-glass-tint-alpha);
+  --app-glass-bg-color: color-mix(
+    in srgb,
+    var(--app-glass-base-bg-color) calc(100% - var(--app-glass-tint-alpha-resolved)),
+    var(--app-glass-tint-color) var(--app-glass-tint-alpha-resolved)
+  );
   --app-glass-blur: var(--app-glass-blur-radius);
   --app-glass-radius: var(--app-radius-card, 1.5rem);
 
@@ -20,16 +26,21 @@
 
 /* 说明：三档亚克力表面语义，推荐与 .app-glass 搭配使用。 */
 .app-glass--surface {
-  --app-glass-bg-color: var(--app-glass-surface-color);
+  --app-glass-base-bg-color: var(--app-glass-surface-color);
 }
 
 .app-glass--elevated {
-  --app-glass-bg-color: var(--app-glass-elevated-color);
+  --app-glass-base-bg-color: var(--app-glass-elevated-color);
 }
 
 .app-glass--strong {
-  --app-glass-bg-color: var(--app-glass-strong-color);
+  --app-glass-base-bg-color: var(--app-glass-strong-color);
   --app-glass-border-color: var(--app-glass-border-strong-color);
+}
+
+/* 说明：个别组件如需保持中性玻璃，可通过该类关闭主题色混入。 */
+.app-glass--no-tint {
+  --app-glass-tint-alpha-resolved: 0%;
 }
 
 /* 说明：卡片阴影（不含交互），默认与文章卡片保持一致，可按组件覆盖。 */

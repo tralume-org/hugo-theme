@@ -19,6 +19,12 @@
   line-height: var(--md-sys-typescale-title-large-line-height);
   font-weight: 600;
   color: var(--md-sys-color-on-surface);
+  transition: color 0.2s ease;
+}
+
+.article-card:hover .article-card__title,
+.article-card:focus-visible .article-card__title {
+  color: var(--md-sys-color-primary);
 }
 
 .article-card__meta {
