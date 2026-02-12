@@ -208,6 +208,24 @@
 - id: settingsPanelModeDark
   translation: Dark mode
 
+- id: settingsPanelSeedHeading
+  translation: Theme seed
+
+- id: settingsPanelSeedLabel
+  translation: Seed color
+
+- id: settingsPanelSeedPlaceholder
+  translation: e.g. #2196f3
+
+- id: settingsPanelSeedHint
+  translation: Accepts #RRGGBB only. This affects primary color and related containers.
+
+- id: settingsPanelSeedApply
+  translation: Apply seed
+
+- id: settingsPanelSeedReset
+  translation: Reset seed
+
 - id: settingsPanelGlassRangeLabel
   translation: Opacity
 

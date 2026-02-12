@@ -28,3 +28,59 @@
 .settings-panel__section--appearance .settings-panel__appearance-actions {
   margin-top: 0.25rem;
 }
+
+/* 说明：主题种子色控件（色块选择 + 十六进制输入）。 */
+.settings-panel__section--seed {
+  gap: 0.45rem;
+}
+
+.settings-panel__seed-input-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.settings-panel__seed-picker {
+  inline-size: 2.75rem;
+  block-size: 2.5rem;
+  padding: 0.2rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--app-glass-border-color);
+  background-color: var(--app-glass-surface-color);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__seed-picker:hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__seed-picker:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__seed-picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.settings-panel__seed-picker::-webkit-color-swatch {
+  border: 0;
+  border-radius: 0.55rem;
+}
+
+.settings-panel__seed-picker::-moz-color-swatch {
+  border: 0;
+  border-radius: 0.55rem;
+}
+
+.settings-panel__seed-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  text-transform: lowercase;
+}
+
+.settings-panel__seed-actions {
+  margin-top: 0.1rem;
+}

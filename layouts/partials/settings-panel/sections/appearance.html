@@ -29,6 +29,18 @@
 {{ $readerDefaultValue = math.Min $readerSliderMax $readerDefaultValue }}
 {{ $readerInitialPercent := printf "%.0f" $readerDefaultValue }}
 
+{{/* 说明：主题种子色默认值，仅接受 #RRGGBB，非法值回退为空（由前端模块处理默认色）。 */}}
+{{- $defaultThemeSeed := "" -}}
+{{- with site.Params.theme -}}
+  {{- with .defaultSeed -}}
+    {{- $candidate := lower (strings.TrimSpace .) -}}
+    {{- if gt (len (findRE "^#[0-9a-f]{6}$" $candidate)) 0 -}}
+      {{- $defaultThemeSeed = $candidate -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $seedInitialValue := cond (ne $defaultThemeSeed "") $defaultThemeSeed "#1f2329" -}}
+
 <section class="settings-panel__section settings-panel__section--appearance">
   <h3 class="settings-panel__section-title">
     <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">palette</span>
@@ -159,6 +171,60 @@
     <div class="settings-panel__glass-scale">
       <span>{{ i18n "settingsPanelBackgroundBlurLow" }}</span>
       <span>{{ i18n "settingsPanelBackgroundBlurHigh" }}</span>
+    </div>
+  </div>
+
+  <div
+    class="settings-panel__appearance-block settings-panel__section--seed"
+    data-theme-seed-section
+    data-theme-seed-default="{{ $defaultThemeSeed }}"
+  >
+    <p class="settings-panel__appearance-subtitle">{{ i18n "settingsPanelSeedHeading" }}</p>
+    <label class="settings-panel__background-label" for="settings-panel-theme-seed-input">
+      {{ i18n "settingsPanelSeedLabel" }}
+    </label>
+    <div class="settings-panel__seed-input-row">
+      <input
+        id="settings-panel-theme-seed-picker"
+        class="settings-panel__seed-picker"
+        type="color"
+        value="{{ $seedInitialValue }}"
+        aria-label="{{ i18n "settingsPanelSeedLabel" }}"
+        data-theme-seed-picker
+      />
+      <input
+        id="settings-panel-theme-seed-input"
+        class="settings-panel__background-input settings-panel__seed-input"
+        type="text"
+        inputmode="text"
+        value="{{ $seedInitialValue }}"
+        placeholder="{{ i18n "settingsPanelSeedPlaceholder" }}"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="7"
+        pattern="^#[0-9A-Fa-f]{6}$"
+        aria-describedby="settings-panel-theme-seed-hint"
+        data-theme-seed-input
+      />
+    </div>
+    <p class="settings-panel__background-hint" id="settings-panel-theme-seed-hint">
+      {{ i18n "settingsPanelSeedHint" }}
+    </p>
+    <div class="settings-panel__background-actions settings-panel__seed-actions">
+      <button
+        type="button"
+        class="settings-panel__background-apply"
+        data-theme-seed-apply
+      >
+        {{ i18n "settingsPanelSeedApply" }}
+      </button>
+      <button
+        type="button"
+        class="settings-panel__background-reset"
+        data-theme-seed-reset
+      >
+        {{ i18n "settingsPanelSeedReset" }}
+      </button>
     </div>
   </div>
 
