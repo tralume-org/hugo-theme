@@ -208,11 +208,8 @@
 - id: settingsPanelModeDark
   translation: 深色模式
 
-- id: settingsPanelGlassHeading
-  translation: 磨砂强度
-
 - id: settingsPanelGlassRangeLabel
-  translation: 透明度（%）
+  translation: 透明度
 
 - id: settingsPanelGlassLow
   translation: 更透明
@@ -235,23 +232,17 @@
 - id: settingsPanelGlassReset
   translation: 恢复默认值
 
-- id: settingsPanelReaderHeading
-  translation: 阅读宽度
+- id: settingsPanelAppearanceHeading
+  translation: 外观
 
 - id: settingsPanelReaderRangeLabel
-  translation: 阅读宽度（%）
+  translation: 阅读宽度
 
 - id: settingsPanelReaderScaleCompact
   translation: 更紧凑
 
 - id: settingsPanelReaderScaleWide
   translation: 更宽
-
-- id: settingsPanelReaderUnitPercent
-  translation: "%"
-
-- id: settingsPanelReaderUnitPx
-  translation: 像素
 
 - id: settingsPanelPostsScrollHeading
   translation: 文章列表滚动
@@ -304,6 +295,9 @@
 
 - id: settingsPanelBackgroundPixaroaHostPlaceholder
   translation: 例如 https://pixaroa.example.com/
+
+- id: settingsPanelBackgroundPixaroaAdvancedSummary
+  translation: 进阶参数
 
 
 - id: settingsPanelBackgroundPixaroaTierLabel

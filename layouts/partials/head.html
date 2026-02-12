@@ -65,6 +65,7 @@
 {{/* 说明：构建 settings-panel.css（独立 bundle），生产环境压缩 + 指纹化以获得更好的缓存效果。 */}}
 {{ $settingsPanel := slice
   (resources.Get "css/settings/panel-shell.css")
+  (resources.Get "css/settings/appearance.css")
   (resources.Get "css/settings/theme-mode.css")
   (resources.Get "css/settings/glass-controls.css")
   (resources.Get "css/settings/reader-width.css")

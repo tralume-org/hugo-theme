@@ -2,7 +2,6 @@
 export const setupReaderWidth = (panel, root) => {
   const readerWidthRange = panel.querySelector('[data-reader-width-range]');
   const readerWidthPercentNode = panel.querySelector('[data-reader-width-percent]');
-  const readerWidthPxNode = panel.querySelector('[data-reader-width-px]');
   const readerWidthStorageKey = 'tralume-reader-width';
 
   const defaultReaderBounds = { min: 60, max: 92 };
@@ -49,11 +48,7 @@ export const setupReaderWidth = (panel, root) => {
 
   const updateReaderValueLabel = (value) => {
     if (readerWidthPercentNode instanceof HTMLElement) {
-      readerWidthPercentNode.textContent = String(Math.round(value));
-    }
-    if (readerWidthPxNode instanceof HTMLElement) {
-      const pxValue = Math.round((window.innerWidth * value) / 100);
-      readerWidthPxNode.textContent = String(pxValue);
+      readerWidthPercentNode.textContent = `${Math.round(value)}%`;
     }
   };
 
@@ -76,15 +71,6 @@ export const setupReaderWidth = (panel, root) => {
   let currentValue = clampReaderWidth(initialReaderWidth);
   applyReaderWidth(currentValue, false);
 
-  window.addEventListener(
-    'resize',
-    () => {
-      // 说明：像素显示依赖视口宽度，窗口尺寸变化时需重新计算。
-      updateReaderValueLabel(currentValue);
-    },
-    { passive: true },
-  );
-
   if (readerWidthRange instanceof HTMLInputElement) {
     readerWidthRange.addEventListener('input', (event) => {
       const target = event.target;
@@ -101,4 +87,9 @@ export const setupReaderWidth = (panel, root) => {
       }
     });
   }
+
+  // 说明：响应“外观恢复默认值”，阅读宽度回退到站点默认值。
+  panel.addEventListener('settings:appearance-reset', () => {
+    applyReaderWidth(resolveDefaultReaderWidth(), true);
+  });
 };

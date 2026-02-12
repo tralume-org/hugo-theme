@@ -208,11 +208,8 @@
 - id: settingsPanelModeDark
   translation: Dark mode
 
-- id: settingsPanelGlassHeading
-  translation: Acrylic strength
-
 - id: settingsPanelGlassRangeLabel
-  translation: Opacity (%)
+  translation: Opacity
 
 - id: settingsPanelGlassLow
   translation: More transparent
@@ -235,23 +232,17 @@
 - id: settingsPanelGlassReset
   translation: Reset to default
 
-- id: settingsPanelReaderHeading
-  translation: Reading width
+- id: settingsPanelAppearanceHeading
+  translation: Appearance
 
 - id: settingsPanelReaderRangeLabel
-  translation: Reading width (%)
+  translation: Reading width
 
 - id: settingsPanelReaderScaleCompact
   translation: Tighter
 
 - id: settingsPanelReaderScaleWide
   translation: Wider
-
-- id: settingsPanelReaderUnitPercent
-  translation: "%"
-
-- id: settingsPanelReaderUnitPx
-  translation: px
 
 - id: settingsPanelPostsScrollHeading
   translation: Post list scrolling
@@ -304,6 +295,9 @@
 
 - id: settingsPanelBackgroundPixaroaHostPlaceholder
   translation: e.g. https://pixaroa.example.com/
+
+- id: settingsPanelBackgroundPixaroaAdvancedSummary
+  translation: Advanced options
 
 
 - id: settingsPanelBackgroundPixaroaTierLabel

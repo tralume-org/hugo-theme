@@ -3,7 +3,105 @@ import { createUrlBackgroundProvider } from './background/providers/url.js';
 import { createUploadBackgroundProvider } from './background/providers/upload.js';
 import { createPixaroaBackgroundProvider } from './background/providers/pixaroa.js';
 
+// 说明：初始化背景模糊滑动块（仅影响背景图层），支持持久化与标签同步。
+const setupBackgroundBlurRangeControl = ({ panel, root, rangeInput, valueLabel }) => {
+  const backgroundBlurStorageKey = 'tralume-custom-background-blur';
+  const defaultBackgroundBlurValue = 0;
+  if (!(rangeInput instanceof HTMLInputElement)) {
+    root.style.setProperty('--app-custom-background-blur-radius', `${defaultBackgroundBlurValue}px`);
+    return;
+  }
+
+  const blurMin = Number.isFinite(Number(rangeInput.min)) ? Number(rangeInput.min) : 0;
+  const blurMax = Number.isFinite(Number(rangeInput.max)) ? Number(rangeInput.max) : 40;
+
+  const clampNumber = (value, min, max) => {
+    if (!Number.isFinite(value)) {
+      return min;
+    }
+    return Math.max(min, Math.min(max, value));
+  };
+
+  const updateBlurLabel = (value) => {
+    if (valueLabel instanceof HTMLElement) {
+      const unit = valueLabel.getAttribute('data-unit') || 'px';
+      valueLabel.textContent = `${value}${unit}`;
+    }
+  };
+
+  const persistBackgroundBlurValue = (value) => {
+    try {
+      window.localStorage.setItem(backgroundBlurStorageKey, String(value));
+    } catch (error) {
+      // 说明：忽略存储异常，避免影响设置面板交互。
+    }
+  };
+
+  const readStoredBackgroundBlurValue = () => {
+    try {
+      const stored = window.localStorage.getItem(backgroundBlurStorageKey);
+      if (stored) {
+        const parsed = parseFloat(stored);
+        if (!Number.isNaN(parsed)) {
+          return parsed;
+        }
+      }
+    } catch (error) {
+      return null;
+    }
+    return null;
+  };
+
+  const handleBackgroundBlurChange = (value, shouldPersist = false) => {
+    const base = clampNumber(value, blurMin, blurMax);
+    root.style.setProperty('--app-custom-background-blur-radius', `${base}px`);
+    rangeInput.value = String(base);
+    rangeInput.setAttribute('aria-valuenow', String(base));
+    updateBlurLabel(base);
+    if (shouldPersist) {
+      persistBackgroundBlurValue(base);
+    }
+  };
+
+  const initialBlurValue = clampNumber(
+    readStoredBackgroundBlurValue() ?? defaultBackgroundBlurValue,
+    blurMin,
+    blurMax,
+  );
+  handleBackgroundBlurChange(initialBlurValue, false);
+
+  rangeInput.addEventListener('input', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement) {
+      const value = parseFloat(target.value);
+      handleBackgroundBlurChange(value, false);
+    }
+  });
+
+  rangeInput.addEventListener('change', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement) {
+      const value = parseFloat(target.value);
+      handleBackgroundBlurChange(value, true);
+    }
+  });
+
+  // 说明：响应“外观恢复默认值”，背景模糊回退到默认值 0。
+  panel.addEventListener('settings:appearance-reset', () => {
+    handleBackgroundBlurChange(defaultBackgroundBlurValue, true);
+  });
+};
+
 export const setupBackgroundControl = (panel, root) => {
+  const backgroundBlurRange = panel.querySelector('[data-background-blur-range]');
+  const backgroundBlurLabel = panel.querySelector('[data-background-blur-label]');
+  setupBackgroundBlurRangeControl({
+    panel,
+    root,
+    rangeInput: backgroundBlurRange,
+    valueLabel: backgroundBlurLabel,
+  });
+
   const backgroundSection = panel.querySelector('[data-background-section]');
   if (!backgroundSection) {
     return;
@@ -19,8 +117,6 @@ export const setupBackgroundControl = (panel, root) => {
   const backgroundInput = backgroundSection.querySelector('[data-background-input]');
   const backgroundApplyButton = backgroundSection.querySelector('[data-background-apply]');
   const backgroundResetButton = backgroundSection.querySelector('[data-background-reset]');
-  const backgroundBlurRange = backgroundSection.querySelector('[data-background-blur-range]');
-  const backgroundBlurLabel = backgroundSection.querySelector('[data-background-blur-label]');
   const uploadInput = backgroundSection.querySelector('[data-background-upload-input]');
   const uploadApplyButton = backgroundSection.querySelector('[data-background-upload-apply]');
   const uploadResetButton = backgroundSection.querySelector('[data-background-upload-reset]');
@@ -40,7 +136,6 @@ export const setupBackgroundControl = (panel, root) => {
       ? (backgroundSection.getAttribute('data-pixaroa-default-host') || '').trim()
       : '';
 
-  const backgroundBlurStorageKey = 'tralume-custom-background-blur';
   const backgroundUrlProvider = createUrlBackgroundProvider({
     root,
     // 说明：存储键保持不变，确保历史配置可继续读取。
@@ -146,85 +241,6 @@ export const setupBackgroundControl = (panel, root) => {
       pixaroaResetButton.disabled = !(hasStoredUrl || hasActive || hasStoredProvider);
     }
   };
-
-  // 说明：背景模糊滑动块（仅影响背景图层），默认关闭（0px），支持持久化。
-  if (backgroundBlurRange instanceof HTMLInputElement) {
-    const blurMin = Number.isFinite(Number(backgroundBlurRange.min))
-      ? Number(backgroundBlurRange.min)
-      : 0;
-    const blurMax = Number.isFinite(Number(backgroundBlurRange.max))
-      ? Number(backgroundBlurRange.max)
-      : 40;
-
-    const clampNumber = (value, min, max) => {
-      if (!Number.isFinite(value)) {
-        return min;
-      }
-      return Math.max(min, Math.min(max, value));
-    };
-
-    const updateBlurLabel = (value) => {
-      if (backgroundBlurLabel instanceof HTMLElement) {
-        const unit = backgroundBlurLabel.getAttribute('data-unit') || 'px';
-        backgroundBlurLabel.textContent = `${value}${unit}`;
-      }
-    };
-
-    const persistBackgroundBlurValue = (value) => {
-      try {
-        window.localStorage.setItem(backgroundBlurStorageKey, String(value));
-      } catch (error) {
-        // 说明：忽略存储异常，避免影响设置面板交互。
-      }
-    };
-
-    const readStoredBackgroundBlurValue = () => {
-      try {
-        const stored = window.localStorage.getItem(backgroundBlurStorageKey);
-        if (stored) {
-          const parsed = parseFloat(stored);
-          if (!Number.isNaN(parsed)) {
-            return parsed;
-          }
-        }
-      } catch (error) {
-        return null;
-      }
-      return null;
-    };
-
-    const handleBackgroundBlurChange = (value, shouldPersist = false) => {
-      const base = clampNumber(value, blurMin, blurMax);
-      root.style.setProperty('--app-custom-background-blur-radius', `${base}px`);
-      backgroundBlurRange.value = String(base);
-      backgroundBlurRange.setAttribute('aria-valuenow', String(base));
-      updateBlurLabel(base);
-      if (shouldPersist) {
-        persistBackgroundBlurValue(base);
-      }
-    };
-
-    const initialBlurValue = clampNumber(readStoredBackgroundBlurValue() ?? 0, blurMin, blurMax);
-    handleBackgroundBlurChange(initialBlurValue, false);
-
-    backgroundBlurRange.addEventListener('input', (event) => {
-      const target = event.target;
-      if (target instanceof HTMLInputElement) {
-        const value = parseFloat(target.value);
-        handleBackgroundBlurChange(value, false);
-      }
-    });
-
-    backgroundBlurRange.addEventListener('change', (event) => {
-      const target = event.target;
-      if (target instanceof HTMLInputElement) {
-        const value = parseFloat(target.value);
-        handleBackgroundBlurChange(value, true);
-      }
-    });
-  } else {
-    root.style.setProperty('--app-custom-background-blur-radius', '0px');
-  }
 
   const readBackgroundInputValue = () => {
     if (backgroundInput instanceof HTMLInputElement) {

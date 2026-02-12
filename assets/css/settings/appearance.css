@@ -1,0 +1,30 @@
+/* 说明：外观分区聚合模式、磨砂与阅读宽度控件，减少分组割裂感。 */
+.settings-panel__section--appearance {
+  gap: 0.75rem;
+}
+
+.settings-panel__appearance-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-panel__appearance-block + .settings-panel__appearance-block {
+  margin-top: 0.4rem;
+}
+
+.settings-panel__appearance-subtitle {
+  margin: 0;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__section--appearance .settings-panel__background-blur-field {
+  margin-top: 0;
+}
+
+.settings-panel__section--appearance .settings-panel__appearance-actions {
+  margin-top: 0.25rem;
+}

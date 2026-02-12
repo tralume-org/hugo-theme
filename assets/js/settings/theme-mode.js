@@ -52,4 +52,9 @@ export const setupThemeMode = (panel, root) => {
       applyThemeMode(modeId, true);
     });
   });
+
+  // 说明：响应“外观恢复默认值”，主题模式回退为 auto。
+  panel.addEventListener('settings:appearance-reset', () => {
+    applyThemeMode('auto', true);
+  });
 };

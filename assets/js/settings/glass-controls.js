@@ -2,7 +2,6 @@
 export const setupGlassControls = (panel, root) => {
   const glassRange = panel.querySelector('[data-glass-strength-range]');
   const glassValueLabel = panel.querySelector('[data-glass-strength-label]');
-  const glassResetButton = panel.querySelector('[data-glass-reset]');
   const glassBlurRange = panel.querySelector('[data-glass-blur-range]');
   const glassBlurLabel = panel.querySelector('[data-glass-blur-label]');
   const glassStorageKey = 'tralume-glass-strength';
@@ -193,16 +192,15 @@ export const setupGlassControls = (panel, root) => {
     root.style.setProperty('--app-glass-blur-radius', `${defaultBlurValue}px`);
   }
 
-  if (glassResetButton instanceof HTMLButtonElement) {
-    glassResetButton.addEventListener('click', () => {
-      if (typeof applyGlassStrength === 'function') {
-        applyGlassStrength(defaultGlassValue, true);
-      }
-      if (typeof applyGlassBlur === 'function') {
-        applyGlassBlur(defaultBlurValue, true);
-      } else {
-        root.style.setProperty('--app-glass-blur-radius', `${defaultBlurValue}px`);
-      }
-    });
-  }
+  // 说明：响应“外观恢复默认值”，同时重置透明度与磨砂模糊。
+  panel.addEventListener('settings:appearance-reset', () => {
+    if (typeof applyGlassStrength === 'function') {
+      applyGlassStrength(defaultGlassValue, true);
+    }
+    if (typeof applyGlassBlur === 'function') {
+      applyGlassBlur(defaultBlurValue, true);
+    } else {
+      root.style.setProperty('--app-glass-blur-radius', `${defaultBlurValue}px`);
+    }
+  });
 };

@@ -194,61 +194,68 @@
       />
     </div>
 
-    <label class="settings-panel__background-label" for="settings-panel-background-pixaroa-tier">
-      {{ i18n "settingsPanelBackgroundPixaroaTierLabel" }}
-    </label>
-    <div class="settings-panel__background-field">
-      <select
-        id="settings-panel-background-pixaroa-tier"
-        class="settings-panel__background-select"
-        aria-label="{{ i18n "settingsPanelBackgroundPixaroaTierLabel" }}"
-        data-background-pixaroa-tier
-      >
-        <option value="auto">{{ i18n "settingsPanelBackgroundPixaroaTierAuto" }}</option>
-        <option value="1">{{ i18n "settingsPanelBackgroundPixaroaTier1" }}</option>
-        <option value="2">{{ i18n "settingsPanelBackgroundPixaroaTier2" }}</option>
-        <option value="3">{{ i18n "settingsPanelBackgroundPixaroaTier3" }}</option>
-        <option value="4">{{ i18n "settingsPanelBackgroundPixaroaTier4" }}</option>
-        <option value="5">{{ i18n "settingsPanelBackgroundPixaroaTier5" }}</option>
-        <option value="6">{{ i18n "settingsPanelBackgroundPixaroaTier6" }}</option>
-      </select>
-    </div>
+    <details class="settings-panel__background-advanced">
+      <summary class="settings-panel__background-advanced-summary">
+        {{ i18n "settingsPanelBackgroundPixaroaAdvancedSummary" }}
+      </summary>
+      <div class="settings-panel__background-advanced-content">
+        <label class="settings-panel__background-label" for="settings-panel-background-pixaroa-tier">
+          {{ i18n "settingsPanelBackgroundPixaroaTierLabel" }}
+        </label>
+        <div class="settings-panel__background-field">
+          <select
+            id="settings-panel-background-pixaroa-tier"
+            class="settings-panel__background-select"
+            aria-label="{{ i18n "settingsPanelBackgroundPixaroaTierLabel" }}"
+            data-background-pixaroa-tier
+          >
+            <option value="auto">{{ i18n "settingsPanelBackgroundPixaroaTierAuto" }}</option>
+            <option value="1">{{ i18n "settingsPanelBackgroundPixaroaTier1" }}</option>
+            <option value="2">{{ i18n "settingsPanelBackgroundPixaroaTier2" }}</option>
+            <option value="3">{{ i18n "settingsPanelBackgroundPixaroaTier3" }}</option>
+            <option value="4">{{ i18n "settingsPanelBackgroundPixaroaTier4" }}</option>
+            <option value="5">{{ i18n "settingsPanelBackgroundPixaroaTier5" }}</option>
+            <option value="6">{{ i18n "settingsPanelBackgroundPixaroaTier6" }}</option>
+          </select>
+        </div>
 
-    <label class="settings-panel__background-label" for="settings-panel-background-pixaroa-orientation">
-      {{ i18n "settingsPanelBackgroundPixaroaOrientationLabel" }}
-    </label>
-    <div class="settings-panel__background-field">
-      <select
-        id="settings-panel-background-pixaroa-orientation"
-        class="settings-panel__background-select"
-        aria-label="{{ i18n "settingsPanelBackgroundPixaroaOrientationLabel" }}"
-        data-background-pixaroa-orientation
-      >
-        <option value="auto">{{ i18n "settingsPanelBackgroundPixaroaOrientationAuto" }}</option>
-        <option value="landscape">{{ i18n "settingsPanelBackgroundPixaroaOrientationLandscape" }}</option>
-        <option value="portrait">{{ i18n "settingsPanelBackgroundPixaroaOrientationPortrait" }}</option>
-        <option value="square">{{ i18n "settingsPanelBackgroundPixaroaOrientationSquare" }}</option>
-      </select>
-    </div>
+        <label class="settings-panel__background-label" for="settings-panel-background-pixaroa-orientation">
+          {{ i18n "settingsPanelBackgroundPixaroaOrientationLabel" }}
+        </label>
+        <div class="settings-panel__background-field">
+          <select
+            id="settings-panel-background-pixaroa-orientation"
+            class="settings-panel__background-select"
+            aria-label="{{ i18n "settingsPanelBackgroundPixaroaOrientationLabel" }}"
+            data-background-pixaroa-orientation
+          >
+            <option value="auto">{{ i18n "settingsPanelBackgroundPixaroaOrientationAuto" }}</option>
+            <option value="landscape">{{ i18n "settingsPanelBackgroundPixaroaOrientationLandscape" }}</option>
+            <option value="portrait">{{ i18n "settingsPanelBackgroundPixaroaOrientationPortrait" }}</option>
+            <option value="square">{{ i18n "settingsPanelBackgroundPixaroaOrientationSquare" }}</option>
+          </select>
+        </div>
 
-    <label class="settings-panel__background-label" for="settings-panel-background-pixaroa-format">
-      {{ i18n "settingsPanelBackgroundPixaroaFormatLabel" }}
-    </label>
-    <div class="settings-panel__background-field">
-      <select
-        id="settings-panel-background-pixaroa-format"
-        class="settings-panel__background-select"
-        aria-label="{{ i18n "settingsPanelBackgroundPixaroaFormatLabel" }}"
-        data-background-pixaroa-format
-      >
-        <option value="auto">{{ i18n "settingsPanelBackgroundPixaroaFormatAuto" }}</option>
-        <option value="jxl">{{ i18n "settingsPanelBackgroundPixaroaFormatJxl" }}</option>
-        <option value="avif">{{ i18n "settingsPanelBackgroundPixaroaFormatAvif" }}</option>
-        <option value="webp">{{ i18n "settingsPanelBackgroundPixaroaFormatWebp" }}</option>
-        <option value="jpeg">{{ i18n "settingsPanelBackgroundPixaroaFormatJpeg" }}</option>
-        <option value="png">{{ i18n "settingsPanelBackgroundPixaroaFormatPng" }}</option>
-      </select>
-    </div>
+        <label class="settings-panel__background-label" for="settings-panel-background-pixaroa-format">
+          {{ i18n "settingsPanelBackgroundPixaroaFormatLabel" }}
+        </label>
+        <div class="settings-panel__background-field">
+          <select
+            id="settings-panel-background-pixaroa-format"
+            class="settings-panel__background-select"
+            aria-label="{{ i18n "settingsPanelBackgroundPixaroaFormatLabel" }}"
+            data-background-pixaroa-format
+          >
+            <option value="auto">{{ i18n "settingsPanelBackgroundPixaroaFormatAuto" }}</option>
+            <option value="jxl">{{ i18n "settingsPanelBackgroundPixaroaFormatJxl" }}</option>
+            <option value="avif">{{ i18n "settingsPanelBackgroundPixaroaFormatAvif" }}</option>
+            <option value="webp">{{ i18n "settingsPanelBackgroundPixaroaFormatWebp" }}</option>
+            <option value="jpeg">{{ i18n "settingsPanelBackgroundPixaroaFormatJpeg" }}</option>
+            <option value="png">{{ i18n "settingsPanelBackgroundPixaroaFormatPng" }}</option>
+          </select>
+        </div>
+      </div>
+    </details>
 
     <p
       class="settings-panel__background-provider-status"
@@ -279,35 +286,4 @@
     </div>
   </div>
 
-  {{/* 说明：背景模糊为通用效果，独立于 provider，切换 tab 时仍可调整。 */}}
-  <div class="settings-panel__background-blur-field">
-    <div class="settings-panel__glass-input-header">
-      <label class="settings-panel__glass-slider-label" for="settings-panel-background-blur-range">
-        {{ i18n "settingsPanelBackgroundBlurLabel" }}
-      </label>
-      <span
-        class="settings-panel__glass-blur-value"
-        data-background-blur-label
-        data-unit="{{ i18n "settingsPanelBackgroundBlurUnit" }}"
-      >0{{ i18n "settingsPanelBackgroundBlurUnit" }}</span>
-    </div>
-    <input
-      id="settings-panel-background-blur-range"
-      class="settings-panel__glass-slider"
-      type="range"
-      min="0"
-      max="40"
-      step="1"
-      value="0"
-      aria-valuemin="0"
-      aria-valuemax="40"
-      aria-valuenow="0"
-      aria-label="{{ i18n "settingsPanelBackgroundBlurLabel" }}"
-      data-background-blur-range
-    />
-    <div class="settings-panel__glass-scale">
-      <span>{{ i18n "settingsPanelBackgroundBlurLow" }}</span>
-      <span>{{ i18n "settingsPanelBackgroundBlurHigh" }}</span>
-    </div>
-  </div>
 </section>

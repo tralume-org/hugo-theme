@@ -18,6 +18,15 @@ export const setupSettingsPanel = () => {
   }
 
   const { root } = shellContext;
+
+  // 说明：统一的“外观恢复默认值”入口，触发后由各子模块分别回滚自己的状态与持久化值。
+  const appearanceResetButton = panel.querySelector('[data-appearance-reset]');
+  if (appearanceResetButton instanceof HTMLButtonElement) {
+    appearanceResetButton.addEventListener('click', () => {
+      panel.dispatchEvent(new CustomEvent('settings:appearance-reset'));
+    });
+  }
+
   setupThemeMode(panel, root);
   setupGlassControls(panel, root);
   setupReaderWidth(panel, root);

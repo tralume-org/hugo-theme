@@ -65,6 +65,55 @@
   gap: 0.4rem;
 }
 
+.settings-panel__background-advanced {
+  margin: 0.3rem 0 0;
+  border: 1px solid var(--app-glass-border-color);
+  border-radius: var(--app-radius-inline);
+  background-color: var(--app-glass-surface-color);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+.settings-panel__background-advanced-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.55rem 0.75rem;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.settings-panel__background-advanced-summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings-panel__background-advanced-summary:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+  border-radius: var(--app-radius-inline);
+}
+
+.settings-panel__background-advanced-summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4rem;
+  color: var(--md-sys-color-on-surface-variant);
+  transition: transform 0.2s ease;
+}
+
+.settings-panel__background-advanced[open] .settings-panel__background-advanced-summary::before {
+  transform: rotate(90deg);
+}
+
+.settings-panel__background-advanced-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.15rem 0.75rem 0.75rem;
+  border-top: 1px solid var(--app-glass-border-color);
+}
+
 /* 说明：确保 hidden 属性能正确隐藏 tab panel，避免被本文件的 display 声明覆盖。 */
 .settings-panel__background-provider-panel[hidden] {
   display: none;

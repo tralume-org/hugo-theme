@@ -1,0 +1,170 @@
+{{/* 说明：外观分区聚合模式、磨砂与阅读宽度，减少分组数量但保留全部能力。 */}}
+{{/* 说明：外观模式切换选项。 */}}
+{{ $modeOptions := slice
+  (dict "id" "auto" "label" (i18n "settingsPanelModeAuto"))
+  (dict "id" "light" "label" (i18n "settingsPanelModeLight"))
+  (dict "id" "dark" "label" (i18n "settingsPanelModeDark"))
+}}
+
+{{/* 说明：玻璃强度默认值，沿用现有配置读取逻辑。 */}}
+{{- $defaultGlassValue := 45.0 -}}
+{{- with site.Params.theme -}}
+  {{- with .defaultGlassStrength -}}
+    {{- $defaultGlassValue = float . -}}
+  {{- end -}}
+{{- end -}}
+{{- $defaultGlassValue = math.Max 0 $defaultGlassValue -}}
+{{- $defaultGlassValue = math.Min 95 $defaultGlassValue -}}
+
+{{/* 说明：阅读宽度默认值，沿用现有配置读取逻辑。 */}}
+{{ $readerDefaultValue := 80.0 }}
+{{ with site.Params.theme }}
+  {{ with .defaultReaderWidthValue }}
+    {{ $readerDefaultValue = float . }}
+  {{ end }}
+{{ end }}
+{{ $readerSliderMin := 60 }}
+{{ $readerSliderMax := 92 }}
+{{ $readerDefaultValue = math.Max $readerSliderMin $readerDefaultValue }}
+{{ $readerDefaultValue = math.Min $readerSliderMax $readerDefaultValue }}
+{{ $readerInitialPercent := printf "%.0f" $readerDefaultValue }}
+
+<section class="settings-panel__section settings-panel__section--appearance">
+  <h3 class="settings-panel__section-title">
+    <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">palette</span>
+    <span class="settings-panel__section-title-text">{{ i18n "settingsPanelAppearanceHeading" }}</span>
+  </h3>
+
+  <div class="settings-panel__appearance-block settings-panel__section--modes">
+    <p class="settings-panel__appearance-subtitle">{{ i18n "settingsPanelModeHeading" }}</p>
+    <div class="settings-panel__mode-grid">
+      {{ range $modeOptions }}
+        <button
+          type="button"
+          class="settings-panel__mode-button"
+          data-theme-mode-option="{{ .id }}"
+          aria-pressed="false"
+        >
+          {{ .label }}
+        </button>
+      {{ end }}
+    </div>
+  </div>
+
+  <div class="settings-panel__appearance-block settings-panel__section--glass">
+    <div class="settings-panel__glass-header">
+      <p class="settings-panel__appearance-subtitle">{{ i18n "settingsPanelGlassRangeLabel" }}</p>
+      <span class="settings-panel__glass-value" data-glass-strength-label>{{ printf "%.0f%%" $defaultGlassValue }}</span>
+    </div>
+    <input
+      id="settings-panel-glass-range"
+      class="settings-panel__glass-slider"
+      type="range"
+      min="0"
+      max="95"
+      step="1"
+      value="{{ printf "%.0f" $defaultGlassValue }}"
+      aria-valuemin="0"
+      aria-valuemax="95"
+      aria-valuenow="{{ printf "%.0f" $defaultGlassValue }}"
+      aria-label="{{ i18n "settingsPanelGlassRangeLabel" }}"
+      data-glass-strength-range
+    />
+    <div class="settings-panel__glass-scale">
+      <span>{{ i18n "settingsPanelGlassLow" }}</span>
+      <span>{{ i18n "settingsPanelGlassHigh" }}</span>
+    </div>
+  </div>
+
+  <div class="settings-panel__appearance-block settings-panel__section--glass">
+    <div class="settings-panel__glass-input-header">
+      <p class="settings-panel__appearance-subtitle">{{ i18n "settingsPanelGlassBlurLabel" }}</p>
+      <span
+        class="settings-panel__glass-blur-value"
+        data-glass-blur-label
+        data-unit="{{ i18n "settingsPanelGlassBlurUnit" }}"
+      >24{{ i18n "settingsPanelGlassBlurUnit" }}</span>
+    </div>
+    <input
+      id="settings-panel-glass-blur-range"
+      class="settings-panel__glass-slider"
+      type="range"
+      min="0"
+      max="48"
+      step="1"
+      value="24"
+      aria-valuemin="0"
+      aria-valuemax="48"
+      aria-valuenow="24"
+      aria-label="{{ i18n "settingsPanelGlassBlurLabel" }}"
+      data-glass-blur-range
+    />
+    <div class="settings-panel__glass-scale">
+      <span>{{ i18n "settingsPanelGlassBlurLow" }}</span>
+      <span>{{ i18n "settingsPanelGlassBlurHigh" }}</span>
+    </div>
+  </div>
+
+  <div class="settings-panel__appearance-block settings-panel__section--reader">
+    <div class="settings-panel__reader-header">
+      <p class="settings-panel__appearance-subtitle">{{ i18n "settingsPanelReaderRangeLabel" }}</p>
+      <span class="settings-panel__reader-value">
+        <span data-reader-width-percent>{{ printf "%s%%" $readerInitialPercent }}</span>
+      </span>
+    </div>
+    <input
+      id="settings-panel-reader-range"
+      class="settings-panel__reader-slider"
+      type="range"
+      min="{{ $readerSliderMin }}"
+      max="{{ $readerSliderMax }}"
+      step="1"
+      value="{{ $readerInitialPercent }}"
+      aria-valuemin="{{ $readerSliderMin }}"
+      aria-valuemax="{{ $readerSliderMax }}"
+      aria-valuenow="{{ $readerInitialPercent }}"
+      aria-label="{{ i18n "settingsPanelReaderRangeLabel" }}"
+      data-reader-width-range
+    />
+    <div class="settings-panel__reader-scale">
+      <span>{{ i18n "settingsPanelReaderScaleCompact" }}</span>
+      <span>{{ i18n "settingsPanelReaderScaleWide" }}</span>
+    </div>
+  </div>
+
+  {{/* 说明：背景模糊属于视觉层级设置，放入外观分区便于统一调节。 */}}
+  <div class="settings-panel__appearance-block settings-panel__background-blur-field">
+    <div class="settings-panel__glass-input-header">
+      <p class="settings-panel__appearance-subtitle">{{ i18n "settingsPanelBackgroundBlurLabel" }}</p>
+      <span
+        class="settings-panel__glass-blur-value"
+        data-background-blur-label
+        data-unit="{{ i18n "settingsPanelBackgroundBlurUnit" }}"
+      >0{{ i18n "settingsPanelBackgroundBlurUnit" }}</span>
+    </div>
+    <input
+      id="settings-panel-background-blur-range"
+      class="settings-panel__glass-slider"
+      type="range"
+      min="0"
+      max="40"
+      step="1"
+      value="0"
+      aria-valuemin="0"
+      aria-valuemax="40"
+      aria-valuenow="0"
+      aria-label="{{ i18n "settingsPanelBackgroundBlurLabel" }}"
+      data-background-blur-range
+    />
+    <div class="settings-panel__glass-scale">
+      <span>{{ i18n "settingsPanelBackgroundBlurLow" }}</span>
+      <span>{{ i18n "settingsPanelBackgroundBlurHigh" }}</span>
+    </div>
+  </div>
+
+  <div class="settings-panel__glass-controls settings-panel__appearance-actions">
+    <button type="button" class="settings-panel__glass-reset" data-appearance-reset>
+      {{ i18n "settingsPanelGlassReset" }}
+    </button>
+  </div>
+</section>
