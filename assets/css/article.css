@@ -95,6 +95,15 @@
   height: auto;
 }
 
+/* 说明：表格在小屏下允许横向滚动，避免正文卡片被最小内容宽度撑破。 */
+.article__content table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* 行内 code：允许断行 + GitHub-ish 的“压暗底色 + 1px 内描边”
  * 仅作用于 inline code（排除 pre > code），避免影响代码块
  */
