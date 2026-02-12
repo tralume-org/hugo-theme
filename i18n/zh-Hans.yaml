@@ -218,7 +218,7 @@
   translation: 例如 #2196f3
 
 - id: settingsPanelSeedHint
-  translation: 仅支持 #RRGGBB。会影响主色及其容器色。
+  translation: 仅支持 #RRGGBB。会影响主色、次要色与描边相关颜色。
 
 - id: settingsPanelSeedApply
   translation: 应用种子色

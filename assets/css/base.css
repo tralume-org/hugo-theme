@@ -104,6 +104,18 @@ body::before {
   --app-dynamic-on-primary-dark: #101215;
   --app-dynamic-primary-container-dark: #2c3038;
   --app-dynamic-on-primary-container-dark: #e7eaf2;
+  --app-dynamic-secondary-light: #c6cad3;
+  --app-dynamic-on-secondary-light: #1f2329;
+  --app-dynamic-secondary-container-light: #eef0f4;
+  --app-dynamic-on-secondary-container-light: #2b2f36;
+  --app-dynamic-outline-light: #8a8e96;
+  --app-dynamic-outline-variant-light: #cfd2d8;
+  --app-dynamic-secondary-dark: #9fa4b0;
+  --app-dynamic-on-secondary-dark: #101215;
+  --app-dynamic-secondary-container-dark: #353842;
+  --app-dynamic-on-secondary-container-dark: #e0e3ec;
+  --app-dynamic-outline-dark: #90939c;
+  --app-dynamic-outline-variant-dark: #40434b;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -163,10 +175,10 @@ a:focus-visible {
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
   --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
   --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-light);
-  --md-sys-color-secondary: #c6cad3;
-  --md-sys-color-on-secondary: #1f2329;
-  --md-sys-color-secondary-container: #eef0f4;
-  --md-sys-color-on-secondary-container: #2b2f36;
+  --md-sys-color-secondary: var(--app-dynamic-secondary-light);
+  --md-sys-color-on-secondary: var(--app-dynamic-on-secondary-light);
+  --md-sys-color-secondary-container: var(--app-dynamic-secondary-container-light);
+  --md-sys-color-on-secondary-container: var(--app-dynamic-on-secondary-container-light);
   --md-sys-color-surface: #f8f9fb;
   --md-sys-color-surface-dim: #e3e6eb;
   --md-sys-color-surface-bright: #ffffff;
@@ -174,8 +186,8 @@ a:focus-visible {
   --md-sys-color-on-surface-variant: #4f535a;
   --md-sys-color-background: #f5f6f8;
   --md-sys-color-on-background: #1f2329;
-  --md-sys-color-outline: #8a8e96;
-  --md-sys-color-outline-variant: #cfd2d8;
+  --md-sys-color-outline: var(--app-dynamic-outline-light);
+  --md-sys-color-outline-variant: var(--app-dynamic-outline-variant-light);
   --md-sys-color-surface-container-lowest: #ffffff;
   --md-sys-color-surface-container-low: #f0f2f6;
   --md-sys-color-surface-container: #ebedf1;
@@ -190,10 +202,10 @@ a:focus-visible {
     --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
     --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);
     --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-dark);
-    --md-sys-color-secondary: #9fa4b0;
-    --md-sys-color-on-secondary: #101215;
-    --md-sys-color-secondary-container: #353842;
-    --md-sys-color-on-secondary-container: #e0e3ec;
+    --md-sys-color-secondary: var(--app-dynamic-secondary-dark);
+    --md-sys-color-on-secondary: var(--app-dynamic-on-secondary-dark);
+    --md-sys-color-secondary-container: var(--app-dynamic-secondary-container-dark);
+    --md-sys-color-on-secondary-container: var(--app-dynamic-on-secondary-container-dark);
     --md-sys-color-surface: #121418;
     --md-sys-color-surface-dim: #121418;
     --md-sys-color-surface-bright: #2e3138;
@@ -201,8 +213,8 @@ a:focus-visible {
     --md-sys-color-on-surface-variant: #c2c5cd;
     --md-sys-color-background: #0f1114;
     --md-sys-color-on-background: #e4e6ec;
-    --md-sys-color-outline: #90939c;
-    --md-sys-color-outline-variant: #40434b;
+    --md-sys-color-outline: var(--app-dynamic-outline-dark);
+    --md-sys-color-outline-variant: var(--app-dynamic-outline-variant-dark);
     --md-sys-color-surface-container-lowest: #0a0c0f;
     --md-sys-color-surface-container-low: #181b20;
     --md-sys-color-surface-container: #1f2228;
@@ -217,10 +229,10 @@ a:focus-visible {
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
   --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
   --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-light);
-  --md-sys-color-secondary: #c6cad3;
-  --md-sys-color-on-secondary: #1f2329;
-  --md-sys-color-secondary-container: #eef0f4;
-  --md-sys-color-on-secondary-container: #2b2f36;
+  --md-sys-color-secondary: var(--app-dynamic-secondary-light);
+  --md-sys-color-on-secondary: var(--app-dynamic-on-secondary-light);
+  --md-sys-color-secondary-container: var(--app-dynamic-secondary-container-light);
+  --md-sys-color-on-secondary-container: var(--app-dynamic-on-secondary-container-light);
   --md-sys-color-surface: #f8f9fb;
   --md-sys-color-surface-dim: #e3e6eb;
   --md-sys-color-surface-bright: #ffffff;
@@ -228,8 +240,8 @@ a:focus-visible {
   --md-sys-color-on-surface-variant: #4f535a;
   --md-sys-color-background: #f5f6f8;
   --md-sys-color-on-background: #1f2329;
-  --md-sys-color-outline: #8a8e96;
-  --md-sys-color-outline-variant: #cfd2d8;
+  --md-sys-color-outline: var(--app-dynamic-outline-light);
+  --md-sys-color-outline-variant: var(--app-dynamic-outline-variant-light);
   --md-sys-color-surface-container-lowest: #ffffff;
   --md-sys-color-surface-container-low: #f0f2f6;
   --md-sys-color-surface-container: #ebedf1;
@@ -243,10 +255,10 @@ a:focus-visible {
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
   --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);
   --md-sys-color-on-primary-container: var(--app-dynamic-on-primary-container-dark);
-  --md-sys-color-secondary: #9fa4b0;
-  --md-sys-color-on-secondary: #101215;
-  --md-sys-color-secondary-container: #353842;
-  --md-sys-color-on-secondary-container: #e0e3ec;
+  --md-sys-color-secondary: var(--app-dynamic-secondary-dark);
+  --md-sys-color-on-secondary: var(--app-dynamic-on-secondary-dark);
+  --md-sys-color-secondary-container: var(--app-dynamic-secondary-container-dark);
+  --md-sys-color-on-secondary-container: var(--app-dynamic-on-secondary-container-dark);
   --md-sys-color-surface: #121418;
   --md-sys-color-surface-dim: #121418;
   --md-sys-color-surface-bright: #2e3138;
@@ -254,8 +266,8 @@ a:focus-visible {
   --md-sys-color-on-surface-variant: #c2c5cd;
   --md-sys-color-background: #0f1114;
   --md-sys-color-on-background: #e4e6ec;
-  --md-sys-color-outline: #90939c;
-  --md-sys-color-outline-variant: #40434b;
+  --md-sys-color-outline: var(--app-dynamic-outline-dark);
+  --md-sys-color-outline-variant: var(--app-dynamic-outline-variant-dark);
   --md-sys-color-surface-container-lowest: #0a0c0f;
   --md-sys-color-surface-container-low: #181b20;
   --md-sys-color-surface-container: #1f2228;

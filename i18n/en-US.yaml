@@ -218,7 +218,7 @@
   translation: e.g. #2196f3
 
 - id: settingsPanelSeedHint
-  translation: Accepts #RRGGBB only. This affects primary color and related containers.
+  translation: Accepts #RRGGBB only. This affects primary, secondary, and outline-related colors.
 
 - id: settingsPanelSeedApply
   translation: Apply seed

@@ -4,7 +4,7 @@
 
 const themeSeedStorageKey = 'tralume-theme-seed';
 
-const dynamicPrimaryKeys = [
+const dynamicColorKeys = [
   '--app-dynamic-primary-light',
   '--app-dynamic-on-primary-light',
   '--app-dynamic-primary-container-light',
@@ -13,6 +13,18 @@ const dynamicPrimaryKeys = [
   '--app-dynamic-on-primary-dark',
   '--app-dynamic-primary-container-dark',
   '--app-dynamic-on-primary-container-dark',
+  '--app-dynamic-secondary-light',
+  '--app-dynamic-on-secondary-light',
+  '--app-dynamic-secondary-container-light',
+  '--app-dynamic-on-secondary-container-light',
+  '--app-dynamic-outline-light',
+  '--app-dynamic-outline-variant-light',
+  '--app-dynamic-secondary-dark',
+  '--app-dynamic-on-secondary-dark',
+  '--app-dynamic-secondary-container-dark',
+  '--app-dynamic-on-secondary-container-dark',
+  '--app-dynamic-outline-dark',
+  '--app-dynamic-outline-variant-dark',
 ];
 
 const normalizeSeed = (value) => {
@@ -95,6 +107,14 @@ const generateSeedTokens = (seed) => {
   const lightContainer = mixHex(normalized, '#ffffff', 0.84);
   const darkPrimary = mixHex(normalized, '#ffffff', 0.36);
   const darkContainer = mixHex(normalized, '#000000', 0.64);
+  const lightSecondary = mixHex(normalized, '#6f7680', 0.7);
+  const lightSecondaryContainer = mixHex(normalized, '#ffffff', 0.9);
+  const darkSecondary = mixHex(normalized, '#b7bfcb', 0.74);
+  const darkSecondaryContainer = mixHex(normalized, '#000000', 0.72);
+  const lightOutline = mixHex(normalized, '#8a8e96', 0.78);
+  const lightOutlineVariant = mixHex(normalized, '#cfd2d8', 0.82);
+  const darkOutline = mixHex(normalized, '#90939c', 0.72);
+  const darkOutlineVariant = mixHex(normalized, '#40434b', 0.78);
 
   return {
     '--app-dynamic-primary-light': lightPrimary,
@@ -105,6 +125,26 @@ const generateSeedTokens = (seed) => {
     '--app-dynamic-on-primary-dark': pickOnColor(darkPrimary, '#101215', '#ffffff'),
     '--app-dynamic-primary-container-dark': darkContainer,
     '--app-dynamic-on-primary-container-dark': pickOnColor(darkContainer, '#e7eaf2', '#101215'),
+    '--app-dynamic-secondary-light': lightSecondary,
+    '--app-dynamic-on-secondary-light': pickOnColor(lightSecondary, '#ffffff', '#1f2329'),
+    '--app-dynamic-secondary-container-light': lightSecondaryContainer,
+    '--app-dynamic-on-secondary-container-light': pickOnColor(
+      lightSecondaryContainer,
+      '#ffffff',
+      '#2b2f36',
+    ),
+    '--app-dynamic-outline-light': lightOutline,
+    '--app-dynamic-outline-variant-light': lightOutlineVariant,
+    '--app-dynamic-secondary-dark': darkSecondary,
+    '--app-dynamic-on-secondary-dark': pickOnColor(darkSecondary, '#101215', '#e7eaf2'),
+    '--app-dynamic-secondary-container-dark': darkSecondaryContainer,
+    '--app-dynamic-on-secondary-container-dark': pickOnColor(
+      darkSecondaryContainer,
+      '#e0e3ec',
+      '#101215',
+    ),
+    '--app-dynamic-outline-dark': darkOutline,
+    '--app-dynamic-outline-variant-dark': darkOutlineVariant,
   };
 };
 
@@ -120,7 +160,7 @@ const applySeedTokens = (root, seed) => {
 };
 
 const clearSeedTokens = (root) => {
-  dynamicPrimaryKeys.forEach((key) => {
+  dynamicColorKeys.forEach((key) => {
     root.style.removeProperty(key);
   });
 };
