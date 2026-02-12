@@ -253,6 +253,15 @@
 - id: settingsPanelReaderUnitPx
   translation: px
 
+- id: settingsPanelPostsScrollHeading
+  translation: Post list scrolling
+
+- id: settingsPanelPostsScrollPagination
+  translation: Pagination
+
+- id: settingsPanelPostsScrollInfinite
+  translation: Infinite scroll
+
 - id: settingsPanelBackgroundHeading
   translation: Custom background
 

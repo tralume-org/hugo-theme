@@ -253,6 +253,15 @@
 - id: settingsPanelReaderUnitPx
   translation: 像素
 
+- id: settingsPanelPostsScrollHeading
+  translation: 文章列表滚动
+
+- id: settingsPanelPostsScrollPagination
+  translation: 分页
+
+- id: settingsPanelPostsScrollInfinite
+  translation: 无限滚动
+
 - id: settingsPanelBackgroundHeading
   translation: 自定义背景
 

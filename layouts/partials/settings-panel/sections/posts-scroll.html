@@ -1,0 +1,25 @@
+{{/* 说明：文章列表滚动模式开关（分页 / 无限滚动），默认值由脚本与本地存储共同决定。 */}}
+<section class="settings-panel__section settings-panel__section--posts-scroll">
+  <h3 class="settings-panel__section-title">
+    <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">unfold_more</span>
+    <span class="settings-panel__section-title-text">{{ i18n "settingsPanelPostsScrollHeading" }}</span>
+  </h3>
+  <div class="settings-panel__posts-scroll-grid" data-posts-scroll-controls>
+    <button
+      type="button"
+      class="settings-panel__posts-scroll-button"
+      data-posts-scroll-option="pagination"
+      aria-pressed="false"
+    >
+      {{ i18n "settingsPanelPostsScrollPagination" }}
+    </button>
+    <button
+      type="button"
+      class="settings-panel__posts-scroll-button"
+      data-posts-scroll-option="infinite"
+      aria-pressed="false"
+    >
+      {{ i18n "settingsPanelPostsScrollInfinite" }}
+    </button>
+  </div>
+</section>

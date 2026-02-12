@@ -73,8 +73,25 @@
   flex-wrap: wrap;
 }
 
+.article-list__pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.article-list__pagination.is-infinite-mode .article-list__pagination-controls {
+  display: none;
+}
+
 .article-list__pagination-mobile {
   display: none;
+}
+
+.article-list__infinite-sentinel {
+  width: 100%;
+  height: 1px;
 }
 
 .article-list__pagination-pages {
@@ -161,6 +178,12 @@
 
 @media (max-width: 48rem) {
   .article-list__pagination {
+    gap: 0.6rem;
+  }
+
+  .article-list__pagination-controls {
+    width: 100%;
+    justify-content: center;
     gap: 0.6rem;
   }
 
