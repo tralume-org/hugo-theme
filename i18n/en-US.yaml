@@ -154,6 +154,21 @@
 - id: articleListViewMore
   translation: View more posts
 
+- id: articleListPagination
+  translation: Post pagination
+
+- id: articleListPaginationPages
+  translation: Pagination pages
+
+- id: paginationPrevious
+  translation: Previous
+
+- id: paginationNext
+  translation: Next
+
+- id: paginationPage
+  translation: Page {{ .Number }}
+
 - id: taxonomyTermCount
   translation: "{{ .Count }} posts"
 

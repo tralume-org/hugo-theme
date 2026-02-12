@@ -5,6 +5,8 @@
 {{- $orientation := or .Orientation "vertical" -}}
 {{- $limit := int (or .Limit 0) -}}
 {{- $showMore := and .ShowMore (gt $limit 0) -}}
+{{- $enablePagination := and .Paginate true -}}
+{{- $pageSize := int (or .PageSize 10) -}}
 {{- $preferDescription := and .PreferDescription true -}}
 {{- $moreURL := "" -}}
 {{- with .MoreURL }}
@@ -46,11 +48,129 @@
     {{- $total := len $sorted -}}
     {{- $hasLimit := and (gt $limit 0) (gt $total $limit) -}}
     {{- $visible := cond $hasLimit (first $limit $sorted) $sorted -}}
+    {{- $hasPagination := false -}}
+    {{- $paginator := false -}}
+    {{- if and $enablePagination (gt $total 0) -}}
+      {{/* 说明：分页大小小于等于 0 时回退到默认值 10，避免无效配置导致异常。 */}}
+      {{- $safePageSize := cond (gt $pageSize 0) $pageSize 10 -}}
+      {{- $hasPagination = true -}}
+      {{- $paginator = $context.Paginate $sorted $safePageSize -}}
+      {{- $visible = $paginator.Pages -}}
+    {{- end -}}
     <div class="{{ delimit $listClasses " " }}">
       {{- range $visible }}
         {{ partial "article-card.html" (dict "Page" . "PreferDescription" $preferDescription) }}
       {{- end }}
     </div>
+    {{- if and $hasPagination (gt $paginator.TotalPages 1) -}}
+      {{- $currentPage := $paginator.PageNumber -}}
+      {{- $totalPages := $paginator.TotalPages -}}
+      {{- $windowRadius := 3 -}}
+      {{- $windowStart := sub $currentPage $windowRadius -}}
+      {{- if lt $windowStart 1 -}}
+        {{- $windowStart = 1 -}}
+      {{- end -}}
+      {{- $windowEnd := add $currentPage $windowRadius -}}
+      {{- if gt $windowEnd $totalPages -}}
+        {{- $windowEnd = $totalPages -}}
+      {{- end -}}
+      {{/* 说明：分页导航包含上一页/下一页与页码，便于快速跳转。 */}}
+      <nav class="article-list__pagination" aria-label="{{ i18n "articleListPagination" }}">
+        {{- with $paginator.Prev }}
+          <a class="article-list__pagination-link article-list__pagination-link--desktop app-glass app-card app-card--interactive" href="{{ .URL }}">
+            <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_left</span>
+            {{ i18n "paginationPrevious" }}
+          </a>
+        {{- else -}}
+          <span class="article-list__pagination-link article-list__pagination-link--desktop article-list__pagination-link--disabled app-glass app-card" aria-disabled="true">
+            <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_left</span>
+            {{ i18n "paginationPrevious" }}
+          </span>
+        {{- end }}
+
+        <div class="article-list__pagination-pages article-list__pagination-pages--desktop app-glass app-card" aria-label="{{ i18n "articleListPaginationPages" }}">
+          {{- if gt $windowStart 1 -}}
+            {{- $firstPager := index $paginator.Pagers 0 -}}
+            {{- $firstLabel := i18n "paginationPage" (dict "Number" 1) -}}
+            <a class="article-list__pagination-page" href="{{ $firstPager.URL }}" aria-label="{{ $firstLabel }}">
+              1
+            </a>
+            {{- if gt $windowStart 2 -}}
+              <span class="article-list__pagination-ellipsis" aria-hidden="true">&hellip;</span>
+            {{- end -}}
+          {{- end -}}
+
+          {{- range seq $windowStart $windowEnd }}
+            {{- $pageNumber := . -}}
+            {{- $pagePager := index $paginator.Pagers (sub $pageNumber 1) -}}
+            {{- $label := i18n "paginationPage" (dict "Number" $pageNumber) -}}
+            {{- if eq $pageNumber $currentPage -}}
+              <span class="article-list__pagination-page article-list__pagination-page--current" aria-current="page" aria-label="{{ $label }}">
+                {{ $pageNumber }}
+              </span>
+            {{- else -}}
+              <a class="article-list__pagination-page" href="{{ $pagePager.URL }}" aria-label="{{ $label }}">
+                {{ $pageNumber }}
+              </a>
+            {{- end -}}
+          {{- end }}
+
+          {{- if lt $windowEnd $totalPages -}}
+            {{- if lt $windowEnd (sub $totalPages 1) -}}
+              <span class="article-list__pagination-ellipsis" aria-hidden="true">&hellip;</span>
+            {{- end -}}
+            {{- $lastPager := index $paginator.Pagers (sub $totalPages 1) -}}
+            {{- $lastLabel := i18n "paginationPage" (dict "Number" $totalPages) -}}
+            <a class="article-list__pagination-page" href="{{ $lastPager.URL }}" aria-label="{{ $lastLabel }}">
+              {{ $totalPages }}
+            </a>
+          {{- end }}
+        </div>
+
+        {{- with $paginator.Next }}
+          <a class="article-list__pagination-link article-list__pagination-link--desktop app-glass app-card app-card--interactive" href="{{ .URL }}">
+            {{ i18n "paginationNext" }}
+            <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_right</span>
+          </a>
+        {{- else -}}
+          <span class="article-list__pagination-link article-list__pagination-link--desktop article-list__pagination-link--disabled app-glass app-card" aria-disabled="true">
+            {{ i18n "paginationNext" }}
+            <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_right</span>
+          </span>
+        {{- end }}
+
+        {{/* 说明：移动端分页仅保留“上一页 / 当前页 / 下一页”，并合并为一条连续控件。 */}}
+        <div class="article-list__pagination-mobile app-glass app-card" aria-label="{{ i18n "articleListPaginationPages" }}">
+          {{- with $paginator.Prev }}
+            <a class="article-list__pagination-mobile-link" href="{{ .URL }}" aria-label="{{ i18n "paginationPrevious" }}">
+              <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_left</span>
+              {{ i18n "paginationPrevious" }}
+            </a>
+          {{- else -}}
+            <span class="article-list__pagination-mobile-link article-list__pagination-mobile-link--disabled" aria-disabled="true">
+              <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_left</span>
+              {{ i18n "paginationPrevious" }}
+            </span>
+          {{- end }}
+
+          <span class="article-list__pagination-mobile-current" aria-current="page" aria-label="{{ i18n "paginationPage" (dict "Number" $currentPage) }}">
+            {{ $currentPage }} / {{ $totalPages }}
+          </span>
+
+          {{- with $paginator.Next }}
+            <a class="article-list__pagination-mobile-link" href="{{ .URL }}" aria-label="{{ i18n "paginationNext" }}">
+              {{ i18n "paginationNext" }}
+              <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_right</span>
+            </a>
+          {{- else -}}
+            <span class="article-list__pagination-mobile-link article-list__pagination-mobile-link--disabled" aria-disabled="true">
+              {{ i18n "paginationNext" }}
+              <span class="article-list__pagination-arrow material-symbols-rounded" aria-hidden="true">chevron_right</span>
+            </span>
+          {{- end }}
+        </div>
+      </nav>
+    {{- end }}
     {{- if and $showMore $hasLimit (ne $moreURL "") -}}
       {{/* 说明：仅当总数超出限制时展示“查看更多”按钮，引导至完整列表。 */}}
       <div class="article-list__more">

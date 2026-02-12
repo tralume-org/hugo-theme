@@ -154,6 +154,21 @@
 - id: articleListViewMore
   translation: 查看更多文章
 
+- id: articleListPagination
+  translation: 文章分页
+
+- id: articleListPaginationPages
+  translation: 分页页码
+
+- id: paginationPrevious
+  translation: 上一页
+
+- id: paginationNext
+  translation: 下一页
+
+- id: paginationPage
+  translation: 第 {{ .Number }} 页
+
 - id: taxonomyTermCount
   translation: 共 {{ .Count }} 篇文章
 

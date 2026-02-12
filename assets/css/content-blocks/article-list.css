@@ -62,3 +62,173 @@
 .article-list__more-link:focus-visible {
   text-decoration: none;
 }
+
+/* 说明：分页导航采用亚克力按钮组合，支持上一页/页码/下一页。 */
+.article-list__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.article-list__pagination-mobile {
+  display: none;
+}
+
+.article-list__pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  justify-content: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  --app-glass-radius: var(--app-radius-pill);
+}
+
+.article-list__pagination-link,
+.article-list__pagination-page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.85rem;
+  color: var(--md-sys-color-on-surface);
+  text-decoration: none;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+}
+
+.article-list__pagination-link {
+  font-weight: 600;
+  --app-glass-radius: var(--app-radius-pill);
+  gap: 0.2rem;
+}
+
+.article-list__pagination-arrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.article-list__pagination-page {
+  position: relative;
+}
+
+.article-list__pagination-page + .article-list__pagination-page,
+.article-list__pagination-page + .article-list__pagination-ellipsis,
+.article-list__pagination-ellipsis + .article-list__pagination-page {
+  border-left: 1px solid color-mix(in srgb, var(--app-glass-border-color) 85%, transparent);
+}
+
+.article-list__pagination-page--current {
+  color: var(--md-sys-color-primary);
+  font-weight: 700;
+  background: color-mix(in srgb, var(--md-sys-color-primary-container) 28%, transparent);
+}
+
+.article-list__pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  color: var(--md-sys-color-on-surface-variant);
+  font-weight: 600;
+}
+
+.article-list__pagination-link--disabled {
+  color: var(--md-sys-color-on-surface-variant);
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.article-list__pagination-link:hover,
+.article-list__pagination-link:focus-visible,
+.article-list__pagination-page:hover,
+.article-list__pagination-page:focus-visible {
+  text-decoration: none;
+}
+
+.article-list__pagination-page:hover,
+.article-list__pagination-page:focus-visible {
+  background: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+}
+
+@media (max-width: 48rem) {
+  .article-list__pagination {
+    gap: 0.6rem;
+  }
+
+  .article-list__pagination-link--desktop,
+  .article-list__pagination-pages--desktop {
+    display: none;
+  }
+
+  .article-list__pagination-mobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    overflow: hidden;
+    --app-glass-radius: var(--app-radius-pill);
+  }
+
+  .article-list__pagination-mobile-link,
+  .article-list__pagination-mobile-current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.25rem;
+    padding: 0.4rem 0.7rem;
+    font-size: var(--md-sys-typescale-label-large-size);
+    line-height: var(--md-sys-typescale-label-large-line-height);
+    white-space: nowrap;
+  }
+
+  .article-list__pagination-mobile-link {
+    color: var(--md-sys-color-on-surface);
+    text-decoration: none;
+    gap: 0.2rem;
+  }
+
+  .article-list__pagination-mobile-current {
+    color: var(--md-sys-color-primary);
+    font-weight: 700;
+    background: color-mix(in srgb, var(--md-sys-color-primary-container) 28%, transparent);
+  }
+
+  .article-list__pagination-mobile-link + .article-list__pagination-mobile-current,
+  .article-list__pagination-mobile-current + .article-list__pagination-mobile-link {
+    border-left: 1px solid color-mix(in srgb, var(--app-glass-border-color) 85%, transparent);
+  }
+
+  .article-list__pagination-mobile-link:hover,
+  .article-list__pagination-mobile-link:focus-visible {
+    text-decoration: none;
+    background: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+  }
+
+  .article-list__pagination-mobile-link--disabled {
+    color: var(--md-sys-color-on-surface-variant);
+    pointer-events: none;
+    opacity: 0.75;
+  }
+
+  .article-list__pagination-link,
+  .article-list__pagination-page {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .article-list__pagination-ellipsis {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0.4rem 0.55rem;
+  }
+}
