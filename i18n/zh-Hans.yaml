@@ -283,9 +283,6 @@
 - id: settingsPanelBackgroundSeedAlgorithmLabel
   translation: 动态取色算法
 
-- id: settingsPanelBackgroundSeedAlgorithmHint
-  translation: 切换提取策略后，会立即按当前背景重新计算主题色。
-
 - id: settingsPanelBackgroundSeedAlgorithmWeightedAverage
   translation: 加权平均（稳定）
 
@@ -306,9 +303,6 @@
 
 - id: settingsPanelBackgroundUploadLabel
   translation: 选择图片
-
-- id: settingsPanelBackgroundUploadHint
-  translation: 图片仅保存在本地浏览器，不会上传到服务器。
 
 - id: settingsPanelBackgroundUploadStatusEmpty
   translation: 尚未选择图片。

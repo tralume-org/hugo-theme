@@ -89,7 +89,6 @@
         <option value="kmeans-vibrant">{{ i18n "settingsPanelBackgroundSeedAlgorithmKmeansVibrant" }}</option>
       </select>
     </div>
-    <p class="settings-panel__background-hint">{{ i18n "settingsPanelBackgroundSeedAlgorithmHint" }}</p>
   </div>
 
   <div
@@ -153,13 +152,10 @@
         class="settings-panel__background-upload-input"
         type="file"
         accept="image/*"
-        aria-describedby="settings-panel-background-upload-hint settings-panel-background-upload-status"
+        aria-describedby="settings-panel-background-upload-status"
         data-background-upload-input
       />
     </div>
-    <p class="settings-panel__background-hint" id="settings-panel-background-upload-hint">
-      {{ i18n "settingsPanelBackgroundUploadHint" }}
-    </p>
     <p
       class="settings-panel__background-provider-status"
       id="settings-panel-background-upload-status"

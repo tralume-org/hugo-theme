@@ -283,9 +283,6 @@
 - id: settingsPanelBackgroundSeedAlgorithmLabel
   translation: Dynamic color algorithm
 
-- id: settingsPanelBackgroundSeedAlgorithmHint
-  translation: Switch extraction strategy and instantly recalculate the active background theme color.
-
 - id: settingsPanelBackgroundSeedAlgorithmWeightedAverage
   translation: Weighted average (stable)
 
@@ -306,9 +303,6 @@
 
 - id: settingsPanelBackgroundUploadLabel
   translation: Choose image
-
-- id: settingsPanelBackgroundUploadHint
-  translation: The image is stored locally in your browser and is not uploaded to the server.
 
 - id: settingsPanelBackgroundUploadStatusEmpty
   translation: No image selected yet.
