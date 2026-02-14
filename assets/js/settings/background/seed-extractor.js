@@ -9,7 +9,7 @@ export const backgroundSeedExtractAlgorithmList = [
   'kmeans-vibrant',
 ];
 
-export const defaultBackgroundSeedExtractAlgorithm = 'weighted-average';
+export const defaultBackgroundSeedExtractAlgorithm = 'vibrant-pixel';
 
 export const normalizeBackgroundSeedExtractAlgorithm = (rawValue) => {
   const value = typeof rawValue === 'string' ? rawValue.trim() : '';
