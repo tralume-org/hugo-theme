@@ -1,3 +1,5 @@
+import { copyTextToClipboard } from './utils/clipboard.js';
+
 // 说明：Markdown 代码块增强逻辑，负责构建 MD3 外观并注入复制按钮。
 export const setupCodeBlocks = () => {
   const container = document.querySelector('#main-content');
@@ -171,39 +173,6 @@ export const setupCodeBlocks = () => {
     return badge;
   };
 
-  // 说明：复制逻辑同时支持 Clipboard API 与传统命令，提升兼容性。
-  const copyText = async (text) => {
-    if (!text) {
-      return false;
-    }
-    const normalized = text.replace(/\u00A0/g, ' ');
-    try {
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-        await navigator.clipboard.writeText(normalized);
-        return true;
-      }
-    } catch (error) {
-      // 说明：忽略 Clipboard API 的失败，继续尝试后备方案。
-    }
-
-    const textarea = document.createElement('textarea');
-    textarea.value = normalized;
-    textarea.setAttribute('readonly', '');
-    textarea.style.position = 'absolute';
-    textarea.style.opacity = '0';
-    textarea.style.pointerEvents = 'none';
-    document.body.appendChild(textarea);
-    textarea.select();
-    let succeeded = false;
-    try {
-      succeeded = document.execCommand('copy');
-    } catch (error) {
-      succeeded = false;
-    }
-    textarea.remove();
-    return succeeded;
-  };
-
   // 说明：构建复制按钮并绑定状态更新。
   const createCopyButton = (codeElement) => {
     const button = document.createElement('button');
@@ -239,7 +208,7 @@ export const setupCodeBlocks = () => {
     button.addEventListener('click', async () => {
       if (codeElement instanceof HTMLElement) {
         const text = codeElement.textContent || '';
-        const success = await copyText(text);
+        const success = await copyTextToClipboard(text);
         window.clearTimeout(revertTimer);
         if (success) {
           button.classList.add('is-copied');

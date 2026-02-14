@@ -1,3 +1,5 @@
+import { copyTextToClipboard } from './utils/clipboard.js';
+
 // 说明：文章信息卡片增强逻辑（Article Info）。
 // 作用：为“永久链接”提供一键复制按钮，减少用户手动选中/复制的操作成本。
 // 注意：优先使用 Clipboard API；失败时回退到 execCommand('copy')，并在成功后短暂显示“已复制”状态。
@@ -12,39 +14,6 @@ export const setupArticleInfo = () => {
   if (!buttons.length) {
     return;
   }
-
-  // 说明：复制逻辑同时支持 Clipboard API 与传统命令，提升兼容性。
-  const copyText = async (text) => {
-    if (!text) {
-      return false;
-    }
-    const normalized = String(text).replace(/\u00A0/g, ' ');
-    try {
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-        await navigator.clipboard.writeText(normalized);
-        return true;
-      }
-    } catch (error) {
-      // 说明：忽略 Clipboard API 的失败，继续尝试后备方案。
-    }
-
-    const textarea = document.createElement('textarea');
-    textarea.value = normalized;
-    textarea.setAttribute('readonly', '');
-    textarea.style.position = 'absolute';
-    textarea.style.opacity = '0';
-    textarea.style.pointerEvents = 'none';
-    document.body.appendChild(textarea);
-    textarea.select();
-    let succeeded = false;
-    try {
-      succeeded = document.execCommand('copy');
-    } catch (error) {
-      succeeded = false;
-    }
-    textarea.remove();
-    return succeeded;
-  };
 
   buttons.forEach((button) => {
     if (!(button instanceof HTMLButtonElement)) {
@@ -70,7 +39,7 @@ export const setupArticleInfo = () => {
 
     button.addEventListener('click', async () => {
       window.clearTimeout(revertTimer);
-      const success = await copyText(copyTextValue);
+      const success = await copyTextToClipboard(copyTextValue);
       if (!success) {
         resetState();
         return;

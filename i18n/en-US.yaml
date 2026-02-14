@@ -145,9 +145,6 @@
 - id: aiTool_other
   translation: Other
 
-- id: articleReadMore
-  translation: Read the full post
-
 - id: articleListEmpty
   translation: No articles found yet. Please check back soon.
 
@@ -172,12 +169,6 @@
 - id: taxonomyTermCount
   translation: "{{ .Count }} posts"
 
-- id: articleTimelineLabel
-  translation: Article timeline
-
-- id: timelineHoverHint
-  translation: Hover or focus a post item to reveal its summary.
-
 - id: settingsPanelButtonLabel
   translation: Settings
 
@@ -189,9 +180,6 @@
 
 - id: settingsPanelCloseText
   translation: Close
-
-- id: settingsPanelPlaceholder
-  translation: Site customization options will appear here soon.
 
 - id: settingsPanelLanguageHeading
   translation: Language

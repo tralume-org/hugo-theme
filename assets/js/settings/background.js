@@ -356,6 +356,16 @@ export const setupBackgroundControl = (panel, root) => {
     }
   };
 
+  const hasPendingUploadSelection = () =>
+    Boolean(uploadInput instanceof HTMLInputElement && uploadInput.files && uploadInput.files.length > 0);
+
+  // 说明：统一同步 URL/上传/Pixaroa 三类 provider 的按钮状态，减少重复刷新逻辑。
+  const syncProviderButtonsState = ({ hasSelectedFile = hasPendingUploadSelection() } = {}) => {
+    updateUrlButtons();
+    updateUploadButtons({ hasSelectedFile });
+    updatePixaroaButtons();
+  };
+
   // 说明：对外保留原本的“应用”语义（含清空即移除），实际实现委托给 URL provider。
   const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
     const normalizedUrl = typeof rawUrl === 'string' ? rawUrl.trim() : '';
@@ -384,10 +394,8 @@ export const setupBackgroundControl = (panel, root) => {
       }
       backgroundThemeSeedCoordinator.onProviderApplied('upload');
     }
-    updateUrlButtons();
-    updateUploadButtons({ hasSelectedFile: false });
+    syncProviderButtonsState({ hasSelectedFile: false });
     setUploadStatus({ mode: 'stored' });
-    updatePixaroaButtons();
     return ok;
   };
 
@@ -398,9 +406,7 @@ export const setupBackgroundControl = (panel, root) => {
       setUploadStatus({ mode: 'stored' });
       backgroundThemeSeedCoordinator.onProviderApplied('upload');
     }
-    updateUploadButtons({ hasSelectedFile: false });
-    updateUrlButtons();
-    updatePixaroaButtons();
+    syncProviderButtonsState({ hasSelectedFile: false });
     return ok;
   };
 
@@ -440,14 +446,8 @@ export const setupBackgroundControl = (panel, root) => {
       tab.addEventListener('click', () => {
         const provider = tab.getAttribute('data-provider') || 'url';
         setActiveProvider(provider, { shouldFocusTab: false });
-        activeProvider = provider;
         backgroundThemeSeedCoordinator.onProviderActivated(provider);
-        updateUrlButtons();
-        updateUploadButtons({
-          hasSelectedFile:
-            uploadInput instanceof HTMLInputElement && uploadInput.files && uploadInput.files.length > 0,
-        });
-        updatePixaroaButtons();
+        syncProviderButtonsState();
       });
 
       tab.addEventListener('keydown', (event) => {
@@ -464,14 +464,8 @@ export const setupBackgroundControl = (panel, root) => {
           }
           const provider = target.getAttribute('data-provider') || 'url';
           setActiveProvider(provider, { shouldFocusTab: true });
-          activeProvider = provider;
           backgroundThemeSeedCoordinator.onProviderActivated(provider);
-          updateUrlButtons();
-          updateUploadButtons({
-            hasSelectedFile:
-              uploadInput instanceof HTMLInputElement && uploadInput.files && uploadInput.files.length > 0,
-          });
-          updatePixaroaButtons();
+          syncProviderButtonsState();
         };
 
         if (key === 'ArrowRight') {
@@ -504,7 +498,6 @@ export const setupBackgroundControl = (panel, root) => {
   const storedProvider = readStoredProvider();
   if (storedProvider) {
     setActiveProvider(storedProvider, { shouldFocusTab: false });
-    activeProvider = storedProvider;
   }
   backgroundThemeSeedCoordinator.onProviderActivated(activeProvider);
 
@@ -528,9 +521,7 @@ export const setupBackgroundControl = (panel, root) => {
           backgroundUploadProvider.releaseObjectUrl();
           // 说明：将 provider 选择也持久化，确保刷新后继续使用 Pixaroa。
           persistProvider('pixaroa');
-          updateUrlButtons();
-          updateUploadButtons({ hasSelectedFile: false });
-          updatePixaroaButtons();
+          syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
           backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
         })
@@ -560,7 +551,7 @@ export const setupBackgroundControl = (panel, root) => {
     // 说明：即便当前使用 Pixaroa 背景，也要同步“上传背景”面板的已保存状态提示。
     void backgroundUploadProvider.readStoredBlob().then((blob) => {
       setUploadStatus({ mode: blob ? 'stored' : 'empty' });
-      updateUploadButtons({ hasSelectedFile: false });
+      syncProviderButtonsState({ hasSelectedFile: false });
     });
     const applied = pixaroaBackgroundProvider.applyStored({ persistValue: false });
     if (!applied) {
@@ -574,9 +565,7 @@ export const setupBackgroundControl = (panel, root) => {
         .then(() => {
           backgroundUrlProvider.deactivate();
           backgroundUploadProvider.releaseObjectUrl();
-          updateUrlButtons();
-          updateUploadButtons({ hasSelectedFile: false });
-          updatePixaroaButtons();
+          syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
           backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
         })
@@ -592,9 +581,7 @@ export const setupBackgroundControl = (panel, root) => {
     } else {
       backgroundUrlProvider.deactivate();
       backgroundUploadProvider.releaseObjectUrl();
-      updateUrlButtons();
-      updateUploadButtons({ hasSelectedFile: false });
-      updatePixaroaButtons();
+      syncProviderButtonsState({ hasSelectedFile: false });
       setPixaroaStatus('idle');
       backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
     }
@@ -605,11 +592,10 @@ export const setupBackgroundControl = (panel, root) => {
     }
     void backgroundUploadProvider.readStoredBlob().then((blob) => {
       setUploadStatus({ mode: blob ? 'stored' : 'empty' });
-      updateUploadButtons({ hasSelectedFile: false });
+      syncProviderButtonsState({ hasSelectedFile: false });
     });
   }
-  updateUrlButtons();
-  updatePixaroaButtons();
+  syncProviderButtonsState({ hasSelectedFile: false });
 
   const handleBackgroundApply = () => {
     const nextValue = readBackgroundInputValue();
@@ -678,9 +664,7 @@ export const setupBackgroundControl = (panel, root) => {
       void backgroundUploadProvider.clear({ persistValue: true }).then(() => {
         persistProvider('');
         setUploadStatus({ mode: 'empty' });
-        updateUploadButtons({ hasSelectedFile: false });
-        updateUrlButtons();
-        updatePixaroaButtons();
+        syncProviderButtonsState({ hasSelectedFile: false });
       });
     });
   }
@@ -729,9 +713,7 @@ export const setupBackgroundControl = (panel, root) => {
           backgroundUrlProvider.deactivate();
           backgroundUploadProvider.releaseObjectUrl();
           persistProvider('pixaroa');
-          updateUrlButtons();
-          updateUploadButtons({ hasSelectedFile: false });
-          updatePixaroaButtons();
+          syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
           backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
         })
@@ -750,9 +732,7 @@ export const setupBackgroundControl = (panel, root) => {
     pixaroaResetButton.addEventListener('click', () => {
       pixaroaBackgroundProvider.clear({ persistValue: true });
       persistProvider('');
-      updateUrlButtons();
-      updateUploadButtons({ hasSelectedFile: false });
-      updatePixaroaButtons();
+      syncProviderButtonsState({ hasSelectedFile: false });
       setPixaroaStatus('idle');
     });
   }

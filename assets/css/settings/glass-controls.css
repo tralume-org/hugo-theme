@@ -4,16 +4,6 @@
   gap: 0.5rem;
 }
 
-.settings-panel__glass-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.settings-panel__glass-field + .settings-panel__glass-field {
-  margin-top: 0.75rem;
-}
-
 .settings-panel__glass-header {
   display: flex;
   align-items: center;
@@ -28,22 +18,11 @@
   color: var(--md-sys-color-on-surface);
 }
 
-.settings-panel__glass-slider-label {
-  font-size: var(--md-sys-typescale-label-large-size);
-  line-height: var(--md-sys-typescale-label-large-line-height);
-  font-weight: 600;
-  color: var(--md-sys-color-on-surface);
-}
-
 .settings-panel__glass-input-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-}
-
-.settings-panel__glass-input-header .settings-panel__glass-slider-label {
-  flex: 1;
 }
 
 .settings-panel__glass-blur-value {
@@ -140,9 +119,4 @@
 .settings-panel__glass-reset:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-.settings-panel__glass-toggle-input:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
 }

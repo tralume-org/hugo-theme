@@ -145,9 +145,6 @@
 - id: aiTool_other
   translation: 其他
 
-- id: articleReadMore
-  translation: 阅读全文
-
 - id: articleListEmpty
   translation: 暂无文章，欢迎稍后再来查看。
 
@@ -172,12 +169,6 @@
 - id: taxonomyTermCount
   translation: 共 {{ .Count }} 篇文章
 
-- id: articleTimelineLabel
-  translation: 文章时间线
-
-- id: timelineHoverHint
-  translation: 悬停或聚焦文章项即可展开对应摘要。
-
 - id: settingsPanelButtonLabel
   translation: 设置
 
@@ -189,9 +180,6 @@
 
 - id: settingsPanelCloseText
   translation: 关闭
-
-- id: settingsPanelPlaceholder
-  translation: 这里将展示可配置的主题选项，敬请期待。
 
 - id: settingsPanelLanguageHeading
   translation: 语言

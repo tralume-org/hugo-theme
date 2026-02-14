@@ -1,3 +1,10 @@
+import {
+  normalizePostsScrollMode,
+  persistPostsScrollMode,
+  postsScrollModeChangeEventName,
+  readStoredPostsScrollMode,
+} from './settings/posts-scroll-state.js';
+
 // 说明：/posts 与 /pages 列表的“分页 / 无限滚动”渐进增强。
 // - 模式开关位于设置面板；本模块只负责按当前模式渲染与加载。
 // - 无 JS 时自动回退 Hugo 原生分页，不影响 SEO 与可访问性。
@@ -9,25 +16,6 @@ export const setupArticleListInfiniteScroll = () => {
   if (!feeds.length) {
     return;
   }
-
-  const storageKey = 'tralume-posts-scroll-mode';
-  const supportedModes = new Set(['pagination', 'infinite']);
-
-  const readStoredMode = () => {
-    try {
-      return window.localStorage.getItem(storageKey);
-    } catch (error) {
-      return null;
-    }
-  };
-
-  const persistMode = (mode) => {
-    try {
-      window.localStorage.setItem(storageKey, mode);
-    } catch (error) {
-      // 说明：忽略存储失败，避免隐私模式下抛错中断功能。
-    }
-  };
 
   feeds.forEach((feed) => {
     const items = feed.querySelector('[data-article-list-items]');
@@ -44,8 +32,8 @@ export const setupArticleListInfiniteScroll = () => {
     const currentPage = Number.parseInt(pagination.getAttribute('data-article-list-current-page') || '1', 10);
     let nextPageURL = pagination.getAttribute('data-article-list-next-url') || '';
 
-    const storedMode = readStoredMode();
-    let mode = supportedModes.has(storedMode) ? storedMode : defaultMode;
+    const storedMode = readStoredPostsScrollMode();
+    let mode = normalizePostsScrollMode(storedMode, normalizePostsScrollMode(defaultMode));
     if (!supportsInfinite || !Number.isFinite(currentPage) || currentPage > 1) {
       mode = 'pagination';
     }
@@ -117,7 +105,7 @@ export const setupArticleListInfiniteScroll = () => {
       } catch (error) {
         stopObserver();
         mode = 'pagination';
-        persistMode(mode);
+        persistPostsScrollMode(mode);
         setInfiniteUIState(false);
       } finally {
         isLoading = false;
@@ -146,7 +134,7 @@ export const setupArticleListInfiniteScroll = () => {
     };
 
     const applyMode = (nextMode, { persist = true, shouldReloadOnPagination = false } = {}) => {
-      const normalizedMode = supportedModes.has(nextMode) ? nextMode : 'pagination';
+      const normalizedMode = normalizePostsScrollMode(nextMode);
       mode = normalizedMode;
 
       if (!supportsInfinite || !Number.isFinite(currentPage) || currentPage > 1) {
@@ -154,7 +142,7 @@ export const setupArticleListInfiniteScroll = () => {
       }
 
       if (persist) {
-        persistMode(mode);
+        persistPostsScrollMode(mode);
       }
 
       if (mode === 'pagination') {
@@ -171,9 +159,12 @@ export const setupArticleListInfiniteScroll = () => {
       startObserver();
     };
 
-    window.addEventListener('tralume:posts-scroll-mode-change', (event) => {
+    window.addEventListener(postsScrollModeChangeEventName, (event) => {
       const detail = event instanceof CustomEvent ? event.detail : null;
-      const nextMode = detail && typeof detail.mode === 'string' ? detail.mode : 'pagination';
+      const nextMode =
+        detail && typeof detail.mode === 'string'
+          ? normalizePostsScrollMode(detail.mode)
+          : 'pagination';
       applyMode(nextMode, {
         persist: true,
         shouldReloadOnPagination: nextMode === 'pagination'
