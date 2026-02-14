@@ -15,9 +15,6 @@
   data-pages-menu-panel
 >
   <div class="app-nav__panel-list">
-    {{- with $pagesSection -}}
-      <a class="app-nav__panel-item app-nav__panel-item--index" href="{{ .RelPermalink }}">{{ i18n "pagesMenuAriaLabel" }}</a>
-    {{- end -}}
     {{- if gt (len $pagesList) 0 -}}
       {{ range $pagesList }}
         <a class="app-nav__panel-item" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>

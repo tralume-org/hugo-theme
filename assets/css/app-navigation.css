@@ -188,11 +188,6 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.app-nav__panel-item--index {
-  /* 说明：列表页入口略微加粗，方便在一组页面链接中快速定位。 */
-  font-weight: 600;
-}
-
 .app-nav__panel-item:hover,
 .app-nav__panel-item:focus-visible {
   background-color: var(--md-sys-color-primary-container);
