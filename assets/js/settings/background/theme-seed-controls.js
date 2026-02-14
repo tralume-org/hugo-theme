@@ -7,7 +7,11 @@ import {
   isThemeSeedPreset,
   normalizeSeed,
 } from '../theme-seed-palette.js';
-import { extractDominantColorFromImageUrl } from './seed-extractor.js';
+import {
+  defaultBackgroundSeedExtractAlgorithm,
+  extractDominantColorFromImageUrl,
+  normalizeBackgroundSeedExtractAlgorithm,
+} from './seed-extractor.js';
 import { matchClosestThemeSeed } from './seed-matcher.js';
 
 const providerList = ['url', 'upload', 'pixaroa'];
@@ -19,6 +23,7 @@ const createDefaultProviderConfig = () => ({
   mode: 'extract',
   preset: defaultThemeSeedPreset,
   custom: '',
+  extractor: defaultBackgroundSeedExtractAlgorithm,
 });
 
 const normalizeProviderConfig = (rawValue) => {
@@ -29,10 +34,12 @@ const normalizeProviderConfig = (rawValue) => {
       : 'extract';
   const preset = isThemeSeedPreset(source.preset) ? normalizeSeed(source.preset) : defaultThemeSeedPreset;
   const custom = normalizeSeed(source.custom);
+  const extractor = normalizeBackgroundSeedExtractAlgorithm(source.extractor);
   return {
     mode,
     preset,
     custom,
+    extractor,
   };
 };
 
@@ -62,7 +69,15 @@ const readSeedConfig = () => {
   }
 };
 
-const writeLastMatchRecord = (provider, extractedSeed, matchedSeed) => {
+const writeSeedConfig = (config) => {
+  try {
+    window.localStorage.setItem(seedConfigStorageKey, JSON.stringify(config));
+  } catch (error) {
+    // 说明：本地持久化失败时保持内存配置即可，避免阻塞设置交互。
+  }
+};
+
+const writeLastMatchRecord = (provider, extractedSeed, matchedSeed, extractor) => {
   try {
     const raw = window.localStorage.getItem(seedMatchStorageKey);
     const parsed = raw ? JSON.parse(raw) : {};
@@ -70,6 +85,7 @@ const writeLastMatchRecord = (provider, extractedSeed, matchedSeed) => {
     next[provider] = {
       extracted: extractedSeed,
       matched: matchedSeed,
+      extractor,
       updatedAt: Date.now(),
     };
     window.localStorage.setItem(seedMatchStorageKey, JSON.stringify(next));
@@ -83,6 +99,9 @@ export const createBackgroundThemeSeedCoordinator = ({ root, getActiveProvider, 
     return {
       onProviderActivated: () => {},
       onProviderApplied: () => {},
+      getProviderSeedExtractor: () => defaultBackgroundSeedExtractAlgorithm,
+      setProviderSeedExtractor: () => false,
+      resetProviderSeedExtractors: () => {},
     };
   }
 
@@ -115,10 +134,11 @@ export const createBackgroundThemeSeedCoordinator = ({ root, getActiveProvider, 
       return '';
     }
 
-    const extracted = await extractDominantColorFromImageUrl(imageUrl);
+    const extractor = normalizeBackgroundSeedExtractAlgorithm(providerConfig.extractor);
+    const extracted = await extractDominantColorFromImageUrl(imageUrl, { algorithm: extractor });
     const matched = extracted ? matchClosestThemeSeed(extracted) : null;
     if (matched && matched.seed) {
-      writeLastMatchRecord(provider, extracted, matched.seed);
+      writeLastMatchRecord(provider, extracted, matched.seed, extractor);
       return matched.seed;
     }
 
@@ -133,7 +153,7 @@ export const createBackgroundThemeSeedCoordinator = ({ root, getActiveProvider, 
       return false;
     }
 
-    const providerConfig = config[provider] || createDefaultProviderConfig();
+    const providerConfig = normalizeProviderConfig(config[provider]);
     const imageUrl =
       typeof resolveProviderImageUrl === 'function' ? resolveProviderImageUrl(provider) : '';
     const requestId = ++requestCounter;
@@ -184,6 +204,39 @@ export const createBackgroundThemeSeedCoordinator = ({ root, getActiveProvider, 
         return;
       }
       void applyProviderSeed(provider, { force: false });
+    },
+    getProviderSeedExtractor: (provider) => {
+      if (!providerList.includes(provider)) {
+        return defaultBackgroundSeedExtractAlgorithm;
+      }
+      const providerConfig = normalizeProviderConfig(config[provider]);
+      return normalizeBackgroundSeedExtractAlgorithm(providerConfig.extractor);
+    },
+    setProviderSeedExtractor: (provider, extractor) => {
+      if (!providerList.includes(provider)) {
+        return false;
+      }
+      const normalizedExtractor = normalizeBackgroundSeedExtractAlgorithm(extractor);
+      const providerConfig = normalizeProviderConfig(config[provider]);
+      if (providerConfig.extractor === normalizedExtractor) {
+        return false;
+      }
+      config[provider] = {
+        ...providerConfig,
+        extractor: normalizedExtractor,
+      };
+      writeSeedConfig(config);
+      return true;
+    },
+    resetProviderSeedExtractors: () => {
+      providerList.forEach((provider) => {
+        const providerConfig = normalizeProviderConfig(config[provider]);
+        config[provider] = {
+          ...providerConfig,
+          extractor: defaultBackgroundSeedExtractAlgorithm,
+        };
+      });
+      writeSeedConfig(config);
     },
   };
 };

@@ -65,6 +65,13 @@
   gap: 0.4rem;
 }
 
+.settings-panel__background-seed-algorithm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.35rem;
+}
+
 .settings-panel__background-advanced {
   margin: 0.3rem 0 0;
   border: 1px solid var(--app-glass-border-color);

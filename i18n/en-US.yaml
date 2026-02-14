@@ -280,6 +280,24 @@
 - id: settingsPanelBackgroundProviderPixaroa
   translation: Pixaroa
 
+- id: settingsPanelBackgroundSeedAlgorithmLabel
+  translation: Dynamic color algorithm
+
+- id: settingsPanelBackgroundSeedAlgorithmHint
+  translation: Switch extraction strategy and instantly recalculate the active background theme color.
+
+- id: settingsPanelBackgroundSeedAlgorithmWeightedAverage
+  translation: Weighted average (stable)
+
+- id: settingsPanelBackgroundSeedAlgorithmVibrantPixel
+  translation: Vibrant pixel (punchy)
+
+- id: settingsPanelBackgroundSeedAlgorithmHueHistogram
+  translation: Hue histogram (anti-cast)
+
+- id: settingsPanelBackgroundSeedAlgorithmKmeansVibrant
+  translation: K-Means vibrant (diverse)
+
 - id: settingsPanelBackgroundLabel
   translation: Image URL
 

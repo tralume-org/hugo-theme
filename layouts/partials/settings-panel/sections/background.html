@@ -72,6 +72,26 @@
     </button>
   </div>
 
+  <div class="settings-panel__background-seed-algorithm">
+    <label class="settings-panel__background-label" for="settings-panel-background-seed-algorithm">
+      {{ i18n "settingsPanelBackgroundSeedAlgorithmLabel" }}
+    </label>
+    <div class="settings-panel__background-field">
+      <select
+        id="settings-panel-background-seed-algorithm"
+        class="settings-panel__background-select"
+        aria-label="{{ i18n "settingsPanelBackgroundSeedAlgorithmLabel" }}"
+        data-background-seed-algorithm
+      >
+        <option value="weighted-average">{{ i18n "settingsPanelBackgroundSeedAlgorithmWeightedAverage" }}</option>
+        <option value="vibrant-pixel">{{ i18n "settingsPanelBackgroundSeedAlgorithmVibrantPixel" }}</option>
+        <option value="hue-histogram">{{ i18n "settingsPanelBackgroundSeedAlgorithmHueHistogram" }}</option>
+        <option value="kmeans-vibrant">{{ i18n "settingsPanelBackgroundSeedAlgorithmKmeansVibrant" }}</option>
+      </select>
+    </div>
+    <p class="settings-panel__background-hint">{{ i18n "settingsPanelBackgroundSeedAlgorithmHint" }}</p>
+  </div>
+
   <div
     id="settings-panel-background-provider-panel-url"
     class="settings-panel__background-provider-panel"

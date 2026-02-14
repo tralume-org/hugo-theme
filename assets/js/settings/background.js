@@ -126,6 +126,9 @@ export const setupBackgroundControl = (panel, root) => {
   const pixaroaTierSelect = backgroundSection.querySelector('[data-background-pixaroa-tier]');
   const pixaroaOrientationSelect = backgroundSection.querySelector('[data-background-pixaroa-orientation]');
   const pixaroaFormatSelect = backgroundSection.querySelector('[data-background-pixaroa-format]');
+  const backgroundSeedAlgorithmSelect = backgroundSection.querySelector(
+    '[data-background-seed-algorithm]',
+  );
   const pixaroaApplyButton = backgroundSection.querySelector('[data-background-pixaroa-apply]');
   const pixaroaResetButton = backgroundSection.querySelector('[data-background-pixaroa-reset]');
   const pixaroaStatus = backgroundSection.querySelector('[data-background-pixaroa-status]');
@@ -151,6 +154,7 @@ export const setupBackgroundControl = (panel, root) => {
     defaultHost: pixaroaDefaultHost,
   });
   let activeProvider = 'url';
+  let backgroundThemeSeedCoordinator = null;
 
   const readStoredProvider = () => {
     try {
@@ -170,6 +174,22 @@ export const setupBackgroundControl = (panel, root) => {
       }
     } catch (error) {
       // 说明：忽略存储失败，避免影响基础功能。
+    }
+  };
+
+  const syncSeedAlgorithmSelect = (provider = activeProvider) => {
+    if (!(backgroundSeedAlgorithmSelect instanceof HTMLSelectElement)) {
+      return;
+    }
+    if (
+      !backgroundThemeSeedCoordinator ||
+      typeof backgroundThemeSeedCoordinator.getProviderSeedExtractor !== 'function'
+    ) {
+      return;
+    }
+    const extractor = backgroundThemeSeedCoordinator.getProviderSeedExtractor(provider);
+    if (extractor) {
+      backgroundSeedAlgorithmSelect.value = extractor;
     }
   };
 
@@ -193,6 +213,8 @@ export const setupBackgroundControl = (panel, root) => {
       const provider = panelEl.getAttribute('data-provider') || '';
       panelEl.hidden = provider !== resolved;
     });
+
+    syncSeedAlgorithmSelect(resolved);
   };
 
   const resolveProviderImageUrl = (provider) => {
@@ -208,12 +230,13 @@ export const setupBackgroundControl = (panel, root) => {
     return '';
   };
 
-  const backgroundThemeSeedCoordinator = createBackgroundThemeSeedCoordinator({
+  backgroundThemeSeedCoordinator = createBackgroundThemeSeedCoordinator({
     root,
     getActiveProvider: () => activeProvider,
     resolveProviderImageUrl,
   });
 
+  syncSeedAlgorithmSelect(activeProvider);
 
   const readPixaroaConfigFromInputs = () => {
     const host =
@@ -279,6 +302,23 @@ export const setupBackgroundControl = (panel, root) => {
       backgroundResetButton.disabled = !hasCustomBackground;
     }
   };
+
+  if (backgroundSeedAlgorithmSelect instanceof HTMLSelectElement) {
+    backgroundSeedAlgorithmSelect.addEventListener('change', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLSelectElement)) {
+        return;
+      }
+      const changed = backgroundThemeSeedCoordinator.setProviderSeedExtractor(
+        activeProvider,
+        target.value,
+      );
+      syncSeedAlgorithmSelect(activeProvider);
+      if (changed) {
+        backgroundThemeSeedCoordinator.onProviderActivated(activeProvider);
+      }
+    });
+  }
 
   const replacePlaceholderName = (template, name) => {
     if (typeof template !== 'string' || template.length === 0) {
@@ -716,4 +756,10 @@ export const setupBackgroundControl = (panel, root) => {
       setPixaroaStatus('idle');
     });
   }
+
+  panel.addEventListener('settings:appearance-reset', () => {
+    backgroundThemeSeedCoordinator.resetProviderSeedExtractors();
+    syncSeedAlgorithmSelect(activeProvider);
+    backgroundThemeSeedCoordinator.onProviderActivated(activeProvider);
+  });
 };

@@ -280,6 +280,24 @@
 - id: settingsPanelBackgroundProviderPixaroa
   translation: Pixaroa
 
+- id: settingsPanelBackgroundSeedAlgorithmLabel
+  translation: 动态取色算法
+
+- id: settingsPanelBackgroundSeedAlgorithmHint
+  translation: 切换提取策略后，会立即按当前背景重新计算主题色。
+
+- id: settingsPanelBackgroundSeedAlgorithmWeightedAverage
+  translation: 加权平均（稳定）
+
+- id: settingsPanelBackgroundSeedAlgorithmVibrantPixel
+  translation: 鲜艳像素（更亮）
+
+- id: settingsPanelBackgroundSeedAlgorithmHueHistogram
+  translation: 色相直方图（抗偏色）
+
+- id: settingsPanelBackgroundSeedAlgorithmKmeansVibrant
+  translation: K-Means 鲜艳聚类（更分离）
+
 - id: settingsPanelBackgroundLabel
   translation: 图片链接
 
