@@ -67,7 +67,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.75rem;
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
   /* 说明：桌面端默认比圆环更淡，悬停/聚焦时再加深以提示可点击。 */
   opacity: 0.55;
   transition: opacity 0.2s ease;

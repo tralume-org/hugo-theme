@@ -102,7 +102,7 @@
 
 /* 说明：复制成功后短暂高亮按钮，提示用户操作完成。 */
 .md3-code-block__copy-button.is-copied {
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
   background-color: color-mix(in srgb, var(--md-sys-color-primary) 14%, transparent);
 }
 

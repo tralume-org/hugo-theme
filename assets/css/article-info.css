@@ -108,14 +108,14 @@
 	  /* 说明：复制成功状态提示，沿用主色强调但保持按钮布局不跳动。 */
 	  border-color: var(--md-sys-color-primary);
 	  background-color: color-mix(in srgb, var(--md-sys-color-primary) 10%, transparent);
-	  color: var(--md-sys-color-primary);
+	  color: var(--app-text-accent-color);
 	}
 
 	.article-info-card__button:hover {
 	  transform: translateY(-1px);
 	  border-color: var(--md-sys-color-primary);
 	  background-color: color-mix(in srgb, var(--md-sys-color-primary) 10%, transparent);
-	  color: var(--md-sys-color-primary);
+	  color: var(--app-text-accent-color);
 	}
 
 .article-info-card__button:focus-visible {

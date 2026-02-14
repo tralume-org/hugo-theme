@@ -33,6 +33,10 @@
   min-width: 0;
 }
 
+.app-title--accent {
+  color: var(--app-text-accent-color);
+}
+
 /* 说明：移动端右侧菜单按钮（桌面端隐藏），用于展开全屏菜单面板。 */
 .app-mobile-menu__toggle {
   display: none;
@@ -54,7 +58,7 @@
 
 .app-mobile-menu__toggle:hover,
 .app-mobile-menu__toggle:focus-visible {
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
 }
 
 .app-mobile-menu__toggle:focus-visible {
@@ -84,7 +88,7 @@
   border-radius: var(--app-radius-pill);
   border: 1px solid transparent;
   background-color: transparent;
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
   font-size: var(--md-sys-typescale-label-large-size);
   line-height: var(--md-sys-typescale-label-large-line-height);
   /* 说明：导航项同时可能是 <a>/<button>，显式指定字重避免表单控件默认字重与链接不一致。 */
@@ -310,7 +314,7 @@
 
 .app-mobile-menu__close:hover,
 .app-mobile-menu__close:focus-visible {
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
 }
 
 .app-mobile-menu__close:focus-visible {

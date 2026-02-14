@@ -198,7 +198,7 @@
   box-shadow: none;
   border-color: transparent;
   background-color: transparent;
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
 }
 
 .article__outline-close:focus-visible {

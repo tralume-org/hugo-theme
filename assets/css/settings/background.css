@@ -49,7 +49,7 @@
 }
 
 .settings-panel__background-provider-tab:hover {
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
 }
 
 .settings-panel__background-provider-tab:focus-visible {
@@ -308,7 +308,7 @@
 
 .settings-panel__background-reset:hover:not(:disabled) {
   border-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
 }
 
 .settings-panel__background-reset:focus-visible {

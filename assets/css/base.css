@@ -118,6 +118,9 @@ body::before {
   --app-dynamic-on-secondary-container-dark: #e0e3ec;
   --app-dynamic-outline-dark: #90939c;
   --app-dynamic-outline-variant-dark: #40434b;
+  --app-dynamic-text-accent-light: #1f2329;
+  --app-dynamic-text-accent-dark: #dfe3ea;
+  --app-text-accent-color: var(--app-dynamic-text-accent-light);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -143,7 +146,7 @@ body::before {
 }
 
 a {
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
   font-weight: 500;
   text-decoration: none;
 }
@@ -183,6 +186,7 @@ a:focus-visible {
 /* 说明：统一使用单一亚克力色板，依赖系统/手动模式切换明暗状态。 */
 :root {
   color-scheme: light;
+  --app-text-accent-color: var(--app-dynamic-text-accent-light);
   --md-sys-color-primary: var(--app-dynamic-primary-light);
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
   --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
@@ -211,6 +215,7 @@ a:focus-visible {
   :root {
     color-scheme: dark;
     --app-glass-tint-alpha: 5%;
+    --app-text-accent-color: var(--app-dynamic-text-accent-dark);
     --md-sys-color-primary: var(--app-dynamic-primary-dark);
     --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
     --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);
@@ -239,6 +244,7 @@ a:focus-visible {
 :root[data-theme-mode="light"] {
   color-scheme: light;
   --app-glass-tint-alpha: 4%;
+  --app-text-accent-color: var(--app-dynamic-text-accent-light);
   --md-sys-color-primary: var(--app-dynamic-primary-light);
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
   --md-sys-color-primary-container: var(--app-dynamic-primary-container-light);
@@ -266,6 +272,7 @@ a:focus-visible {
 :root[data-theme-mode="dark"] {
   color-scheme: dark;
   --app-glass-tint-alpha: 5%;
+  --app-text-accent-color: var(--app-dynamic-text-accent-dark);
   --md-sys-color-primary: var(--app-dynamic-primary-dark);
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
   --md-sys-color-primary-container: var(--app-dynamic-primary-container-dark);

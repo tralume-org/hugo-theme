@@ -24,7 +24,7 @@
 
 .article-card:hover .article-card__title,
 .article-card:focus-visible .article-card__title {
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
 }
 
 .article-card__meta {

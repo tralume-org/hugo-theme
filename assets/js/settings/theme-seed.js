@@ -6,6 +6,7 @@ import {
   defaultThemeSeedPreset,
   isThemeSeedPreset,
   normalizeSeed,
+  resolveThemeSeedTone,
 } from './theme-seed-palette.js';
 
 export const themeSeedStorageKey = 'tralume-theme-seed';
@@ -32,7 +33,11 @@ const dynamicColorKeys = [
   '--app-dynamic-on-secondary-container-dark',
   '--app-dynamic-outline-dark',
   '--app-dynamic-outline-variant-dark',
+  '--app-dynamic-text-accent-light',
+  '--app-dynamic-text-accent-dark',
 ];
+
+const minimumTextContrast = 4.5;
 
 const hexToRgb = (hexColor) => {
   const normalized = normalizeSeed(hexColor);
@@ -96,24 +101,90 @@ const pickOnColor = (backgroundHex, lightText = '#ffffff', darkText = '#101215')
   return contrastWithLight >= contrastWithDark ? lightText : darkText;
 };
 
+const getMinimumContrast = (foregroundHex, backgroundHexList) => {
+  if (!Array.isArray(backgroundHexList) || backgroundHexList.length === 0) {
+    return 0;
+  }
+
+  return backgroundHexList.reduce((minimum, backgroundHex) => {
+    const contrast = getContrast(foregroundHex, backgroundHex);
+    return contrast < minimum ? contrast : minimum;
+  }, Number.POSITIVE_INFINITY);
+};
+
+const ensureTextContrast = (
+  candidateHex,
+  {
+    backgroundHexList,
+    targetHex,
+    minimum = minimumTextContrast,
+  },
+) => {
+  const candidate = normalizeSeed(candidateHex);
+  const target = normalizeSeed(targetHex);
+
+  if (!candidate) {
+    return target || '#000000';
+  }
+
+  if (!target) {
+    return candidate;
+  }
+
+  const candidateContrast = getMinimumContrast(candidate, backgroundHexList);
+  if (candidateContrast >= minimum) {
+    return candidate;
+  }
+
+  let bestColor = candidate;
+  let bestContrast = candidateContrast;
+  const steps = 24;
+
+  for (let step = 1; step <= steps; step += 1) {
+    const ratio = step / steps;
+    const mixed = mixHex(candidate, target, ratio);
+    const contrast = getMinimumContrast(mixed, backgroundHexList);
+
+    if (contrast > bestContrast) {
+      bestColor = mixed;
+      bestContrast = contrast;
+    }
+
+    if (contrast >= minimum) {
+      return mixed;
+    }
+  }
+
+  return bestContrast > 0 ? bestColor : target;
+};
+
 const generateSeedTokens = (seed) => {
   const normalized = normalizeSeed(seed);
   if (!normalized) {
     return null;
   }
 
-  const lightPrimary = normalized;
-  const lightContainer = mixHex(normalized, '#ffffff', 0.84);
-  const darkPrimary = mixHex(normalized, '#ffffff', 0.36);
-  const darkContainer = mixHex(normalized, '#000000', 0.64);
-  const lightSecondary = mixHex(normalized, '#6f7680', 0.7);
-  const lightSecondaryContainer = mixHex(normalized, '#ffffff', 0.9);
-  const darkSecondary = mixHex(normalized, '#b7bfcb', 0.74);
-  const darkSecondaryContainer = mixHex(normalized, '#000000', 0.72);
-  const lightOutline = mixHex(normalized, '#8a8e96', 0.78);
-  const lightOutlineVariant = mixHex(normalized, '#cfd2d8', 0.82);
-  const darkOutline = mixHex(normalized, '#90939c', 0.72);
-  const darkOutlineVariant = mixHex(normalized, '#40434b', 0.78);
+  // 说明：预设色按固定 tone 映射（亮色 600、暗色 400）；自定义色不做 tone 变换。
+  const lightPrimary = resolveThemeSeedTone(normalized, 'light') || normalized;
+  const darkPrimary = resolveThemeSeedTone(normalized, 'dark') || normalized;
+  const lightContainer = mixHex(lightPrimary, '#ffffff', 0.84);
+  const darkContainer = mixHex(darkPrimary, '#000000', 0.64);
+  const lightSecondary = mixHex(lightPrimary, '#6f7680', 0.7);
+  const lightSecondaryContainer = mixHex(lightPrimary, '#ffffff', 0.9);
+  const darkSecondary = mixHex(darkPrimary, '#b7bfcb', 0.74);
+  const darkSecondaryContainer = mixHex(darkPrimary, '#000000', 0.72);
+  const lightOutline = mixHex(lightPrimary, '#8a8e96', 0.78);
+  const lightOutlineVariant = mixHex(lightPrimary, '#cfd2d8', 0.82);
+  const darkOutline = mixHex(darkPrimary, '#90939c', 0.72);
+  const darkOutlineVariant = mixHex(darkPrimary, '#40434b', 0.78);
+  const lightTextAccent = ensureTextContrast(lightPrimary, {
+    backgroundHexList: ['#ffffff', '#f8f9fb', '#f5f6f8', '#ebedf1'],
+    targetHex: '#1f2329',
+  });
+  const darkTextAccent = ensureTextContrast(darkPrimary, {
+    backgroundHexList: ['#0a0c0f', '#0f1114', '#121418', '#1f2228'],
+    targetHex: '#e4e6ec',
+  });
 
   return {
     '--app-dynamic-primary-light': lightPrimary,
@@ -144,6 +215,8 @@ const generateSeedTokens = (seed) => {
     ),
     '--app-dynamic-outline-dark': darkOutline,
     '--app-dynamic-outline-variant-dark': darkOutlineVariant,
+    '--app-dynamic-text-accent-light': lightTextAccent,
+    '--app-dynamic-text-accent-dark': darkTextAccent,
   };
 };
 

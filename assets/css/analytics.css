@@ -139,7 +139,7 @@
 }
 
 .umami-block-dialog__list a {
-  color: var(--md-sys-color-primary);
+  color: var(--app-text-accent-color);
   font-weight: 600;
   text-decoration: none;
 }
