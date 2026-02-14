@@ -2,6 +2,7 @@
 import { createUrlBackgroundProvider } from './background/providers/url.js';
 import { createUploadBackgroundProvider } from './background/providers/upload.js';
 import { createPixaroaBackgroundProvider } from './background/providers/pixaroa.js';
+import { createBackgroundThemeSeedCoordinator } from './background/theme-seed-controls.js';
 
 // 说明：初始化背景模糊滑动块（仅影响背景图层），支持持久化与标签同步。
 const setupBackgroundBlurRangeControl = ({ panel, root, rangeInput, valueLabel }) => {
@@ -194,6 +195,25 @@ export const setupBackgroundControl = (panel, root) => {
     });
   };
 
+  const resolveProviderImageUrl = (provider) => {
+    if (provider === 'url') {
+      return backgroundUrlProvider.lastAppliedUrl() || backgroundUrlProvider.readStoredValue();
+    }
+    if (provider === 'upload') {
+      return backgroundUploadProvider.currentBackgroundUrl();
+    }
+    if (provider === 'pixaroa') {
+      return pixaroaBackgroundProvider.lastAppliedUrl() || pixaroaBackgroundProvider.readStoredUrl();
+    }
+    return '';
+  };
+
+  const backgroundThemeSeedCoordinator = createBackgroundThemeSeedCoordinator({
+    root,
+    getActiveProvider: () => activeProvider,
+    resolveProviderImageUrl,
+  });
+
 
   const readPixaroaConfigFromInputs = () => {
     const host =
@@ -298,13 +318,17 @@ export const setupBackgroundControl = (panel, root) => {
 
   // 说明：对外保留原本的“应用”语义（含清空即移除），实际实现委托给 URL provider。
   const applyBackgroundImage = (rawUrl, shouldPersist = true) => {
+    const normalizedUrl = typeof rawUrl === 'string' ? rawUrl.trim() : '';
     // 说明：URL 生效后可安全释放上传 provider 的 object URL（若存在），避免内存泄漏。
     backgroundUrlProvider.apply(rawUrl, { persistValue: shouldPersist });
     if (shouldPersist) {
-      persistProvider(typeof rawUrl === 'string' && rawUrl.trim() ? 'url' : '');
+      persistProvider(normalizedUrl ? 'url' : '');
     }
     backgroundUploadProvider.releaseObjectUrl();
     updateUrlButtons();
+    if (normalizedUrl) {
+      backgroundThemeSeedCoordinator.onProviderApplied('url');
+    }
   };
 
   const applyUploadFile = async (file, { persistValue = true } = {}) => {
@@ -318,6 +342,7 @@ export const setupBackgroundControl = (panel, root) => {
       if (persistValue) {
         persistProvider('upload');
       }
+      backgroundThemeSeedCoordinator.onProviderApplied('upload');
     }
     updateUrlButtons();
     updateUploadButtons({ hasSelectedFile: false });
@@ -331,6 +356,7 @@ export const setupBackgroundControl = (panel, root) => {
     if (ok) {
       backgroundUrlProvider.deactivate();
       setUploadStatus({ mode: 'stored' });
+      backgroundThemeSeedCoordinator.onProviderApplied('upload');
     }
     updateUploadButtons({ hasSelectedFile: false });
     updateUrlButtons();
@@ -375,6 +401,7 @@ export const setupBackgroundControl = (panel, root) => {
         const provider = tab.getAttribute('data-provider') || 'url';
         setActiveProvider(provider, { shouldFocusTab: false });
         activeProvider = provider;
+        backgroundThemeSeedCoordinator.onProviderActivated(provider);
         updateUrlButtons();
         updateUploadButtons({
           hasSelectedFile:
@@ -398,6 +425,7 @@ export const setupBackgroundControl = (panel, root) => {
           const provider = target.getAttribute('data-provider') || 'url';
           setActiveProvider(provider, { shouldFocusTab: true });
           activeProvider = provider;
+          backgroundThemeSeedCoordinator.onProviderActivated(provider);
           updateUrlButtons();
           updateUploadButtons({
             hasSelectedFile:
@@ -438,6 +466,7 @@ export const setupBackgroundControl = (panel, root) => {
     setActiveProvider(storedProvider, { shouldFocusTab: false });
     activeProvider = storedProvider;
   }
+  backgroundThemeSeedCoordinator.onProviderActivated(activeProvider);
 
   // 说明：首次访问（尚未在 localStorage 保存 provider）时，可按 Hugo 配置自动应用默认 provider。
   // 注意：此逻辑只在“没有 storedProvider”的情况下触发，避免覆盖用户历史选择。
@@ -463,6 +492,7 @@ export const setupBackgroundControl = (panel, root) => {
           updateUploadButtons({ hasSelectedFile: false });
           updatePixaroaButtons();
           setPixaroaStatus('idle');
+          backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
         })
         .catch((error) => {
           console.warn('[Tralume] Pixaroa background fetch failed.', error);
@@ -508,6 +538,7 @@ export const setupBackgroundControl = (panel, root) => {
           updateUploadButtons({ hasSelectedFile: false });
           updatePixaroaButtons();
           setPixaroaStatus('idle');
+          backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
         })
         .catch(() => {
           setPixaroaStatus('error');
@@ -525,6 +556,7 @@ export const setupBackgroundControl = (panel, root) => {
       updateUploadButtons({ hasSelectedFile: false });
       updatePixaroaButtons();
       setPixaroaStatus('idle');
+      backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
     }
   } else {
     // 说明：若已按 Hugo 默认 provider 自动触发了 Pixaroa 拉取，则不要再立刻应用 URL 背景，避免闪烁与覆盖。
@@ -661,6 +693,7 @@ export const setupBackgroundControl = (panel, root) => {
           updateUploadButtons({ hasSelectedFile: false });
           updatePixaroaButtons();
           setPixaroaStatus('idle');
+          backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
         })
         .catch((error) => {
           console.warn('[Tralume] Pixaroa background fetch failed.', error);

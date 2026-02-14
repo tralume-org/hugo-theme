@@ -175,6 +175,6 @@ export const createUploadBackgroundProvider = ({
     releaseObjectUrl,
     hasStoredUpload: () => hasStoredUpload,
     isActive: () => isActive,
+    currentBackgroundUrl: () => currentObjectUrl || '',
   };
 };
-

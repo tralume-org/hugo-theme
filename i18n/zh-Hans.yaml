@@ -208,23 +208,17 @@
 - id: settingsPanelModeDark
   translation: 深色模式
 
-- id: settingsPanelSeedHeading
-  translation: 主题种子色
-
 - id: settingsPanelSeedLabel
-  translation: 种子颜色
+  translation: 自定义主题色
 
-- id: settingsPanelSeedPlaceholder
-  translation: 例如 #2196f3
+- id: settingsPanelSeedCustomShort
+  translation: 自定义
 
-- id: settingsPanelSeedHint
-  translation: 仅支持 #RRGGBB。会影响主色、次要色与描边相关颜色。
+- id: settingsPanelSeedOverrideLabel
+  translation: 覆盖背景主题色
 
-- id: settingsPanelSeedApply
-  translation: 应用种子色
-
-- id: settingsPanelSeedReset
-  translation: 恢复种子色
+- id: settingsPanelSeedPresetLabel
+  translation: 主题色调色盘（17 色）
 
 - id: settingsPanelGlassRangeLabel
   translation: 透明度

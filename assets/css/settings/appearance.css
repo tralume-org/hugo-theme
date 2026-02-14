@@ -29,58 +29,130 @@
   margin-top: 0.25rem;
 }
 
-/* 说明：主题种子色控件（色块选择 + 十六进制输入）。 */
+/* 说明：主题色控件（覆盖开关 + 17 色调色盘 + 浏览器颜色选择器）。 */
 .settings-panel__section--seed {
   gap: 0.45rem;
 }
 
-.settings-panel__seed-input-row {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.5rem;
+.settings-panel__seed-override-row {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
-.settings-panel__seed-picker {
-  inline-size: 2.75rem;
-  block-size: 2.5rem;
-  padding: 0.2rem;
-  border-radius: 0.75rem;
+.settings-panel__seed-override-toggle {
+  inline-size: 2.6rem;
+  block-size: 1.5rem;
+  margin: 0;
+  appearance: none;
+  border-radius: var(--app-radius-pill);
   border: 1px solid var(--app-glass-border-color);
   background-color: var(--app-glass-surface-color);
+  position: relative;
   cursor: pointer;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.settings-panel__seed-picker:hover {
+.settings-panel__seed-override-toggle::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0.15rem;
+  inset-block-start: 0.13rem;
+  inline-size: 1.02rem;
+  block-size: 1.02rem;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-on-surface-variant);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.settings-panel__seed-override-toggle:checked {
   border-color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 28%, transparent);
 }
 
-.settings-panel__seed-picker:focus-visible {
+.settings-panel__seed-override-toggle:checked::after {
+  transform: translateX(1.05rem);
+  background-color: var(--md-sys-color-primary);
+}
+
+.settings-panel__seed-override-toggle:focus-visible {
   outline: 2px solid var(--md-sys-color-primary);
   outline-offset: 2px;
 }
 
-.settings-panel__seed-picker::-webkit-color-swatch-wrapper {
-  padding: 0;
+.settings-panel__seed-manual-controls {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
 }
 
-.settings-panel__seed-picker::-webkit-color-swatch {
-  border: 0;
-  border-radius: 0.55rem;
+.settings-panel__seed-manual-controls[hidden] {
+  display: none;
 }
 
-.settings-panel__seed-picker::-moz-color-swatch {
-  border: 0;
-  border-radius: 0.55rem;
+.settings-panel__seed-palette {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
 }
 
-.settings-panel__seed-input {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  text-transform: lowercase;
+.settings-panel__seed-palette-item {
+  inline-size: 100%;
+  block-size: 1.9rem;
+  border-radius: var(--app-radius-inline);
+  border: 1px solid color-mix(in srgb, var(--settings-seed-color) 34%, var(--app-glass-border-color));
+  background-color: var(--settings-seed-color);
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, #000 16%, transparent);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
-.settings-panel__seed-actions {
-  margin-top: 0.1rem;
+.settings-panel__seed-palette-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px color-mix(in srgb, #000 24%, transparent);
+}
+
+.settings-panel__seed-palette-item[aria-pressed='true'] {
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 30%, transparent);
+}
+
+.settings-panel__seed-palette-item:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.settings-panel__seed-palette-item--custom {
+  --settings-seed-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--app-glass-surface-color);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--app-glass-border-color);
+}
+
+.settings-panel__seed-custom-swatch {
+  inline-size: 0.95rem;
+  block-size: 0.95rem;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--settings-seed-color) 45%, var(--app-glass-border-color));
+  background-color: var(--settings-seed-color);
+}
+
+.settings-panel__seed-custom-label {
+  font-size: var(--md-sys-typescale-label-small-size);
+  line-height: var(--md-sys-typescale-label-small-line-height);
+  font-weight: 600;
+}
+
+.settings-panel__seed-picker-native {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+  pointer-events: none;
 }

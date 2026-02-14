@@ -208,23 +208,17 @@
 - id: settingsPanelModeDark
   translation: Dark mode
 
-- id: settingsPanelSeedHeading
-  translation: Theme seed
-
 - id: settingsPanelSeedLabel
-  translation: Seed color
+  translation: Custom theme color
 
-- id: settingsPanelSeedPlaceholder
-  translation: e.g. #2196f3
+- id: settingsPanelSeedCustomShort
+  translation: Custom
 
-- id: settingsPanelSeedHint
-  translation: Accepts #RRGGBB only. This affects primary, secondary, and outline-related colors.
+- id: settingsPanelSeedOverrideLabel
+  translation: Override background theme color
 
-- id: settingsPanelSeedApply
-  translation: Apply seed
-
-- id: settingsPanelSeedReset
-  translation: Reset seed
+- id: settingsPanelSeedPresetLabel
+  translation: Theme palette (17 colors)
 
 - id: settingsPanelGlassRangeLabel
   translation: Opacity

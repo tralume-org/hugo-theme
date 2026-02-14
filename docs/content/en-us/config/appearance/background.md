@@ -34,3 +34,12 @@ Set in `hugo.toml` at your site root:
 
 1. **User local settings**: URL, uploaded image, or Pixaroa choice from the settings panel take highest priority.
 2. **Site config**: `defaultBackgroundProvider` is used as the default provider.
+
+## Background theme color strategy
+
+The theme includes a background extraction module: once a background provider is active, it extracts a representative color from the background image and matches it to one of the fixed 17 theme colors (Material 500).
+
+In **Appearance → Theme color**, you can choose whether to override provider strategies:
+
+1. **Switch off**: use provider dynamic/manual theme color strategy.
+2. **Switch on**: globally override provider strategy, then choose one of the 17 presets or enter a custom `#RRGGBB`.

@@ -32,6 +32,6 @@ export const setupSettingsPanel = () => {
   setupGlassControls(panel, root);
   setupReaderWidth(panel, root);
   setupPostsScrollMode(panel);
-  setupBackgroundControl(panel, root);
   setupThemeSeed(panel, root);
+  setupBackgroundControl(panel, root);
 };

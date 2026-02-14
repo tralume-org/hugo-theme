@@ -1,8 +1,15 @@
-// 说明：主题种子色控制。
-// 作用：允许用户输入固定 seed（#RRGGBB），并映射到 primary 相关动态 token。
-// 注意：仅覆盖 --app-dynamic-primary-* 变量，不改 secondary/surface 等其余 token。
+// 说明：主题色控制。
+// 作用：统一管理“全局主题色覆盖开关 + 手动颜色输入”，并映射到动态 token。
+// 注意：开启全局覆盖时，会优先于背景 provider 的动态/手动主题色策略。
 
-const themeSeedStorageKey = 'tralume-theme-seed';
+import {
+  defaultThemeSeedPreset,
+  isThemeSeedPreset,
+  normalizeSeed,
+} from './theme-seed-palette.js';
+
+export const themeSeedStorageKey = 'tralume-theme-seed';
+const themeSeedOverrideStorageKey = 'tralume-theme-seed-override';
 
 const dynamicColorKeys = [
   '--app-dynamic-primary-light',
@@ -26,14 +33,6 @@ const dynamicColorKeys = [
   '--app-dynamic-outline-dark',
   '--app-dynamic-outline-variant-dark',
 ];
-
-const normalizeSeed = (value) => {
-  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
-  if (/^#[0-9a-f]{6}$/.test(normalized)) {
-    return normalized;
-  }
-  return '';
-};
 
 const hexToRgb = (hexColor) => {
   const normalized = normalizeSeed(hexColor);
@@ -148,7 +147,7 @@ const generateSeedTokens = (seed) => {
   };
 };
 
-const applySeedTokens = (root, seed) => {
+export const applyThemeSeedToRoot = (root, seed) => {
   const tokens = generateSeedTokens(seed);
   if (!tokens) {
     return false;
@@ -159,13 +158,13 @@ const applySeedTokens = (root, seed) => {
   return true;
 };
 
-const clearSeedTokens = (root) => {
+export const clearThemeSeedFromRoot = (root) => {
   dynamicColorKeys.forEach((key) => {
     root.style.removeProperty(key);
   });
 };
 
-const readStorage = () => {
+export const readStoredThemeSeed = () => {
   try {
     return normalizeSeed(window.localStorage.getItem(themeSeedStorageKey));
   } catch (error) {
@@ -173,7 +172,7 @@ const readStorage = () => {
   }
 };
 
-const writeStorage = (seed) => {
+const writeStoredThemeSeed = (seed) => {
   try {
     if (seed) {
       window.localStorage.setItem(themeSeedStorageKey, seed);
@@ -184,6 +183,31 @@ const writeStorage = (seed) => {
     // 说明：忽略本地存储异常，避免影响面板交互。
   }
 };
+
+const readStoredOverrideState = () => {
+  try {
+    const stored = window.localStorage.getItem(themeSeedOverrideStorageKey);
+    if (stored === '1') {
+      return true;
+    }
+    if (stored === '0') {
+      return false;
+    }
+  } catch (error) {
+    return null;
+  }
+  return null;
+};
+
+const writeStoredOverrideState = (enabled) => {
+  try {
+    window.localStorage.setItem(themeSeedOverrideStorageKey, enabled ? '1' : '0');
+  } catch (error) {
+    // 说明：忽略本地存储异常，避免影响面板交互。
+  }
+};
+
+export const isThemeSeedOverrideEnabled = () => readStoredOverrideState() === true;
 
 const readComputedDefaultSeed = (root) => {
   const computed = window.getComputedStyle(root).getPropertyValue('--app-dynamic-primary-light');
@@ -203,113 +227,227 @@ export const setupThemeSeed = (panel, root) => {
     return;
   }
 
-  const seedInput = section.querySelector('[data-theme-seed-input]');
+  const overrideToggle = section.querySelector('[data-theme-seed-override-toggle]');
+  const manualControls = section.querySelector('[data-theme-seed-manual-controls]');
   const seedPicker = section.querySelector('[data-theme-seed-picker]');
-  const applyButton = section.querySelector('[data-theme-seed-apply]');
-  const resetButton = section.querySelector('[data-theme-seed-reset]');
+  const customButton = section.querySelector('[data-theme-seed-custom-button]');
+  const customSwatch = section.querySelector('[data-theme-seed-custom-swatch]');
+  const presetButtons = Array.from(section.querySelectorAll('[data-theme-seed-preset-button]'));
 
-  if (!(seedInput instanceof HTMLInputElement) || !(seedPicker instanceof HTMLInputElement)) {
+  if (
+    !(overrideToggle instanceof HTMLInputElement) ||
+    !(manualControls instanceof HTMLElement) ||
+    !(seedPicker instanceof HTMLInputElement)
+  ) {
     return;
   }
 
   const defaultSeed = normalizeSeed(section.getAttribute('data-theme-seed-default'));
+  const defaultOverrideFromAttr =
+    (section.getAttribute('data-theme-seed-override-default') || '').trim().toLowerCase() === 'true';
   const fallbackSeed = readComputedDefaultSeed(root);
+  const initialSeed = readStoredThemeSeed() || defaultSeed || fallbackSeed;
 
-  const updateButtons = () => {
-    const candidate = normalizeSeed(seedInput.value);
-    if (applyButton instanceof HTMLButtonElement) {
-      applyButton.disabled = !candidate;
-    }
-    if (resetButton instanceof HTMLButtonElement) {
-      resetButton.disabled = false;
+  const storedOverrideState = readStoredOverrideState();
+  const initialOverrideEnabled =
+    typeof storedOverrideState === 'boolean'
+      ? storedOverrideState
+      : Boolean(readStoredThemeSeed()) || defaultOverrideFromAttr;
+
+  const resolveCandidateSeed = () => normalizeSeed(seedPicker.value);
+
+  const syncCustomSwatch = (seed) => {
+    if (customSwatch instanceof HTMLElement) {
+      customSwatch.style.setProperty('--settings-seed-color', normalizeSeed(seed) || defaultThemeSeedPreset);
     }
   };
 
-  const syncInputs = (seed) => {
-    syncInputValue(seedInput, seed);
-    syncInputValue(seedPicker, seed);
-    updateButtons();
+  const syncPresetBySeed = (seed) => {
+    const normalized = normalizeSeed(seed);
+    let hasPresetSelected = false;
+
+    presetButtons.forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+      const buttonSeed = normalizeSeed(button.getAttribute('data-seed'));
+      const isSelected = Boolean(normalized) && buttonSeed === normalized;
+      if (isSelected) {
+        hasPresetSelected = true;
+      }
+      button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+
+    if (customButton instanceof HTMLButtonElement) {
+      const isCustomSelected = Boolean(normalized) && !hasPresetSelected;
+      customButton.setAttribute('aria-pressed', isCustomSelected ? 'true' : 'false');
+    }
   };
 
-  const applySeed = (seed, { persistValue = true } = {}) => {
+  const syncManualInputs = (seed) => {
+    const normalized = normalizeSeed(seed);
+    if (normalized) {
+      syncInputValue(seedPicker, normalized);
+      syncCustomSwatch(normalized);
+      syncPresetBySeed(normalized);
+      return;
+    }
+    syncInputValue(seedPicker, defaultThemeSeedPreset);
+    syncCustomSwatch(defaultThemeSeedPreset);
+    syncPresetBySeed(defaultThemeSeedPreset);
+  };
+
+  const emitManualState = () => {
+    const manualSeed = overrideToggle.checked ? resolveCandidateSeed() : '';
+    root.dispatchEvent(
+      new CustomEvent('theme-seed:manual-changed', {
+        detail: {
+          manualSeed: normalizeSeed(manualSeed),
+        },
+      }),
+    );
+  };
+
+  const updateControlsState = () => {
+    const enabled = overrideToggle.checked;
+    manualControls.hidden = !enabled;
+    seedPicker.disabled = !enabled;
+    presetButtons.forEach((button) => {
+      if (button instanceof HTMLButtonElement) {
+        button.disabled = !enabled;
+      }
+    });
+    if (customButton instanceof HTMLButtonElement) {
+      customButton.disabled = !enabled;
+    }
+  };
+
+  const applyManualSeed = (seed, { persistValue = true, emitState = true } = {}) => {
     const normalized = normalizeSeed(seed);
     if (!normalized) {
       return false;
     }
-    const applied = applySeedTokens(root, normalized);
+    const applied = applyThemeSeedToRoot(root, normalized);
     if (!applied) {
       return false;
     }
-    syncInputs(normalized);
+    syncManualInputs(normalized);
     if (persistValue) {
-      writeStorage(normalized);
+      writeStoredThemeSeed(normalized);
+    }
+    if (emitState) {
+      emitManualState();
     }
     return true;
   };
 
-  const resetSeed = ({ persistValue = true } = {}) => {
-    clearSeedTokens(root);
-    const nextSeed = defaultSeed || fallbackSeed;
-    if (defaultSeed) {
-      applySeed(defaultSeed, { persistValue: false });
-    } else {
-      syncInputs(nextSeed);
+  const resetManualSeed = ({ persistValue = true } = {}) => {
+    const nextSeed = defaultSeed || fallbackSeed || defaultThemeSeedPreset;
+    syncManualInputs(nextSeed);
+    if (overrideToggle.checked) {
+      applyThemeSeedToRoot(root, nextSeed);
     }
     if (persistValue) {
-      writeStorage('');
+      writeStoredThemeSeed('');
     }
+    emitManualState();
   };
 
-  const initialSeed = readStorage() || defaultSeed;
-  if (initialSeed) {
-    applySeed(initialSeed, { persistValue: false });
-  } else {
-    syncInputs(fallbackSeed);
-  }
+  syncManualInputs(initialSeed);
 
-  seedPicker.addEventListener('input', (event) => {
-    const target = event.target;
-    if (target instanceof HTMLInputElement) {
-      syncInputValue(seedInput, target.value.toLowerCase());
-      updateButtons();
+  overrideToggle.checked = initialOverrideEnabled;
+  writeStoredOverrideState(initialOverrideEnabled);
+  if (initialOverrideEnabled) {
+    applyThemeSeedToRoot(root, initialSeed);
+  }
+  updateControlsState();
+  emitManualState();
+
+  overrideToggle.addEventListener('change', () => {
+    const enabled = overrideToggle.checked;
+    writeStoredOverrideState(enabled);
+    if (enabled) {
+      const candidate = resolveCandidateSeed() || defaultSeed || fallbackSeed || defaultThemeSeedPreset;
+      applyManualSeed(candidate, { persistValue: true, emitState: false });
+    } else {
+      clearThemeSeedFromRoot(root);
     }
+    updateControlsState();
+    emitManualState();
   });
 
-  seedInput.addEventListener('input', (event) => {
+  seedPicker.addEventListener('input', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLInputElement)) {
       return;
     }
     const normalized = normalizeSeed(target.value);
-    if (normalized) {
-      syncInputValue(seedPicker, normalized);
-    }
-    updateButtons();
-  });
-
-  seedInput.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') {
+    if (!normalized) {
       return;
     }
-    event.preventDefault();
-    applySeed(seedInput.value, { persistValue: true });
+    syncCustomSwatch(normalized);
+    syncPresetBySeed(normalized);
+    if (!overrideToggle.checked) {
+      writeStoredThemeSeed(normalized);
+      updateControlsState();
+      return;
+    }
+    applyManualSeed(normalized, { persistValue: true, emitState: false });
+    emitManualState();
+    updateControlsState();
   });
 
-  if (applyButton instanceof HTMLButtonElement) {
-    applyButton.addEventListener('click', () => {
-      applySeed(seedInput.value, { persistValue: true });
+  presetButtons.forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) {
+      return;
+    }
+    button.addEventListener('click', () => {
+      const nextSeed = normalizeSeed(button.getAttribute('data-seed'));
+      if (!isThemeSeedPreset(nextSeed)) {
+        return;
+      }
+      syncInputValue(seedPicker, nextSeed);
+      syncCustomSwatch(nextSeed);
+      syncPresetBySeed(nextSeed);
+      if (!overrideToggle.checked) {
+        writeStoredThemeSeed(nextSeed);
+        updateControlsState();
+        return;
+      }
+      applyManualSeed(nextSeed, { persistValue: true, emitState: false });
+      emitManualState();
+      updateControlsState();
     });
-  }
+  });
 
-  if (resetButton instanceof HTMLButtonElement) {
-    resetButton.addEventListener('click', () => {
-      resetSeed({ persistValue: true });
+  if (customButton instanceof HTMLButtonElement) {
+    customButton.addEventListener('click', () => {
+      if (!overrideToggle.checked) {
+        return;
+      }
+      seedPicker.click();
     });
   }
 
   panel.addEventListener('settings:appearance-reset', () => {
-    resetSeed({ persistValue: true });
+    const resetOverride = defaultOverrideFromAttr;
+    overrideToggle.checked = resetOverride;
+    writeStoredOverrideState(resetOverride);
+    resetManualSeed({ persistValue: true });
+    if (!resetOverride) {
+      clearThemeSeedFromRoot(root);
+      emitManualState();
+    }
+    updateControlsState();
   });
 
-  updateButtons();
+  root.addEventListener('theme-seed:external-apply', (event) => {
+    const detail = event instanceof CustomEvent ? event.detail : null;
+    const nextSeed = detail && typeof detail.seed === 'string' ? normalizeSeed(detail.seed) : '';
+    if (!nextSeed) {
+      return;
+    }
+    syncManualInputs(nextSeed);
+    updateControlsState();
+  });
 };

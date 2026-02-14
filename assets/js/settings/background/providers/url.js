@@ -19,6 +19,7 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
 
   let hasCustomBackground = false;
   let hasStoredValueCache = null;
+  let lastAppliedUrl = '';
 
   const persist = (value) => {
     if (!backingStorage) {
@@ -58,6 +59,7 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
       root.style.setProperty('--app-custom-background-opacity', '0');
       hasCustomBackground = false;
       hasStoredValueCache = false;
+      lastAppliedUrl = '';
       if (persistValue) {
         persist('');
       }
@@ -70,6 +72,7 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
     root.style.setProperty('--app-custom-background-opacity', '1');
     hasCustomBackground = true;
     hasStoredValueCache = true;
+    lastAppliedUrl = trimmed;
     if (persistValue) {
       persist(trimmed);
     }
@@ -92,5 +95,6 @@ export const createUrlBackgroundProvider = ({ root, storageKey, storage } = {}) 
       return readStoredValue().length > 0;
     },
     isActive: () => hasCustomBackground,
+    lastAppliedUrl: () => lastAppliedUrl,
   };
 };

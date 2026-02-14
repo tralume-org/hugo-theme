@@ -29,7 +29,7 @@
 {{ $readerDefaultValue = math.Min $readerSliderMax $readerDefaultValue }}
 {{ $readerInitialPercent := printf "%.0f" $readerDefaultValue }}
 
-{{/* 说明：主题种子色默认值，仅接受 #RRGGBB，非法值回退为空（由前端模块处理默认色）。 */}}
+{{/* 说明：主题色默认值，仅接受 #RRGGBB，非法值回退为空（由前端模块处理默认色）。 */}}
 {{- $defaultThemeSeed := "" -}}
 {{- with site.Params.theme -}}
   {{- with .defaultSeed -}}
@@ -40,6 +40,26 @@
   {{- end -}}
 {{- end -}}
 {{- $seedInitialValue := cond (ne $defaultThemeSeed "") $defaultThemeSeed "#1f2329" -}}
+{{- $seedOverrideDefault := cond (ne $defaultThemeSeed "") "true" "false" -}}
+{{- $seedPresetList := slice
+  "#f44336"
+  "#e91e63"
+  "#9c27b0"
+  "#673ab7"
+  "#3f51b5"
+  "#2196f3"
+  "#03a9f4"
+  "#00bcd4"
+  "#009688"
+  "#4caf50"
+  "#8bc34a"
+  "#cddc39"
+  "#ffeb3b"
+  "#ffc107"
+  "#ff9800"
+  "#ff5722"
+  "#795548"
+-}}
 
 <section class="settings-panel__section settings-panel__section--appearance">
   <h3 class="settings-panel__section-title">
@@ -178,53 +198,63 @@
     class="settings-panel__appearance-block settings-panel__section--seed"
     data-theme-seed-section
     data-theme-seed-default="{{ $defaultThemeSeed }}"
+    data-theme-seed-override-default="{{ $seedOverrideDefault }}"
   >
-    <p class="settings-panel__appearance-subtitle">{{ i18n "settingsPanelSeedHeading" }}</p>
-    <label class="settings-panel__background-label" for="settings-panel-theme-seed-input">
-      {{ i18n "settingsPanelSeedLabel" }}
-    </label>
-    <div class="settings-panel__seed-input-row">
+    <div class="settings-panel__seed-override-row">
+      <label class="settings-panel__background-label" for="settings-panel-theme-seed-override">
+        {{ i18n "settingsPanelSeedOverrideLabel" }}
+      </label>
+      <input
+        id="settings-panel-theme-seed-override"
+        class="settings-panel__seed-override-toggle"
+        type="checkbox"
+        role="switch"
+        data-theme-seed-override-toggle
+      />
+    </div>
+
+    <div class="settings-panel__seed-manual-controls" data-theme-seed-manual-controls>
+      <div
+        class="settings-panel__seed-palette"
+        role="group"
+        aria-label="{{ i18n "settingsPanelSeedPresetLabel" }}"
+      >
+        {{- range $seedPresetList -}}
+          <button
+            type="button"
+            class="settings-panel__seed-palette-item"
+            data-theme-seed-preset-button
+            data-seed="{{ . }}"
+            aria-label="{{ . }}"
+            aria-pressed="false"
+            style="--settings-seed-color: {{ . }};"
+          ></button>
+        {{- end -}}
+
+        <button
+          type="button"
+          class="settings-panel__seed-palette-item settings-panel__seed-palette-item--custom"
+          data-theme-seed-custom-button
+          aria-label="{{ i18n "settingsPanelSeedLabel" }}"
+          aria-pressed="false"
+        >
+          <span
+            class="settings-panel__seed-custom-swatch"
+            data-theme-seed-custom-swatch
+            style="--settings-seed-color: {{ $seedInitialValue }};"
+          ></span>
+          <span class="settings-panel__seed-custom-label">{{ i18n "settingsPanelSeedCustomShort" }}</span>
+        </button>
+      </div>
+
       <input
         id="settings-panel-theme-seed-picker"
-        class="settings-panel__seed-picker"
+        class="settings-panel__seed-picker-native"
         type="color"
         value="{{ $seedInitialValue }}"
         aria-label="{{ i18n "settingsPanelSeedLabel" }}"
         data-theme-seed-picker
       />
-      <input
-        id="settings-panel-theme-seed-input"
-        class="settings-panel__background-input settings-panel__seed-input"
-        type="text"
-        inputmode="text"
-        value="{{ $seedInitialValue }}"
-        placeholder="{{ i18n "settingsPanelSeedPlaceholder" }}"
-        autocomplete="off"
-        spellcheck="false"
-        maxlength="7"
-        pattern="^#[0-9A-Fa-f]{6}$"
-        aria-describedby="settings-panel-theme-seed-hint"
-        data-theme-seed-input
-      />
-    </div>
-    <p class="settings-panel__background-hint" id="settings-panel-theme-seed-hint">
-      {{ i18n "settingsPanelSeedHint" }}
-    </p>
-    <div class="settings-panel__background-actions settings-panel__seed-actions">
-      <button
-        type="button"
-        class="settings-panel__background-apply"
-        data-theme-seed-apply
-      >
-        {{ i18n "settingsPanelSeedApply" }}
-      </button>
-      <button
-        type="button"
-        class="settings-panel__background-reset"
-        data-theme-seed-reset
-      >
-        {{ i18n "settingsPanelSeedReset" }}
-      </button>
     </div>
   </div>
 
