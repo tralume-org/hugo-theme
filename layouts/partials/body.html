@@ -2,7 +2,7 @@
 <a class="skip-link" href="#main-content">{{ i18n "skipToContent" }}</a>
 <header class="app-header app-glass app-glass--surface app-card">
   <div class="app-bar">
-    <a class="app-title{{ if .IsHome }} app-title--accent{{ end }}" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
+    <a class="app-title app-title--accent" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
     {{- if site.Menus.main -}}
       {{/* 说明：移动端菜单按钮（桌面端隐藏），点击后展开全屏菜单面板。 */}}
       <button
