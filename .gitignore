@@ -48,3 +48,5 @@ todo.md
 # Docs
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+
+release-note.md
