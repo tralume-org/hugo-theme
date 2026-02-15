@@ -1,11 +1,11 @@
 ## Summary
 
-- <一句话说明本次发版的关键收益或行为变化>
-- <一句话说明次要但重要的影响，可选>
+- <One sentence describing the primary end-user impact>
+- <Optional second sentence for another meaningful change>
 
 ## Breaking changes
 
-- <仅在存在破坏性变更时保留本节；若无破坏性变更，删除整个小节>
+- <Keep this section only when breaking changes exist; otherwise remove it entirely>
 
 ## Changes
 

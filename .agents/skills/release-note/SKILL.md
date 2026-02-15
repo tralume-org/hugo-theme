@@ -18,6 +18,7 @@ description: 生成 Tralume 发布说明并写入 release-note.md（无 Breaking
 5. `## Summary` 仅保留 1-3 条，强调用户可感知影响与改动价值。
 6. 提交范围仅统计“最近语义化标签（如 `v0.10.0`）之后到 HEAD”的提交。
 7. 写入方式为覆盖写入 `release-note.md`。
+8. `release-note.md` 正文一律使用美式英语（American English），包括 Summary/Breaking changes/Changes 的描述。
 
 # 执行步骤
 
