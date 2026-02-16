@@ -133,9 +133,8 @@
   margin: var(--article-divider-margin, 1.25rem) 0;
 }
 
-/* 说明：为正文中的外链追加 “open_in_new” 图标，提示将跳转到站外页面。 */
-.article__content a[href^="http://"]::after,
-.article__content a[href^="https://"]::after {
+/* 说明：为正文中所有带 href 的链接追加图标（含站内、站外与锚点链接）。 */
+.article__content a[href]::after {
   content: "open_in_new";
   font-family: "Material Symbols Rounded";
   font-style: normal;
