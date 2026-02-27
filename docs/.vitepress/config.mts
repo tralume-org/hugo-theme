@@ -65,7 +65,7 @@ export default defineConfig({
       'script',
       {
         defer: '',
-        src: 'https://umami.alexma.top/script.js',
+        src: 'https://umi.alexma.top/script.js',
         'data-website-id': 'bf8787e9-d608-447c-a787-80535c42cb00',
       },
     ],
