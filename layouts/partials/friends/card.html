@@ -24,14 +24,14 @@
     {{ end }}
   </div>
   <div class="friend-card__content">
+    <h2 class="friend-card__name">{{ $name }}</h2>
+    {{ with $description }}
+      <p class="friend-card__description">{{ . }}</p>
+    {{ end }}
     <div class="friend-card__meta">
       <span class="friend-card__language" aria-label="{{ i18n "friendsLanguageLabel" (dict "Language" $language) }}">
         {{ $language }}
       </span>
     </div>
-    <h2 class="friend-card__name">{{ $name }}</h2>
-    {{ with $description }}
-      <p class="friend-card__description">{{ . }}</p>
-    {{ end }}
   </div>
 </a>
