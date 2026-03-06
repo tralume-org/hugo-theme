@@ -1,9 +1,10 @@
-{{/* 说明：从 data/friends 归一化友链数据；按“当前语言优先”分组并随机排列；仅做数据处理，不输出 HTML。 */}}
+{{/* 说明：从 data/friends 归一化友链数据；按“当前语言优先”分组，并在组内按 weight 升序、同权重随机；仅做数据处理，不输出 HTML。 */}}
 {{- $currentLang := site.Language.Lang | default "en-US" -}}
 {{- $currentLangKey := lower (replace $currentLang "_" "-" ) -}}
 {{- $currentLangCode := site.Language.LanguageCode | default $currentLang -}}
 {{- $currentLangCodeKey := lower (replace $currentLangCode "_" "-" ) -}}
 {{- $currentLangName := site.Language.LanguageName | default $currentLang -}}
+{{- $defaultWeight := 10000 -}}
 
 {{/* 说明：将语言代码映射为语言名称（来自 Hugo languages 配置），用于友链卡片展示。 */}}
 {{- $languageNameScratch := newScratch -}}
@@ -21,8 +22,10 @@
 {{/* 说明：name/description 支持 i18n：既可为字符串，也可为按语言代码分组的 map；缺失当前语言时回退 default 或任一已提供语言。 */}}
 {{- $i18nKeyCandidates := slice $currentLangCode (replace $currentLangCode "_" "-" ) $currentLang (replace $currentLang "_" "-" ) $currentLangKey $currentLangCodeKey "default" -}}
 {{- $friendsData := site.Data.friends -}}
-{{- $primaryFriends := slice -}}
-{{- $secondaryFriends := slice -}}
+{{- $primaryWeightKeys := slice -}}
+{{- $secondaryWeightKeys := slice -}}
+{{- $primaryBuckets := newScratch -}}
+{{- $secondaryBuckets := newScratch -}}
 
 {{- if $friendsData }}
   {{- range $friendsData }}
@@ -32,6 +35,10 @@
 
     {{- if and $name $url }}
       {{- $rawLang := or .language .lang -}}
+      {{- $weight := $defaultWeight -}}
+      {{- if isset . "weight" }}
+        {{- $weight = int .weight -}}
+      {{- end -}}
       {{- $normalizedLangs := slice -}}
       {{- $languageCodeLabels := slice -}}
 
@@ -77,36 +84,55 @@
         "url" $url
         "avatar" .avatar
         "language" $languageDisplay
+        "weight" $weight
       -}}
 
-      {{/* 说明：排序优先级：language 为空或包含当前语言 → 主分组；否则 → 次分组。 */}}
+      {{/* 说明：分组优先级：language 为空或包含当前语言 → 当前语言组；否则 → 其他语言组。 */}}
       {{- $isPrimary := true -}}
       {{- if gt (len $normalizedLangs) 0 }}
         {{- $isPrimary = false -}}
         {{- range $normalizedLangs }}
-          {{- if eq . $currentLangKey }}
+          {{- if or (eq . $currentLangKey) (eq . $currentLangCodeKey) }}
             {{- $isPrimary = true -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
 
       {{- if $isPrimary }}
-        {{- $primaryFriends = $primaryFriends | append $friend -}}
+        {{- $weightKey := printf "%d" $weight -}}
+        {{- $bucket := $primaryBuckets.Get $weightKey | default (slice) -}}
+        {{- if eq (len $bucket) 0 }}
+          {{- $primaryWeightKeys = $primaryWeightKeys | append $weight -}}
+        {{- end -}}
+        {{- $bucket = $bucket | append $friend -}}
+        {{- $primaryBuckets.Set $weightKey $bucket -}}
       {{- else }}
-        {{- $secondaryFriends = $secondaryFriends | append $friend -}}
+        {{- $weightKey := printf "%d" $weight -}}
+        {{- $bucket := $secondaryBuckets.Get $weightKey | default (slice) -}}
+        {{- if eq (len $bucket) 0 }}
+          {{- $secondaryWeightKeys = $secondaryWeightKeys | append $weight -}}
+        {{- end -}}
+        {{- $bucket = $bucket | append $friend -}}
+        {{- $secondaryBuckets.Set $weightKey $bucket -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
 
-{{/* 说明：随机排列；保持“当前语言条目优先，其它语言条目在后”的顺序。 */}}
-{{- $primaryFriends = shuffle $primaryFriends -}}
-{{- $secondaryFriends = shuffle $secondaryFriends -}}
-{{- $friends := $primaryFriends -}}
-{{- range $secondaryFriends }}
-  {{- $friends = $friends | append . -}}
+{{/* 说明：先输出当前语言组，再输出其他语言组；每组内按 weight 升序，相同 weight 的条目随机。 */}}
+{{- $friends := slice -}}
+{{- range (sort $primaryWeightKeys) }}
+  {{- $weightKey := printf "%d" . -}}
+  {{- range (shuffle ($primaryBuckets.Get $weightKey | default (slice))) }}
+    {{- $friends = $friends | append . -}}
+  {{- end -}}
 {{- end -}}
-
+{{- range (sort $secondaryWeightKeys) }}
+  {{- $weightKey := printf "%d" . -}}
+  {{- range (shuffle ($secondaryBuckets.Get $weightKey | default (slice))) }}
+    {{- $friends = $friends | append . -}}
+  {{- end -}}
+{{- end -}}
 {{- return (dict
   "Friends" $friends
   "CurrentLangName" $currentLangName
