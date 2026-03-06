@@ -14,6 +14,25 @@
   description = 'Tralume：一个现代、轻量、漂亮的 Hugo 主题。'
 ```
 
+## 网站图标 (Favicon)
+
+Tralume 支持通过 `params.favicon` 输出网站图标相关的 `<link>` 标签。先把图标文件放到站点的 `static/` 目录，再在配置里填写根路径：
+
+```toml
+[params.favicon]
+  icon = '/favicon.ico'
+  svg = '/favicon.svg'
+  appleTouch = '/apple-touch-icon.png'
+  manifest = '/site.webmanifest'
+```
+
+支持的字段：
+
+- `icon`：普通 favicon，一般用 `.ico` 或 `.png`
+- `svg`：现代浏览器使用的 SVG favicon
+- `appleTouch`：iOS 主屏图标
+- `manifest`：Web App manifest 文件
+
 ## 搜索引擎规则 (Robots.txt)
 
 告诉搜索引擎哪些页面可以抓取，哪些需要忽略。你还可以通过它快速关闭全站抓取（例如在站点还没准备好上线时）。

@@ -33,6 +33,20 @@
 {{- if $desc -}}
 <meta name="description" content="{{ $desc }}">
 {{- end -}}
+{{- with site.Params.favicon -}}
+  {{- with .icon -}}
+<link rel="icon" href="{{ . | safeURL }}">
+  {{- end -}}
+  {{- with .svg -}}
+<link rel="icon" type="image/svg+xml" href="{{ . | safeURL }}">
+  {{- end -}}
+  {{- with .appleTouch -}}
+<link rel="apple-touch-icon" href="{{ . | safeURL }}">
+  {{- end -}}
+  {{- with .manifest -}}
+<link rel="manifest" href="{{ . | safeURL }}">
+  {{- end -}}
+{{- end -}}
 <script>
   // 说明：预先应用主题模式偏好，避免首屏闪烁。
   (function () {
