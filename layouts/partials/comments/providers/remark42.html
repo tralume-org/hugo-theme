@@ -16,12 +16,8 @@
   {{- if $host -}}
     {{- $threadURL := $context.Permalink -}}
     {{- if $shareAcrossTranslations -}}
-      {{- $defaultLanguage := $context.Site.Home.Language.Lang -}}
-      {{- $translations := $context.AllTranslations | append $context -}}
-      {{- range $translations -}}
-        {{- if eq .Language.Lang $defaultLanguage -}}
-          {{- $threadURL = .Permalink -}}
-        {{- end -}}
+      {{- with index $context.AllTranslations 0 -}}
+        {{- $threadURL = .Permalink -}}
       {{- end -}}
     {{- end -}}
     {{- $remarkConfig := dict
