@@ -1,0 +1,26 @@
+{{- /*
+  说明：评论 provider 分发入口。
+  用途：根据 `params.comments.provider` 渲染对应评论系统。
+*/ -}}
+{{- with site.Params.comments -}}
+  {{- $comments := . -}}
+  {{- $provider := "" -}}
+  {{- with $comments.provider -}}
+    {{- $provider = lower . -}}
+  {{- end -}}
+  {{- $providers := $comments.providers | default dict -}}
+  {{- if and (not $provider) (eq (len $providers) 1) -}}
+    {{- range $name, $_ := $providers -}}
+      {{- if not $provider -}}
+        {{- $provider = lower $name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $provider -}}
+    {{- $partial := printf "comments/providers/%s.html" $provider -}}
+    {{- $config := index $providers $provider -}}
+    {{- if templates.Exists (printf "partials/%s" $partial) -}}
+      {{- partial $partial (dict "Config" $config "Context" $) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

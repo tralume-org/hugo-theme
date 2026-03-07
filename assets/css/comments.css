@@ -1,0 +1,30 @@
+.article__comments {
+  --app-glass-radius: var(--app-radius-card);
+  --app-card-shadow: var(--md-sys-elevation-level2);
+}
+
+.article-comments-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.article-comments-card__heading {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-title-medium-size);
+  line-height: var(--md-sys-typescale-title-medium-line-height);
+  font-weight: 600;
+}
+
+.article-comments-card__embed {
+  min-width: 0;
+}
+
+.article-comments-card__embed:not(:has(iframe))::before {
+  content: attr(data-loading-label);
+  display: block;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}

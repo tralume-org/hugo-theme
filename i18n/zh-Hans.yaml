@@ -486,6 +486,15 @@
 - id: articleInfoEditThisPage
   translation: 编辑此页面
 
+- id: articleCommentsAriaLabel
+  translation: 评论区
+
+- id: articleCommentsHeading
+  translation: 评论
+
+- id: articleCommentsLoading
+  translation: 正在加载评论...
+
 - id: articleLicenseFull_cc-by-4.0
   translation: CC BY 4.0 - 可自由转载、修改或商用，仅需署名。
 

@@ -486,6 +486,15 @@
 - id: articleInfoEditThisPage
   translation: Edit this page
 
+- id: articleCommentsAriaLabel
+  translation: Comments
+
+- id: articleCommentsHeading
+  translation: Comments
+
+- id: articleCommentsLoading
+  translation: Loading comments...
+
 - id: articleLicenseFull_cc-by-4.0
   translation: CC BY 4.0 – For copying, remixing, and commercial use, as long as you give credit.
 

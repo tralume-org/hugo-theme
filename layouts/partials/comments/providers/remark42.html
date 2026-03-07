@@ -1,0 +1,91 @@
+{{- /*
+  说明：Remark42 评论 provider。
+  用途：输出评论卡片与前端初始化所需的 data-* 配置。
+  注意：主题与语言均跟随当前站点状态，不额外暴露配置项。
+*/ -}}
+{{- $config := .Config -}}
+{{- $context := .Context -}}
+{{- with $config -}}
+  {{- $host := .host | default "" -}}
+  {{- $siteId := .siteId | default "remark" -}}
+  {{- $locale := lower (index (split $context.Site.Language.LanguageCode "-") 0) -}}
+  {{- if $host -}}
+    {{- $remarkConfig := dict
+      "host" $host
+      "site_id" $siteId
+      "page_title" $context.Title
+      "locale" $locale
+      "components" (slice "embed")
+    -}}
+    {{- with .maxShownComments -}}
+      {{- $remarkConfig = merge $remarkConfig (dict "max_shown_comments" .) -}}
+    {{- end -}}
+    {{- if isset . "showEmailSubscription" -}}
+      {{- $remarkConfig = merge $remarkConfig (dict "show_email_subscription" .showEmailSubscription) -}}
+    {{- end -}}
+    {{- if isset . "showRssSubscription" -}}
+      {{- $remarkConfig = merge $remarkConfig (dict "show_rss_subscription" .showRssSubscription) -}}
+    {{- end -}}
+    {{- if isset . "simpleView" -}}
+      {{- $remarkConfig = merge $remarkConfig (dict "simple_view" .simpleView) -}}
+    {{- end -}}
+    {{- if isset . "noFooter" -}}
+      {{- $remarkConfig = merge $remarkConfig (dict "no_footer" .noFooter) -}}
+    {{- end -}}
+    <section class="article__comments article__surface app-glass app-glass--surface app-card" data-article-comments aria-label="{{ i18n "articleCommentsAriaLabel" }}">
+      <div class="article-comments-card">
+        <p class="article-comments-card__heading">{{ i18n "articleCommentsHeading" }}</p>
+        <div id="remark42" class="article-comments-card__embed" data-loading-label="{{ i18n "articleCommentsLoading" }}"></div>
+      </div>
+    </section>
+    <script>
+      (() => {
+        const getActiveTheme = () => {
+          const mode = document.documentElement.getAttribute('data-theme-mode');
+          if (mode === 'dark') return 'dark';
+          if (mode === 'light') return 'light';
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+
+        var remark_config = {{ $remarkConfig | jsonify | safeJS }};
+        remark_config.theme = getActiveTheme();
+        window.remark_config = remark_config;
+
+        !function(components, doc) {
+          for (var i = 0; i < components.length; i += 1) {
+            var script = doc.createElement('script');
+            var extension = '.js';
+            var root = doc.head || doc.body;
+            if ('noModule' in script) {
+              script.type = 'module';
+              extension = '.mjs';
+            } else {
+              script.async = true;
+              script.defer = true;
+            }
+            script.src = remark_config.host + '/web/' + components[i] + extension;
+            root.appendChild(script);
+          }
+        }(remark_config.components || ['embed'], document);
+
+        const syncTheme = () => {
+          window.remark_config.theme = getActiveTheme();
+          if (window.REMARK42?.changeTheme) {
+            window.REMARK42.changeTheme(window.remark_config.theme);
+          }
+        };
+
+        new MutationObserver((mutations) => {
+          if (mutations.some((mutation) => mutation.attributeName === 'data-theme-mode')) {
+            syncTheme();
+          }
+        }).observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['data-theme-mode'],
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
+      })();
+    </script>
+  {{- end -}}
+{{- end -}}

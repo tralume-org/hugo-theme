@@ -310,11 +310,18 @@
     align-items: start;
   }
 
+  .article__surface,
+  .article__info,
+  .article__comments {
+    grid-column: 1;
+  }
+
   .article__layout.article__layout--single {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .article__outline {
+    grid-column: 2;
     position: sticky;
     top: 6.5rem;
     max-height: calc(100vh - 8rem);
