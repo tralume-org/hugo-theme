@@ -9,11 +9,26 @@
   {{- $host := .host | default "" -}}
   {{- $siteId := .siteId | default "remark" -}}
   {{- $locale := lower (index (split $context.Site.Language.LanguageCode "-") 0) -}}
+  {{- $shareAcrossTranslations := true -}}
+  {{- if isset . "shareAcrossTranslations" -}}
+    {{- $shareAcrossTranslations = .shareAcrossTranslations -}}
+  {{- end -}}
   {{- if $host -}}
+    {{- $threadURL := $context.Permalink -}}
+    {{- if $shareAcrossTranslations -}}
+      {{- $defaultLanguage := $context.Site.Home.Language.Lang -}}
+      {{- $translations := $context.AllTranslations | append $context -}}
+      {{- range $translations -}}
+        {{- if eq .Language.Lang $defaultLanguage -}}
+          {{- $threadURL = .Permalink -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
     {{- $remarkConfig := dict
       "host" $host
       "site_id" $siteId
       "page_title" $context.Title
+      "url" $threadURL
       "locale" $locale
       "components" (slice "embed")
     -}}
