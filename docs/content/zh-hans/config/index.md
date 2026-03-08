@@ -14,6 +14,7 @@ Tralume 主题提供了丰富的自定义选项，你可以通过修改站点的
 - [站点信息与 SEO](./site-info)：描述与搜索引擎规则
 - [内容展示与摘要](./content-display)：首页限制与简介字数
 - [RSS 订阅](./rss)：阻止特定文章出现在 RSS 订阅内
+- [多语言路由与智能入口](./i18n-routing)：正式语言 URL 与自动入口页
 - [文章许可证](./license)：管理每篇文章的许可证
 - [AI 参与度标记](./ai-marker)：标准化 AI 写作说明
 - [友链管理](./friends)：`data/friends` 数据配置

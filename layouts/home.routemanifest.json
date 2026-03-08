@@ -1,0 +1,84 @@
+{{- /*
+  说明：输出整站正式内容页的路由清单。
+  用途：供构建后脚本生成智能语言入口页，避免在 Hugo 渲染阶段重建 permalink 逻辑。
+  注意：这里只收集真实内容页，不直接生成任何入口页文件。
+*/ -}}
+{{- $scratch := newScratch -}}
+{{- $scratch.Set "languages" (slice) -}}
+{{- $scratch.Set "entries" (slice) -}}
+{{- $scratch.Set "seenGroups" (dict) -}}
+{{- $scratch.Set "homeTargets" (dict) -}}
+
+{{- range site.Sites -}}
+  {{- $languages := $scratch.Get "languages" -}}
+  {{- $scratch.Set "languages" ($languages | append (dict
+    "lang" .Language.Lang
+    "languageCode" (.Language.LanguageCode | default .Language.Lang)
+    "languageName" (.Language.LanguageName | default .Language.Lang)
+    "weight" (.Language.Weight | default 0)
+  )) -}}
+
+  {{- $homeTargets := $scratch.Get "homeTargets" -}}
+  {{- $scratch.Set "homeTargets" (merge $homeTargets (dict .Language.Lang (dict
+    "lang" .Language.Lang
+    "title" .Title
+    "relPermalink" .Home.RelPermalink
+    "permalink" .Home.Permalink
+  ))) -}}
+
+  {{- range .RegularPages -}}
+    {{- if ne (.Params.noAutoEntry | default false) true -}}
+      {{- $groupKey := .Path | default (.TranslationKey | default .RelPermalink) -}}
+      {{- $seenGroups := $scratch.Get "seenGroups" -}}
+      {{- if not (index $seenGroups $groupKey) -}}
+        {{- $scratch.Set "seenGroups" (merge $seenGroups (dict $groupKey true)) -}}
+
+        {{- $entryScratch := newScratch -}}
+        {{- $entryScratch.Set "targets" (dict) -}}
+        {{- $relatedPages := slice . -}}
+        {{- range .AllTranslations -}}
+          {{- $relatedPages = $relatedPages | append . -}}
+        {{- end -}}
+
+        {{- range $relatedPages -}}
+          {{- $description := .Params.description | default (.Summary | plainify | truncate 160) -}}
+          {{- $images := slice -}}
+          {{- with .Params.images -}}
+            {{- if reflect.IsSlice . -}}
+              {{- $images = . -}}
+            {{- else -}}
+              {{- $images = slice . -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $targets := $entryScratch.Get "targets" -}}
+          {{- $entryScratch.Set "targets" (merge $targets (dict .Language.Lang (dict
+            "lang" .Language.Lang
+            "title" .Title
+            "description" $description
+            "images" $images
+            "logicalPath" (partial "i18n-routing/logical-path.html" .)
+            "relPermalink" .RelPermalink
+            "permalink" .Permalink
+            "sourcePath" (.File.Path | default (.Path | default .RelPermalink))
+          ))) -}}
+        {{- end -}}
+
+        {{- $entries := $scratch.Get "entries" -}}
+        {{- $scratch.Set "entries" ($entries | append (dict
+          "groupKey" $groupKey
+          "translationKey" .TranslationKey
+          "entrySourcePath" (.File.Path | default (.Path | default .RelPermalink))
+          "targets" ($entryScratch.Get "targets")
+        )) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $payload := dict
+  "baseURL" site.BaseURL
+  "languages" ($scratch.Get "languages")
+  "homeTargets" ($scratch.Get "homeTargets")
+  "entries" ($scratch.Get "entries")
+-}}
+{{- $payload | jsonify -}}

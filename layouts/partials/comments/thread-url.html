@@ -1,0 +1,26 @@
+{{- /*
+  说明：根据评论合并策略返回 Remark42 线程 URL。
+  用途：统一不同语言页面的评论线程标识，避免在 provider 模板里堆叠分支逻辑。
+  注意：`defaultLanguage` 依赖站点语言顺序；建议让默认语言保持最小 weight。
+*/ -}}
+{{- $context := .Context -}}
+{{- $mergeStrategy := .MergeStrategy | default "smartPath" | lower -}}
+{{- $threadURL := $context.Permalink -}}
+
+{{- if eq $mergeStrategy "smartpath" -}}
+  {{- $logicalPath := partial "i18n-routing/logical-path.html" $context -}}
+  {{- $threadURL = replace $context.Permalink $context.RelPermalink $logicalPath -}}
+{{- else if eq $mergeStrategy "defaultlanguage" -}}
+  {{- $defaultLang := (index $context.Site.Sites 0).Language.Lang -}}
+  {{- $translations := slice $context -}}
+  {{- range $context.AllTranslations -}}
+    {{- $translations = $translations | append . -}}
+  {{- end -}}
+  {{- range $translations -}}
+    {{- if eq .Language.Lang $defaultLang -}}
+      {{- $threadURL = .Permalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $threadURL -}}

@@ -24,6 +24,7 @@
         <option
           value="{{ $href }}"
           lang="{{ .Language.Lang }}"
+          data-language-code="{{ .Language.Lang }}"
           {{ if $isActive }}selected{{ end }}
         >
           {{ printf "%s (%s)" .Language.LanguageName .Language.Lang }}

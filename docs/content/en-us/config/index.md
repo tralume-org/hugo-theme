@@ -14,6 +14,7 @@ Tralume provides a rich set of customization options. You can tune the look and 
 - [Site info & SEO](./site-info): description and robots rules
 - [Content display & summaries](./content-display): homepage limits and summary length
 - [RSS visibility](./rss): hide specific pages from RSS
+- [i18n routing & auto entry pages](./i18n-routing): formal language URLs and neutral entry pages
 - [Content license](./license): manage per-page license
 - [AI contribution marker](./ai-marker): standardized AI disclosure
 - [Friends links](./friends): configure `data/friends`

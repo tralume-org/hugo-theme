@@ -1,0 +1,23 @@
+{{- /*
+  说明：返回去除当前语言根路径后的中立逻辑路径。
+  用途：为智能语言入口页与 smartPath 评论线程生成稳定路径。
+  注意：返回值始终以 `/` 开头；非根路径会补齐结尾 `/`。
+*/ -}}
+{{- $page := . -}}
+{{- $pageRel := $page.RelPermalink | default "/" -}}
+{{- $homeRel := $page.Site.Home.RelPermalink | default "/" -}}
+{{- $logicalPath := $pageRel -}}
+{{- $prefix := strings.TrimSuffix "/" $homeRel -}}
+{{- if and $prefix (ne $prefix "") (hasPrefix $pageRel (printf "%s/" $prefix)) -}}
+  {{- $logicalPath = strings.TrimPrefix $prefix $pageRel -}}
+{{- end -}}
+{{- if eq $logicalPath "" -}}
+  {{- $logicalPath = "/" -}}
+{{- end -}}
+{{- if not (hasPrefix $logicalPath "/") -}}
+  {{- $logicalPath = printf "/%s" $logicalPath -}}
+{{- end -}}
+{{- if and (ne $logicalPath "/") (not (hasSuffix $logicalPath "/")) -}}
+  {{- $logicalPath = printf "%s/" $logicalPath -}}
+{{- end -}}
+{{- return $logicalPath -}}

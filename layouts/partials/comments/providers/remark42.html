@@ -9,17 +9,9 @@
   {{- $host := .host | default "" -}}
   {{- $siteId := .siteId | default "remark" -}}
   {{- $locale := lower (index (split $context.Site.Language.LanguageCode "-") 0) -}}
-  {{- $shareAcrossTranslations := true -}}
-  {{- if isset . "shareAcrossTranslations" -}}
-    {{- $shareAcrossTranslations = .shareAcrossTranslations -}}
-  {{- end -}}
+  {{- $mergeStrategy := $context.Site.Params.comments.mergeStrategy | default "smartPath" | lower -}}
   {{- if $host -}}
-    {{- $threadURL := $context.Permalink -}}
-    {{- if $shareAcrossTranslations -}}
-      {{- with index $context.AllTranslations 0 -}}
-        {{- $threadURL = .Permalink -}}
-      {{- end -}}
-    {{- end -}}
+    {{- $threadURL := partial "comments/thread-url.html" (dict "Context" $context "MergeStrategy" $mergeStrategy) -}}
     {{- $remarkConfig := dict
       "host" $host
       "site_id" $siteId

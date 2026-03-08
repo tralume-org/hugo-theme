@@ -1,5 +1,6 @@
 // 说明：管理设置面板的开关、聚焦与语言切换，提供基础上下文。
 export const setupPanelShell = (panel) => {
+  const languageStorageKey = 'tralume-language';
   const root = document.documentElement;
   const toggleButton = panel.querySelector('[data-settings-toggle]');
   const surface = panel.querySelector('[data-settings-surface]');
@@ -84,6 +85,15 @@ export const setupPanelShell = (panel) => {
       const target = event.target;
       if (target instanceof HTMLSelectElement) {
         const destination = target.value;
+        const selectedOption = target.selectedOptions[0];
+        const languageCode = selectedOption?.dataset.languageCode || '';
+        if (languageCode) {
+          try {
+            window.localStorage.setItem(languageStorageKey, languageCode);
+          } catch (error) {
+            // 说明：本地存储不可用时忽略，仍允许继续跳转。
+          }
+        }
         if (destination) {
           window.location.href = destination;
         }
