@@ -4,11 +4,19 @@
   注意：`defaultLanguage` 依赖站点语言顺序；建议让默认语言保持最小 weight。
 */ -}}
 {{- $context := .Context -}}
-{{- $mergeStrategy := .MergeStrategy | default "smartPath" | lower -}}
+{{- $mergeStrategy := .MergeStrategy | default "defaultLanguage" | lower -}}
 {{- $threadURL := $context.Permalink -}}
 
 {{- if eq $mergeStrategy "smartpath" -}}
   {{- $logicalPath := partial "i18n-routing/logical-path.html" $context -}}
+  {{- $autoEntryEnabled := $context.Site.Params.i18nRouting.enableAutoEntry | default false -}}
+  {{- if and $autoEntryEnabled $context.Site.IsMultiLingual (not $context.Site.DefaultContentLanguageInSubdir) -}}
+    {{- if eq $logicalPath "/" -}}
+      {{- $logicalPath = "/auto/" -}}
+    {{- else -}}
+      {{- $logicalPath = printf "/auto%s" $logicalPath -}}
+    {{- end -}}
+  {{- end -}}
   {{- $threadURL = replace $context.Permalink $context.RelPermalink $logicalPath -}}
 {{- else if eq $mergeStrategy "defaultlanguage" -}}
   {{- $defaultLang := (index $context.Site.Sites 0).Language.Lang -}}
