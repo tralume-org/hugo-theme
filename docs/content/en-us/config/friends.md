@@ -12,25 +12,25 @@ Create `data/friends.yaml` in your Hugo site (you can also use `.toml` or `.json
 - name:
     zh-Hans: "我的站点"
     en-US: "My Site"
-    default: "My Site" # 可选：当前语言缺失时的兜底值。
+    default: "My Site" # Optional: fallback value when the current language is missing.
   description:
     zh-Hans: "你好"
     en-US: "Hello"
   url: "https://example.com"
   avatar: "https://example.com/avatar.png"
-  # 可选：手动排序权重；数值越小越靠前，默认值为 10000。
+  # Optional: manual sort weight; smaller values appear first, and the default is 10000.
   weight: 10
-  # 可选：用于“当前语言优先”分组与卡片语言标签。
+  # Optional: used for the "prefer current language" grouping and card language tags.
   language: ["zh-Hans", "en-US"]
 
-# 说明：如果不需要 i18n，可以直接写字符串。
+# Note: If you do not need i18n, you can use plain strings directly.
 - name: "My Site"
   description: "Hello"
   url: "https://example.com"
   avatar: "https://example.com/avatar.png"
-  # 可选：未填写时按 10000 处理。
+  # Optional: when omitted, the theme treats it as 10000.
   weight: 100
-  # 可选：用于“当前语言优先”分组与卡片语言标签。
+  # Optional: used for the "prefer current language" grouping and card language tags.
 ```
 
 ## Key features

@@ -24,7 +24,7 @@ Set in `hugo.toml`:
 
 ```toml
 [params]
-  # 说明：首页与列表卡片的摘要长度（字符数）。
+  # Note: Summary length for the homepage and list cards, in characters.
   articleCardSummaryLength = 160
 ```
 
@@ -36,8 +36,8 @@ Set in `hugo.toml`:
 
 ```toml
 [params.posts]
-  # 说明：统一控制 /posts 与 /pages 每页显示数量；总数会按该值自动分页。
-  # 注意：当值小于等于 0 时会回退到默认值 10。
+  # Note: Controls the number of items shown per page for both /posts and /pages; the total list paginates automatically.
+  # Note: Values less than or equal to 0 fall back to the default value of 10.
   pageSize = 10
 ```
 

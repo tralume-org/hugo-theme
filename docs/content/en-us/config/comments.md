@@ -9,14 +9,14 @@ Set this in `hugo.toml`:
 ```toml
 [params.comments]
   provider = 'remark42'
-  # 说明：评论线程合并策略。
-  # 注意：smartPath 会忽略语言前缀；这是主题默认值。
+  # Note: Strategy used to merge comment threads.
+  # Note: smartPath ignores language prefixes; this is the theme default.
   mergeStrategy = 'smartPath'
 
   [params.comments.providers.remark42]
-    # 说明：Remark42 服务地址，需与后端配置中的 REMARK_URL 保持一致。
+    # Note: Remark42 service URL. It must match REMARK_URL in the backend configuration.
     host = 'https://remark42.example.com'
-    # 说明：站点 ID，需与 Remark42 后端启动参数中的 SITE 一致。
+    # Note: Site ID. It must match SITE in the Remark42 backend startup settings.
     siteId = 'my-site'
 ```
 
@@ -24,15 +24,15 @@ Set this in `hugo.toml`:
 
 ```toml
 [params.comments.providers.remark42]
-  # 说明：移动端默认最多展示多少条评论。
+  # Note: Maximum number of comments shown by default on mobile.
   maxShownComments = 20
-  # 说明：是否向访客显示邮件订阅入口。
+  # Note: Whether to show the email subscription entry to visitors.
   showEmailSubscription = true
-  # 说明：是否向访客显示 RSS 订阅入口。
+  # Note: Whether to show the RSS subscription entry to visitors.
   showRssSubscription = true
-  # 说明：是否启用更简洁的界面。
+  # Note: Whether to enable a simpler interface.
   simpleView = false
-  # 说明：是否隐藏 Remark42 底部页脚。
+  # Note: Whether to hide the Remark42 footer.
   noFooter = false
 ```
 
