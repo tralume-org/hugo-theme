@@ -1,0 +1,14 @@
+{{- /*
+  说明：统一编排页面 SEO 元信息输出。
+  - 内容：canonical、页面级 hreflang、Open Graph / Twitter Card、JSON-LD。
+  - 注意：智能语言入口页（/auto/... 或中立入口）由后处理脚本单独负责 noindex/canonical。
+*/ -}}
+{{- $page := .Page -}}
+{{- $title := .Title -}}
+{{- $description := .Description -}}
+{{- with partial "seo/canonical-url.html" $page -}}
+<link rel="canonical" href="{{ . }}">
+{{- end }}
+{{ partial "seo/hreflang.html" $page }}
+{{ partial "seo/social.html" (dict "Page" $page "Title" $title "Description" $description) }}
+{{ partial "seo/structured-data.html" (dict "Page" $page "Title" $title "Description" $description) }}

@@ -33,6 +33,33 @@ Supported fields:
 - `appleTouch`: iOS home screen icon
 - `manifest`: web app manifest
 
+## Social share cards (Open Graph / Twitter Card)
+
+Tralume outputs Open Graph and Twitter Card metadata automatically.
+
+- Page-level front matter `image` has the highest priority
+- Site-wide defaults can be set with `params.seo.cardImage` or `params.seo.image`
+- If neither is set, the theme falls back to the site icon (`appleTouch` / `icon`) or a no-image card
+
+Set a default share card image in `hugo.toml`:
+
+```toml
+[params.seo]
+  # Note: Site-wide default social share card image.
+  # Note: A 1200x630 image is recommended.
+  cardImage = '/social-card.png'
+```
+
+To override the card image for a single page, add this to front matter:
+
+```toml
++++
+# Note: Overrides the share card image for this page only.
+# Note: This takes priority over params.seo.cardImage.
+image = '/posts/example/cover.png'
++++
+```
+
 ## Robots rules (robots.txt)
 
 Tell search engines which pages they may crawl, and optionally disable crawling for the entire site (useful before a public launch).

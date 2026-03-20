@@ -1,0 +1,26 @@
+{{- /*
+  说明：返回 x-default 指向的中立入口 URL。
+  - 启用自动语言入口页时：返回中立入口路径。
+  - 未启用时：不输出 x-default，避免错误指向不存在的页面。
+*/ -}}
+{{- $page := . -}}
+{{- $autoEntryEnabled := $page.Site.Params.i18nRouting.enableAutoEntry | default false -}}
+{{- if not (and hugo.IsMultilingual $autoEntryEnabled) -}}
+  {{- /* 未启用中立入口时，不输出任何内容。 */ -}}
+{{- end -}}
+
+{{- if and hugo.IsMultilingual $autoEntryEnabled -}}
+  {{- $logicalPath := partial "i18n-routing/logical-path.html" $page -}}
+  {{- $neutralPath := $logicalPath -}}
+  {{- $defaultLanguageInSubdir := true -}}
+  {{- range $page.Site.Sites -}}
+    {{- if eq .Home.RelPermalink "/" -}}
+      {{- $defaultLanguageInSubdir = false -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $defaultLanguageInSubdir -}}
+    {{- $neutralPath = cond (eq $logicalPath "/") "/auto/" (printf "/auto%s" $logicalPath) -}}
+  {{- end -}}
+  {{- $xDefaultURL := $neutralPath | absURL -}}
+  {{- printf "%s" $xDefaultURL -}}
+{{- end -}}

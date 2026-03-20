@@ -1,0 +1,22 @@
+{{- /*
+  说明：输出页面级多语言 alternate 标签。
+  - 正式语言页互相指向各自 permalink。
+  - 若启用自动语言入口页，则额外输出 x-default 指向中立入口。
+*/ -}}
+{{- $page := . -}}
+{{- if not hugo.IsMultilingual -}}
+  {{- return -}}
+{{- end -}}
+
+{{- $translations := slice $page -}}
+{{- range $page.Translations -}}
+  {{- $translations = $translations | append . -}}
+{{- end -}}
+
+{{- range $translations -}}
+<link rel="alternate" hreflang="{{ .Language.Lang | lower }}" href="{{ .Permalink }}">
+{{- end }}
+
+{{- with partial "seo/x-default-url.html" $page -}}
+<link rel="alternate" hreflang="x-default" href="{{ . }}">
+{{- end }}

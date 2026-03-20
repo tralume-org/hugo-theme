@@ -10,7 +10,13 @@
 {{- if eq $mergeStrategy "smartpath" -}}
   {{- $logicalPath := partial "i18n-routing/logical-path.html" $context -}}
   {{- $autoEntryEnabled := $context.Site.Params.i18nRouting.enableAutoEntry | default false -}}
-  {{- if and $autoEntryEnabled $context.Site.IsMultiLingual (not $context.Site.DefaultContentLanguageInSubdir) -}}
+  {{- $defaultLanguageInSubdir := true -}}
+  {{- range $context.Site.Sites -}}
+    {{- if eq .Home.RelPermalink "/" -}}
+      {{- $defaultLanguageInSubdir = false -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if and $autoEntryEnabled hugo.IsMultilingual (not $defaultLanguageInSubdir) -}}
     {{- if eq $logicalPath "/" -}}
       {{- $logicalPath = "/auto/" -}}
     {{- else -}}

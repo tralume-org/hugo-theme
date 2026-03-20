@@ -33,6 +33,33 @@ Tralume 支持通过 `params.favicon` 输出网站图标相关的 `<link>` 标�
 - `appleTouch`：iOS 主屏图标
 - `manifest`：Web App manifest 文件
 
+## 社交分享卡片 (Open Graph / Twitter Card)
+
+Tralume 会自动输出 Open Graph 和 Twitter Card 元信息。
+
+- 页面级优先读取 front matter 里的 `image`
+- 站点级可通过 `params.seo.cardImage` 或 `params.seo.image` 指定默认卡片图
+- 如果以上都没配置，才会退回到站点图标（如 `appleTouch` / `icon`）或无图卡片
+
+在 `hugo.toml` 中设置默认卡片图：
+
+```toml
+[params.seo]
+  # 说明：站点级默认社交分享卡片图片。
+  # 注意：建议使用 1200x630 左右的绝对或根路径图片。
+  cardImage = '/social-card.png'
+```
+
+如果你只想覆盖单篇文章/页面，可以在 front matter 中写：
+
+```toml
++++
+# 说明：仅覆盖当前页面的分享卡片图片。
+# 注意：优先级高于 params.seo.cardImage。
+image = '/posts/example/cover.png'
++++
+```
+
 ## 搜索引擎规则 (Robots.txt)
 
 告诉搜索引擎哪些页面可以抓取，哪些需要忽略。你还可以通过它快速关闭全站抓取（例如在站点还没准备好上线时）。

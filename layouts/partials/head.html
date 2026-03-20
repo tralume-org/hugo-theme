@@ -33,6 +33,7 @@
 {{- if $desc -}}
 <meta name="description" content="{{ $desc }}">
 {{- end -}}
+{{ partial "seo/meta.html" (dict "Page" . "Title" $pageTitle "Description" $desc) }}
 {{- with site.Params.favicon -}}
   {{- with .icon -}}
 <link rel="icon" href="{{ . | safeURL }}">

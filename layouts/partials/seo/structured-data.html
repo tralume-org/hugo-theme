@@ -1,0 +1,99 @@
+{{- /*
+  说明：输出 JSON-LD 结构化数据。
+  - 主页：WebSite。
+  - 单页：BlogPosting。
+  - 列表/分类：CollectionPage。
+  - 非首页统一补 BreadcrumbList，帮助搜索引擎理解层级。
+*/ -}}
+{{- $page := .Page -}}
+{{- $title := .Title -}}
+{{- $description := .Description -}}
+{{- $canonical := partial "seo/canonical-url.html" $page -}}
+{{- $image := partial "seo/image-url.html" $page -}}
+{{- $websiteId := printf "%s#website" $page.Site.Home.Permalink -}}
+{{- $graph := slice -}}
+
+{{- $main := dict
+  "@id" (printf "%s#webpage" $canonical)
+  "url" $canonical
+  "name" $title
+  "description" $description
+  "inLanguage" ($page.Language.LanguageCode | default $page.Language.Lang)
+  "isPartOf" (dict "@id" $websiteId)
+-}}
+
+{{- if $page.IsHome -}}
+  {{- $main = dict
+    "@type" "WebSite"
+    "@id" $websiteId
+    "url" $page.Site.Home.Permalink
+    "name" $page.Site.Title
+    "description" $description
+    "inLanguage" ($page.Language.LanguageCode | default $page.Language.Lang)
+  -}}
+{{- else if $page.IsPage -}}
+  {{- $main = merge $main (dict
+    "@type" "BlogPosting"
+    "headline" $title
+    "mainEntityOfPage" (dict "@id" (printf "%s#webpage" $canonical))
+    "datePublished" ($page.Date.Format "2006-01-02T15:04:05Z07:00")
+    "dateModified" ($page.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+    "wordCount" $page.WordCount
+  ) -}}
+  {{- with $page.Params.tags -}}
+    {{- $keywords := slice -}}
+    {{- if reflect.IsSlice . -}}
+      {{- range . -}}
+        {{- $keywords = $keywords | append (printf "%v" .) -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $keywords = $keywords | append (printf "%v" .) -}}
+    {{- end -}}
+    {{- if gt (len $keywords) 0 -}}
+      {{- $main = merge $main (dict "keywords" $keywords) -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- $main = merge $main (dict "@type" "CollectionPage") -}}
+{{- end -}}
+
+{{- with $image -}}
+  {{- $main = merge $main (dict "image" (slice .)) -}}
+{{- end -}}
+
+{{- $graph = $graph | append $main -}}
+
+{{- if not $page.IsHome -}}
+  {{- $itemList := slice (dict
+    "@type" "ListItem"
+    "position" 1
+    "name" $page.Site.Title
+    "item" $page.Site.Home.Permalink
+  ) -}}
+  {{- $position := 1 -}}
+  {{- range $page.Ancestors.Reverse -}}
+    {{- if not .IsHome -}}
+      {{- $position = add $position 1 -}}
+      {{- $itemList = $itemList | append (dict
+        "@type" "ListItem"
+        "position" $position
+        "name" .LinkTitle
+        "item" .Permalink
+      ) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $position = add $position 1 -}}
+  {{- $itemList = $itemList | append (dict
+    "@type" "ListItem"
+    "position" $position
+    "name" $title
+    "item" $canonical
+  ) -}}
+  {{- $graph = $graph | append (dict
+    "@type" "BreadcrumbList"
+    "@id" (printf "%s#breadcrumb" $canonical)
+    "itemListElement" $itemList
+  ) -}}
+{{- end -}}
+
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeJS }}</script>

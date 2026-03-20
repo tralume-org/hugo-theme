@@ -1,0 +1,83 @@
+{{- /*
+  说明：为社交分享与结构化数据解析首选图片。
+  - 优先：文章 front matter 常见图片字段。
+  - 其次：Page Bundle 内第一张图片资源。
+  - 最后：站点级默认图片或 favicon / apple-touch-icon。
+*/ -}}
+{{- $page := . -}}
+{{- $candidate := "" -}}
+{{- $imageURL := "" -}}
+
+{{- with $page.Params.image -}}
+  {{- if eq $candidate "" -}}{{- $candidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.featuredImage -}}
+  {{- if eq $candidate "" -}}{{- $candidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.featured_image -}}
+  {{- if eq $candidate "" -}}{{- $candidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.cover -}}
+  {{- if eq $candidate "" -}}{{- $candidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.thumbnail -}}
+  {{- if eq $candidate "" -}}{{- $candidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.banner -}}
+  {{- if eq $candidate "" -}}{{- $candidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+
+{{- if ne $candidate "" -}}
+  {{- $looksLikeImage := gt (len (findRE `(?i)\.(avif|gif|jpe?g|jxl|png|svg|webp)(\?.*)?$` $candidate)) 0 -}}
+  {{- if not $looksLikeImage -}}
+    {{- $candidate = "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if and (eq $imageURL "") (ne $candidate "") -}}
+  {{- if or (hasPrefix $candidate "http://") (hasPrefix $candidate "https://") -}}
+    {{- $imageURL = $candidate -}}
+  {{- else -}}
+    {{- with $page.Resources.GetMatch $candidate -}}
+      {{- $imageURL = .Permalink -}}
+    {{- else -}}
+      {{- $imageURL = $candidate | absURL -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if and (eq $imageURL "") $page.IsPage -}}
+  {{- with $page.Resources.ByType "image" -}}
+    {{- range first 1 . -}}
+      {{- $imageURL = .Permalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if eq $imageURL "" -}}
+  {{- with $page.Site.Params.socialImage -}}
+    {{- $imageURL = printf "%v" . | absURL -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq $imageURL "" -}}
+  {{- with $page.Site.Params.seo.image -}}
+    {{- $imageURL = printf "%v" . | absURL -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq $imageURL "" -}}
+  {{- with $page.Site.Params.seo.cardImage -}}
+    {{- $imageURL = printf "%v" . | absURL -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq $imageURL "" -}}
+  {{- with $page.Site.Params.favicon.appleTouch -}}
+    {{- $imageURL = printf "%v" . | absURL -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq $imageURL "" -}}
+  {{- with $page.Site.Params.favicon.icon -}}
+    {{- $imageURL = printf "%v" . | absURL -}}
+  {{- end -}}
+{{- end -}}
+
+{{- printf "%s" $imageURL -}}
