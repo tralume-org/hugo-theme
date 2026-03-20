@@ -60,6 +60,44 @@ image = '/posts/example/cover.png'
 +++
 ```
 
+## Structured data author and publisher (JSON-LD)
+
+Tralume outputs JSON-LD for the home page and article pages.
+
+- Article pages can include `author`
+- Home and article pages can include `publisher`
+- `publisher.logo` can be set explicitly, and falls back to `appleTouch` or `icon` when omitted
+
+Set site-wide author and publisher metadata in `hugo.toml`:
+
+```toml
+[params.seo.author]
+  # Note: Default author name for article pages.
+  name = 'AlexMa'
+  # Note: Author profile or about page URL.
+  url = 'https://example.com/about/'
+
+[params.seo.publisher]
+  # Note: Publisher name used in structured data.
+  name = 'AlexMa\'s Blog'
+  # Note: Publisher homepage URL.
+  url = 'https://example.com/'
+  # Note: Publisher logo image.
+  # Note: Use a stable absolute URL or root-relative path.
+  logo = '/publisher-logo.png'
+```
+
+To override the author for a single article, add this to front matter:
+
+```toml
++++
+# Note: Overrides the structured-data author for this article.
+[author]
+  name = 'Guest Author'
+  url = 'https://example.com/team/guest-author/'
++++
+```
+
 ## Robots rules (robots.txt)
 
 Tell search engines which pages they may crawl, and optionally disable crawling for the entire site (useful before a public launch).

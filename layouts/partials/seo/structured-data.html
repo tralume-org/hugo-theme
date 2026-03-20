@@ -12,6 +12,56 @@
 {{- $image := partial "seo/image-url.html" $page -}}
 {{- $websiteId := printf "%s#website" $page.Site.Home.Permalink -}}
 {{- $graph := slice -}}
+{{- $author := dict -}}
+{{- $publisher := dict -}}
+{{- $publisherName := printf "%v" ($page.Site.Params.seo.publisher.name | default $page.Site.Title) -}}
+{{- $publisherLogo := "" -}}
+{{- with $page.Site.Params.seo.publisher.logo -}}
+  {{- $publisherLogo = printf "%v" . -}}
+{{- else -}}
+  {{- with $page.Site.Params.seo.logo -}}
+    {{- $publisherLogo = printf "%v" . -}}
+  {{- else -}}
+    {{- with $page.Site.Params.favicon.appleTouch -}}
+      {{- $publisherLogo = printf "%v" . -}}
+    {{- else -}}
+      {{- with $page.Site.Params.favicon.icon -}}
+        {{- $publisherLogo = printf "%v" . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $page.Params.author -}}
+  {{- if reflect.IsMap . -}}
+    {{- with .name -}}
+      {{- $author = dict "@type" "Person" "name" (printf "%v" .) -}}
+      {{- with $.Page.Params.author.url -}}
+        {{- $author = merge $author (dict "url" (printf "%v" .)) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $author = dict "@type" "Person" "name" (printf "%v" .) -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq (len $author) 0 -}}
+  {{- with $page.Site.Params.seo.author.name -}}
+    {{- $author = dict "@type" "Person" "name" (printf "%v" .) -}}
+    {{- with $page.Site.Params.seo.author.url -}}
+      {{- $author = merge $author (dict "url" (printf "%v" .)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if ne $publisherName "" -}}
+  {{- $publisher = dict "@type" "Organization" "name" $publisherName -}}
+  {{- with $page.Site.Params.seo.publisher.url -}}
+    {{- $publisher = merge $publisher (dict "url" (printf "%v" .)) -}}
+  {{- end -}}
+  {{- if ne $publisherLogo "" -}}
+    {{- $publisher = merge $publisher (dict "logo" (dict "@type" "ImageObject" "url" ($publisherLogo | absURL))) -}}
+  {{- end -}}
+{{- end -}}
 
 {{- $main := dict
   "@id" (printf "%s#webpage" $canonical)
@@ -40,6 +90,12 @@
     "dateModified" ($page.Lastmod.Format "2006-01-02T15:04:05Z07:00")
     "wordCount" $page.WordCount
   ) -}}
+  {{- if gt (len $author) 0 -}}
+    {{- $main = merge $main (dict "author" $author) -}}
+  {{- end -}}
+  {{- if gt (len $publisher) 0 -}}
+    {{- $main = merge $main (dict "publisher" $publisher) -}}
+  {{- end -}}
   {{- with $page.Params.tags -}}
     {{- $keywords := slice -}}
     {{- if reflect.IsSlice . -}}
@@ -55,6 +111,10 @@
   {{- end -}}
 {{- else -}}
   {{- $main = merge $main (dict "@type" "CollectionPage") -}}
+{{- end -}}
+
+{{- if and $page.IsHome (gt (len $publisher) 0) -}}
+  {{- $main = merge $main (dict "publisher" $publisher) -}}
 {{- end -}}
 
 {{- with $image -}}

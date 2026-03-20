@@ -60,6 +60,44 @@ image = '/posts/example/cover.png'
 +++
 ```
 
+## 结构化数据作者与发布者 (JSON-LD)
+
+Tralume 会为首页和文章页输出 JSON-LD。
+
+- 文章页可输出 `author`
+- 首页和文章页可输出 `publisher`
+- `publisher.logo` 可单独指定，未设置时会回退到 `appleTouch` 或 `icon`
+
+在 `hugo.toml` 中设置站点级作者与发布者：
+
+```toml
+[params.seo.author]
+  # 说明：默认文章作者名称。
+  name = 'AlexMa'
+  # 说明：作者主页或个人资料链接。
+  url = 'https://example.com/about/'
+
+[params.seo.publisher]
+  # 说明：结构化数据中的发布者名称。
+  name = 'AlexMa\'s Blog'
+  # 说明：发布者主页链接。
+  url = 'https://example.com/'
+  # 说明：发布者 Logo 图片。
+  # 注意：建议使用绝对或根路径，并尽量保持稳定可访问。
+  logo = '/publisher-logo.png'
+```
+
+如果你只想覆盖单篇文章作者，可以在 front matter 中写：
+
+```toml
++++
+# 说明：覆盖当前文章的结构化数据作者。
+[author]
+  name = 'Guest Author'
+  url = 'https://example.com/team/guest-author/'
++++
+```
+
 ## 搜索引擎规则 (Robots.txt)
 
 告诉搜索引擎哪些页面可以抓取，哪些需要忽略。你还可以通过它快速关闭全站抓取（例如在站点还没准备好上线时）。
