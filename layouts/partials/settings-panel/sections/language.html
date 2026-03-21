@@ -3,10 +3,10 @@
 {{ $translations := .AllTranslations }}
 {{ $scratch := newScratch }}
 <section class="settings-panel__section">
-  <h3 class="settings-panel__section-title">
+  <div class="settings-panel__section-title">
     <span class="settings-panel__section-icon material-symbols-rounded" aria-hidden="true">translate</span>
     <span class="settings-panel__section-title-text">{{ i18n "settingsPanelLanguageHeading" }}</span>
-  </h3>
+  </div>
   <div class="settings-panel__select">
     <select class="settings-panel__language-select" data-language-select aria-label="{{ i18n "settingsPanelLanguageHeading" }}">
       {{ range site.Sites }}
