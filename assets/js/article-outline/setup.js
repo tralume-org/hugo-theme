@@ -8,6 +8,7 @@ import { setupArticleOutlineOverlay } from './overlay.js';
 import { attachOutlineFocusSync, createOutlineHighlighter, renderArticleOutline } from './outline-view.js';
 import { createProgressFloating } from './progress-floating.js';
 import { setupArticleOutlineSync } from './sync.js';
+import { emitAnalyticsEvent } from '../analytics-events.js';
 
 export const setupArticleOutline = () => {
   const elements = getArticleOutlineElements();
@@ -71,11 +72,25 @@ export const setupArticleOutline = () => {
     },
   });
 
+  const depthThresholds = [25, 50, 75, 100];
+  const reachedDepthThresholds = new Set();
+
   setupArticleOutlineSync({
     content,
     outlineEntries,
     progress,
     highlighter,
+    onProgressChange: (value) => {
+      const percent = Math.round(value * 100);
+      depthThresholds.forEach((threshold) => {
+        if (percent >= threshold && !reachedDepthThresholds.has(threshold)) {
+          reachedDepthThresholds.add(threshold);
+          emitAnalyticsEvent('scroll_depth', {
+            depth: threshold,
+          });
+        }
+      });
+    },
   });
 
   setupArticleOutlineOverlay({
@@ -83,5 +98,6 @@ export const setupArticleOutline = () => {
     toggleButton: outlineToggle,
     closeButton: outlineClose,
     highlighter,
+    headingCount: headings.length,
   });
 };

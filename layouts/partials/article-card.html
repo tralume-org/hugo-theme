@@ -5,7 +5,14 @@
   {{- $page = .Page -}}
   {{- $preferDescription = and .PreferDescription true -}}
 {{- end -}}
-<a class="article-card app-glass app-glass--elevated app-card app-card--interactive" href="{{ $page.RelPermalink }}">
+<a
+  class="article-card app-glass app-glass--elevated app-card app-card--interactive"
+  href="{{ $page.RelPermalink }}"
+  data-article-card-link
+  data-target-path="{{ $page.RelPermalink }}"
+  data-card-title="{{ $page.LinkTitle }}"
+  data-card-position="article-list"
+>
   <header class="article-card__header">
     <h2 class="article-card__title">{{ $page.LinkTitle }}</h2>
     <p class="article-card__meta">

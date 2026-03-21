@@ -1,4 +1,5 @@
 // 说明：自定义背景图与默认色板逻辑，支持输入 URL、持久化与按钮状态更新。
+import { emitAnalyticsEvent } from '../analytics-events.js';
 import { createUrlBackgroundProvider } from './background/providers/url.js';
 import { createUploadBackgroundProvider } from './background/providers/upload.js';
 import { createPixaroaBackgroundProvider } from './background/providers/pixaroa.js';
@@ -445,9 +446,15 @@ export const setupBackgroundControl = (panel, root) => {
     providerTabs.forEach((tab) => {
       tab.addEventListener('click', () => {
         const provider = tab.getAttribute('data-provider') || 'url';
+        const didChangeProvider = provider !== activeProvider;
         setActiveProvider(provider, { shouldFocusTab: false });
         backgroundThemeSeedCoordinator.onProviderActivated(provider);
         syncProviderButtonsState();
+        if (didChangeProvider) {
+          emitAnalyticsEvent('change_background_provider', {
+            provider,
+          });
+        }
       });
 
       tab.addEventListener('keydown', (event) => {
@@ -463,9 +470,15 @@ export const setupBackgroundControl = (panel, root) => {
             return;
           }
           const provider = target.getAttribute('data-provider') || 'url';
+          const didChangeProvider = provider !== activeProvider;
           setActiveProvider(provider, { shouldFocusTab: true });
           backgroundThemeSeedCoordinator.onProviderActivated(provider);
           syncProviderButtonsState();
+          if (didChangeProvider) {
+            emitAnalyticsEvent('change_background_provider', {
+              provider,
+            });
+          }
         };
 
         if (key === 'ArrowRight') {

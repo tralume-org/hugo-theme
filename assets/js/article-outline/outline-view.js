@@ -1,6 +1,8 @@
 // 说明：渲染文章大纲列表，并负责滚动/聚焦时的高亮与可见性维护。
 // 注意：避免把滚动指标/进度计算逻辑塞进该文件，保持“视图层”单职责。
 
+import { emitAnalyticsEvent } from '../analytics-events.js';
+
 const readOutlineGap = (outline) => {
   if (!(outline instanceof HTMLElement)) {
     return 0;
@@ -25,6 +27,12 @@ export const renderArticleOutline = ({ outline, list, emptyHint, layout, heading
     link.className = 'article__outline-link';
     link.href = `#${item.id}`;
     link.textContent = item.text;
+    link.addEventListener('click', () => {
+      emitAnalyticsEvent('click_outline_item', {
+        heading_id: item.id,
+        heading_level: item.level,
+      });
+    });
 
     listItem.appendChild(link);
     list.appendChild(listItem);
@@ -32,6 +40,7 @@ export const renderArticleOutline = ({ outline, list, emptyHint, layout, heading
     return {
       element: item.element,
       id: item.id,
+      level: item.level,
       link,
     };
   });

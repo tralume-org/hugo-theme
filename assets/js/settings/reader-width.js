@@ -1,3 +1,5 @@
+import { emitAnalyticsEvent } from '../analytics-events.js';
+
 // 说明：阅读器宽度滑杆，支持 %/pixel 标签更新与本地持久化。
 export const setupReaderWidth = (panel, root) => {
   const readerWidthRange = panel.querySelector('[data-reader-width-range]');
@@ -54,6 +56,7 @@ export const setupReaderWidth = (panel, root) => {
 
   const applyReaderWidth = (value, shouldPersist = true) => {
     const nextValue = clampReaderWidth(value);
+    const didChange = currentValue !== nextValue;
     currentValue = nextValue;
     root.style.setProperty('--reader-width-max', String(nextValue));
     if (readerWidthRange instanceof HTMLInputElement) {
@@ -63,6 +66,11 @@ export const setupReaderWidth = (panel, root) => {
     updateReaderValueLabel(nextValue);
     if (shouldPersist) {
       persistReaderWidth(nextValue);
+      if (didChange) {
+        emitAnalyticsEvent('change_reader_width', {
+          width: Math.round(nextValue),
+        });
+      }
     }
   };
 

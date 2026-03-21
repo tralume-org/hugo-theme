@@ -120,7 +120,7 @@
 	        {{ i18n "articleInfoCopyPermalink" }}
 	      </button>
 	      {{- if $editUrl -}}
-	        <a class="article-info-card__button" href="{{ $editUrl }}" target="_blank" rel="noopener noreferrer">{{ i18n "articleInfoEditThisPage" }}</a>
+	        <a class="article-info-card__button" href="{{ $editUrl }}" target="_blank" rel="noopener noreferrer" data-source-edit-link data-target-url="{{ $editUrl }}">{{ i18n "articleInfoEditThisPage" }}</a>
 	      {{- end -}}
 	    </div>
 	  </div>

@@ -1,3 +1,5 @@
+import { emitAnalyticsEvent } from '../analytics-events.js';
+
 // 说明：管理设置面板的开关、聚焦与语言切换，提供基础上下文。
 export const setupPanelShell = (panel) => {
   const languageStorageKey = 'tralume-language';
@@ -64,6 +66,7 @@ export const setupPanelShell = (panel) => {
     panel.classList.add('is-open');
     toggleButton.setAttribute('aria-expanded', 'true');
     setSurfaceHidden(false);
+    emitAnalyticsEvent('open_settings_panel');
 
     window.requestAnimationFrame(() => {
       if (closeButton instanceof HTMLElement) {

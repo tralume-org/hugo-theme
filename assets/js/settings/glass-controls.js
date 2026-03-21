@@ -1,3 +1,5 @@
+import { emitAnalyticsEvent } from '../analytics-events.js';
+
 // 说明：玻璃/模糊调节逻辑，负责同步亚克力透明度与模糊半径并持久化。
 export const setupGlassControls = (panel, root) => {
   const glassRange = panel.querySelector('[data-glass-strength-range]');
@@ -18,6 +20,7 @@ export const setupGlassControls = (panel, root) => {
 
   let applyGlassStrength = null;
   let applyGlassBlur = null;
+  let currentGlassStrength = defaultGlassValue;
 
   if (glassRange instanceof HTMLInputElement) {
     const sliderMin = Number.isFinite(Number(glassRange.min)) ? Number(glassRange.min) : 0;
@@ -80,11 +83,18 @@ export const setupGlassControls = (panel, root) => {
 
     const handleGlassStrengthChange = (value, shouldPersist = false) => {
       const base = clampNumber(value, sliderMin, sliderMax);
+      const didChange = currentGlassStrength !== base;
+      currentGlassStrength = base;
       applyGlassVariables(base);
       updateLabel(base);
       glassRange.value = String(base);
       if (shouldPersist) {
         persistGlassValue(base);
+        if (didChange) {
+          emitAnalyticsEvent('change_glass_strength', {
+            strength: base,
+          });
+        }
       }
     };
 

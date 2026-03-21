@@ -11,12 +11,12 @@ import { setupArticleListInfiniteScroll } from './article-list-infinite-scroll.j
 const bootstrap = () => {
   setupMobileMenu();
   setupPagesMenu();
+  setupAnalytics();
   setupSettingsPanel();
   setupCodeBlocks();
   setupArticleOutline();
   setupArticleInfo();
   setupArticleListInfiniteScroll();
-  setupAnalytics();
 };
 
 if (document.readyState === 'loading') {

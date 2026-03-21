@@ -3,7 +3,7 @@
 
 import { clampNumber } from './utils.js';
 
-export const setupArticleOutlineSync = ({ content, outlineEntries, progress, highlighter }) => {
+export const setupArticleOutlineSync = ({ content, outlineEntries, progress, highlighter, onProgressChange = null }) => {
   const metrics = {
     contentTop: 0,
     contentBottom: 0,
@@ -41,6 +41,9 @@ export const setupArticleOutlineSync = ({ content, outlineEntries, progress, hig
 
     progress.applyProgress(progressValue);
     progress.updateVisibilityForScrollTop(scrollTop);
+    if (typeof onProgressChange === 'function') {
+      onProgressChange(progressValue);
+    }
   };
 
   // 说明：定位当前视口内最接近的标题，驱动大纲高亮。
@@ -107,4 +110,3 @@ export const setupArticleOutlineSync = ({ content, outlineEntries, progress, hig
     node.addEventListener('load', syncLayouts, { once: true });
   });
 };
-

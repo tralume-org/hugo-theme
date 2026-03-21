@@ -40,14 +40,25 @@
             aria-expanded="false"
             aria-controls="pages-menu-panel"
             data-pages-menu-toggle
+            data-nav-link
+            data-nav-label="{{ $label | plainify }}"
+            data-nav-target="{{ $href }}"
+            data-nav-position="header"
           >
             {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
             {{ $label | plainify }}
           </a>
         </div>
        {{- else -}}
-        <a class="app-nav__item{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">{{ $label | plainify }}</a>
-       {{- end -}}
+        <a
+          class="app-nav__item{{ if $isActive }} is-active{{ end }}"
+          href="{{ $href }}"
+          data-nav-link
+          data-nav-label="{{ $label | plainify }}"
+          data-nav-target="{{ $href }}"
+          data-nav-position="header"
+        >{{ $label | plainify }}</a>
+        {{- end -}}
      {{ end }}
   </nav>
 {{ end }}

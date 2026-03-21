@@ -17,6 +17,16 @@
 {{- $defaultReaderValue = math.Max 60 $defaultReaderValue -}}
 {{- $defaultReaderValue = math.Min 92 $defaultReaderValue -}}
 {{- $readerWidthStyle := printf "--reader-width-max: %.2f;" $defaultReaderValue -}}
+{{- $pageType := "section" -}}
+{{- if .IsHome -}}
+  {{- $pageType = "home" -}}
+{{- else if .IsPage -}}
+  {{- $pageType = "article" -}}
+{{- else if or (eq .Kind "taxonomy") (eq .Kind "term") -}}
+  {{- $pageType = "taxonomy" -}}
+{{- else if eq .Kind "section" -}}
+  {{- $pageType = "section" -}}
+{{- end -}}
 <html
   lang="{{ site.Language.LanguageCode }}"
   dir="{{ or site.Language.LanguageDirection `ltr` }}"
@@ -32,6 +42,10 @@
   <main
     id="main-content"
     class="app-content"
+    data-page-path="{{ .RelPermalink }}"
+    data-page-title="{{ .Title }}"
+    data-page-type="{{ $pageType }}"
+    data-page-locale="{{ .Language.Lang }}"
     data-code-copy-label="{{ i18n "codeBlockCopy" }}"
     data-code-copied-label="{{ i18n "codeBlockCopied" }}"
   >

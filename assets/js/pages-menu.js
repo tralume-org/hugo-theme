@@ -1,3 +1,5 @@
+import { emitAnalyticsEvent } from './analytics-events.js';
+
 // 说明：控制顶栏 Pages 下拉面板的展开/收起。
 // - 目标：点击 Pages 按钮时展示 pages 分区的页面列表；Esc/点击外部/点击链接时关闭。
 // - 注意：该脚本仅在页面存在 data-pages-menu-toggle 与 data-pages-menu-panel 时生效，不依赖额外库。
@@ -102,6 +104,9 @@ export const setupPagesMenu = () => {
     window.addEventListener('resize', handleResize);
     // 说明：页面滚动时关闭面板，避免 header 离开视口后弹层悬空。
     window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+    emitAnalyticsEvent('open_pages_menu', {
+      position: 'header',
+    });
   };
 
   // 说明：Esc 键关闭面板并返回焦点。

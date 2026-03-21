@@ -4,7 +4,7 @@
   {{ with $page.GetTerms $taxonomy }}
     <ul class="app-terms">
       {{ range . }}
-        <li><a class="app-glass app-glass--surface" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+        <li><a class="app-glass app-glass--surface" href="{{ .RelPermalink }}" data-tag-link data-tag-name="{{ .LinkTitle }}">{{ .LinkTitle }}</a></li>
       {{ end }}
     </ul>
   {{ end }}

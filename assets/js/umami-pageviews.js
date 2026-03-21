@@ -4,6 +4,8 @@
 // - 依赖站点配置 `params.analytics.providers.umami.pageviews.host/shareId`；
 // - 常见广告拦截器可能会拦截 analytics 域名，请做好“读取失败则隐藏”的降级。
 
+import { emitAnalyticsEvent } from './analytics-events.js';
+
 const shareCache = new Map();
 const statsCache = new Map();
 
@@ -180,6 +182,7 @@ export const setupUmamiPageviews = () => {
     fetchPageviews({ host, shareId, path, endAt, timeoutMs })
       .then((count) => {
         countEl.textContent = formatCount(count);
+        emitAnalyticsEvent('view_pageviews_widget');
       })
       .catch(() => {
         // 说明：被拦截/跨域/服务端错误等都视为不可用，直接隐藏该项。

@@ -55,7 +55,14 @@
         {{ $label := or (and .Identifier (T .Identifier)) .Name }}
         {{- $isPagesEntry := eq (lower (default "" .Identifier)) "pages" -}}
         {{- if not $isPagesEntry -}}
-          <a class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
+          <a
+            class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}"
+            href="{{ $href }}"
+            data-nav-link
+            data-nav-label="{{ $label | plainify }}"
+            data-nav-target="{{ $href }}"
+            data-nav-position="mobile-menu"
+          >
             {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
             {{ $label | plainify }}
           </a>
@@ -94,7 +101,14 @@
           {{- end -}}
         {{- end -}}
         <div class="app-mobile-menu__pages">
-          <a class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}" href="{{ $href }}">
+          <a
+            class="app-mobile-menu__item app-glass app-glass--surface{{ if $isActive }} is-active{{ end }}"
+            href="{{ $href }}"
+            data-nav-link
+            data-nav-label="{{ $label | plainify }}"
+            data-nav-target="{{ $href }}"
+            data-nav-position="mobile-menu"
+          >
             {{/* 说明：菜单标签统一按纯文本渲染，避免将 name/翻译结果当作 HTML 注入页面。 */}}
             {{ $label | plainify }}
           </a>
@@ -106,7 +120,14 @@
                 {{- with $page -}}
                   {{- $pageLinkActive = or (eq .RelPermalink $entry.RelPermalink) (and (and .File $entry.File) (eq .File.Path $entry.File.Path)) -}}
                 {{- end -}}
-                <a class="app-mobile-menu__subitem{{ if $pageLinkActive }} is-active{{ end }}" href="{{ $entry.RelPermalink }}">{{ $entry.LinkTitle }}</a>
+                <a
+                  class="app-mobile-menu__subitem{{ if $pageLinkActive }} is-active{{ end }}"
+                  href="{{ $entry.RelPermalink }}"
+                  data-nav-link
+                  data-nav-label="{{ $entry.LinkTitle }}"
+                  data-nav-target="{{ $entry.RelPermalink }}"
+                  data-nav-position="mobile-menu"
+                >{{ $entry.LinkTitle }}</a>
               {{ end }}
             {{- else -}}
               <p class="app-mobile-menu__subempty">{{ i18n "pagesMenuEmpty" }}</p>

@@ -1,4 +1,5 @@
 import { copyTextToClipboard } from './utils/clipboard.js';
+import { emitAnalyticsEvent } from './analytics-events.js';
 
 // 说明：Markdown 代码块增强逻辑，负责构建 MD3 外观并注入复制按钮。
 export const setupCodeBlocks = () => {
@@ -174,7 +175,7 @@ export const setupCodeBlocks = () => {
   };
 
   // 说明：构建复制按钮并绑定状态更新。
-  const createCopyButton = (codeElement) => {
+  const createCopyButton = ({ codeElement, rawLanguage, lineCount }) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'md3-code-block__copy-button';
@@ -216,6 +217,10 @@ export const setupCodeBlocks = () => {
           label.textContent = copiedLabel;
           button.title = copiedLabel;
           button.setAttribute('aria-label', copiedLabel);
+          emitAnalyticsEvent('copy_code', {
+            lang: rawLanguage || '',
+            line_count: lineCount,
+          });
           revertTimer = window.setTimeout(resetState, 2000);
         } else {
           resetState();
@@ -280,7 +285,7 @@ export const setupCodeBlocks = () => {
       }
     }
 
-    const copyButton = createCopyButton(codeElement);
+    const copyButton = createCopyButton({ codeElement, rawLanguage, lineCount });
     toolbar.appendChild(copyButton);
 
     const body = document.createElement('div');

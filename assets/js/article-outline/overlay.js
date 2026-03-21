@@ -3,7 +3,9 @@
 // - 关闭方式：点击关闭按钮、按 Esc、或点击大纲链接后自动关闭。
 // - 桌面端：保持侧栏大纲常驻，不渲染全屏交互（通过媒体查询判定）。
 
-export const setupArticleOutlineOverlay = ({ outline, toggleButton, closeButton, highlighter }) => {
+import { emitAnalyticsEvent } from '../analytics-events.js';
+
+export const setupArticleOutlineOverlay = ({ outline, toggleButton, closeButton, highlighter, headingCount = 0 }) => {
   const root = document.documentElement;
   if (!root || !(outline instanceof HTMLElement) || !(toggleButton instanceof HTMLButtonElement)) {
     return;
@@ -50,12 +52,16 @@ export const setupArticleOutlineOverlay = ({ outline, toggleButton, closeButton,
     }
   };
 
-  const closeOverlay = ({ focusToggle = true } = {}) => {
+  const closeOverlay = ({ focusToggle = true, shouldTrack = true } = {}) => {
     if (!isOpen) return;
 
     isOpen = false;
     setOutlineModalState(false);
     document.removeEventListener('keydown', handleKeydown);
+
+    if (shouldTrack) {
+      emitAnalyticsEvent('close_outline');
+    }
 
     if (focusToggle) {
       window.requestAnimationFrame(() => {
@@ -64,7 +70,7 @@ export const setupArticleOutlineOverlay = ({ outline, toggleButton, closeButton,
     }
   };
 
-  const openOverlay = () => {
+  const openOverlay = ({ shouldTrack = true } = {}) => {
     if (desktopQuery?.matches || isOpen) {
       return;
     }
@@ -87,6 +93,12 @@ export const setupArticleOutlineOverlay = ({ outline, toggleButton, closeButton,
     });
 
     document.addEventListener('keydown', handleKeydown);
+
+    if (shouldTrack) {
+      emitAnalyticsEvent('open_outline', {
+        heading_count: headingCount,
+      });
+    }
   };
 
   const syncViewportState = () => {
@@ -144,4 +156,3 @@ export const setupArticleOutlineOverlay = ({ outline, toggleButton, closeButton,
     });
   }
 };
-

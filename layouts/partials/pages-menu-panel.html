@@ -17,7 +17,14 @@
   <div class="app-nav__panel-list">
     {{- if gt (len $pagesList) 0 -}}
       {{ range $pagesList }}
-        <a class="app-nav__panel-item" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        <a
+          class="app-nav__panel-item"
+          href="{{ .RelPermalink }}"
+          data-nav-link
+          data-nav-label="{{ .LinkTitle }}"
+          data-nav-target="{{ .RelPermalink }}"
+          data-nav-position="pages-menu-panel"
+        >{{ .LinkTitle }}</a>
       {{ end }}
     {{- else -}}
       <p class="app-nav__panel-empty">{{ i18n "pagesMenuEmpty" }}</p>

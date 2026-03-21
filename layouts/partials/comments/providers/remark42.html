@@ -35,7 +35,7 @@
     {{- if isset . "noFooter" -}}
       {{- $remarkConfig = merge $remarkConfig (dict "no_footer" .noFooter) -}}
     {{- end -}}
-    <section class="article__comments article__surface app-glass app-glass--surface app-card" data-article-comments aria-label="{{ i18n "articleCommentsAriaLabel" }}">
+    <section class="article__comments article__surface app-glass app-glass--surface app-card" data-article-comments data-comments-provider="remark42" aria-label="{{ i18n "articleCommentsAriaLabel" }}">
       <div class="article-comments-card">
         <p class="article-comments-card__heading">{{ i18n "articleCommentsHeading" }}</p>
         <div id="remark42" class="article-comments-card__embed" data-loading-label="{{ i18n "articleCommentsLoading" }}"></div>

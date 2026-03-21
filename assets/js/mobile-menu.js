@@ -1,3 +1,5 @@
+import { emitAnalyticsEvent } from './analytics-events.js';
+
 // 说明：控制移动端顶栏右侧的“全屏菜单”。
 // - 目标：移动端顶栏仅保留站点名称 + 菜单按钮，其余导航项集中到全屏面板中展示。
 // - 交互：点击按钮展开；Esc/点击关闭按钮/点击链接后自动关闭；打开时锁定页面滚动。
@@ -28,7 +30,7 @@ export const setupMobileMenu = () => {
 
   setPanelHidden(panel.getAttribute('aria-hidden') !== 'false');
 
-  const closeMenu = ({ focusToggle = true } = {}) => {
+  const closeMenu = ({ focusToggle = true, shouldTrack = false } = {}) => {
     if (!isOpen) return;
 
     isOpen = false;
@@ -36,6 +38,12 @@ export const setupMobileMenu = () => {
     toggle.setAttribute('aria-expanded', 'false');
     setPanelHidden(true);
     document.removeEventListener('keydown', handleKeydown);
+
+    if (shouldTrack) {
+      emitAnalyticsEvent('close_mobile_menu', {
+        position: 'header',
+      });
+    }
 
     if (focusToggle) {
       window.requestAnimationFrame(() => {
@@ -60,20 +68,23 @@ export const setupMobileMenu = () => {
     });
 
     document.addEventListener('keydown', handleKeydown);
+    emitAnalyticsEvent('open_mobile_menu', {
+      position: 'header',
+    });
   };
 
   // 说明：Esc 键关闭菜单，并将焦点还给触发按钮。
   const handleKeydown = (event) => {
     if (event.key === 'Escape') {
       event.preventDefault();
-      closeMenu();
+      closeMenu({ shouldTrack: true });
     }
   };
 
   // 说明：按钮点击时在展开与收起之间切换。
   toggle.addEventListener('click', () => {
     if (isOpen) {
-      closeMenu();
+      closeMenu({ shouldTrack: true });
       return;
     }
 
@@ -82,7 +93,7 @@ export const setupMobileMenu = () => {
 
   // 说明：点击关闭按钮收起菜单。
   closeButton.addEventListener('click', () => {
-    closeMenu();
+    closeMenu({ shouldTrack: true });
   });
 
   // 说明：点击菜单链接后自动收起，避免遮挡页面内容。
@@ -91,7 +102,7 @@ export const setupMobileMenu = () => {
 
     const target = event.target;
     if (target instanceof HTMLElement && target.closest('a')) {
-      closeMenu({ focusToggle: false });
+      closeMenu({ focusToggle: false, shouldTrack: true });
     }
   });
 
@@ -104,4 +115,3 @@ export const setupMobileMenu = () => {
     });
   }
 };
-

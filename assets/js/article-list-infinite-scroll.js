@@ -4,6 +4,7 @@ import {
   postsScrollModeChangeEventName,
   readStoredPostsScrollMode,
 } from './settings/posts-scroll-state.js';
+import { emitAnalyticsEvent } from './analytics-events.js';
 
 // 说明：/posts 与 /pages 列表的“分页 / 无限滚动”渐进增强。
 // - 模式开关位于设置面板；本模块只负责按当前模式渲染与加载。
@@ -29,7 +30,7 @@ export const setupArticleListInfiniteScroll = () => {
     // 说明：若浏览器缺少关键能力，回退到常规分页模式。
     const supportsInfinite = typeof window.IntersectionObserver === 'function' && typeof window.DOMParser === 'function';
     const defaultMode = feed.getAttribute('data-article-list-default-mode') || 'pagination';
-    const currentPage = Number.parseInt(pagination.getAttribute('data-article-list-current-page') || '1', 10);
+    let currentPage = Number.parseInt(pagination.getAttribute('data-article-list-current-page') || '1', 10);
     let nextPageURL = pagination.getAttribute('data-article-list-next-url') || '';
 
     const storedMode = readStoredPostsScrollMode();
@@ -96,11 +97,26 @@ export const setupArticleListInfiniteScroll = () => {
         });
 
         const nextPagination = parsed.querySelector('[data-article-list-pagination]');
+        const loadedPage = Number.parseInt(
+          nextPagination?.getAttribute('data-article-list-current-page') || String(currentPage + 1),
+          10,
+        );
         nextPageURL = readNextPageURL(nextPagination);
+        currentPage = Number.isFinite(loadedPage) ? loadedPage : currentPage + 1;
+        pagination.setAttribute('data-article-list-current-page', String(currentPage));
         pagination.setAttribute('data-article-list-next-url', nextPageURL);
+        emitAnalyticsEvent('load_more_posts', {
+          feed: feed.getAttribute('data-article-list-feed') || '',
+          current_page: currentPage,
+          next_page: nextPageURL ? currentPage + 1 : null,
+        });
 
         if (!nextPageURL) {
           stopObserver();
+          emitAnalyticsEvent('reach_list_end', {
+            feed: feed.getAttribute('data-article-list-feed') || '',
+            page: currentPage,
+          });
         }
       } catch (error) {
         stopObserver();

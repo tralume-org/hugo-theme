@@ -1,3 +1,5 @@
+import { emitAnalyticsEvent } from '../analytics-events.js';
+
 // 说明：主题模式切换（自动/浅色/深色），支持本地存储持久化。
 export const setupThemeMode = (panel, root) => {
   const modeButtons = Array.from(panel.querySelectorAll('[data-theme-mode-option]'));
@@ -17,8 +19,9 @@ export const setupThemeMode = (panel, root) => {
     });
   };
 
-  const applyThemeMode = (modeId, shouldPersist = true) => {
+  const applyThemeMode = (modeId, shouldPersist = true, shouldTrack = false) => {
     const finalMode = supportedModes.has(modeId) ? modeId : 'auto';
+    const previousMode = root.getAttribute('data-theme-mode') || 'auto';
     if (finalMode === 'auto') {
       root.removeAttribute('data-theme-mode');
     } else {
@@ -32,6 +35,12 @@ export const setupThemeMode = (panel, root) => {
       } catch (error) {
         // 说明：忽略存储异常，保障功能在受限环境继续运行。
       }
+    }
+
+    if (shouldTrack && previousMode !== finalMode) {
+      emitAnalyticsEvent('change_theme_mode', {
+        mode: finalMode,
+      });
     }
   };
 
@@ -49,12 +58,12 @@ export const setupThemeMode = (panel, root) => {
   modeButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const modeId = button.getAttribute('data-theme-mode-option');
-      applyThemeMode(modeId, true);
+      applyThemeMode(modeId, true, true);
     });
   });
 
   // 说明：响应“外观恢复默认值”，主题模式回退为 auto。
   panel.addEventListener('settings:appearance-reset', () => {
-    applyThemeMode('auto', true);
+    applyThemeMode('auto', true, true);
   });
 };

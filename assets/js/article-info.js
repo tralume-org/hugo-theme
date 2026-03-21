@@ -1,4 +1,5 @@
 import { copyTextToClipboard } from './utils/clipboard.js';
+import { emitAnalyticsEvent } from './analytics-events.js';
 
 // 说明：文章信息卡片增强逻辑（Article Info）。
 // 作用：为“永久链接”提供一键复制按钮，减少用户手动选中/复制的操作成本。
@@ -14,6 +15,8 @@ export const setupArticleInfo = () => {
   if (!buttons.length) {
     return;
   }
+
+  const articleTitle = (root.querySelector('[data-article-title]')?.textContent || '').replace(/\s+/g, ' ').trim();
 
   buttons.forEach((button) => {
     if (!(button instanceof HTMLButtonElement)) {
@@ -48,6 +51,9 @@ export const setupArticleInfo = () => {
       button.classList.add('is-copied');
       button.textContent = copiedLabel;
       button.setAttribute('aria-label', copiedLabel);
+      emitAnalyticsEvent('copy_permalink', {
+        title: articleTitle,
+      });
       revertTimer = window.setTimeout(resetState, 1600);
     });
   });

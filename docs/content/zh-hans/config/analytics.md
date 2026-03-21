@@ -1,6 +1,6 @@
 # 统计分析 (Umami)
 
-集成轻量、隐私友好的统计系统 Umami，并支持“拦截提示”与“文章阅读量”展示。
+集成轻量、隐私友好的统计系统 Umami，并支持“拦截提示”“文章阅读量”以及主题内置交互事件埋点。
 
 ## Umami 脚本注入
 
@@ -34,7 +34,18 @@
   shareId = '你的-share-id'
 ```
 
+## 内置交互事件
+
+完成脚本注入后，主题会自动为常见交互上报 Umami 自定义事件，无需额外模板改造。
+
+- **文章阅读**：`scroll_depth`、`open_outline`、`close_outline`、`click_outline_item`
+- **内容操作**：`copy_code`、`copy_permalink`、`click_outbound_link`、`click_tag`
+- **全局导航**：`open_mobile_menu`、`close_mobile_menu`、`open_pages_menu`、`click_nav_link`
+- **界面偏好**：`open_settings_panel`、`change_theme_mode`、`change_glass_strength`、`change_reader_width`、`change_background_provider`
+- **列表与附加模块**：`load_more_posts`、`reach_list_end`、`click_article_card`、`view_comments`、`click_edit_source`、`view_pageviews_widget`
+
 ## 功能特点
 
 - **隐私保护**：统计逻辑交由 Umami 处理，主题仅负责按需展示。
 - **自动降级**：如果读者的网络或插件阻止了统计请求，阅读量项会自动隐藏，不会留下破损的图标或文字。
+- **统一上下文**：事件会自动附带当前页面路径、语言与页面类型，便于在 Umami 中直接按页面维度筛选。
