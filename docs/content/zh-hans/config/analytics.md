@@ -44,6 +44,61 @@
 - **界面偏好**：`open_settings_panel`、`change_theme_mode`、`change_glass_strength`、`change_reader_width`、`change_background_provider`
 - **列表与附加模块**：`load_more_posts`、`reach_list_end`、`click_article_card`、`view_comments`、`click_edit_source`、`view_pageviews_widget`
 
+## 事件名称说明
+
+下面这份清单对应当前主题已经实现的全部内置 Umami 自定义事件。
+
+### 页面与阅读
+
+| 事件名 | 含义 | 主要附加字段 |
+| --- | --- | --- |
+| `scroll_depth` | 阅读深度到达阈值时触发。当前阈值为 25 / 50 / 75 / 100，所以同一页面看到多次是正常现象。 | `depth` |
+| `open_outline` | 打开移动端文章大纲浮层。 | `heading_count` |
+| `close_outline` | 关闭移动端文章大纲浮层。 | 无 |
+| `click_outline_item` | 点击文章大纲里的标题链接。 | `heading_id`、`heading_level` |
+| `view_pageviews_widget` | 文章阅读量组件成功显示并拿到数据。 | 无 |
+| `view_comments` | 评论区进入视口并达到可见阈值。 | `provider` |
+
+### 内容操作
+
+| 事件名 | 含义 | 主要附加字段 |
+| --- | --- | --- |
+| `copy_code` | 成功复制代码块内容。 | `lang`、`line_count` |
+| `copy_permalink` | 成功复制文章永久链接。 | `title` |
+| `click_outbound_link` | 点击正文中的外部链接。 | `target_url`、`target_host`、`link_text`、`link_position` |
+| `click_edit_source` | 点击“编辑此页 / 查看源码”链接。 | `target_url`、`target_host` |
+| `click_tag` | 点击标签入口。 | `tag` |
+
+### 导航与列表
+
+| 事件名 | 含义 | 主要附加字段 |
+| --- | --- | --- |
+| `open_mobile_menu` | 打开移动端菜单。 | `position` |
+| `close_mobile_menu` | 关闭移动端菜单。 | `position` |
+| `open_pages_menu` | 打开顶栏 Pages 下拉面板。 | `position` |
+| `click_nav_link` | 点击主题导航链接。 | `label`、`target_path`、`position` |
+| `click_article_card` | 点击文章卡片进入详情页。 | `target_path`、`title`、`position` |
+| `load_more_posts` | 无限滚动成功加载下一页内容。 | `feed`、`current_page`、`next_page` |
+| `reach_list_end` | 无限滚动到达最后一页，没有更多内容。 | `feed`、`page` |
+
+### 设置面板与偏好
+
+| 事件名 | 含义 | 主要附加字段 |
+| --- | --- | --- |
+| `open_settings_panel` | 打开设置面板。 | 无 |
+| `change_theme_mode` | 切换主题模式（自动 / 浅色 / 深色）。 | `mode` |
+| `change_glass_strength` | 调整亚克力强度。 | `strength` |
+| `change_reader_width` | 调整阅读宽度。 | `width` |
+| `change_background_provider` | 切换背景来源（URL / Upload / Pixaroa）。 | `provider` |
+
+## 如何理解 Umami 里的记录
+
+- 普通的页面路径（例如 `/zh-hans/pages/affiliates/`）是 Umami 默认的页面访问记录，不是主题额外定义的自定义事件。
+- `Visitor from ... using ...` 是 Umami 对本次访问会话的访客环境描述，表示地区、浏览器、系统和设备类型。
+- `view_pageviews_widget on /...` 表示页面上的阅读量组件成功显示。
+- `view_comments on /...` 表示评论区被滚动到可见区域。
+- 同一页连续出现多条 `scroll_depth`，通常表示用户依次跨过了 25%、50%、75%、100% 这些阅读深度阈值。
+
 ## 功能特点
 
 - **隐私保护**：统计逻辑交由 Umami 处理，主题仅负责按需展示。
