@@ -12,7 +12,7 @@ jobs:
   deploy:
     runs-on: docker-amd64
     container:
-      image: forgejo.alexma.top/alexma233/ci-images:bun-wrangler
+      image: forgejo.alexma.top/alexma233/ci-images-bun-wrangler:latest
 
     steps:
       - name: Checkout
