@@ -1,27 +1,27 @@
 {{/* 说明：从 data/friends 归一化友链数据；按“当前语言优先”分组，并在组内按 weight 升序、同权重随机；仅做数据处理，不输出 HTML。 */}}
 {{- $currentLang := site.Language.Lang | default "en-US" -}}
 {{- $currentLangKey := lower (replace $currentLang "_" "-" ) -}}
-{{- $currentLangCode := site.Language.LanguageCode | default $currentLang -}}
+{{- $currentLangCode := or site.Language.Locale $currentLang -}}
 {{- $currentLangCodeKey := lower (replace $currentLangCode "_" "-" ) -}}
-{{- $currentLangName := site.Language.LanguageName | default $currentLang -}}
+{{- $currentLangName := or site.Language.Label $currentLang -}}
 {{- $defaultWeight := 10000 -}}
 
 {{/* 说明：将语言代码映射为语言名称（来自 Hugo languages 配置），用于友链卡片展示。 */}}
 {{- $languageNameScratch := newScratch -}}
-{{- range site.Sites }}
+{{- range hugo.Sites }}
   {{- $langKey := lower (replace (.Language.Lang | default "") "_" "-" ) -}}
   {{- if $langKey }}
-    {{- $languageNameScratch.Set $langKey .Language.LanguageName -}}
+    {{- $languageNameScratch.Set $langKey .Language.Label -}}
   {{- end -}}
-  {{- $langCodeKey := lower (replace (.Language.LanguageCode | default "") "_" "-" ) -}}
+  {{- $langCodeKey := lower (replace (or .Language.Locale "") "_" "-" ) -}}
   {{- if $langCodeKey }}
-    {{- $languageNameScratch.Set $langCodeKey .Language.LanguageName -}}
+    {{- $languageNameScratch.Set $langCodeKey .Language.Label -}}
   {{- end -}}
 {{- end -}}
 
 {{/* 说明：name/description 支持 i18n：既可为字符串，也可为按语言代码分组的 map；缺失当前语言时回退 default 或任一已提供语言。 */}}
 {{- $i18nKeyCandidates := slice $currentLangCode (replace $currentLangCode "_" "-" ) $currentLang (replace $currentLang "_" "-" ) $currentLangKey $currentLangCodeKey "default" -}}
-{{- $friendsData := site.Data.friends -}}
+{{- $friendsData := hugo.Data.friends -}}
 {{- $primaryWeightKeys := slice -}}
 {{- $secondaryWeightKeys := slice -}}
 {{- $primaryBuckets := newScratch -}}

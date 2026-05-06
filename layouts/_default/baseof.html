@@ -28,8 +28,8 @@
   {{- $pageType = "section" -}}
 {{- end -}}
 <html
-  lang="{{ site.Language.LanguageCode }}"
-  dir="{{ or site.Language.LanguageDirection `ltr` }}"
+  lang="{{ site.Language.Locale }}"
+  dir="{{ or site.Language.Direction `ltr` }}"
   {{ printf `data-theme-mode="%s"` $defaultMode | safeHTMLAttr }}
   {{ printf `data-reader-width-default="%.2f"` $defaultReaderValue | safeHTMLAttr }}
   style="{{ $readerWidthStyle | safeHTMLAttr }}"

@@ -68,7 +68,7 @@
   "url" $canonical
   "name" $title
   "description" $description
-  "inLanguage" ($page.Language.LanguageCode | default $page.Language.Lang)
+    "inLanguage" (or $page.Language.Locale $page.Language.Lang)
   "isPartOf" (dict "@id" $websiteId)
 -}}
 
@@ -79,7 +79,7 @@
     "url" $page.Site.Home.Permalink
     "name" $page.Site.Title
     "description" $description
-    "inLanguage" ($page.Language.LanguageCode | default $page.Language.Lang)
+  "inLanguage" (or $page.Language.Locale $page.Language.Lang)
   -}}
 {{- else if $page.IsPage -}}
   {{- $main = merge $main (dict

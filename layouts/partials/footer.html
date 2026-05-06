@@ -13,7 +13,7 @@
       <small>
         <a
           href="{{ .RelPermalink }}"
-          title="{{ i18n "rssAlternateTitle" (dict "SiteTitle" site.Title "LanguageName" site.Language.LanguageName) }}"
+          title="{{ i18n "rssAlternateTitle" (dict "SiteTitle" site.Title "LanguageLabel" site.Language.Label) }}"
           aria-label="{{ i18n "footerRssSubscribe" }}"
         >{{ i18n "footerRssSubscribe" }}</a>
         {{- /* 说明：允许在 RSS 链接后追加自定义页脚条目；使用 "|" 作为分隔符。 */ -}}

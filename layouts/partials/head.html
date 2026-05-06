@@ -129,7 +129,7 @@
   {{- range $home.AllTranslations }}
     {{- $feedPage := . -}}
     {{- with $feedPage.OutputFormats.Get "RSS" }}
-      <link rel="alternate" hreflang="{{ $feedPage.Language.Lang }}" type="{{ .MediaType.Type }}" title="{{ i18n "rssAlternateTitle" (dict "SiteTitle" $feedPage.Site.Title "LanguageName" $feedPage.Site.Language.LanguageName) }}" href="{{ .Permalink }}">
+      <link rel="alternate" hreflang="{{ $feedPage.Language.Lang }}" type="{{ .MediaType.Type }}" title="{{ i18n "rssAlternateTitle" (dict "SiteTitle" $feedPage.Site.Title "LanguageLabel" $feedPage.Site.Language.Label) }}" href="{{ .Permalink }}">
     {{- end }}
   {{- end }}
 {{- end }}

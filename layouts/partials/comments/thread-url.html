@@ -11,7 +11,7 @@
   {{- $logicalPath := partial "i18n-routing/logical-path.html" $context -}}
   {{- $autoEntryEnabled := $context.Site.Params.i18nRouting.enableAutoEntry | default false -}}
   {{- $defaultLanguageInSubdir := true -}}
-  {{- range $context.Site.Sites -}}
+  {{- range hugo.Sites -}}
     {{- if eq .Home.RelPermalink "/" -}}
       {{- $defaultLanguageInSubdir = false -}}
     {{- end -}}
@@ -25,7 +25,7 @@
   {{- end -}}
   {{- $threadURL = replace $context.Permalink $context.RelPermalink $logicalPath -}}
 {{- else if eq $mergeStrategy "defaultlanguage" -}}
-  {{- $defaultLang := (index $context.Site.Sites 0).Language.Lang -}}
+  {{- $defaultLang := (index hugo.Sites 0).Language.Lang -}}
   {{- $translations := slice $context -}}
   {{- range $context.AllTranslations -}}
     {{- $translations = $translations | append . -}}

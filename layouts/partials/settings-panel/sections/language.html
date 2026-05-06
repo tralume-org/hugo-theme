@@ -9,7 +9,7 @@
   </div>
   <div class="settings-panel__select">
     <select class="settings-panel__language-select" data-language-select aria-label="{{ i18n "settingsPanelLanguageHeading" }}">
-      {{ range site.Sites }}
+      {{ range hugo.Sites }}
         {{ $isActive := eq .Language.Lang $currentSite.Language.Lang }}
         {{ $translationCandidates := where $translations "Language.Lang" .Language.Lang }}
         {{ $scratch.Set "targetHref" $.RelPermalink }}
@@ -27,7 +27,7 @@
           data-language-code="{{ .Language.Lang }}"
           {{ if $isActive }}selected{{ end }}
         >
-          {{ printf "%s (%s)" .Language.LanguageName .Language.Lang }}
+          {{ printf "%s (%s)" .Language.Label .Language.Lang }}
         </option>
       {{ end }}
     </select>

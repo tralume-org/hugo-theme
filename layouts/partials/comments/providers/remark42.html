@@ -8,7 +8,7 @@
 {{- with $config -}}
   {{- $host := .host | default "" -}}
   {{- $siteId := .siteId | default "remark" -}}
-  {{- $locale := lower (index (split $context.Site.Language.LanguageCode "-") 0) -}}
+  {{- $locale := lower (index (split $context.Site.Language.Locale "-") 0) -}}
   {{- $mergeStrategy := $context.Site.Params.comments.mergeStrategy | default "defaultLanguage" | lower -}}
   {{- if $host -}}
     {{- $threadURL := partial "comments/thread-url.html" (dict "Context" $context "MergeStrategy" $mergeStrategy) -}}

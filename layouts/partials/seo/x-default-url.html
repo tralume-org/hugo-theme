@@ -13,7 +13,7 @@
   {{- $logicalPath := partial "i18n-routing/logical-path.html" $page -}}
   {{- $neutralPath := $logicalPath -}}
   {{- $defaultLanguageInSubdir := true -}}
-  {{- range $page.Site.Sites -}}
+  {{- range hugo.Sites -}}
     {{- if eq .Home.RelPermalink "/" -}}
       {{- $defaultLanguageInSubdir = false -}}
     {{- end -}}

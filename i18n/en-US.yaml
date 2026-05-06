@@ -403,7 +403,7 @@
   translation: Remove background
 
 - id: rssAlternateTitle
-  translation: '{{ .SiteTitle }} · {{ .LanguageName }} RSS feed'
+  translation: '{{ .SiteTitle }} · {{ .LanguageLabel }} RSS feed'
 
 - id: footerRssSubscribe
   translation: RSS Subscribe

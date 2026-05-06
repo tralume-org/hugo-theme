@@ -4,14 +4,14 @@ defaultContentLanguageInSubdir = true
 
 [languages]
   [languages."en-US"]
-    languageName = 'English'
-    languageCode = 'en-US'
+    label = 'English'
+    locale = 'en-US'
     weight = 1
     title = 'Tralume'
 
   [languages."zh-Hans"]
-    languageName = '简体中文'
-    languageCode = 'zh-Hans'
+    label = '简体中文'
+    locale = 'zh-Hans'
     weight = 2
     title = 'Tralume 主题'
 
@@ -45,7 +45,7 @@ defaultContentLanguageInSubdir = true
 # Note: Import the theme via Hugo Modules; if using a submodule, switch to theme = 'tralume'.
 [module]
   [module.hugoVersion]
-    min = '0.146.0'
+    min = '0.161.1'
     extended = false
 
 [markup]

@@ -37,7 +37,7 @@
   <channel>
     <title>{{ $context.Title | plainify }}</title>
     <link>{{ $context.Permalink }}</link>
-    <language>{{ with $site.Language.LanguageCode }}{{ . }}{{ else }}{{ $site.Language.Lang }}{{ end }}</language>
+    <language>{{ or $site.Language.Locale $site.Language.Lang }}</language>
     <description>{{ $feedDesc | plainify }}</description>
     {{- with $context.OutputFormats.Get "RSS" }}
     <atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml" />

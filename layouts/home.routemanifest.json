@@ -9,12 +9,12 @@
 {{- $scratch.Set "seenGroups" (dict) -}}
 {{- $scratch.Set "homeTargets" (dict) -}}
 
-{{- range site.Sites -}}
+{{- range hugo.Sites -}}
   {{- $languages := $scratch.Get "languages" -}}
   {{- $scratch.Set "languages" ($languages | append (dict
     "lang" .Language.Lang
-    "languageCode" (.Language.LanguageCode | default .Language.Lang)
-    "languageName" (.Language.LanguageName | default .Language.Lang)
+    "locale" (or .Language.Locale .Language.Lang)
+    "label" (or .Language.Label .Language.Lang)
     "weight" (.Language.Weight | default 0)
   )) -}}
 
