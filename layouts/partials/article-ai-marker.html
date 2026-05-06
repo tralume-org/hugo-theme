@@ -52,19 +52,23 @@
     {{- end -}}
     {{- $toolText := delimit $toolLabels $listSeparator -}}
 
-    {{/* 说明：AI 标记独立占一行，但复用与日期/阅读时间相同的 Meta 样式。 */}}
-    <p class="article__meta article__meta--ai">
-      <span class="article__meta-item article__ai-level">{{ $levelLabel }}</span>
-      {{- if gt (len $usageLabels) 0 -}}
+    {{/* 说明：AI 标记默认折叠为摘要（仅显示 AI 参与程度），点击展开可查看用途/复核/工具详情。 */}}
+    <details class="article__ai-marker">
+      <summary class="article__ai-marker-summary">
+        <span class="article__meta-item article__ai-level">{{ $levelLabel }}</span>
+      </summary>
+      <div class="article__ai-marker-details">
+        {{- if gt (len $usageLabels) 0 -}}
+          <span class="article__meta-separator" aria-hidden="true">·</span>
+          <span class="article__meta-item article__ai-usage">{{ $usageText }}</span>
+        {{- end -}}
         <span class="article__meta-separator" aria-hidden="true">·</span>
-        <span class="article__meta-item article__ai-usage">{{ $usageText }}</span>
-      {{- end -}}
-      <span class="article__meta-separator" aria-hidden="true">·</span>
-      <span class="article__meta-item article__ai-review">{{ $reviewLabel }}</span>
-      {{- if gt (len $toolLabels) 0 -}}
-        <span class="article__meta-separator" aria-hidden="true">·</span>
-        <span class="article__meta-item article__ai-tools">{{ $toolText }}</span>
-      {{- end -}}
-    </p>
+        <span class="article__meta-item article__ai-review">{{ $reviewLabel }}</span>
+        {{- if gt (len $toolLabels) 0 -}}
+          <span class="article__meta-separator" aria-hidden="true">·</span>
+          <span class="article__meta-item article__ai-tools">{{ $toolText }}</span>
+        {{- end -}}
+      </div>
+    </details>
   {{- end -}}
 {{- end -}}
