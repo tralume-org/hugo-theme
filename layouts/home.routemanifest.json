@@ -26,7 +26,8 @@
     "permalink" .Home.Permalink
   ))) -}}
 
-  {{- range .RegularPages -}}
+  {{- /* 说明：遍历常规页面与 Section 页面，统一生成路由清单条目。 */}}
+  {{- range (.RegularPages | union .Sections) -}}
     {{- if ne (.Params.noAutoEntry | default false) true -}}
       {{- $groupKey := .Path | default (.TranslationKey | default .RelPermalink) -}}
       {{- $seenGroups := $scratch.Get "seenGroups" -}}
