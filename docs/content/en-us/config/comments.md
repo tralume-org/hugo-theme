@@ -32,8 +32,8 @@ Set this in `hugo.toml`:
   showRssSubscription = true
   # Note: Whether to enable a simpler interface.
   simpleView = false
-  # Note: Whether to hide the Remark42 footer.
-  noFooter = false
+  # Note: Whether to hide the Remark42 footer. Hidden by default (true); set to false to show it again.
+  noFooter = true
 ```
 
 ## Notes

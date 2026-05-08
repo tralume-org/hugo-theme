@@ -32,8 +32,8 @@
   showRssSubscription = true
   # 说明：是否启用更简洁的界面。
   simpleView = false
-  # 说明：是否隐藏 Remark42 底部页脚。
-  noFooter = false
+  # 说明：是否隐藏 Remark42 底部页脚。主题默认已隐藏（true），设为 false 可重新显示。
+  noFooter = true
 ```
 
 ## 行为说明
