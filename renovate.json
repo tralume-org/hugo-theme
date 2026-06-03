@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["gomod"],
+      "matchDepNames": ["github.com/imfing/hextra"],
+      "addLabels": ["docs"]
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchPackageNames": ["forgejo.alexma.top/alexma233/ci-images-hugo-wrangler"],
+      "groupName": "tooling updates"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)\\.forgejo\\/workflows\\/.+\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "\\s*container:\\s*\\n\\s*image:\\s+(?<depName>forgejo\\.alexma\\.top\\/alexma233\\/ci-images-hugo-wrangler):(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}
