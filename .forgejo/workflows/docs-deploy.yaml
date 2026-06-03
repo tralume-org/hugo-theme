@@ -8,23 +8,30 @@ on:
       - ".forgejo/workflows/docs-deploy.yaml"
   workflow_dispatch:
 
+env:
+  HUGO_ENVIRONMENT: production
+  HUGO_ENV: production
+
 jobs:
-  deploy:
+  build-deploy:
     runs-on: docker-amd64
     container:
-      image: forgejo.alexma.top/alexma233/ci-images-bun-wrangler:latest
+      image: forgejo.alexma.top/alexma233/ci-images-hugo-wrangler:0.162.1
 
     steps:
       - name: Checkout
         uses: https://forgejo.alexma.top/actions/checkout@v5
 
-      - name: Install docs dependencies
+      - name: Download Hugo modules
         working-directory: docs
-        run: bun install --frozen-lockfile
+        run: |
+          hugo mod tidy
+          hugo mod verify
 
       - name: Build docs
         working-directory: docs
-        run: bun run build
+        run: |
+          hugo --minify -d public
 
       - name: Deploy to Cloudflare Pages
         id: deploy
@@ -32,6 +39,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Cloudflare uses the branch name to decide if a deploy is production or preview.
-          # Use the project's production branch (main) so the deployment is marked as Production.
-          command: pages deploy ./docs/.vitepress/dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=main
+          command: pages deploy ./docs/public --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=main
