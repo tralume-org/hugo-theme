@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: https://forgejo.alexma.top/actions/checkout@v5
+        uses: https://forgejo.alexma.top/actions/checkout@v6
 
       - name: Download Hugo modules
         working-directory: docs
