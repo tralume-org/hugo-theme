@@ -89,37 +89,85 @@
   | resources.Concat "css/settings-panel.css"
 }}
 
+{{/* 说明：Chroma 语法高亮按当前明暗主题单独加载，避免 GitHub/Monokai 两套 token CSS 无条件进入 main.css。 */}}
+{{ $chromaLight := resources.Get "css/chroma/chroma-github.css" }}
+{{ $chromaDark := resources.Get "css/chroma/chroma-monokai.css" }}
+
 {{/* 说明：构建 main.css（站点主样式），避免将 settings-panel.css 内联进来，减少重复内容与无意义的缓存失效。 */}}
-	{{ $main := slice
-	  (resources.Get "css/fonts/material-symbols-rounded.css")
-	  (resources.Get "css/fonts/devicon.css")
-	  (resources.Get "css/base.css")
-	  (resources.Get "css/glass-surfaces.css")
-	  (resources.Get "css/app-navigation.css")
-	  (resources.Get "css/app-shell.css")
-	  (resources.Get "css/article.css")
-	  (resources.Get "css/article-outline.css")
-	  (resources.Get "css/markdown-callouts.css")
-	  (resources.Get "css/article-info.css")
-	  (resources.Get "css/comments.css")
-	  (resources.Get "css/article-progress-indicator.css")
-	  (resources.Get "css/content-blocks/article-list.css")
-	  (resources.Get "css/content-blocks/article-card.css")
-	  (resources.Get "css/content-blocks/page-intro-card.css")
-	  (resources.Get "css/content-blocks/friends.css")
-	  (resources.Get "css/analytics.css")
-	  (resources.Get "css/icons/devicon.css")
-	  (resources.Get "css/chroma/chroma-github.css")
-	  (resources.Get "css/chroma/chroma-monokai.css")
-	  (resources.Get "css/code-blocks.css")
-	  | resources.Concat "css/main.css"
-	}}
+{{ $main := slice
+  (resources.Get "css/fonts/material-symbols-rounded.css")
+  (resources.Get "css/fonts/devicon.css")
+  (resources.Get "css/base.css")
+  (resources.Get "css/glass-surfaces.css")
+  (resources.Get "css/app-navigation.css")
+  (resources.Get "css/app-shell.css")
+  (resources.Get "css/article.css")
+  (resources.Get "css/article-outline.css")
+  (resources.Get "css/markdown-callouts.css")
+  (resources.Get "css/article-info.css")
+  (resources.Get "css/comments.css")
+  (resources.Get "css/article-progress-indicator.css")
+  (resources.Get "css/content-blocks/article-list.css")
+  (resources.Get "css/content-blocks/article-card.css")
+  (resources.Get "css/content-blocks/page-intro-card.css")
+  (resources.Get "css/content-blocks/friends.css")
+  (resources.Get "css/analytics.css")
+  (resources.Get "css/icons/devicon.css")
+  (resources.Get "css/code-blocks.css")
+  | resources.Concat "css/main.css"
+}}
 
 {{/* 说明：仅在生产环境做压缩与指纹化，开发模式保留可读 URL 与更快构建。 */}}
 {{- if hugo.IsProduction -}}
   {{- $main = $main | resources.Minify | resources.Fingerprint "sha256" -}}
   {{- $settingsPanel = $settingsPanel | resources.Minify | resources.Fingerprint "sha256" -}}
+  {{- $chromaLight = $chromaLight | resources.Minify | resources.Fingerprint "sha256" -}}
+  {{- $chromaDark = $chromaDark | resources.Minify | resources.Fingerprint "sha256" -}}
 {{- end -}}
+{{- $chromaThemeStyles := dict
+  "light" (dict "href" $chromaLight.RelPermalink "integrity" (or $chromaLight.Data.Integrity ""))
+  "dark" (dict "href" $chromaDark.RelPermalink "integrity" (or $chromaDark.Data.Integrity ""))
+-}}
+<script>
+  // 说明：首屏只加载当前有效的 Chroma 主题；后续切换由 assets/js/chroma-theme.js 接管。
+  (function () {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
+    var chromaThemes = {{ $chromaThemeStyles | jsonify | safeJS }};
+    var root = document.documentElement;
+    var mode = root ? root.getAttribute('data-theme-mode') : null;
+    var prefersDark = false;
+
+    if (window.matchMedia) {
+      prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    var themeId = mode === 'light' || mode === 'dark' ? mode : (prefersDark ? 'dark' : 'light');
+    var theme = chromaThemes[themeId] || chromaThemes.light;
+    if (!theme || !theme.href || !document.head) {
+      return;
+    }
+
+    var stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = theme.href;
+    stylesheet.id = 'chroma-theme-stylesheet';
+    stylesheet.setAttribute('data-chroma-theme-stylesheet', '');
+    stylesheet.setAttribute('data-chroma-theme', themeId);
+    if (theme.integrity) {
+      stylesheet.integrity = theme.integrity;
+      stylesheet.crossOrigin = 'anonymous';
+    }
+    document.head.appendChild(stylesheet);
+    window.__tralumeChromaThemeStyles = chromaThemes;
+  })();
+</script>
+<noscript>
+  <link rel="stylesheet" href="{{ $chromaLight.RelPermalink }}" media="(prefers-color-scheme: light)" {{ with $chromaLight.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
+  <link rel="stylesheet" href="{{ $chromaDark.RelPermalink }}" media="(prefers-color-scheme: dark)" {{ with $chromaDark.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
+</noscript>
 <link rel="stylesheet" href="{{ $tokens.RelPermalink }}">
 <link rel="stylesheet" href="{{ $main.RelPermalink }}" {{ with $main.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>
 <link rel="stylesheet" href="{{ $settingsPanel.RelPermalink }}" {{ with $settingsPanel.Data.Integrity }}integrity="{{ . }}" crossorigin="anonymous"{{ end }}>

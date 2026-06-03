@@ -6,12 +6,14 @@ import { setupArticleInfo } from './article-info.js';
 import { setupAnalytics } from './analytics.js';
 import { setupPagesMenu } from './pages-menu.js';
 import { setupArticleListInfiniteScroll } from './article-list-infinite-scroll.js';
+import { setupChromaTheme } from './chroma-theme.js';
 
 // 说明：集中触发初始化逻辑，确保各个组件在 DOM 就绪后挂载事件。
 const bootstrap = () => {
   setupMobileMenu();
   setupPagesMenu();
   setupAnalytics();
+  setupChromaTheme();
   setupSettingsPanel();
   setupCodeBlocks();
   setupArticleOutline();
