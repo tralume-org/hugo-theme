@@ -85,7 +85,7 @@ body::before {
   --app-glass-border-alpha: 27%;
   --app-glass-border-strong-alpha: 39%;
   --app-glass-tint-color: var(--md-sys-color-primary);
-  --app-glass-tint-alpha: 4%;
+  --app-glass-tint-alpha: 0%;
   --app-glass-surface-color: color-mix(in srgb, var(--md-sys-color-surface) var(--app-glass-surface-alpha), transparent);
   --app-glass-elevated-color: color-mix(in srgb, var(--md-sys-color-surface-container-high) var(--app-glass-elevated-alpha), transparent);
   --app-glass-strong-color: color-mix(in srgb, var(--md-sys-color-surface-container-highest) var(--app-glass-strong-alpha), transparent);
@@ -214,7 +214,7 @@ a:focus-visible {
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --app-glass-tint-alpha: 5%;
+    --app-glass-tint-alpha: 0%;
     --app-text-accent-color: var(--app-dynamic-text-accent-dark);
     --md-sys-color-primary: var(--app-dynamic-primary-dark);
     --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
@@ -243,7 +243,7 @@ a:focus-visible {
 
 :root[data-theme-mode="light"] {
   color-scheme: light;
-  --app-glass-tint-alpha: 4%;
+  --app-glass-tint-alpha: 0%;
   --app-text-accent-color: var(--app-dynamic-text-accent-light);
   --md-sys-color-primary: var(--app-dynamic-primary-light);
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-light);
@@ -271,7 +271,7 @@ a:focus-visible {
 
 :root[data-theme-mode="dark"] {
   color-scheme: dark;
-  --app-glass-tint-alpha: 5%;
+  --app-glass-tint-alpha: 0%;
   --app-text-accent-color: var(--app-dynamic-text-accent-dark);
   --md-sys-color-primary: var(--app-dynamic-primary-dark);
   --md-sys-color-on-primary: var(--app-dynamic-on-primary-dark);
