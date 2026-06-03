@@ -36,6 +36,7 @@
         </p>
         {{ partial "article-ai-marker.html" . }}
       </header>
+      {{ partial "outdated-notice.html" . }}
       <div class="article__content" data-article-content>
         {{ .Content }}
         {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}

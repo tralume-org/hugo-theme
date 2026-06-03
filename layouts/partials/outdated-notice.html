@@ -1,0 +1,35 @@
+{{/*
+  说明：过时内容提醒（inline callout，位于标题下方、正文上方）。
+  作用：当文章距今超过可配置天数阈值时，提醒读者信息可能不再适用。
+  注意：
+  - 比较日期优先用 Lastmod（若有且与 Date 不同），否则用 Date。
+  - 阈值来源：页面 Front Matter outdatedThresholdDays > 站点参数 outdatedThresholdDays > 默认 180。
+  - 页面 Front Matter showOutdatedWarning = false 可强制隐藏。
+  - 所有文案均通过 i18n 输出，避免写死。
+*/}}
+{{- $referenceDate := .Date -}}
+{{- if and .Lastmod (ne .Lastmod .Date) -}}
+  {{- $referenceDate = .Lastmod -}}
+{{- end -}}
+
+{{- $defaultDays := 180 -}}
+{{- $thresholdDays := .Params.outdatedThresholdDays | default (site.Params.outdatedThresholdDays | default $defaultDays) -}}
+{{- $thresholdDays = int $thresholdDays -}}
+{{- $showWarning := .Params.showOutdatedWarning | default true -}}
+
+{{- if and $referenceDate $showWarning (gt $thresholdDays 0) -}}
+  {{- $now := now -}}
+  {{- $nowUnix := $now.Unix -}}
+  {{- $refUnix := $referenceDate.Unix -}}
+  {{- $diffSeconds := sub $nowUnix $refUnix -}}
+  {{- $thresholdSeconds := mul $thresholdDays 86400 -}}
+
+  {{- if ge $diffSeconds $thresholdSeconds -}}
+    {{- $ageDuration := $now.Sub $referenceDate -}}
+    {{- $daysSince := int (div $ageDuration.Hours 24) -}}
+    <div class="outdated-notice app-glass app-glass--surface app-card" role="alert" aria-label="{{ i18n "outdatedWarning" (dict "Days" $daysSince) }}">
+      <span class="outdated-notice__icon material-symbols-rounded" aria-hidden="true">warning</span>
+      <span class="outdated-notice__text">{{ i18n "outdatedWarning" (dict "Days" $daysSince) }}</span>
+    </div>
+  {{- end -}}
+{{- end -}}

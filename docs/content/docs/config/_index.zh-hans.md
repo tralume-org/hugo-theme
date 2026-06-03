@@ -21,6 +21,7 @@ Tralume 主题提供了丰富的自定义选项，你可以通过修改站点的
 - [文章许可证](./license)：管理每篇文章的许可证
 - [AI 参与度标记](./ai-marker)：标准化 AI 写作说明
 - [友链管理](./friends)：`data/friends` 数据配置
+- [过时内容提醒](./outdated-notice)：为老化文章提醒读者
 
 ## 界面与集成
 

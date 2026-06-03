@@ -43,6 +43,9 @@
 - id: articlePageviewsLabel
   translation: 阅读量
 
+- id: outdatedWarning
+  translation: 本文发布于 {{ .Days }} 天前，部分信息可能已不再适用。
+
 - id: aiMarkerListSeparator
   translation: "、"
 

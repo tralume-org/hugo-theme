@@ -1,0 +1,33 @@
+/* 说明：过时内容提醒 callout 样式。
+ * 作用：在文章正文上方显示警告横幅，复用亚克力表面与 MD3 变量，避免硬编码颜色。
+ * 注意：圆角使用全局 token --app-radius-section，不写死具体数值。
+ */
+
+.outdated-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.85rem 1.1rem;
+  --app-glass-radius: var(--app-radius-section);
+  --app-glass-surface-alpha: 0.08;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+.outdated-notice__icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  margin-block-start: 0.05em;
+  color: var(--md-sys-color-on-surface-variant);
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.outdated-notice__text {
+  flex: 1 1 auto;
+  min-width: 0;
+}

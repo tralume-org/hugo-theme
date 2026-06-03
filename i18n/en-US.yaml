@@ -43,6 +43,9 @@
 - id: articlePageviewsLabel
   translation: Views
 
+- id: outdatedWarning
+  translation: This article was published over {{ .Days }} days ago. The information may no longer be applicable.
+
 - id: aiMarkerListSeparator
   translation: ", "
 

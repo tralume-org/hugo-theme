@@ -21,6 +21,7 @@ Tralume provides a rich set of customization options. You can tune the look and 
 - [Content license](./license): manage per-page license
 - [AI contribution marker](./ai-marker): standardized AI disclosure
 - [Friends links](./friends): configure `data/friends`
+- [Outdated content notice](./outdated-notice): warn readers about aging articles
 
 ## UI & integrations
 
