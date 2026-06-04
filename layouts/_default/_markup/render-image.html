@@ -1,0 +1,13 @@
+{{/* 说明：Markdown 图片渲染钩子。
+  * 作用：自动为所有 ![alt](src "title") 语法添加延迟加载、异步解码与可选的 figure/figcaption 包装。
+  * 注意：有 title 时输出 <figure> + <figcaption>，无 title 时输出裸 <img>（由 goldmark 包裹在 <p> 内）。
+  *       所有图片均添加 data-lightbox 属性，供前端灯箱模块监听点击事件。
+*/}}
+{{- if .Title }}
+<figure class="article__figure">
+  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" loading="lazy" decoding="async" data-lightbox>
+  <figcaption>{{ .Title }}</figcaption>
+</figure>
+{{- else }}
+<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" loading="lazy" decoding="async" class="article__image" data-lightbox>
+{{- end }}

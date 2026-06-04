@@ -32,6 +32,7 @@
   dir="{{ or site.Language.Direction `ltr` }}"
   {{ printf `data-theme-mode="%s"` $defaultMode | safeHTMLAttr }}
   {{ printf `data-reader-width-default="%.2f"` $defaultReaderValue | safeHTMLAttr }}
+  {{ printf `data-lightbox-close-label="%s"` (i18n "lightboxCloseLabel") | safeHTMLAttr }}
   style="{{ $readerWidthStyle | safeHTMLAttr }}"
 >
 <head>

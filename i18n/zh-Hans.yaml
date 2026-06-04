@@ -522,6 +522,9 @@
 - id: articleLicenseFull_arr
   translation: 保留所有权利 - 版权所有，未经允许请勿转载。
 
+- id: lightboxCloseLabel
+  translation: 关闭灯箱
+
 - id: footerPoweredBy
   translation: 由 {{ .Hugo }} 与 {{ .Tralume }} 提供支持
 

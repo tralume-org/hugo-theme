@@ -139,10 +139,105 @@
   min-width: 0;
 }
 
-/* 说明：Markdown 图片默认按固有尺寸渲染；限制为不超过容器宽度并保持比例，避免溢出正文卡片。 */
+/* 说明：Markdown 图片默认按固有尺寸渲染；限制为不超过容器宽度并保持比例，避免溢出正文卡片。
+ *       圆角使用 section 级 token，比卡片略小，与正文内其他块级元素（callout/表格）保持一致。 */
 .article__content img {
   max-width: 100%;
   height: auto;
+  border-radius: var(--app-radius-section);
+}
+
+/* 说明：文章插图 figure 包装器，纵向排列图片与题注。 */
+.article__content figure {
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* 说明：figure 内的图片撑满容器宽度，消除多余底边距。 */
+.article__content figure img {
+  width: 100%;
+  margin: 0;
+  /* 说明：有题注的图片降低圆角仅保留上方，figure 整体圆角由外层控制。 */
+  border-radius: var(--app-radius-section);
+}
+
+/* 说明：题注居中显示，使用次级文字颜色、较小字重与精简间距。 */
+.article__content figcaption {
+  text-align: center;
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 0 var(--app-radius-section);
+  word-break: break-word;
+}
+
+/* 说明：图片悬停时改为手型光标，提示可点击放大。 */
+.article__content img[data-lightbox] {
+  cursor: zoom-in;
+}
+
+/* ===== 灯箱弹窗样式 ===== */
+
+/* 说明：灯箱 dialog 全屏覆盖，背景使用半透明遮罩 + 模糊。 */
+.app-lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100dvw;
+  max-width: 100dvw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* 说明：dialog::backdrop 使用半透明黑色 + 高斯模糊，与亚克力风格统一。 */
+.app-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius, 16px));
+  backdrop-filter: blur(var(--app-glass-blur-radius, 16px));
+}
+
+/* 说明：灯箱关闭按钮，固定于左上角，复用亚克力表面 + 交互卡片样式。
+ *       尺寸与项目内 app-mobile-menu__close 保持一致（3.25rem 容器 + 1.75rem 图标）。 */
+.app-lightbox__close {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  width: 3.25rem;
+  height: 3.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  font-size: 1.75rem;
+  color: var(--md-sys-color-on-surface);
+  --app-glass-radius: var(--app-radius-pill);
+  --app-glass-base-bg-color: var(--app-glass-surface-color);
+}
+
+/* 说明：灯箱内图片居中显示，限制在视口内并保持比例。 */
+.app-lightbox__image {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90dvw;
+  max-height: 90dvh;
+  width: auto;
+  height: auto;
+  border-radius: var(--app-radius-card);
+  box-shadow: var(--md-sys-elevation-level5);
+  cursor: zoom-out;
+  object-fit: contain;
 }
 
 /* 说明：表格在小屏下允许横向滚动，避免正文卡片被最小内容宽度撑破。 */

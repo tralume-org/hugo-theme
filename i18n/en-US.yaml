@@ -523,6 +523,9 @@
   translation: All Rights Reserved – Any reuse, changes, or commercial use needs permission.
 
 
+- id: lightboxCloseLabel
+  translation: Close lightbox
+
 - id: footerPoweredBy
   translation: Powered by {{ .Hugo }} and {{ .Tralume }}
 
