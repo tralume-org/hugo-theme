@@ -605,3 +605,45 @@
 
 - id: umamiBlockedDialogFooter
   translation: 无论是否加入白名单，你都可以正常访问和阅读本站的全部内容。
+
+- id: backgroundAttributionBarFormat
+  translation: 图片由 {photographer} 提供 / {license}
+
+- id: backgroundAttributionTitle
+  translation: 背景图片归属
+
+- id: backgroundAttributionPhotographer
+  translation: 摄影师
+
+- id: backgroundAttributionLicense
+  translation: 许可证
+
+- id: backgroundAttributionSource
+  translation: 来源
+
+- id: backgroundAttributionClose
+  translation: 关闭
+
+- id: backgroundLicenseShort_cc-by-4.0
+  translation: CC BY 4.0
+
+- id: backgroundLicenseShort_cc-by-sa-4.0
+  translation: CC BY-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nd-4.0
+  translation: CC BY-ND 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-4.0
+  translation: CC BY-NC 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0
+
+- id: backgroundLicenseShort_cc0-1.0
+  translation: CC0 1.0
+
+- id: backgroundLicenseShort_arr
+  translation: 保留所有权利

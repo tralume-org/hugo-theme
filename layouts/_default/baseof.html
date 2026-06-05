@@ -63,6 +63,8 @@
   {{ partial "settings-panel.html" . }}
   {{/* 说明：若统计脚本被拦截，则在页面边缘提示用户相关功能不可用（具体由 provider 决定）。 */}}
   {{ partial "analytics-block-notice.html" . }}
+  {{/* 说明：背景图归属水印条 + 弹窗（仅 Pixaroa provider 有数据时显示）。 */}}
+  {{ partial "background-attribution.html" . }}
   {{ partial "footer.html" . }}
 </body>
 </html>

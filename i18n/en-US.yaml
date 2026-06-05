@@ -606,3 +606,45 @@
 
 - id: umamiBlockedDialogFooter
   translation: You can still browse and read all content here even without whitelisting.
+
+- id: backgroundAttributionBarFormat
+  translation: Photo by {photographer} / {license}
+
+- id: backgroundAttributionTitle
+  translation: Background Attribution
+
+- id: backgroundAttributionPhotographer
+  translation: Photographer
+
+- id: backgroundAttributionLicense
+  translation: License
+
+- id: backgroundAttributionSource
+  translation: Source
+
+- id: backgroundAttributionClose
+  translation: Close
+
+- id: backgroundLicenseShort_cc-by-4.0
+  translation: CC BY 4.0
+
+- id: backgroundLicenseShort_cc-by-sa-4.0
+  translation: CC BY-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nd-4.0
+  translation: CC BY-ND 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-4.0
+  translation: CC BY-NC 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0
+
+- id: backgroundLicenseShort_cc0-1.0
+  translation: CC0 1.0
+
+- id: backgroundLicenseShort_arr
+  translation: All Rights Reserved

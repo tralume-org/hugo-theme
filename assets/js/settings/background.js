@@ -4,6 +4,7 @@ import { createUrlBackgroundProvider } from './background/providers/url.js';
 import { createUploadBackgroundProvider } from './background/providers/upload.js';
 import { createPixaroaBackgroundProvider } from './background/providers/pixaroa.js';
 import { createBackgroundThemeSeedCoordinator } from './background/theme-seed-controls.js';
+import { setupBackgroundAttribution } from './background/attribution.js';
 
 // 说明：初始化背景模糊滑动块（仅影响背景图层），支持持久化与标签同步。
 const setupBackgroundBlurRangeControl = ({ panel, root, rangeInput, valueLabel }) => {
@@ -236,6 +237,9 @@ export const setupBackgroundControl = (panel, root) => {
     getActiveProvider: () => activeProvider,
     resolveProviderImageUrl,
   });
+
+  // 说明：初始化背景图归属水印管理器；返回 update/hide/read 方法供 Pixaroa 回调使用。
+  const backgroundAttribution = setupBackgroundAttribution();
 
   syncSeedAlgorithmSelect(activeProvider);
 
@@ -530,13 +534,16 @@ export const setupBackgroundControl = (panel, root) => {
       void pixaroaBackgroundProvider
         .applyRandom({ config, persistValue: true })
         .then(() => {
+          // 说明：Pixaroa 生效后，清理其他 provider 的运行时状态，避免按钮逻辑误判。
           backgroundUrlProvider.deactivate();
           backgroundUploadProvider.releaseObjectUrl();
-          // 说明：将 provider 选择也持久化，确保刷新后继续使用 Pixaroa。
           persistProvider('pixaroa');
           syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
           backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
+          if (backgroundAttribution) {
+            backgroundAttribution.update();
+          }
         })
         .catch((error) => {
           console.warn('[Tralume] Pixaroa background fetch failed.', error);
@@ -581,6 +588,9 @@ export const setupBackgroundControl = (panel, root) => {
           syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
           backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
+          if (backgroundAttribution) {
+            backgroundAttribution.update();
+          }
         })
         .catch(() => {
           setPixaroaStatus('error');
@@ -725,10 +735,14 @@ export const setupBackgroundControl = (panel, root) => {
           // 说明：Pixaroa 生效后，清理其他 provider 的运行时状态，避免按钮逻辑误判。
           backgroundUrlProvider.deactivate();
           backgroundUploadProvider.releaseObjectUrl();
+          // 说明：将 provider 选择也持久化，确保刷新后继续使用 Pixaroa。
           persistProvider('pixaroa');
           syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
           backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
+          if (backgroundAttribution) {
+            backgroundAttribution.update();
+          }
         })
         .catch((error) => {
           console.warn('[Tralume] Pixaroa background fetch failed.', error);
@@ -747,6 +761,9 @@ export const setupBackgroundControl = (panel, root) => {
       persistProvider('');
       syncProviderButtonsState({ hasSelectedFile: false });
       setPixaroaStatus('idle');
+      if (backgroundAttribution) {
+        backgroundAttribution.hide();
+      }
     });
   }
 

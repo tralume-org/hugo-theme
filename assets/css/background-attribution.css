@@ -1,0 +1,148 @@
+/* 说明：背景图归属水印条 —— 左下角固定，低透明度，点击弹出详情弹窗。 */
+.bg-attribution-bar {
+  position: fixed;
+  left: 1rem;
+  bottom: 0.75rem;
+  z-index: 25;
+  max-width: min(28rem, calc(100vw - 5rem));
+  padding: 0.3rem 0.6rem;
+  /* 说明：水印表面复用 .app-glass；这里仅覆盖圆角与透明度。 */
+  --app-glass-radius: var(--app-radius-inline);
+  font-size: 0.7rem;
+  line-height: 1.25;
+  opacity: 0.4;
+  cursor: pointer;
+  color: var(--md-sys-color-on-surface);
+  transition: opacity 0.25s ease, border-color 0.25s ease;
+}
+
+.bg-attribution-bar:hover,
+.bg-attribution-bar:focus-visible {
+  opacity: 0.9;
+  text-decoration: underline;
+  outline: none;
+}
+
+.bg-attribution-bar:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.bg-attribution-bar__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 说明：归属详情弹窗 —— 居中覆盖层，包含遮罩、面板与关闭按钮。 */
+.bg-attribution-dialog {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 265;
+}
+
+.bg-attribution-dialog.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.bg-attribution-dialog__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(36, 39, 41, 0.55);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.bg-attribution-dialog__panel {
+  position: relative;
+  min-width: min(28rem, 90vw);
+  max-width: min(36rem, 94vw);
+  padding: 1.5rem;
+  /* 说明：弹窗面板表面复用 .app-glass/.app-card；这里仅覆盖圆角与阴影层级。 */
+  --app-glass-radius: var(--app-radius-panel);
+  --app-card-shadow: var(--md-sys-elevation-level4);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.bg-attribution-dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1 1 auto;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+.bg-attribution-dialog__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.bg-attribution-dialog__label {
+  font-weight: 600;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+  flex-shrink: 0;
+}
+
+.bg-attribution-dialog__value {
+  color: var(--app-text-accent-color);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.bg-attribution-dialog__value:hover,
+.bg-attribution-dialog__value:focus-visible {
+  text-decoration: underline;
+}
+
+.bg-attribution-dialog__value:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.bg-attribution-dialog__close {
+  margin-top: 0.25rem;
+  align-self: center;
+  padding: 0.65rem 1.4rem;
+  /* 说明：按钮表面复用 .app-glass；这里仅覆盖圆角语义。 */
+  --app-glass-radius: var(--app-radius-pill);
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.bg-attribution-dialog__close:hover,
+.bg-attribution-dialog__close:focus-visible {
+  border-color: var(--md-sys-color-outline);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.bg-attribution-dialog__close:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}

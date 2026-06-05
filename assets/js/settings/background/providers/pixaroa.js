@@ -232,6 +232,7 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
     orientation: 'tralume-pixaroa-orientation',
     format: 'tralume-pixaroa-format',
     lastUrl: 'tralume-pixaroa-last-url',
+    attribution: 'tralume-pixaroa-attribution',
   };
 
   const defaults = {
@@ -268,6 +269,37 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
 
   const readStoredUrl = () => storageAccessor.read(keys.lastUrl);
   const persistUrl = (url) => storageAccessor.write(keys.lastUrl, url);
+
+  // 说明：读取已存储的归属数据（JSON 反序列化），失败时返回 null。
+  const readStoredAttribution = () => {
+    try {
+      const raw = storageAccessor.read(keys.attribution);
+      if (!raw) {
+        return null;
+      }
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  };
+
+  // 说明：持久化归属数据为 JSON 字符串；传入 null 或不传则清除。
+  const persistAttribution = (data) => {
+    if (data && typeof data === 'object') {
+      try {
+        storageAccessor.write(keys.attribution, JSON.stringify(data));
+      } catch {
+        // 说明：忽略序列化异常。
+      }
+    } else {
+      storageAccessor.write(keys.attribution, '');
+    }
+  };
+
+  // 说明：清除归属数据。
+  const clearAttribution = () => {
+    persistAttribution(null);
+  };
 
   const applyUrl = (url, { persistValue = true } = {}) => {
     const trimmed = typeof url === 'string' ? url.trim() : '';
@@ -308,6 +340,9 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
       inflightController = null;
     }
     applyUrl('', { persistValue });
+    if (persistValue) {
+      clearAttribution();
+    }
   };
 
   const fetchRandom = async ({ host, tier, orientation, format } = {}) => {
@@ -355,10 +390,39 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
     if (typeof url !== 'string' || url.trim().length === 0) {
       throw new Error('Pixaroa response is missing "imgproxy_url".');
     }
+    // 说明：从 API 返回的 source 对象中提取归属信息（摄影师、来源链接、许可证）。
+    // 注意：API 响应格式见 Pixaroa Cloud 文档；source 可能为 null（无归属数据）。
+    const supportedLicenses = new Set([
+      'cc-by-4.0', 'cc-by-sa-4.0', 'cc-by-nd-4.0',
+      'cc-by-nc-4.0', 'cc-by-nc-sa-4.0', 'cc-by-nc-nd-4.0',
+      'cc0-1.0', 'arr',
+    ]);
+    const source =
+      first && typeof first === 'object' && first.source && typeof first.source === 'object'
+        ? first.source
+        : null;
+    const attribution = source
+      ? {
+          photographer:
+            typeof source.author === 'string' ? source.author.trim() : '',
+          source_url:
+            typeof source.url === 'string' ? source.url.trim() : '',
+          license:
+            typeof source.license === 'string' && supportedLicenses.has(source.license.trim())
+              ? source.license.trim()
+              : '',
+          // 说明：API 直接提供许可证的人类可读名称与链接，优先使用；为空时前端 JS 会回退到 i18n 映射。
+          license_name:
+            typeof source.license_name === 'string' ? source.license_name.trim() : '',
+          license_url:
+            typeof source.license_url === 'string' ? source.license_url.trim() : '',
+        }
+      : null;
     return {
       url: url.trim(),
       meta: first,
       tier: payload && typeof payload === 'object' ? payload.tier : null,
+      attribution,
     };
   };
 
@@ -368,6 +432,12 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
     applyUrl(result.url, { persistValue });
     if (persistValue) {
       persistConfig(nextConfig);
+      // 说明：归属数据存在时持久化，否则清除旧数据。
+      if (result.attribution && (result.attribution.photographer || result.attribution.license)) {
+        persistAttribution(result.attribution);
+      } else {
+        clearAttribution();
+      }
     }
     return result;
   };
@@ -381,5 +451,8 @@ export const createPixaroaBackgroundProvider = ({ root, storage, defaultHost = '
     clear,
     isActive: () => isActive,
     lastAppliedUrl: () => lastAppliedUrl,
+    readStoredAttribution,
+    persistAttribution,
+    clearAttribution,
   };
 };

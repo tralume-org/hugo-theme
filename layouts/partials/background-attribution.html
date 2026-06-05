@@ -1,0 +1,56 @@
+{{- /*
+  说明：背景图归属水印条 + 详情弹窗。
+  用途：仅在 Pixaroa 提供者返回归属数据时由前端 JS 展示；点击水印条弹出详情弹窗。
+  约定：水印条默认 hidden，JS 在检测到归属数据后移除 hidden 并填充文字。
+  注意：data-i18n-bg-* 属性供 JS 读取 Hugo i18n 翻译，避免 JS 内硬编码文案。
+*/ -}}
+<div
+  class="bg-attribution-bar app-glass app-glass--surface app-card"
+  data-component="background-attribution-bar"
+  role="note"
+  aria-label="{{ i18n "backgroundAttributionTitle" }}"
+  {{ printf `data-i18n-bg-backgroundAttributionBarFormat="%s"` (i18n "backgroundAttributionBarFormat") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundAttributionPhotographer="%s"` (i18n "backgroundAttributionPhotographer") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundAttributionLicense="%s"` (i18n "backgroundAttributionLicense") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundAttributionSource="%s"` (i18n "backgroundAttributionSource") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_cc-by-4.0="%s"` (i18n "backgroundLicenseShort_cc-by-4.0") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_cc-by-sa-4.0="%s"` (i18n "backgroundLicenseShort_cc-by-sa-4.0") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_cc-by-nd-4.0="%s"` (i18n "backgroundLicenseShort_cc-by-nd-4.0") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_cc-by-nc-4.0="%s"` (i18n "backgroundLicenseShort_cc-by-nc-4.0") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_cc-by-nc-sa-4.0="%s"` (i18n "backgroundLicenseShort_cc-by-nc-sa-4.0") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_cc-by-nc-nd-4.0="%s"` (i18n "backgroundLicenseShort_cc-by-nc-nd-4.0") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_cc0-1.0="%s"` (i18n "backgroundLicenseShort_cc0-1.0") | safeHTMLAttr }}
+  {{ printf `data-i18n-bg-backgroundLicenseShort_arr="%s"` (i18n "backgroundLicenseShort_arr") | safeHTMLAttr }}
+  hidden
+>
+  <span class="bg-attribution-bar__text" data-bg-attribution-bar-text></span>
+</div>
+<div
+  class="bg-attribution-dialog"
+  data-component="background-attribution-dialog"
+  role="presentation"
+  hidden
+>
+  <div
+    class="bg-attribution-dialog__backdrop"
+    data-bg-dialog-part="backdrop"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="bg-attribution-dialog__panel app-glass app-glass--elevated app-card"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ i18n "backgroundAttributionTitle" }}"
+  >
+    <div class="bg-attribution-dialog__content" data-bg-attribution-dialog-content>
+      {{- /* 说明：详细内容由 JS 动态构建（摄影师、许可证、来源链接）。 */ -}}
+    </div>
+    <button
+      type="button"
+      class="bg-attribution-dialog__close app-glass app-glass--elevated"
+      data-bg-dialog-action="close"
+    >
+      {{ i18n "backgroundAttributionClose" }}
+    </button>
+  </div>
+</div>
