@@ -17,6 +17,8 @@ draft = true
 description = ""
 tags = []
 license = ""
+# Cover image for post list cards. Accepts: resource name, relative path, or full URL.
+cover = ""
 
 # Optional: Agent metadata.
 # [ai]

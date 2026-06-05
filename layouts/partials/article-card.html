@@ -5,44 +5,98 @@
   {{- $page = .Page -}}
   {{- $preferDescription = and .PreferDescription true -}}
 {{- end -}}
+
+{{- /* 说明：解析封面图，优先级与 SEO 图片保持一致（image > featuredImage > featured_image > cover > thumbnail > banner）。 */ -}}
+{{- $coverURL := "" -}}
+{{- $coverCandidate := "" -}}
+{{- with $page.Params.image -}}
+  {{- if eq $coverCandidate "" -}}{{- $coverCandidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.featuredImage -}}
+  {{- if eq $coverCandidate "" -}}{{- $coverCandidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.featured_image -}}
+  {{- if eq $coverCandidate "" -}}{{- $coverCandidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.cover -}}
+  {{- if eq $coverCandidate "" -}}{{- $coverCandidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.thumbnail -}}
+  {{- if eq $coverCandidate "" -}}{{- $coverCandidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.banner -}}
+  {{- if eq $coverCandidate "" -}}{{- $coverCandidate = printf "%v" . -}}{{- end -}}
+{{- end -}}
+{{- if and (ne $coverCandidate "") (not (or (hasPrefix $coverCandidate "http://") (hasPrefix $coverCandidate "https://"))) -}}
+  {{- /* 说明：非 URL 值时先尝试作为 Page Bundle 资源名匹配，失败则按站内相对路径处理。 */ -}}
+  {{- with $page.Resources.GetMatch $coverCandidate -}}
+    {{- $coverURL = .Permalink -}}
+  {{- else -}}
+    {{- $coverURL = $coverCandidate | absURL -}}
+  {{- end -}}
+{{- else if ne $coverCandidate "" -}}
+  {{- $coverURL = $coverCandidate -}}
+{{- end -}}
+{{- /* 说明：回退到 Page Bundle 内第一张图片资源。 */ -}}
+{{- if eq $coverURL "" -}}
+  {{- with $page.Resources.ByType "image" -}}
+    {{- range first 1 . -}}
+      {{- $coverURL = .Permalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $hasCover := ne $coverURL "" -}}
+
 <a
-  class="article-card app-glass app-glass--elevated app-card app-card--interactive"
+  class="article-card{{ if $hasCover }} article-card--with-cover{{ end }} app-glass app-glass--elevated app-card app-card--interactive"
   href="{{ $page.RelPermalink }}"
   data-article-card-link
   data-target-path="{{ $page.RelPermalink }}"
   data-card-title="{{ $page.LinkTitle }}"
   data-card-position="article-list"
 >
-  <header class="article-card__header">
-    <h2 class="article-card__title">{{ $page.LinkTitle }}</h2>
-    <p class="article-card__meta">
-      {{/* 说明：使用本地化日期格式，避免写死格式字符串。 */}}
-      {{- $publishedDate := $page.Date | time.Format ":date_medium" -}}
-      <span class="article-card__meta-item">
-        {{ i18n "articlePublishedOn" (dict "Date" $publishedDate) }}
-      </span>
-      {{- with $page.ReadingTime }}
-        <span class="article-card__meta-separator" aria-hidden="true">·</span>
+  {{- if $hasCover }}
+    {{- /* 说明：封面图以原始比例显示，桌面端作为左侧缩略图，移动端置于卡片顶部。 */ -}}
+    <img
+      class="article-card__cover"
+      src="{{ $coverURL }}"
+      alt="{{ i18n "articleCoverAlt" (dict "Title" $page.LinkTitle) }}"
+      loading="lazy"
+      decoding="async"
+    >
+  {{- end }}
+  <div class="article-card__body">
+    <header class="article-card__header">
+      <h2 class="article-card__title">{{ $page.LinkTitle }}</h2>
+      <p class="article-card__meta">
+        {{/* 说明：使用本地化日期格式，避免写死格式字符串。 */}}
+        {{- $publishedDate := $page.Date | time.Format ":date_medium" -}}
         <span class="article-card__meta-item">
-          {{ i18n "articleReadingTime" (dict "Minutes" .) }}
+          {{ i18n "articlePublishedOn" (dict "Date" $publishedDate) }}
         </span>
-      {{- end }}
-    </p>
-  </header>
-  {{/* 说明：主页可优先展示 description（更可控的列表简介）；缺失时回退到 Summary/正文截断。 */}}
-  {{- $maxLength := or site.Params.articleCardSummaryLength 160 -}}
-  {{- $rawSummary := "" -}}
-  {{- if and $preferDescription $page.Params.description -}}
-    {{- $rawSummary = $page.Params.description -}}
-  {{- else -}}
-    {{/* 说明：优先使用 Hugo Summary（支持 <!--more-->）；否则回退到 Plain 正文，再做截断。 */}}
-    {{- $rawSummary = default $page.Plain $page.Summary -}}
-  {{- end -}}
-  {{- $plainSummary := $rawSummary | plainify | htmlUnescape | strings.TrimSpace -}}
-  {{- if ne $plainSummary "" -}}
-    {{- $shortSummary := truncate $maxLength $plainSummary -}}
-    <div class="article-card__summary">
-      <p>{{ $shortSummary }}</p>
-    </div>
-  {{- end -}}
+        {{- with $page.ReadingTime }}
+          <span class="article-card__meta-separator" aria-hidden="true">·</span>
+          <span class="article-card__meta-item">
+            {{ i18n "articleReadingTime" (dict "Minutes" .) }}
+          </span>
+        {{- end }}
+      </p>
+    </header>
+    {{/* 说明：主页可优先展示 description（更可控的列表简介）；缺失时回退到 Summary/正文截断。 */}}
+    {{- $maxLength := or site.Params.articleCardSummaryLength 160 -}}
+    {{- $rawSummary := "" -}}
+    {{- if and $preferDescription $page.Params.description -}}
+      {{- $rawSummary = $page.Params.description -}}
+    {{- else -}}
+      {{/* 说明：优先使用 Hugo Summary（支持 <!--more-->）；否则回退到 Plain 正文，再做截断。 */}}
+      {{- $rawSummary = default $page.Plain $page.Summary -}}
+    {{- end -}}
+    {{- $plainSummary := $rawSummary | plainify | htmlUnescape | strings.TrimSpace -}}
+    {{- if ne $plainSummary "" -}}
+      {{- $shortSummary := truncate $maxLength $plainSummary -}}
+      <div class="article-card__summary">
+        <p>{{ $shortSummary }}</p>
+      </div>
+    {{- end -}}
+  </div>
 </a>

@@ -678,3 +678,6 @@
 
 - id: searchSections
   translation: "{count} matching sections"
+
+- id: articleCoverAlt
+  translation: "Cover image for {{ .Title }}"

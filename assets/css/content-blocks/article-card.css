@@ -77,9 +77,57 @@
   }
 }
 
-@media (max-width: 48rem) {
-  /* 说明：移动端压缩文章卡片内边距，保证列表更易浏览。 */
+/* 说明：卡片内容包裹层，用于统一内部 header/summary 的纵向间距。 */
+.article-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+/* 说明：带封面图时，桌面端切换为横向布局（左缩略图 + 右文字）。 */
+@media (min-width: 48rem) {
+  .article-card--with-cover {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 1.5rem;
+  }
+
+  /* 说明：封面图以原始比例显示，固定 150px 宽，超高图用 max-height + cover 裁剪防止撑破卡片。 */
+  .article-card__cover {
+    flex-shrink: 0;
+    width: 150px;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    margin: 0;
+    border-radius: var(--app-radius-section);
+    overflow: hidden;
+  }
+
+  .article-card--with-cover .article-card__body {
+    flex: 1;
+  }
+}
+
+/* 说明：移动端封面置于卡片顶部，以原始比例占满卡片宽度。 */
+@media (max-width: 47.99rem) {
   .article-card {
     padding: 1.25rem;
+  }
+
+  .article-card--with-cover {
+    padding-top: 0;
+  }
+
+  .article-card__cover {
+    display: block;
+    width: calc(100% + 2.5rem);
+    max-width: none;
+    height: auto;
+    max-height: 50vh;
+    object-fit: cover;
+    margin: 0 -1.25rem;
+    border-radius: var(--app-glass-radius) var(--app-glass-radius) 0 0;
   }
 }

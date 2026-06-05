@@ -677,3 +677,6 @@
 
 - id: searchSections
   translation: "{count} 个匹配段落"
+
+- id: articleCoverAlt
+  translation: "{{ .Title }} 的封面图"
