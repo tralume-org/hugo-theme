@@ -74,9 +74,13 @@
 /* 说明：AI 参与度标记折叠组件，默认仅显示 AI 参与程度，点击展开查看用途/复核/工具详情。 */
 /* 作用：复用 article__meta 的色调与字号，通过 <details> 原生折叠行为实现零 JS 交互。 */
 .article__ai-marker {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
   font-size: var(--md-sys-typescale-body-medium-size);
   line-height: var(--md-sys-typescale-body-medium-line-height);
   color: var(--md-sys-color-on-surface-variant);
+  white-space: nowrap;
 }
 
 .article__ai-marker-summary {
@@ -90,9 +94,9 @@
   display: none;
 }
 
-/* 说明：展开/折叠指示器使用 Material Symbol 箭头图标，open 状态下旋转 180°。 */
+/* 说明：行内展开使用横向箭头，折叠时向右，展开后向左提示可收起。 */
 .article__ai-marker-summary::after {
-  content: "expand_more";
+  content: "chevron_right";
   font-family: "Material Symbols Rounded";
   font-style: normal;
   font-weight: 400;
@@ -114,11 +118,12 @@
 }
 
 .article__ai-marker-details {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0.35rem;
-  margin-block-start: 0.25rem;
+  margin-block-start: 0;
+  margin-inline-start: 0.35rem;
 }
 
 .article__layout {

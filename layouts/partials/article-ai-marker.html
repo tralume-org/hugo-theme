@@ -58,16 +58,16 @@
         <span class="article__meta-item article__ai-level">{{ $levelLabel }}</span>
       </summary>
       <div class="article__ai-marker-details">
+        {{- $detailParts := slice -}}
         {{- if gt (len $usageLabels) 0 -}}
-          <span class="article__meta-separator" aria-hidden="true">·</span>
-          <span class="article__meta-item article__ai-usage">{{ $usageText }}</span>
+          {{- $detailParts = $detailParts | append (printf "<span class=\"article__meta-item article__ai-usage\">%s</span>" $usageText) -}}
         {{- end -}}
-        <span class="article__meta-separator" aria-hidden="true">·</span>
-        <span class="article__meta-item article__ai-review">{{ $reviewLabel }}</span>
+        {{- $detailParts = $detailParts | append (printf "<span class=\"article__meta-item article__ai-review\">%s</span>" $reviewLabel) -}}
         {{- if gt (len $toolLabels) 0 -}}
-          <span class="article__meta-separator" aria-hidden="true">·</span>
-          <span class="article__meta-item article__ai-tools">{{ $toolText }}</span>
+          {{- $detailParts = $detailParts | append (printf "<span class=\"article__meta-item article__ai-tools\">%s</span>" $toolText) -}}
         {{- end -}}
+        {{- $sep := printf "<span class=\"article__meta-separator\" aria-hidden=\"true\">·</span>" -}}
+        {{- delimit $detailParts $sep | safeHTML -}}
       </div>
     </details>
   {{- end -}}
