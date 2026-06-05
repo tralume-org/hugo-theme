@@ -8,6 +8,7 @@
   aria-hidden="true"
 ></div>
 {{- $provider := lower (default "pagefind" site.Params.search.provider) -}}
+{{- $meili := site.Params.search.meilisearch -}}
 <section
   class="app-search app-glass app-glass--elevated app-card"
   id="search-dialog"
@@ -17,6 +18,44 @@
   aria-hidden="true"
   inert
   data-search-provider="{{ $provider }}"
+  {{- if and (eq $provider "meilisearch") $meili }}
+  data-meilisearch-host="{{ default "" $meili.host }}"
+  data-meilisearch-api-key="{{ default "" $meili.apiKey }}"
+  data-meilisearch-index-uid="{{ default "" $meili.indexUid }}"
+  data-meilisearch-title-attribute="{{ default "title" $meili.titleAttribute }}"
+  data-meilisearch-url-attribute="{{ default "url" $meili.urlAttribute }}"
+  data-meilisearch-meta-attribute="{{ default "section" $meili.metaAttribute }}"
+  {{- with $meili.filter }}
+  data-meilisearch-filter="{{ . }}"
+  {{- end }}
+  {{- with $meili.matchingStrategy }}
+  data-meilisearch-matching-strategy="{{ . }}"
+  {{- end }}
+  {{- with $meili.limit }}
+  data-meilisearch-limit="{{ . }}"
+  {{- end }}
+  {{- with $meili.cropLength }}
+  data-meilisearch-crop-length="{{ . }}"
+  {{- end }}
+  {{- with $meili.excerptAttributes }}
+  data-meilisearch-excerpt-attributes="{{ delimit . "," }}"
+  {{- end }}
+  {{- with $meili.highlightAttributes }}
+  data-meilisearch-highlight-attributes="{{ delimit . "," }}"
+  {{- end }}
+  {{- with $meili.attributesToRetrieve }}
+  data-meilisearch-attributes-to-retrieve="{{ delimit . "," }}"
+  {{- end }}
+  {{- with $meili.attributesToSearchOn }}
+  data-meilisearch-attributes-to-search-on="{{ delimit . "," }}"
+  {{- end }}
+  {{- with $meili.sort }}
+  data-meilisearch-sort="{{ delimit . "," }}"
+  {{- end }}
+  {{- with $meili.locales }}
+  data-meilisearch-locales="{{ delimit . "," }}"
+  {{- end }}
+  {{- end }}
   data-text-unavailable="{{ i18n "searchUnavailable" }}"
   data-text-untitled="{{ i18n "searchUntitled" }}"
   data-text-no-results="{{ i18n "searchNoResults" }}"

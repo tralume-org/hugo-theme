@@ -28,4 +28,5 @@ Tralume provides a rich set of customization options. You can tune the look and 
 - ["Edit this page" link](./edit-source): point to your repository
 - [Custom footer](./footer): append items in the footer
 - [Analytics (Umami)](./analytics): privacy-friendly analytics integration
+- [Search](./search): Pagefind and Meilisearch providers
 - [Comments](./comments): article comments integration

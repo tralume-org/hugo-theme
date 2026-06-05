@@ -2,6 +2,7 @@
 // 作用：管理搜索弹窗开闭、键盘快捷键、通过抽象 provider 接口执行搜索并渲染结果。
 // 注意：所有界面文案优先读取 dialog 上的 data-* 属性（由 Hugo i18n 注入），不存在时回退英文。
 import { createPagefindProvider } from './search-providers/pagefind.js';
+import { createMeilisearchProvider } from './search-providers/meilisearch.js';
 
 export const setupSearch = () => {
   const toggle = document.querySelector('[data-search-toggle]');
@@ -34,7 +35,12 @@ export const setupSearch = () => {
   var provider = null;
 
   var providerFactories = {
-    pagefind: createPagefindProvider
+    pagefind: function () {
+      return createPagefindProvider();
+    },
+    meilisearch: function () {
+      return createMeilisearchProvider(readMeilisearchConfig(dialog));
+    }
   };
 
   var factory = providerFactories[providerName];
@@ -368,4 +374,38 @@ export const setupSearch = () => {
   input.addEventListener('input', handleInput);
   resultsEl.addEventListener('click', handleResultClick);
   document.addEventListener('keydown', handleKeyDown);
+};
+
+var readMeilisearchConfig = function (dialog) {
+  return {
+    host: readAttr(dialog, 'data-meilisearch-host'),
+    apiKey: readAttr(dialog, 'data-meilisearch-api-key'),
+    indexUid: readAttr(dialog, 'data-meilisearch-index-uid'),
+    titleAttribute: readAttr(dialog, 'data-meilisearch-title-attribute'),
+    urlAttribute: readAttr(dialog, 'data-meilisearch-url-attribute'),
+    metaAttribute: readAttr(dialog, 'data-meilisearch-meta-attribute'),
+    filter: readAttr(dialog, 'data-meilisearch-filter'),
+    matchingStrategy: readAttr(dialog, 'data-meilisearch-matching-strategy'),
+    limit: readAttr(dialog, 'data-meilisearch-limit'),
+    cropLength: readAttr(dialog, 'data-meilisearch-crop-length'),
+    excerptAttributes: readListAttr(dialog, 'data-meilisearch-excerpt-attributes'),
+    highlightAttributes: readListAttr(dialog, 'data-meilisearch-highlight-attributes'),
+    attributesToRetrieve: readListAttr(dialog, 'data-meilisearch-attributes-to-retrieve'),
+    attributesToSearchOn: readListAttr(dialog, 'data-meilisearch-attributes-to-search-on'),
+    sort: readListAttr(dialog, 'data-meilisearch-sort'),
+    locales: readListAttr(dialog, 'data-meilisearch-locales')
+  };
+};
+
+var readAttr = function (el, name) {
+  if (!el) return '';
+  return el.getAttribute(name) || '';
+};
+
+var readListAttr = function (el, name) {
+  var value = readAttr(el, name);
+  if (!value) return [];
+  return value.split(',').map(function (item) {
+    return item.trim();
+  }).filter(Boolean);
 };

@@ -28,4 +28,5 @@ Tralume 主题提供了丰富的自定义选项，你可以通过修改站点的
 - ["编辑此页"链接](./edit-source)：指向代码仓库
 - [自定义页脚](./footer)：在页脚追加条目
 - [统计分析 (Umami)](./analytics)：隐私分析集成
+- [搜索](./search)：Pagefind 与 Meilisearch 搜索 provider
 - [评论系统](./comments)：文章页评论集成
