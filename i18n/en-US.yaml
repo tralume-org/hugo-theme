@@ -648,3 +648,33 @@
 
 - id: backgroundLicenseShort_arr
   translation: All Rights Reserved
+
+- id: searchOpenLabel
+  translation: Open search
+
+- id: searchTitle
+  translation: Search
+
+- id: searchPlaceholder
+  translation: Search articles...
+
+- id: searchCloseLabel
+  translation: Close search
+
+- id: searchClearLabel
+  translation: Clear search
+
+- id: searchResultsLabel
+  translation: Search results
+
+- id: searchNoResults
+  translation: No results found.
+
+- id: searchUnavailable
+  translation: Search is currently unavailable.
+
+- id: searchUntitled
+  translation: Untitled
+
+- id: searchSections
+  translation: "{count} matching sections"

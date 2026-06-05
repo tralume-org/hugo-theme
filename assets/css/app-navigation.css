@@ -65,11 +65,51 @@
   transform: translateY(1px);
 }
 
+/* 说明：顶栏右侧操作区容器，包裹搜索按钮 + 移动端菜单按钮。 */
+.app-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* 说明：搜索入口按钮，始终可见于顶栏最右侧。
+ * 样式与移动端菜单按钮一致（图标按钮、无背景、圆角胶囊形），便于视觉统一。 */
+.app-search__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.25rem;
+  block-size: 3.25rem;
+  padding: 0;
+  font-size: 1.75rem;
+  border: 0;
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
+  cursor: pointer;
+  border-radius: var(--app-radius-pill);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.app-search__toggle:hover,
+.app-search__toggle:focus-visible {
+  color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
+.app-search__toggle:active {
+  transform: translateY(1px);
+}
+
 /* \u8bf4\u660e\uff1a\u5bfc\u822a\u6761\u540c\u6b65\u73bb\u7483\u5e95\u8272\uff0c\u786e\u4fdd\u4eae/\u6697\u6a21\u5f0f\u90fd\u6709\u67d4\u548c\u5bf9\u6bd4\u3002 */
 .app-nav {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  /* 说明：将导航菜单推到顶栏右侧，标题居左，actions 紧挨其后。 */
+  margin-inline-start: auto;
   padding: 0.35rem 0.5rem;
   /* 说明：表面质感由 .app-glass/.app-card 提供；导航条为胶囊形圆角。 */
   --app-glass-radius: var(--app-radius-pill);

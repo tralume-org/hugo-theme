@@ -1,0 +1,372 @@
+/* 说明：搜索弹窗样式（居中浮层 + 半透明遮罩）。
+ * 目标：与 macOS Spotlight 风格一致，使用 app-glass 亚克力表面系统。
+ * 注意：定位与尺寸由本文件负责，表面质感（背景/模糊/描边）由 glass-surfaces.css 提供。
+ */
+
+/* 说明：半透明遮罩层，点击关闭弹窗。 */
+.app-search__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.app-search__backdrop.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 说明：搜索弹窗本体，居中浮层，使用亚克力表面变量。 */
+.app-search {
+  --app-glass-radius: var(--app-radius-panel);
+  position: fixed;
+  top: 18vh;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  z-index: 310;
+  width: 90vw;
+  max-width: 40rem;
+  max-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease,
+    transform 0.25s ease;
+}
+
+.app-search.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 说明：搜索栏区域（图标 + 输入框 + 快捷键提示 + 关闭按钮）。 */
+.app-search__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  flex-shrink: 0;
+}
+
+.app-search__icon {
+  font-size: 1.5rem;
+  color: var(--md-sys-color-on-surface-variant);
+  flex-shrink: 0;
+}
+
+/* 说明：搜索输入框，无边框无背景，样式极简。 */
+.app-search__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  padding: 0.25rem 0;
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line-height);
+  font-family: var(--md-ref-typeface-plain);
+  color: var(--md-sys-color-on-surface);
+  background: transparent;
+}
+
+.app-search__input::placeholder {
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* 说明：清除 WebKit 搜索框默认样式（清除按钮、内边距等）。 */
+.app-search__input::-webkit-search-decoration,
+.app-search__input::-webkit-search-cancel-button,
+.app-search__input::-webkit-search-results-button,
+.app-search__input::-webkit-search-results-decoration {
+  display: none;
+}
+
+/* 说明：关闭按钮，图标按钮无边框背景。 */
+.app-search__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  font-size: 1.375rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  border-radius: var(--app-radius-pill);
+  flex-shrink: 0;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.app-search__close:hover,
+.app-search__close:focus-visible {
+  color: var(--md-sys-color-on-surface);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
+/* 说明：清空按钮（backspace 图标），默认隐藏，输入内容后由 JS 显示。 */
+.app-search__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  font-size: 1.375rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  border-radius: var(--app-radius-pill);
+  flex-shrink: 0;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.app-search__clear:hover,
+.app-search__clear:focus-visible {
+  color: var(--md-sys-color-on-surface);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
+.app-search__clear.is-hidden {
+  display: none;
+}
+
+/* 说明：搜索结果区域，可滚动。默认隐藏，有输入后由 JS 显示。 */
+.app-search__results {
+  display: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.app-search__results.is-visible {
+  display: block;
+  border-top: 1px solid var(--app-glass-border-color);
+}
+
+/* 说明：结果为空或初始状态时的提示文案。 */
+.app-search__empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  margin: 0;
+}
+
+/* 说明：加载指示器（MD3 风格圆环）。 */
+.app-search__loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.app-search__spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2.5px solid var(--md-sys-color-outline-variant);
+  border-top-color: var(--md-sys-color-primary);
+  border-radius: 50%;
+  animation: app-search-spin 0.7s linear infinite;
+}
+
+@keyframes app-search-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 说明：无结果提示。 */
+.app-search__no-results {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  margin: 0;
+}
+
+/* 说明：单条搜索结果卡片，复用亚克力表面变量。 */
+.app-search__result {
+  display: block;
+  text-decoration: none;
+  padding: 0.75rem 0.75rem;
+  border-radius: var(--app-radius-section);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+  color: inherit;
+}
+
+.app-search__result:hover,
+.app-search__result:focus-visible,
+.app-search__result.is-selected {
+  background-color: var(--md-sys-color-surface-container-highest);
+  box-shadow: var(--md-sys-elevation-level1);
+  outline: none;
+}
+
+.app-search__result.is-selected {
+  box-shadow: var(--md-sys-elevation-level2);
+}
+
+/* 说明：结果组容器，包裹主结果 + 折叠 toggle + 子结果列表。 */
+.app-search__result-group + .app-search__result-group {
+  margin-top: 0.25rem;
+}
+
+.app-search__result-title {
+  display: block;
+  font-size: var(--md-sys-typescale-title-small-size);
+  line-height: var(--md-sys-typescale-title-small-line-height);
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface);
+  margin: 0 0 0.2rem;
+}
+
+/* 说明：搜索匹配词高亮。 */
+.app-search__result-title mark,
+.app-search__result-excerpt mark,
+.app-search__sub-result-title mark,
+.app-search__sub-result-excerpt mark {
+  color: var(--md-sys-color-on-primary-container);
+  background-color: var(--md-sys-color-primary-container);
+  border-radius: 2px;
+  padding: 0 0.1em;
+}
+
+/* 说明：结果摘要，单行截断。 */
+.app-search__result-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--md-sys-typescale-body-small-size);
+  line-height: var(--md-sys-typescale-body-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+  margin: 0;
+}
+
+/* 说明：结果路径面包屑。 */
+.app-search__result-meta {
+  display: block;
+  font-size: var(--md-sys-typescale-label-small-size);
+  line-height: var(--md-sys-typescale-label-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+  margin-top: 0.35rem;
+}
+
+/* 说明：子结果展开/折叠（使用 <details>/<summary>，与 AI marker 同款箭头样式）。 */
+.app-search__result-toggle {
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--md-sys-typescale-label-small-size);
+  line-height: var(--md-sys-typescale-label-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.app-search__result-toggle > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.app-search__result-toggle > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 说明：箭头图标复用 Material Symbol expand_more，关闭状态指向右，打开状态指向下。 */
+.app-search__result-toggle > summary::after {
+  content: "expand_more";
+  font-family: "Material Symbols Rounded";
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: 1;
+  margin-inline-start: 0.15em;
+  transition: transform 0.2s ease;
+  opacity: 0.7;
+}
+
+.app-search__result-toggle[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+/* 说明：子结果容器，由 <details> 元素的 open 属性控制显隐。 */
+.app-search__sub-results {
+  padding-top: 0.15rem;
+}
+
+/* 说明：子结果条目（段落级匹配），左缩进。 */
+.app-search__sub-result {
+  display: block;
+  text-decoration: none;
+  padding: 0.35rem 0.75rem 0.35rem 2.25rem;
+  border-radius: var(--app-radius-inline);
+  transition: background-color 0.15s ease;
+  color: inherit;
+  cursor: pointer;
+  margin-top: 0.15rem;
+}
+
+.app-search__sub-result:hover,
+.app-search__sub-result:focus-visible,
+.app-search__sub-result.is-selected {
+  background-color: var(--md-sys-color-surface-container-highest);
+  outline: none;
+}
+
+.app-search__sub-result-title {
+  display: block;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface);
+  margin: 0 0 0.1rem;
+}
+
+.app-search__sub-result-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--md-sys-typescale-label-small-size);
+  line-height: var(--md-sys-typescale-label-small-line-height);
+  color: var(--md-sys-color-on-surface-variant);
+  margin: 0;
+}
+
+
+
+
+/* 说明：移动端适配：弹窗更贴近顶部，占据更多高度。 */
+@media (max-width: 40rem) {
+  .app-search {
+    top: 6vh;
+    width: 96vw;
+    max-width: none;
+    max-height: 88vh;
+  }
+}
+
+/* 说明：遮罩层在暗色模式下稍微加深。 */
+@media (prefers-color-scheme: dark) {
+  .app-search__backdrop {
+    background: rgba(0, 0, 0, 0.55);
+  }
+}

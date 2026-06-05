@@ -2,7 +2,7 @@
   - 作用：集中展示文章关键元信息（标题、许可证、永久链接、字数、发布时间、更新时间），并在底部提供“编辑此页面”按钮。
   - 注意：页面模板中禁止写死文案，这里所有标签均通过 i18n key 输出；更新时间在缺失或与发布时间差值 < 30 分钟时自动隐藏。
 */}}
-<section class="article__info article__surface app-glass app-glass--surface app-card" data-article-info aria-label="{{ i18n "articleInfoAriaLabel" }}">
+<section class="article__info article__surface app-glass app-glass--surface app-card" data-pagefind-ignore data-article-info aria-label="{{ i18n "articleInfoAriaLabel" }}">
   <div class="article-info-card">
     <p class="article-info-card__heading">{{ i18n "articleInfoHeading" }}</p>
     {{/* 说明：许可证按“页面（.Params.license）→ 站点（params.contentLicense）→ arr”优先级解析并输出描述文案。 */}}

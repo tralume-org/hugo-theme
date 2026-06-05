@@ -647,3 +647,33 @@
 
 - id: backgroundLicenseShort_arr
   translation: 保留所有权利
+
+- id: searchOpenLabel
+  translation: 打开搜索
+
+- id: searchTitle
+  translation: 搜索文档
+
+- id: searchPlaceholder
+  translation: 搜索文章…
+
+- id: searchCloseLabel
+  translation: 关闭搜索
+
+- id: searchClearLabel
+  translation: 清空搜索
+
+- id: searchResultsLabel
+  translation: 搜索结果
+
+- id: searchNoResults
+  translation: 未找到结果。
+
+- id: searchUnavailable
+  translation: 搜索暂不可用。
+
+- id: searchUntitled
+  translation: 无标题
+
+- id: searchSections
+  translation: "{count} 个匹配段落"

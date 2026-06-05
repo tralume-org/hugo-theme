@@ -43,5 +43,7 @@
     {{- end -}}
   {{- end -}}
 </footer>
+{{- /* 说明：根据 params.search.provider 加载对应搜索后端的依赖脚本。 */ -}}
+{{ partial "search-scripts.html" . }}
 {{ $mainJS := resources.Get "js/main.js" | js.Build (dict "target" "es2019" "format" "iife" "minify" true) }}
 <script src="{{ $mainJS.RelPermalink }}" defer></script>

@@ -8,6 +8,7 @@ import { setupPagesMenu } from './pages-menu.js';
 import { setupArticleListInfiniteScroll } from './article-list-infinite-scroll.js';
 import { setupChromaTheme } from './chroma-theme.js';
 import { setupArticleLightbox } from './article-lightbox.js';
+import { setupSearch } from './search.js';
 
 // 说明：集中触发初始化逻辑，确保各个组件在 DOM 就绪后挂载事件。
 const bootstrap = () => {
@@ -16,6 +17,7 @@ const bootstrap = () => {
   setupAnalytics();
   setupChromaTheme();
   setupSettingsPanel();
+  setupSearch();
   setupCodeBlocks();
   setupArticleOutline();
   setupArticleInfo();

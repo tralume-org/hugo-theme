@@ -65,6 +65,8 @@
   {{ partial "analytics-block-notice.html" . }}
   {{/* 说明：背景图归属水印条 + 弹窗（仅 Pixaroa provider 有数据时显示）。 */}}
   {{ partial "background-attribution.html" . }}
+  {{/* 说明：搜索弹窗，portal 方式渲染在 header 之外以避开 backdrop-filter 的 backdrop root 限制。 */}}
+  {{ partial "search-dialog.html" . }}
   {{ partial "footer.html" . }}
 </body>
 </html>

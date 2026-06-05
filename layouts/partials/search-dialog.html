@@ -1,0 +1,64 @@
+{{/* 说明：搜索弹窗（居中浮层 + 半透明遮罩），portal 方式渲染在 header 之外。
+   * 目标：避免 backdrop-filter 的 backdrop root 限制，同时保持亚克力模糊效果。
+   * 注意：默认隐藏，由 assets/js/search.js 控制展开/收起与键盘交互。 */}}
+{{- if site.Params.search.enable -}}
+<div
+  class="app-search__backdrop"
+  data-search-backdrop
+  aria-hidden="true"
+></div>
+{{- $provider := lower (default "pagefind" site.Params.search.provider) -}}
+<section
+  class="app-search app-glass app-glass--elevated app-card"
+  id="search-dialog"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ i18n "searchTitle" }}"
+  aria-hidden="true"
+  inert
+  data-search-provider="{{ $provider }}"
+  data-text-unavailable="{{ i18n "searchUnavailable" }}"
+  data-text-untitled="{{ i18n "searchUntitled" }}"
+  data-text-no-results="{{ i18n "searchNoResults" }}"
+  data-text-sections="{{ i18n "searchSections" }}"
+  data-search-dialog
+>
+  <div class="app-search__bar">
+    <span class="material-symbols-rounded app-search__icon" aria-hidden="true">search</span>
+    <input
+      class="app-search__input"
+      type="search"
+      id="search-input"
+      aria-label="{{ i18n "searchPlaceholder" }}"
+      placeholder="{{ i18n "searchPlaceholder" }}"
+      autocomplete="off"
+      data-search-input
+    >
+    <button
+      class="app-search__clear"
+      type="button"
+      aria-label="{{ i18n "searchClearLabel" }}"
+      data-search-clear
+    >
+      <span class="material-symbols-rounded" aria-hidden="true">backspace</span>
+    </button>
+    <button
+      class="app-search__close"
+      type="button"
+      aria-label="{{ i18n "searchCloseLabel" }}"
+      data-search-close
+    >
+      <span class="material-symbols-rounded" aria-hidden="true">close</span>
+    </button>
+  </div>
+  <div
+    class="app-search__results"
+    id="search-results"
+    role="region"
+    aria-label="{{ i18n "searchResultsLabel" }}"
+    aria-live="polite"
+    data-search-results
+  >
+  </div>
+</section>
+{{- end -}}

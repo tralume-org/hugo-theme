@@ -3,21 +3,25 @@
 <header class="app-header app-glass app-glass--surface app-card">
   <div class="app-bar">
     <a class="app-title app-title--accent" href="{{ "/" | relLangURL }}">{{ site.Title }}</a>
-    {{- if site.Menus.main -}}
-      {{/* 说明：移动端菜单按钮（桌面端隐藏），点击后展开全屏菜单面板。 */}}
-      <button
-        class="app-mobile-menu__toggle"
-        type="button"
-        aria-haspopup="dialog"
-        aria-expanded="false"
-        aria-controls="mobile-menu-panel"
-        aria-label="{{ i18n "mobileMenuOpenLabel" }}"
-        data-mobile-menu-toggle
-      >
-        <span class="material-symbols-rounded" aria-hidden="true">menu</span>
-      </button>
-    {{- end -}}
     {{ partial "menu.html" (dict "menu" site.Menus.main "page" .) }}
+    {{/* 说明：搜索 + 移动端菜单包裹在同一个 flex 容器中，确保移动端二者紧挨在顶栏右侧。 */}}
+    <div class="app-bar__actions">
+      {{ partial "search-button.html" . }}
+      {{- if site.Menus.main -}}
+        {{/* 说明：移动端菜单按钮（桌面端隐藏），点击后展开全屏菜单面板。 */}}
+        <button
+          class="app-mobile-menu__toggle"
+          type="button"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="mobile-menu-panel"
+          aria-label="{{ i18n "mobileMenuOpenLabel" }}"
+          data-mobile-menu-toggle
+        >
+          <span class="material-symbols-rounded" aria-hidden="true">menu</span>
+        </button>
+      {{- end -}}
+    </div>
   </div>
 </header>
 {{/* 说明：移动端全屏菜单面板需渲染在 header 之外，避免 backdrop-filter 的 backdrop root 限制导致“无模糊”。 */}}

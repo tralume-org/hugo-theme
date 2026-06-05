@@ -43,6 +43,7 @@ data/
 
 # Dev
 public_test/
+content_temp/
 todo.md
 
 # Docs

@@ -37,7 +37,7 @@
         {{ partial "article-ai-marker.html" . }}
       </header>
       {{ partial "outdated-notice.html" . }}
-      <div class="article__content" data-article-content>
+      <div class="article__content" data-article-content data-pagefind-body>
         {{ .Content }}
         {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
       </div>
@@ -46,6 +46,7 @@
     <aside
       id="article-outline-panel"
       class="article__outline app-glass app-glass--elevated app-card"
+      data-pagefind-ignore
       data-article-outline
       data-outline-state="pending"
       aria-label="{{ i18n "articleOutlineAriaLabel" }}"
@@ -67,6 +68,8 @@
       <p class="article__outline-empty" data-article-outline-empty>{{ i18n "articleOutlineEmpty" }}</p>
     </aside>
     {{ partial "article-info.html" . }}
-    {{ partial "comments.html" . }}
+    <div data-pagefind-ignore>
+      {{ partial "comments.html" . }}
+    </div>
   </div>
 </article>

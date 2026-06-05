@@ -1,0 +1,36 @@
+{{- /*
+  说明：搜索 provider 脚本分发入口。
+  用途：根据 params.search.provider 加载对应 provider 的依赖脚本。
+  当前支持的 provider：
+    - pagefind: 加载 Pagefind 生成的 /pagefind/pagefind.js
+  未来可扩展 provider（meilisearch、flexsearch 等），只需在此添加分支并在
+  assets/js/search-providers/ 下提供对应实现。
+*/ -}}
+{{- with site.Params.search -}}
+  {{- if .enable -}}
+    {{- $provider := lower (default "pagefind" .provider) -}}
+
+    {{- if eq $provider "pagefind" -}}
+      {{- /* 说明：按语言分隔索引，pagefind.js 路径为 /pagefind/<lang>/pagefind.js。
+              Pagefind 通过 import.meta.url 自动检测自身路径并定位分片文件。 */ -}}
+      {{- $lang := lower site.Language.Lang -}}
+      {{- $pagefindJS := printf "/pagefind/%s/pagefind.js" $lang | relURL }}
+      <script type="module">
+        import * as pf from '{{ $pagefindJS }}';
+        window.pagefind = pf;
+      </script>
+    {{- else if eq $provider "meilisearch" -}}
+      {{/* 说明：Meilisearch 客户端由用户自行托管或通过 CDN 引入。
+          实际使用时需要用户配置 params.search.meilisearch 提供 host + apiKey。 */}}
+      {{- warnf "Search provider 'meilisearch' is not yet implemented. Falling back to pagefind." -}}
+      {{- $pagefindJS := "/pagefind/pagefind.js" | relURL }}
+      <script type="module">
+        import * as pf from '{{ $pagefindJS }}';
+        window.pagefind = pf;
+      </script>
+    {{- else -}}
+      {{- warnf "Unknown search provider '%s'. No search scripts loaded." $provider -}}
+    {{- end -}}
+
+  {{- end -}}
+{{- end -}}

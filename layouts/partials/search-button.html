@@ -1,0 +1,14 @@
+{{/* 说明：搜索入口按钮，渲染在顶栏导航最右侧。
+   * 仅当 params.search.enable 为 true 时显示。
+   * 点击后触发搜索弹窗（Ctrl+K 快捷键由 JS 接管）。 */}}
+{{- if site.Params.search.enable -}}
+<button
+  class="app-search__toggle"
+  type="button"
+  aria-label="{{ i18n "searchOpenLabel" }}"
+  title="{{ i18n "searchOpenLabel" }}"
+  data-search-toggle
+>
+  <span class="material-symbols-rounded" aria-hidden="true">search</span>
+</button>
+{{- end -}}
