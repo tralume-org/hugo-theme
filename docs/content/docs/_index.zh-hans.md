@@ -23,5 +23,5 @@ weight: 10
 - [编辑此页链接](./config/edit-source)
 - [自定义页脚](./config/footer)
 - [统计分析 (Umami)](./config/analytics)
-- [评论系统 (Remark42)](./config/comments)
+- [评论系统](./config/comments)
 - [友链管理](./config/friends)

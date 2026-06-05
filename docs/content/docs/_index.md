@@ -23,5 +23,5 @@ weight: 10
 - [Edit this Page Link](./config/edit-source)
 - [Custom Footer](./config/footer)
 - [Analytics (Umami)](./config/analytics)
-- [Comments (Remark42)](./config/comments)
+- [Comments](./config/comments)
 - [Friends Links](./config/friends)

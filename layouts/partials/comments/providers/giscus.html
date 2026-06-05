@@ -1,0 +1,94 @@
+{{- /*
+  说明：Giscus 评论 provider。
+  用途：通过 GitHub Discussions 渲染评论，并同步 Tralume 的明暗主题。
+  注意：repo/repoId/category/categoryId 均为 Giscus 必填参数，缺失时不渲染。
+*/ -}}
+{{- $config := .Config -}}
+{{- $context := .Context -}}
+{{- with $config -}}
+  {{- $repo := .repo | default "" -}}
+  {{- $repoID := .repoId | default "" -}}
+  {{- $category := .category | default "" -}}
+  {{- $categoryID := .categoryId | default "" -}}
+  {{- if and $repo $repoID $category $categoryID -}}
+    {{- $mergeStrategy := $context.Site.Params.comments.mergeStrategy | default "defaultLanguage" | lower -}}
+    {{- $threadURL := partial "comments/thread-url.html" (dict "Context" $context "MergeStrategy" $mergeStrategy) -}}
+    {{- $lang := .lang | default (partial "comments/language-code.html" (dict "Context" $context "Provider" "giscus")) -}}
+    {{- $mapping := .mapping | default "specific" -}}
+    {{- $term := .term | default $threadURL -}}
+    {{- $strict := "0" -}}
+    {{- if and (isset . "strict") .strict -}}
+      {{- $strict = "1" -}}
+    {{- end -}}
+    {{- $reactionsEnabled := "1" -}}
+    {{- if isset . "reactionsEnabled" -}}
+      {{- if .reactionsEnabled -}}{{- $reactionsEnabled = "1" -}}{{- else -}}{{- $reactionsEnabled = "0" -}}{{- end -}}
+    {{- end -}}
+    {{- $emitMetadata := "0" -}}
+    {{- if and (isset . "emitMetadata") .emitMetadata -}}
+      {{- $emitMetadata = "1" -}}
+    {{- end -}}
+    {{- $giscusConfig := dict
+      "clientUrl" (.clientUrl | default "https://giscus.app/client.js")
+      "repo" $repo
+      "repoId" $repoID
+      "category" $category
+      "categoryId" $categoryID
+      "mapping" $mapping
+      "term" $term
+      "strict" $strict
+      "reactionsEnabled" $reactionsEnabled
+      "emitMetadata" $emitMetadata
+      "inputPosition" (.inputPosition | default "bottom")
+      "lightTheme" (.lightTheme | default "light")
+      "darkTheme" (.darkTheme | default "dark")
+      "lang" $lang
+    -}}
+    {{- partial "comments/card.html" (dict "Provider" "giscus" "EmbedID" "giscus") -}}
+    <script>
+      (() => {
+        const config = {{ $giscusConfig | jsonify | safeJS }};
+        const embed = document.getElementById('giscus');
+        if (!embed) return;
+
+        const getActiveTheme = () => {
+          const mode = document.documentElement.getAttribute('data-theme-mode');
+          if (mode === 'dark') return 'dark';
+          if (mode === 'light') return 'light';
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+        const resolveTheme = () => (getActiveTheme() === 'dark' ? config.darkTheme : config.lightTheme);
+        const clientOrigin = new URL(config.clientUrl, window.location.href).origin;
+
+        const script = document.createElement('script');
+        script.src = config.clientUrl;
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.setAttribute('data-repo', config.repo);
+        script.setAttribute('data-repo-id', config.repoId);
+        script.setAttribute('data-category', config.category);
+        script.setAttribute('data-category-id', config.categoryId);
+        script.setAttribute('data-mapping', config.mapping);
+        script.setAttribute('data-term', config.term);
+        script.setAttribute('data-strict', config.strict);
+        script.setAttribute('data-reactions-enabled', config.reactionsEnabled);
+        script.setAttribute('data-emit-metadata', config.emitMetadata);
+        script.setAttribute('data-input-position', config.inputPosition);
+        script.setAttribute('data-theme', resolveTheme());
+        script.setAttribute('data-lang', config.lang);
+        embed.appendChild(script);
+
+        const syncTheme = () => {
+          const frame = document.querySelector('iframe.giscus-frame');
+          if (frame?.contentWindow) {
+            frame.contentWindow.postMessage({ giscus: { setConfig: { theme: resolveTheme() } } }, clientOrigin);
+          }
+        };
+        new MutationObserver((mutations) => {
+          if (mutations.some((mutation) => mutation.attributeName === 'data-theme-mode')) syncTheme();
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme-mode'] });
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
+      })();
+    </script>
+  {{- end -}}
+{{- end -}}

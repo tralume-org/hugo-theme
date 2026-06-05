@@ -1,0 +1,19 @@
+{{- /*
+  说明：评论系统语言代码映射。
+  用途：把站点语言转成第三方评论组件常见的语言代码，避免各 provider 重复处理。
+  注意：provider 支持范围不同；未命中的语言回退到 Hugo 当前 locale。
+*/ -}}
+{{- $context := .Context -}}
+{{- $provider := .Provider | default "" -}}
+{{- $locale := $context.Site.Language.Locale | default $context.Site.Language.Lang -}}
+{{- $language := lower $locale -}}
+{{- $code := $locale -}}
+{{- if or (eq $language "zh-hans") (eq $language "zh-cn") (hasPrefix $language "zh") -}}
+  {{- $code = "zh-CN" -}}
+{{- else if hasPrefix $language "en" -}}
+  {{- $code = "en" -}}
+  {{- if eq $provider "waline" -}}
+    {{- $code = "en-US" -}}
+  {{- end -}}
+{{- end -}}
+{{- return $code -}}

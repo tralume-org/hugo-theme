@@ -21,7 +21,7 @@
   min-width: 0;
 }
 
-.article-comments-card__embed:not(:has(iframe))::before {
+.article-comments-card__embed:empty::before {
   content: attr(data-loading-label);
   display: block;
   color: var(--md-sys-color-on-surface-variant);

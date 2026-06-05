@@ -1,0 +1,46 @@
+{{- /*
+  说明：Twikoo 评论 provider。
+  用途：加载 Twikoo 客户端并使用共享评论线程 URL 作为 path。
+  注意：envId 是 Twikoo 必填参数，缺失时不渲染。
+*/ -}}
+{{- $config := .Config -}}
+{{- $context := .Context -}}
+{{- with $config -}}
+  {{- $envID := .envId | default "" -}}
+  {{- if $envID -}}
+    {{- $mergeStrategy := $context.Site.Params.comments.mergeStrategy | default "defaultLanguage" | lower -}}
+    {{- $threadURL := partial "comments/thread-url.html" (dict "Context" $context "MergeStrategy" $mergeStrategy) -}}
+    {{- $lang := .lang | default (partial "comments/language-code.html" (dict "Context" $context "Provider" "twikoo")) -}}
+    {{- $twikooConfig := dict
+      "envId" $envID
+      "el" "#twikoo"
+      "path" $threadURL
+      "lang" $lang
+    -}}
+    {{- with .region -}}{{- $twikooConfig = merge $twikooConfig (dict "region" .) -}}{{- end -}}
+    {{- partial "comments/card.html" (dict "Provider" "twikoo" "EmbedID" "twikoo") -}}
+    <script>
+      (() => {
+        const config = {{ $twikooConfig | jsonify | safeJS }};
+        const clientUrl = {{ (.clientUrl | default "https://cdn.jsdelivr.net/npm/twikoo@1.6.42/dist/twikoo.all.min.js") | jsonify | safeJS }};
+        const embed = document.getElementById('twikoo');
+        if (!embed) return;
+
+        const initTwikoo = () => {
+          if (window.twikoo?.init) window.twikoo.init(config);
+        };
+        if (window.twikoo?.init) {
+          initTwikoo();
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = clientUrl;
+        script.async = true;
+        script.defer = true;
+        script.onload = initTwikoo;
+        embed.appendChild(script);
+      })();
+    </script>
+  {{- end -}}
+{{- end -}}

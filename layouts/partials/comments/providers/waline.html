@@ -1,0 +1,53 @@
+{{- /*
+  说明：Waline 评论 provider。
+  用途：加载 Waline 前端客户端并使用共享评论线程 URL 作为 path。
+  注意：serverURL 是 Waline 必填参数，缺失时不渲染。
+*/ -}}
+{{- $config := .Config -}}
+{{- $context := .Context -}}
+{{- with $config -}}
+  {{- $serverURL := .serverURL | default "" -}}
+  {{- if $serverURL -}}
+    {{- $mergeStrategy := $context.Site.Params.comments.mergeStrategy | default "defaultLanguage" | lower -}}
+    {{- $threadURL := partial "comments/thread-url.html" (dict "Context" $context "MergeStrategy" $mergeStrategy) -}}
+    {{- $clientURL := .clientUrl | default "https://unpkg.com/@waline/client@v3/dist/waline.js" -}}
+    {{- $styleURL := .styleUrl | default "https://unpkg.com/@waline/client@v3/dist/waline.css" -}}
+    {{- $lang := .lang | default (partial "comments/language-code.html" (dict "Context" $context "Provider" "waline")) -}}
+    {{- $walineConfig := dict
+      "el" "#waline"
+      "serverURL" $serverURL
+      "path" $threadURL
+      "lang" $lang
+      "dark" "html[data-comment-theme=\"dark\"]"
+    -}}
+    {{- with .emoji -}}{{- $walineConfig = merge $walineConfig (dict "emoji" .) -}}{{- end -}}
+    {{- with .requiredMeta -}}{{- $walineConfig = merge $walineConfig (dict "requiredMeta" .) -}}{{- end -}}
+    {{- if isset . "reaction" -}}{{- $walineConfig = merge $walineConfig (dict "reaction" .reaction) -}}{{- end -}}
+    {{- if isset . "pageview" -}}{{- $walineConfig = merge $walineConfig (dict "pageview" .pageview) -}}{{- end -}}
+    {{- if isset . "comment" -}}{{- $walineConfig = merge $walineConfig (dict "comment" .comment) -}}{{- end -}}
+    {{- partial "comments/card.html" (dict "Provider" "waline" "EmbedID" "waline") -}}
+    <link id="waline-comment-stylesheet" rel="stylesheet" href="{{ $styleURL | safeURL }}">
+    <script type="module">
+      import { init } from {{ $clientURL | jsonify | safeJS }};
+
+      const config = {{ $walineConfig | jsonify | safeJS }};
+      const root = document.documentElement;
+      const getActiveTheme = () => {
+        const mode = root.getAttribute('data-theme-mode');
+        if (mode === 'dark') return 'dark';
+        if (mode === 'light') return 'light';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+      const syncThemeAttribute = () => {
+        root.setAttribute('data-comment-theme', getActiveTheme());
+      };
+
+      syncThemeAttribute();
+      init(config);
+      new MutationObserver((mutations) => {
+        if (mutations.some((mutation) => mutation.attributeName === 'data-theme-mode')) syncThemeAttribute();
+      }).observe(root, { attributes: true, attributeFilter: ['data-theme-mode'] });
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncThemeAttribute);
+    </script>
+  {{- end -}}
+{{- end -}}

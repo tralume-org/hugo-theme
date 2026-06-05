@@ -1,0 +1,60 @@
+{{- /*
+  说明：Utterances 评论 provider。
+  用途：通过 GitHub Issues 渲染评论，并同步 Tralume 的明暗主题。
+  注意：repo 是 Utterances 必填参数，缺失时不渲染。
+*/ -}}
+{{- $config := .Config -}}
+{{- $context := .Context -}}
+{{- with $config -}}
+  {{- $repo := .repo | default "" -}}
+  {{- if $repo -}}
+    {{- $mergeStrategy := $context.Site.Params.comments.mergeStrategy | default "defaultLanguage" | lower -}}
+    {{- $threadURL := partial "comments/thread-url.html" (dict "Context" $context "MergeStrategy" $mergeStrategy) -}}
+    {{- $utterancesConfig := dict
+      "clientUrl" (.clientUrl | default "https://utteranc.es/client.js")
+      "repo" $repo
+      "issueTerm" (.issueTerm | default $threadURL)
+      "label" (.label | default "")
+      "lightTheme" (.lightTheme | default "github-light")
+      "darkTheme" (.darkTheme | default "github-dark")
+    -}}
+    {{- partial "comments/card.html" (dict "Provider" "utterances" "EmbedID" "utterances") -}}
+    <script>
+      (() => {
+        const config = {{ $utterancesConfig | jsonify | safeJS }};
+        const embed = document.getElementById('utterances');
+        if (!embed) return;
+
+        const getActiveTheme = () => {
+          const mode = document.documentElement.getAttribute('data-theme-mode');
+          if (mode === 'dark') return 'dark';
+          if (mode === 'light') return 'light';
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+        const resolveTheme = () => (getActiveTheme() === 'dark' ? config.darkTheme : config.lightTheme);
+        const clientOrigin = new URL(config.clientUrl, window.location.href).origin;
+
+        const script = document.createElement('script');
+        script.src = config.clientUrl;
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.setAttribute('repo', config.repo);
+        script.setAttribute('issue-term', config.issueTerm);
+        script.setAttribute('theme', resolveTheme());
+        if (config.label) script.setAttribute('label', config.label);
+        embed.appendChild(script);
+
+        const syncTheme = () => {
+          const frame = document.querySelector('iframe.utterances-frame');
+          if (frame?.contentWindow) {
+            frame.contentWindow.postMessage({ type: 'set-theme', theme: resolveTheme() }, clientOrigin);
+          }
+        };
+        new MutationObserver((mutations) => {
+          if (mutations.some((mutation) => mutation.attributeName === 'data-theme-mode')) syncTheme();
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme-mode'] });
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
+      })();
+    </script>
+  {{- end -}}
+{{- end -}}
