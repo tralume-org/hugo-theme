@@ -6,6 +6,7 @@ import { setupArticleInfo } from './article-info.js';
 import { setupAnalytics } from './analytics.js';
 import { setupPagesMenu } from './pages-menu.js';
 import { setupArticleListInfiniteScroll } from './article-list-infinite-scroll.js';
+import { setupArticleListMasonry } from './article-list-masonry.js';
 import { setupChromaTheme } from './chroma-theme.js';
 import { setupArticleLightbox } from './article-lightbox.js';
 import { setupSearch } from './search.js';
@@ -22,6 +23,7 @@ const bootstrap = () => {
   setupArticleOutline();
   setupArticleInfo();
   setupArticleListInfiniteScroll();
+  setupArticleListMasonry();
   setupArticleLightbox();
 };
 

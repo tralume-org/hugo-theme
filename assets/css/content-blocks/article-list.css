@@ -11,17 +11,67 @@
   }
 }
 
-/* 说明：横向排列列表用于主页与 Posts Section，按行排布并自动换行。 */
+/* 说明：无 JS 时使用 Flexbox 双列兜底；JS 会增强为真正的双列 masonry。 */
 .article-list--horizontal {
+  --article-list-masonry-gap: 1.5rem;
+
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: flex-start;
+  gap: var(--article-list-masonry-gap);
+  align-items: flex-start;
 }
 
-.article-list--horizontal .article-card {
-  flex: 1 1 100%;
+.article-list--horizontal.is-masonry {
+  display: block;
+  position: relative;
+}
+
+.article-list--horizontal.is-masonry .article-card {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  flex: initial;
   max-width: none;
+  box-sizing: border-box;
+  transform: var(--app-masonry-transform, translate(0, 0));
+}
+
+.article-list--horizontal.is-masonry .article-card.app-card--interactive {
+  /* 说明：masonry 使用 transform 定位，不能复用通用 transform 过渡，否则重排时卡片会飞行动画。 */
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.article-list--horizontal.is-masonry .article-card.app-card--interactive:hover,
+.article-list--horizontal.is-masonry .article-card.app-card--interactive:focus-visible,
+.article-list--horizontal.is-masonry .article-card.app-card--interactive:focus-within {
+  transform: var(--app-masonry-transform, translate(0, 0)) var(--app-card-lift-transform);
+}
+
+.article-list--horizontal.is-masonry .article-card.app-card--interactive:active {
+  transform: var(--app-masonry-transform, translate(0, 0)) var(--app-card-active-transform);
+}
+
+@media (min-width: 48rem) {
+  .article-list--horizontal .article-card {
+    flex: 0 0 calc(50% - 0.75rem);
+    max-width: none;
+  }
+}
+
+/* 说明：移动端单列，卡片占满宽度。 */
+@media (max-width: 47.99rem) {
+  .article-list--horizontal.is-masonry {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-list--horizontal .article-card {
+    flex: 1 1 100%;
+    max-width: none;
+  }
 }
 
 /* 说明：列表为空时的占位提示样式，也使用亚克力底色避免割裂。 */

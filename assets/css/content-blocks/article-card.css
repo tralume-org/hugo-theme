@@ -85,32 +85,23 @@
   min-width: 0;
 }
 
-/* 说明：带封面图时，桌面端切换为横向布局（左缩略图 + 右文字）。 */
-@media (min-width: 48rem) {
-  .article-card--with-cover {
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 1.5rem;
-  }
-
-  /* 说明：封面图以原始比例显示，固定 150px 宽，超高图用 max-height + cover 裁剪防止撑破卡片。 */
-  .article-card__cover {
-    flex-shrink: 0;
-    width: 150px;
-    height: auto;
-    max-height: 200px;
-    object-fit: cover;
-    margin: 0;
-    border-radius: var(--app-radius-section);
-    overflow: hidden;
-  }
-
-  .article-card--with-cover .article-card__body {
-    flex: 1;
-  }
+/* 说明：带封面图时去除顶部内边距，让封面与卡片边缘对齐（顶部通栏效果）。 */
+.article-card--with-cover {
+  padding-top: 0;
 }
 
-/* 说明：移动端封面置于卡片顶部，以原始比例占满卡片宽度。 */
+/* 说明：封面图以原始比例显示，通过负边距撑满卡片宽度，超高图用 max-height 裁剪。 */
+.article-card__cover {
+  display: block;
+  width: calc(100% + 3rem);
+  max-width: none;
+  height: auto;
+  max-height: 50vh;
+  object-fit: cover;
+  margin: 0 -1.5rem;
+  border-radius: var(--app-glass-radius) var(--app-glass-radius) 0 0;
+}
+
 @media (max-width: 47.99rem) {
   .article-card {
     padding: 1.25rem;
@@ -120,14 +111,9 @@
     padding-top: 0;
   }
 
+  /* 说明：移动端负边距跟随卡片内边距同步调整。 */
   .article-card__cover {
-    display: block;
     width: calc(100% + 2.5rem);
-    max-width: none;
-    height: auto;
-    max-height: 50vh;
-    object-fit: cover;
     margin: 0 -1.25rem;
-    border-radius: var(--app-glass-radius) var(--app-glass-radius) 0 0;
   }
 }

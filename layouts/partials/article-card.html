@@ -56,7 +56,7 @@
   data-card-position="article-list"
 >
   {{- if $hasCover }}
-    {{- /* 说明：封面图以原始比例显示，桌面端作为左侧缩略图，移动端置于卡片顶部。 */ -}}
+    {{- /* 说明：封面图以原始比例显示，顶部通栏布局，max-height 防超高图撑破卡片。 */ -}}
     <img
       class="article-card__cover"
       src="{{ $coverURL }}"
