@@ -96,6 +96,8 @@ Tralume 暴露了搜索弹窗常用的 Meilisearch 搜索参数：
   sort = ['date:desc']
   # 说明：可选查询匹配策略，取值需由 Meilisearch 支持。
   matchingStrategy = 'last'
+  # 说明：可选高亮字段；匹配到的词条会被 <em> 标签包裹。
+  highlightAttributes = ['title', 'content']
 ```
 
 Meilisearch 需要先配置索引设置，过滤和排序才能生效。用于过滤的字段要加入 `filterableAttributes`，用于排序的字段要加入 `sortableAttributes`。

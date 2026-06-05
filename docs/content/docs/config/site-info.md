@@ -40,26 +40,39 @@ Supported fields:
 
 Tralume outputs Open Graph and Twitter Card metadata automatically.
 
-- Page-level front matter `image` has the highest priority
-- Site-wide defaults can be set with `params.seo.cardImage` or `params.seo.image`
-- If neither is set, the theme falls back to the site icon (`appleTouch` / `icon`) or a no-image card
+The theme resolves the share image in this priority order:
 
-Set a default share card image in `hugo.toml`:
+1. **Page-level front matter**: `image` > `featuredImage` > `featured_image` > `cover` > `thumbnail` > `banner` > first image resource in the Page Bundle
+2. **Site-wide parameters** (in order): `params.socialImage` > `params.seo.image` > `params.seo.cardImage`
+3. **Fallback**: `params.favicon.appleTouch` > `params.favicon.icon` > no image
+
+Set a site-wide default share image:
+
+```toml
+[params]
+  # Note: Site-wide social share card image.
+  # Note: This is checked first among site-wide defaults.
+  socialImage = '/social-card.png'
+```
+
+You can also set defaults under `params.seo`:
 
 ```toml
 [params.seo]
   # Note: Site-wide default social share card image.
   # Note: A 1200x630 image is recommended.
+  image = '/seo-default.png'
+  # Note: image takes priority over cardImage.
   cardImage = '/social-card.png'
 ```
 
-To override the card image for a single page, add this to front matter:
+To use any supported page-level image field, add it to front matter:
 
 ```toml
 +++
 # Note: Overrides the share card image for this page only.
-# Note: This takes priority over params.seo.cardImage.
-image = '/posts/example/cover.png'
+# Note: Any of image, featuredImage, featured_image, cover, thumbnail, banner works.
+featuredImage = '/posts/example/cover.png'
 +++
 ```
 
@@ -69,7 +82,7 @@ Tralume outputs JSON-LD for the home page and article pages.
 
 - Article pages can include `author`
 - Home and article pages can include `publisher`
-- `publisher.logo` can be set explicitly, and falls back to `appleTouch` or `icon` when omitted
+- `publisher.logo` can be set explicitly, and falls back through `params.seo.logo` > `params.favicon.appleTouch` > `params.favicon.icon` when omitted
 
 Set site-wide author and publisher metadata in `hugo.toml`:
 

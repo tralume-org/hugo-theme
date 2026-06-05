@@ -96,6 +96,8 @@ Tralume exposes the common Meilisearch search parameters used by the dialog:
   sort = ['date:desc']
   # Note: Optional query matching strategy supported by Meilisearch.
   matchingStrategy = 'last'
+  # Note: Optional highlight attributes. Matched terms in these fields are wrapped with <em> tags.
+  highlightAttributes = ['title', 'content']
 ```
 
 Meilisearch requires index settings before filters or sort rules can work. Add every filtered field to `filterableAttributes`, and every sorted field to `sortableAttributes`.

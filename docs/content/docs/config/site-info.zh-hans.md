@@ -40,26 +40,39 @@ Tralume 可以通过 `params.favicon` 输出网站图标。将相关图标文件
 
 Tralume 会自动为每个页面生成 Open Graph 与 Twitter Card 元信息。
 
-- 优先级最高的是页面级别的 Front Matter `image`
-- 可在 `hugo.toml` 中通过 `params.seo.cardImage` 或 `params.seo.image` 设置全站默认卡片图
-- 如果两者都没有设置，主题会回退到站点图标 (`appleTouch` / `icon`) 或不显示图片
+主题按以下优先级顺序解析分享图片：
 
-在 `hugo.toml` 中设置全站默认卡片图：
+1. **页面级别 Front Matter**：`image` > `featuredImage` > `featured_image` > `cover` > `thumbnail` > `banner` > Page Bundle 中第一张图片资源
+2. **站点级别参数**（按顺序）：`params.socialImage` > `params.seo.image` > `params.seo.cardImage`
+3. **兜底**：`params.favicon.appleTouch` > `params.favicon.icon` > 无图片
+
+设置全站默认分享图：
+
+```toml
+[params]
+  # 说明：全站默认的社交分享卡片图。
+  # 注意：此参数在站点级别中有最高优先级。
+  socialImage = '/social-card.png'
+```
+
+也可以通过 `params.seo` 设置默认分享图：
 
 ```toml
 [params.seo]
-  # 说明：全站默认的社交分享卡片图。
+  # 说明：全站默认社交分享卡片图。
   # 注意：推荐使用 1200x630 分辨率的图片。
+  # 注意：image 的优先级高于 cardImage。
+  image = '/seo-default.png'
   cardImage = '/social-card.png'
 ```
 
-如需覆盖某一页的卡片图，在其 Front Matter 中这样写：
+如需使用任意受支持的页面级图片字段，在其 Front Matter 中这样写：
 
 ```toml
 +++
 # 说明：仅覆盖当前页面的社交分享卡片图。
-# 注意：此设置会优先于 params.seo.cardImage。
-image = '/posts/example/cover.png'
+# 注意：image、featuredImage、featured_image、cover、thumbnail、banner 均可生效。
+featuredImage = '/posts/example/cover.png'
 +++
 ```
 
@@ -69,7 +82,7 @@ Tralume 会为首页和文章页生成 JSON-LD。
 
 - 文章页可包含 `author`
 - 首页和文章页可包含 `publisher`
-- `publisher.logo` 可以显式设置，留空时回退到 `appleTouch` 或 `icon`
+- `publisher.logo` 可以显式设置，留空时依次回退到 `params.seo.logo` > `params.favicon.appleTouch` > `params.favicon.icon`
 
 在 `hugo.toml` 中设置全站作者与发布者：
 

@@ -29,11 +29,19 @@ weight: 100
 
 ## 2. 单篇文章覆盖
 
-如果你有部分文章存放在不同的仓库或分支，可以在 Front Matter 中覆盖：
+如果你有部分文章存放在不同的仓库或分支，可以在 Front Matter 中覆盖任意字段：
 
 ```yaml
 ---
 source:
+  # 说明：enabled、provider、repo、branch、pathPrefix 均支持逐页覆盖。
+  enabled: true
+  provider: "gitea"
+  repo: "https://gitea.example.com/other-repo"
   branch: "develop"
+  pathPrefix: "docs"
 ---
+```
+
+缺失的字段会回退到站点级 `params.source` 对应值。
 ```

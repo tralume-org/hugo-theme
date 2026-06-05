@@ -20,6 +20,11 @@ Set in `hugo.toml`:
     websiteId = 'your-website-id'
 
     # Optional: show a friendly notice if the script is blocked by an ad blocker.
+    # When enabled, a multi-step dialog guides the reader through:
+    #   1. A greeting explaining why Umami is used
+    #   2. What data is collected
+    #   3. Why the script may be blocked
+    #   4. How to whitelist the site in common ad blockers
     blockNotice = true
 ```
 

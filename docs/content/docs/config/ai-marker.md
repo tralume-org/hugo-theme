@@ -3,7 +3,7 @@ title: AI Contribution Marker
 weight: 90
 ---
 
-As AI tools become common, disclosing how AI participated in your writing process is increasingly important. This feature renders a standardized, nice-looking disclosure bar, so you don't have to write it manually in the content.
+As AI tools become common, disclosing how AI participated in your writing process is increasingly important. This feature renders a collapsible disclosure widget: by default it shows only the AI participation level (e.g. "AI-assisted"), and readers can click to expand and see the full details (usage areas, review level, tools used).
 
 Configure via the `ai` object in page Front Matter:
 
@@ -79,3 +79,12 @@ Note: the marker is only shown when `ai.level` is not `none`.
 - `deepseek`: DeepSeek
 - `qwen`: Qwen
 - `other`: Other
+
+## Display behavior
+
+The marker is rendered as a collapsible `<details>` element below the article title. Initially only the participation level is visible (e.g. "AI-assisted"). Clicking the summary expands the widget to reveal:
+- **Usage areas** (if `ai.usage` is set)
+- **Human review level** (always shown when the marker is present)
+- **Tools used** (if `ai.tools` is set)
+
+The marker only appears when `ai.level` is not `none`.

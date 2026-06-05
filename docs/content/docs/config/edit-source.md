@@ -29,11 +29,19 @@ Set repository info in `hugo.toml`:
 
 ## 2. Per-page override
 
-If some pages live in a different repository or branch, you can override in Front Matter:
+If some pages live in a different repository or branch, you can override any field in Front Matter:
 
 ```yaml
 ---
 source:
+  # Note: Any of enabled, provider, repo, branch, or pathPrefix can be overridden per page.
+  enabled: true
+  provider: "gitea"
+  repo: "https://gitea.example.com/other-repo"
   branch: "develop"
+  pathPrefix: "docs"
 ---
+```
+
+When a field is omitted, it falls back to the site-wide `params.source` value.
 ```

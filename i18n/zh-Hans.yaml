@@ -652,7 +652,7 @@
   translation: 打开搜索
 
 - id: searchTitle
-  translation: 搜索文档
+  translation: 搜索
 
 - id: searchPlaceholder
   translation: 搜索文章…

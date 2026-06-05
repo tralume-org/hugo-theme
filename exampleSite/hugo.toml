@@ -1,0 +1,211 @@
+# 说明：Tralume 示例站点配置。
+# 作用：展示主题全部可配置项，克隆后替换 baseURL 即可本地运行。
+
+# ============================================================
+# 站点基础
+# ============================================================
+baseURL = 'https://example.com/'
+# 说明：默认语言设为简体中文；纯英文站点请改为 'en-US'。
+defaultContentLanguage = 'zh-Hans'
+# 说明：默认语言也放入子目录（/zh-hans/），便于后续添加更多语言而无需改变 URL 结构。
+defaultContentLanguageInSubdir = true
+# 说明：配合 defaultContentLanguageInSubdir，禁止 / 到 /zh-hans/ 的自动跳转。
+disableDefaultLanguageRedirect = true
+# 说明：启用 Git 信息，使 lastmod 可从 Git 提交时间自动获取。
+enableGitInfo = true
+# 说明：启用 Hugo 自动生成 robots.txt。
+enableRobotsTXT = true
+# 说明：标记为中日韩语言站点，优化字数统计与摘要截断。
+hasCJKLanguage = true
+
+# ============================================================
+# Front Matter 日期优先级
+# ============================================================
+[frontmatter]
+  # 说明：lastmod 取值优先级。
+  # front matter 的 lastmod > Git 提交时间 > 文件修改时间 > date。
+  lastmod = ["lastmod", ":git", ":fileModTime", "date"]
+
+# ============================================================
+# 多语言配置
+# ============================================================
+[languages]
+  [languages."zh-Hans"]
+    label = '简体中文'
+    locale = 'zh-Hans'
+    weight = 1
+    title = "Tralume 示例"
+
+  [languages."en-US"]
+    label = 'English'
+    locale = 'en-US'
+    weight = 2
+    title = "Tralume Example"
+
+# ============================================================
+# 导航菜单
+# ============================================================
+[menu]
+  [[menu.main]]
+    identifier = 'home'
+    name = 'Home'
+    pageRef = 'home'
+    weight = 10
+  [[menu.main]]
+    identifier = 'posts'
+    name = 'Posts'
+    pageRef = 'posts'
+    weight = 20
+  [[menu.main]]
+    identifier = 'tags'
+    name = 'Tags'
+    pageRef = 'tags'
+    weight = 30
+  [[menu.main]]
+    identifier = 'pages'
+    name = 'Pages'
+    pageRef = 'pages'
+    weight = 35
+  [[menu.main]]
+    identifier = 'friends'
+    name = 'Friends'
+    pageRef = 'friends'
+    weight = 40
+
+# ============================================================
+# Hugo 模块
+# ============================================================
+[module]
+  [module.hugoVersion]
+    min = '0.161.1'
+    extended = false
+  [[module.imports]]
+    path = "forgejo.alexma.top/tralume-org/hugo-theme"
+
+# ============================================================
+# Markdown 渲染
+# ============================================================
+[markup]
+  [markup.highlight]
+    lineNos = false
+    noClasses = false
+
+# ============================================================
+# 站点参数
+# ============================================================
+[params]
+  # 说明：站点描述，出现在搜索摘要与 RSS 中。
+  description = '一个使用 Tralume 主题搭建的 Hugo 博客。'
+
+  # 说明：全站默认内容许可协议。
+  contentLicense = 'cc-by-4.0'
+
+  # ========== 网站图标 ==========
+  [params.favicon]
+    icon = '/favicon.ico'
+    svg = '/favicon.svg'
+    appleTouch = '/apple-touch-icon.png'
+    manifest = '/site.webmanifest'
+
+  # ========== 首页 ==========
+  [params.home]
+    # 说明：首页最多展示几篇最新文章；超出部分通过"查看更多"入口进入列表。
+    recentPostsLimit = 5
+
+  # ========== 文章列表 ==========
+  [params.posts]
+    # 说明：/posts 与 /pages 每页显示数量。
+    pageSize = 10
+
+  # ========== 搜索 ==========
+  [params.search]
+    enable = true
+    provider = 'pagefind'
+
+  # ========== 统计分析（Umami，可选）==========
+  [params.analytics]
+    provider = 'umami'
+
+    [params.analytics.providers.umami]
+      scriptUrl = 'https://analytics.example.com/script.js'
+      websiteId = 'your-website-id-here'
+      blockNotice = true
+
+      [params.analytics.providers.umami.pageviews]
+        host = 'https://analytics.example.com'
+        shareId = 'your-share-id-here'
+
+  # ========== "编辑此页" 链接（可选）==========
+  [params.source]
+    enabled = false
+    provider = 'forgejo'
+    repo = 'https://git.example.com/username/blog-content'
+    branch = 'main'
+    pathPrefix = 'content'
+
+  # ========== 页脚自定义链接（可选）==========
+  [params.footer]
+    afterRss = [
+      { text = '隐私政策', url = '/pages/privacy/' }
+    ]
+
+  # ========== 国际化路由 ==========
+  [params.i18nRouting]
+    # 说明：自动根据浏览器 Accept-Language 跳转到对应语言。
+    enableAutoEntry = true
+
+  # ========== 评论系统（Remark42，可选）==========
+  [params.comments]
+    enabled = false
+    provider = 'remark42'
+
+    [params.comments.providers.remark42]
+      host = 'https://remark42.example.com'
+      siteId = 'blog'
+      mergeStrategy = 'smartPath'
+
+  # ========== SEO ==========
+  [params.seo.author]
+    name = 'Your Name'
+    url = 'https://example.com/about/'
+
+  [params.seo.publisher]
+    name = 'Your Blog'
+    url = 'https://example.com/'
+
+  # ========== 主题参数 ==========
+  [params.theme]
+    # 说明：默认外观模式（auto / light / dark）。
+    defaultMode = 'auto'
+
+    # 说明：默认主题强调色（#RRGGBB），不设置则为 #1f2329。
+    defaultSeed = '#1f2329'
+
+    # 说明：默认亚克力透明度（0–95），数值越大越不透明。
+    defaultGlassStrength = 45
+
+    # 说明：默认阅读宽度（60–92），单位为屏幕宽度百分比。
+    defaultReaderWidthValue = 80
+
+    # 说明：默认背景来源（url / upload / pixaroa）。
+    defaultBackgroundProvider = 'url'
+
+    # 说明：Pixaroa 服务地址（使用 pixaroa 时需要填写）。
+    # pixaroaHost = 'https://pixaroa.example.com/'
+
+  # ========== 过时内容提醒 ==========
+  # 说明：文章超过此天数后显示过时提醒，默认 180 天。
+  outdatedThresholdDays = 365
+
+# ============================================================
+# 输出格式
+# ============================================================
+[outputs]
+  home = ["HTML", "RSS"]
+
+# ============================================================
+# Robots.txt
+# ============================================================
+[params.robotsTxt]
+  enabled = true
+  sitemap = true

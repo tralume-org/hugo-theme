@@ -24,6 +24,7 @@ Create `data/friends.yaml` in your Hugo site (you can also use `.toml` or `.json
   # Optional: manual sort weight; smaller values appear first, and the default is 10000.
   weight: 10
   # Optional: used for the "prefer current language" grouping and card language tags.
+  # Note: .lang is also accepted as an alias for language.
   language: ["zh-Hans", "en-US"]
 
 # Note: If you do not need i18n, you can use plain strings directly.

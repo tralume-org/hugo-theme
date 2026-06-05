@@ -28,9 +28,21 @@ weight: 40
   pixaroaHost = 'https://your-pixaroa-api.com/'
 ```
 
+## Provider 详情
+
+### Pixaroa 高级设置
+
+使用 Pixaroa 时，设置面板会在可展开的"高级"区域中提供以下额外选项：
+
+- **分级**（`settings_tier`）：图片质量/尺寸等级（auto、1–6）
+- **方向**（`settings_orientation`）：auto、landscape（横版）、portrait（竖版）、square（方形）
+- **格式**（`settings_format`）：auto、jxl、avif、webp、jpeg、png
+
+这些参数会发送到 Pixaroa API 并影响返回的图片。
+
 ## 功能说明
 
-- **背景模糊**：设置面板提供了一个专门的滑动条，用于调节背景图本身的模糊半径。这与"亚克力效果"的模糊半径会叠加生效。
+- **背景模糊**：设置面板在**外观（Appearance）标签页**中提供了专门的滑动条来调节背景图本身的模糊半径（不在"自定义背景"标签页）。这与"亚克力效果"的模糊半径会叠加生效。
 - **上传功能**：这里的"上传"并不会把图片发到你的服务器，而是利用浏览器的本地数据库（IndexedDB）保存在用户自己的电脑上，保护隐私且不占服务器流量。
 
 ## 优先级规则
@@ -42,7 +54,31 @@ weight: 40
 
 主题内置了背景提取模块：当背景 provider 生效后，会从背景图提取代表色并匹配到固定的 17 个主题色（Material 500）。
 
+### 取色算法
+
+设置面板允许读者从四种提取算法中选择：
+
+| 算法 | 行为 |
+| --- | --- |
+| `weighted-average` | 计算所有像素的亮度加权平均值 |
+| `vibrant-pixel` | 选取饱和度最高的像素 |
+| `hue-histogram` | 构建色相直方图，取主导色相并返回满饱和度颜色 |
+| `kmeans-vibrant` | 使用 k-means 聚类像素，返回最鲜艳的聚类中心 |
+
+### 手动覆盖
+
 你可以在 **外观 → 主题色** 中控制是否覆盖背景策略：
 
 1. **开关关闭**：使用背景 provider 的动态/手动主题色策略。
 2. **开关打开**：全局覆盖背景策略，你可以手动选择 17 色预设或输入 `#RRGGBB`。
+
+## 背景图片来源归属
+
+当背景图片来自 Pixaroa 时，Tralume 会自动在页面底部显示来源归属条，包含：
+
+- 图片标题
+- 摄影师名称
+- 许可信息
+- 来源链接（图片原始地址）
+
+归属条可以通过点击关闭按钮隐藏。它使用以下 i18n 键：`backgroundAttributionBarFormat`、`backgroundAttributionTitle`、`backgroundAttributionPhotographer`、`backgroundAttributionLicense`、`backgroundAttributionSource`、`backgroundAttributionClose`。

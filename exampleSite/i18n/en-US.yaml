@@ -1,0 +1,6 @@
+# Note: Site-level i18n overrides (English).
+# Purpose: Supplement or override theme built-in i18n strings.
+# Important: Key names must match theme ids exactly.
+
+- id: footerLinkPrivacyPolicy
+  translation: Privacy Policy

@@ -7,7 +7,7 @@ weight: 10
 
 ### 前提条件
 
-- Hugo 已安装 （无需 extended ，版本 ≥ 0.146.0）
+- Hugo 已安装 （无需 extended ，版本 ≥ 0.161.1）
 - Go 已安装 （用于 Hugo Modules）
 - Git 已安装 （用于 Hugo Modules 和版本控制）
 
@@ -31,12 +31,13 @@ weight: 10
 ```toml
 baseURL = 'https://example.com/'
 defaultContentLanguage = 'zh-Hans'
+defaultContentLanguageInSubdir = true
 hasCJKLanguage = true
 
 [languages]
   [languages."zh-Hans"]
-    languageName = '简体中文'
-    languageCode = 'zh-Hans'
+    label = '简体中文'
+    locale = 'zh-Hans'
     weight = 1
     title = "My site"
 
@@ -56,8 +57,21 @@ hasCJKLanguage = true
     name = 'Tags'
     pageRef = 'tags'
     weight = 30
+  [[menu.main]]
+    identifier = 'pages'
+    name = 'Pages'
+    pageRef = 'pages'
+    weight = 35
+  [[menu.main]]
+    identifier = 'friends'
+    name = 'Friends'
+    pageRef = 'friends'
+    weight = 40
 
 [module]
+  [module.hugoVersion]
+    min = '0.161.1'
+    extended = false
   [[module.imports]]
     path = "forgejo.alexma.top/tralume-org/hugo-theme"
 
@@ -65,6 +79,10 @@ hasCJKLanguage = true
   [markup.highlight]
     lineNos = false
     noClasses = false
+
+[params.search]
+  enable = true
+  provider = 'pagefind'
 ```
 
 运行 `hugo server` 启动本地服务器，按提示打开即可进入站点。

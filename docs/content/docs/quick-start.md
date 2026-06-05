@@ -7,7 +7,7 @@ weight: 10
 
 ### Prerequisites
 
-- Hugo installed (extended version not required, version ≥ 0.146.0)
+- Hugo installed (extended version not required, version ≥ 0.161.1)
 - Go installed (for Hugo Modules)
 - Git installed (for Hugo Modules and version control)
 
@@ -31,11 +31,12 @@ Edit `hugo.toml` and replace the original file with the following configuration.
 ```toml
 baseURL = 'https://example.com/'
 defaultContentLanguage = 'en-US'
+defaultContentLanguageInSubdir = true
 
 [languages]
   [languages."en-US"]
-    languageName = 'American English'
-    languageCode = 'en-US'
+    label = 'English'
+    locale = 'en-US'
     weight = 1
     title = "My site"
 
@@ -55,8 +56,21 @@ defaultContentLanguage = 'en-US'
     name = 'Tags'
     pageRef = 'tags'
     weight = 30
+  [[menu.main]]
+    identifier = 'pages'
+    name = 'Pages'
+    pageRef = 'pages'
+    weight = 35
+  [[menu.main]]
+    identifier = 'friends'
+    name = 'Friends'
+    pageRef = 'friends'
+    weight = 40
 
 [module]
+  [module.hugoVersion]
+    min = '0.161.1'
+    extended = false
   [[module.imports]]
     path = "forgejo.alexma.top/tralume-org/hugo-theme"
 
@@ -64,6 +78,10 @@ defaultContentLanguage = 'en-US'
   [markup.highlight]
     lineNos = false
     noClasses = false
+
+[params.search]
+  enable = true
+  provider = 'pagefind'
 ```
 
 Run `hugo server` to start the local server, then open the site in your browser as prompted.

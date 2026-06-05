@@ -50,3 +50,15 @@ Set in `hugo.toml`:
 - **Prefer `description`**: if a page sets `description`, the theme uses it as the summary on the homepage, `/posts`, and `/pages` list cards.
 - **Mobile pagination**: on small screens, the pager is merged into one bar showing only previous / current / next.
 - **Scroll mode applies to both lists**: the setting panel's pagination/infinite-scroll switch now affects both `/posts` and `/pages`.
+
+## Article card cover images
+
+Article cards in list views automatically display a cover image when available. The theme checks these front matter fields in order:
+
+`image` > `featuredImage` > `featured_image` > `cover` > `thumbnail` > `banner`
+
+If none match, the theme falls back to the first image resource inside the Page Bundle. When a cover image is found, the card gains an `article-card--with-cover` class and renders the image above the title.
+
+## Content type matching
+
+The `/posts` and `/pages` sections also match content where the front matter `type` is set to `posts` or `pages`. This means setting `type: posts` in a page's front matter will include it in the posts list UI, even if it lives outside the `/posts/` content directory.
