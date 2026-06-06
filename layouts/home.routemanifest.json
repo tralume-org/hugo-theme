@@ -43,6 +43,10 @@
 
         {{- range $relatedPages -}}
           {{- $description := .Params.description | default (.Summary | plainify | truncate 160) -}}
+          {{- $sourcePath := .Path | default .RelPermalink -}}
+          {{- with .File -}}
+            {{- $sourcePath = .Path -}}
+          {{- end -}}
           {{- $images := slice -}}
           {{- with .Params.images -}}
             {{- if reflect.IsSlice . -}}
@@ -60,15 +64,19 @@
             "logicalPath" (partial "i18n-routing/logical-path.html" .)
             "relPermalink" .RelPermalink
             "permalink" .Permalink
-            "sourcePath" (.File.Path | default (.Path | default .RelPermalink))
+            "sourcePath" $sourcePath
           ))) -}}
         {{- end -}}
 
+        {{- $entrySourcePath := .Path | default .RelPermalink -}}
+        {{- with .File -}}
+          {{- $entrySourcePath = .Path -}}
+        {{- end -}}
         {{- $entries := $scratch.Get "entries" -}}
         {{- $scratch.Set "entries" ($entries | append (dict
           "groupKey" $groupKey
           "translationKey" .TranslationKey
-          "entrySourcePath" (.File.Path | default (.Path | default .RelPermalink))
+          "entrySourcePath" $entrySourcePath
           "targets" ($entryScratch.Get "targets")
         )) -}}
       {{- end -}}
