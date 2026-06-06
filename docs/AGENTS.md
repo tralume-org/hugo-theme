@@ -11,8 +11,8 @@
 ## 2. i18n 约定（必须）
 
 - 默认语言：`en`（无 URL 前缀）
-- 额外语言：`zh-hans`（使用 `/zh-hans/` 前缀；Hugo 内部 locale 映射为 `zh-cn`）
-- 多语言内容组织方式：同一目录下用语言后缀区分（例如 `quick-start.md` / `quick-start.zh-hans.md`）
+- 额外语言：`zh-hans`（使用 `/zh-hans/` 前缀；Hugo 内部 locale 映射为 `zh-cn`）、`ja`（使用 `/ja/` 前缀；Hugo 内部 locale 映射为 `ja`）、`fr`（使用 `/fr/` 前缀；Hugo 内部 locale 映射为 `fr`）、`zh-hant`（使用 `/zh-hant/` 前缀；Hugo 内部 locale 映射为 `zh-tw`）
+- 多语言内容组织方式：同一目录下用语言后缀区分（例如 `quick-start.md` / `quick-start.zh-hans.md` / `quick-start.ja.md`）
 - 禁止在同一篇页面里做"中英对照/双语并排"
 
 路由约定：
@@ -58,6 +58,9 @@ hugo --destination ../public_test/hextra-dist
 
 - 英文（默认语言）无后缀：`_index.md`、`quick-start.md`
 - 简中翻译加 `.zh-hans` 后缀：`_index.zh-hans.md`、`quick-start.zh-hans.md`
+- 日语翻译加 `.ja` 后缀：`_index.ja.md`、`quick-start.ja.md`
+- 法语翻译加 `.fr` 后缀：`_index.fr.md`、`quick-start.fr.md`
+- 繁体中文翻译加 `.zh-hant` 后缀：`_index.zh-hant.md`、`quick-start.zh-hant.md`
 - 目录段页用 `_index.md`（Hugo section page）
 
 ### 4.2 Frontmatter（必须字段）
@@ -112,4 +115,4 @@ hugo --destination ../public_test/hextra-dist
 可选但推荐：
 
 - 手动打开预览，检查导航/侧边栏链接
-- 若改动涉及 i18n：确认 `en` 与 `zh-hans` 两套内容均可访问
+- 若改动涉及 i18n：确认 `en`、`zh-hans`、`ja`、`fr`、`zh-hant` 各套内容均可访问

@@ -23,18 +23,26 @@
   {{- end }}
   {{- $filtered := slice -}}
   {{- $langLower := lower $lang -}}
+  {{- /* 说明：根据所有已配置语言动态构建“其他语言后缀”列表，避免硬编码导致新语言内容误入。 */}}
+  {{- $otherSuffixes := slice -}}
+  {{- range site.Languages -}}
+    {{- $otherLang := lower .Lang -}}
+    {{- if ne $otherLang $langLower -}}
+      {{- $otherSuffixes = $otherSuffixes | append (printf ".%s" $otherLang) -}}
+    {{- end -}}
+  {{- end -}}
   {{- range $localized }}
     {{- $base := .File.BaseFileName -}}
     {{- if not (hasPrefix $base "_index") }}
-      {{- if eq $langLower "zh-hans" }}
-        {{- if or (in $base ".zh") (in $base ".zh-hans") }}
-          {{- $filtered = $filtered | append . -}}
-        {{- end }}
-      {{- else }}
-        {{- if not (or (in $base ".zh") (in $base ".zh-hans")) }}
-          {{- $filtered = $filtered | append . -}}
-        {{- end }}
-      {{- end }}
+      {{- $exclude := false -}}
+      {{- range $otherSuffixes -}}
+        {{- if in $base . -}}
+          {{- $exclude = true -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if not $exclude -}}
+        {{- $filtered = $filtered | append . -}}
+      {{- end -}}
     {{- end }}
   {{- end }}
   {{- $localized = $filtered -}}

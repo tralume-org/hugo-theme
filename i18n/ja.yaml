@@ -1,0 +1,680 @@
+- id: mainNavAriaLabel
+  translation: メインナビゲーション
+
+- id: mobileMenuTitle
+  translation: メニュー
+
+- id: mobileMenuOpenLabel
+  translation: メニューを開く
+
+- id: mobileMenuCloseLabel
+  translation: メニューを閉じる
+
+- id: skipToContent
+  translation: 本文にスキップ
+
+- id: home
+  translation: ホーム
+
+- id: posts
+  translation: 記事
+
+- id: pages
+  translation: ページ
+
+- id: tags
+  translation: タグ
+
+- id: friends
+  translation: 友達
+
+- id: pagesMenuAriaLabel
+  translation: ページ一覧
+
+- id: pagesMenuEmpty
+  translation: まだページがありません。
+
+- id: articlePublishedOn
+  translation: "{{ .Date }} に公開"
+
+- id: articleReadingTime
+  translation: 約 {{ .Minutes }} 分で読めます
+
+- id: articlePageviewsLabel
+  translation: 閲覧数
+
+- id: outdatedWarning
+  translation: この記事は {{ .Days }} 日前に公開されました。記載された情報は現在も有効とは限りません。
+
+- id: aiMarkerListSeparator
+  translation: "、"
+
+- id: aiLevel_none
+  translation: AI 未使用
+
+- id: aiLevel_assist
+  translation: AI 支援
+
+- id: aiLevel_coauthor
+  translation: AI 共同執筆
+
+- id: aiLevel_generate
+  translation: AI 生成
+
+- id: aiLevel_translate
+  translation: AI 翻訳
+
+- id: aiReview_none
+  translation: 未記載 / 未確認
+
+- id: aiReview_light
+  translation: 軽く確認
+
+- id: aiReview_edited
+  translation: 編集済み
+
+- id: aiReview_fact_checked
+  translation: 事実確認済み（重要な事実・データ・引用）
+
+- id: aiUsage_outline
+  translation: 構成 / 構造
+
+- id: aiUsage_rewrite
+  translation: 書き直し / 再構成
+
+- id: aiUsage_expand
+  translation: 拡張（詳細追加）
+
+- id: aiUsage_summarize
+  translation: 要約 / 圧縮
+
+- id: aiUsage_tone
+  translation: トーン / 文体調整
+
+- id: aiUsage_grammar
+  translation: 文法修正
+
+- id: aiUsage_wording
+  translation: 表現の改善
+
+- id: aiUsage_title
+  translation: タイトル / 見出しの提案
+
+- id: aiUsage_translate
+  translation: 翻訳
+
+- id: aiUsage_research
+  translation: 調査の方向性 / 統合
+
+- id: aiUsage_citation
+  translation: 引用のガイダンス
+
+- id: aiUsage_fact_check_help
+  translation: 事実確認の補助（疑わしい箇所の指摘）
+
+- id: aiUsage_code
+  translation: コード生成 / リファクタリング
+
+- id: aiUsage_debug
+  translation: デバッグの提案
+
+- id: aiUsage_data
+  translation: データ / テーブルの変換
+
+- id: aiUsage_image
+  translation: 画像 / プロンプトの支援
+
+- id: aiUsage_privacy
+  translation: プライバシー / 秘匿化の提案
+
+- id: aiUsage_policy
+  translation: ポリシー / コンプライアンス表現のチェック
+
+- id: aiTool_chatgpt
+  translation: ChatGPT
+
+- id: aiTool_claude
+  translation: Claude
+
+- id: aiTool_gemini
+  translation: Gemini
+
+- id: aiTool_deepseek
+  translation: DeepSeek
+
+- id: aiTool_qwen
+  translation: Qwen
+
+- id: aiTool_other
+  translation: その他
+
+- id: articleListEmpty
+  translation: まだ記事がありません。しばらくしてからご確認ください。
+
+- id: articleListViewMore
+  translation: もっと見る
+
+- id: articleListPagination
+  translation: 記事のページネーション
+
+- id: articleListPaginationPages
+  translation: ページネーション
+
+- id: paginationPrevious
+  translation: 前へ
+
+- id: paginationNext
+  translation: 次へ
+
+- id: paginationPage
+  translation: "{{ .Number }} ページ"
+
+- id: taxonomyTermCount
+  translation: "{{ .Count }} 件の記事"
+
+- id: settingsPanelButtonLabel
+  translation: 設定
+
+- id: settingsPanelTitle
+  translation: サイト設定
+
+- id: settingsPanelCloseLabel
+  translation: 設定カードを閉じる
+
+- id: settingsPanelCloseText
+  translation: 閉じる
+
+- id: settingsPanelLanguageHeading
+  translation: 言語
+
+- id: settingsPanelModeHeading
+  translation: テーマモード
+
+- id: settingsPanelModeAuto
+  translation: システムに従う
+
+- id: settingsPanelModeLight
+  translation: ライトモード
+
+- id: settingsPanelModeDark
+  translation: ダークモード
+
+- id: settingsPanelSeedLabel
+  translation: カスタムテーマカラー
+
+- id: settingsPanelSeedCustomShort
+  translation: カスタム
+
+- id: settingsPanelSeedOverrideLabel
+  translation: 背景テーマカラーを上書き
+
+- id: settingsPanelSeedPresetLabel
+  translation: テーマパレット（17 色）
+
+- id: settingsPanelGlassRangeLabel
+  translation: 透明度
+
+- id: settingsPanelGlassLow
+  translation: より透明
+
+- id: settingsPanelGlassHigh
+  translation: より不透明
+
+- id: settingsPanelGlassBlurLabel
+  translation: ぼかし半径
+
+- id: settingsPanelGlassBlurLow
+  translation: よりシャープ
+
+- id: settingsPanelGlassBlurHigh
+  translation: よりソフト
+
+- id: settingsPanelGlassBlurUnit
+  translation: px
+
+- id: settingsPanelGlassReset
+  translation: デフォルトに戻す
+
+- id: settingsPanelAppearanceHeading
+  translation: 外観
+
+- id: settingsPanelReaderRangeLabel
+  translation: 読書幅
+
+- id: settingsPanelReaderScaleCompact
+  translation: より狭く
+
+- id: settingsPanelReaderScaleWide
+  translation: より広く
+
+- id: settingsPanelPostsScrollHeading
+  translation: 記事一覧のスクロール
+
+- id: settingsPanelPostsScrollPagination
+  translation: ページネーション
+
+- id: settingsPanelPostsScrollInfinite
+  translation: 無限スクロール
+
+- id: settingsPanelBackgroundHeading
+  translation: カスタム背景
+
+- id: settingsPanelBackgroundProviderTabsLabel
+  translation: 背景の取得元
+
+- id: settingsPanelBackgroundProviderUrl
+  translation: URL
+
+- id: settingsPanelBackgroundProviderUpload
+  translation: アップロード
+
+- id: settingsPanelBackgroundProviderPixaroa
+  translation: Pixaroa
+
+- id: settingsPanelBackgroundSeedAlgorithmLabel
+  translation: 動的カラーアルゴリズム
+
+- id: settingsPanelBackgroundSeedAlgorithmWeightedAverage
+  translation: 加重平均（安定）
+
+- id: settingsPanelBackgroundSeedAlgorithmVibrantPixel
+  translation: 鮮やかピクセル（鮮明）
+
+- id: settingsPanelBackgroundSeedAlgorithmHueHistogram
+  translation: 色相ヒストグラム（色かぶり防止）
+
+- id: settingsPanelBackgroundSeedAlgorithmKmeansVibrant
+  translation: K-Means 鮮やか（多様）
+
+- id: settingsPanelBackgroundLabel
+  translation: 画像 URL
+
+- id: settingsPanelBackgroundPlaceholder
+  translation: "例: https://example.com/hero.webp"
+
+- id: settingsPanelBackgroundUploadLabel
+  translation: 画像を選択
+
+- id: settingsPanelBackgroundUploadStatusEmpty
+  translation: まだ画像が選択されていません。
+
+- id: settingsPanelBackgroundUploadStatusStored
+  translation: ローカル背景画像が保存されています。
+
+- id: settingsPanelBackgroundUploadStatusSelected
+  translation: "選択中: {{ .Name }}"
+
+- id: settingsPanelBackgroundPixaroaHostLabel
+  translation: Pixaroa ホスト
+
+- id: settingsPanelBackgroundPixaroaHostPlaceholder
+  translation: "例: https://pixaroa.example.com/"
+
+- id: settingsPanelBackgroundPixaroaAdvancedSummary
+  translation: 詳細オプション
+
+- id: settingsPanelBackgroundPixaroaTierLabel
+  translation: Tier
+
+- id: settingsPanelBackgroundPixaroaTierAuto
+  translation: 自動（画面サイズに応じて）
+
+- id: settingsPanelBackgroundPixaroaTier1
+  translation: 1（A · 360px）
+
+- id: settingsPanelBackgroundPixaroaTier2
+  translation: 2（B · 720px）
+
+- id: settingsPanelBackgroundPixaroaTier3
+  translation: 3（C · 1080px）
+
+- id: settingsPanelBackgroundPixaroaTier4
+  translation: 4（D · 1440px）
+
+- id: settingsPanelBackgroundPixaroaTier5
+  translation: 5（E · 2160px）
+
+- id: settingsPanelBackgroundPixaroaTier6
+  translation: 6（F · 元サイズ）
+
+- id: settingsPanelBackgroundPixaroaOrientationLabel
+  translation: 向き
+
+- id: settingsPanelBackgroundPixaroaOrientationAuto
+  translation: 自動（画面に合わせる）
+
+- id: settingsPanelBackgroundPixaroaOrientationLandscape
+  translation: 横向き
+
+- id: settingsPanelBackgroundPixaroaOrientationPortrait
+  translation: 縦向き
+
+- id: settingsPanelBackgroundPixaroaOrientationSquare
+  translation: 正方形
+
+- id: settingsPanelBackgroundPixaroaFormatLabel
+  translation: 画像形式
+
+- id: settingsPanelBackgroundPixaroaFormatAuto
+  translation: 自動（ブラウザ対応テストに基づく）
+
+- id: settingsPanelBackgroundPixaroaFormatJxl
+  translation: JPEG XL（jxl）
+
+- id: settingsPanelBackgroundPixaroaFormatAvif
+  translation: AVIF（avif）
+
+- id: settingsPanelBackgroundPixaroaFormatWebp
+  translation: WebP（webp）
+
+- id: settingsPanelBackgroundPixaroaFormatJpeg
+  translation: JPEG（jpeg）
+
+- id: settingsPanelBackgroundPixaroaFormatPng
+  translation: PNG（png）
+
+- id: settingsPanelBackgroundPixaroaApply
+  translation: ランダムに背景を取得
+
+- id: settingsPanelBackgroundPixaroaStatusIdle
+  translation: Pixaroa からランダム写真を取得可能です。
+
+- id: settingsPanelBackgroundPixaroaStatusLoading
+  translation: Pixaroa 写真を取得中…
+
+- id: settingsPanelBackgroundPixaroaStatusError
+  translation: 取得に失敗しました。ホスト、パラメータ、CORS 設定をご確認ください。
+
+- id: settingsPanelBackgroundBlurLabel
+  translation: 背景ぼかし
+
+- id: settingsPanelBackgroundBlurLow
+  translation: よりシャープ
+
+- id: settingsPanelBackgroundBlurHigh
+  translation: よりソフト
+
+- id: settingsPanelBackgroundBlurUnit
+  translation: px
+
+- id: settingsPanelBackgroundApply
+  translation: 背景を適用
+
+- id: settingsPanelBackgroundReset
+  translation: 背景を削除
+
+- id: rssAlternateTitle
+  translation: '{{ .SiteTitle }} · {{ .LanguageLabel }} RSS フィード'
+
+- id: footerRssSubscribe
+  translation: RSS 購読
+
+- id: metaDescriptionHomeFallback
+  translation: "{{ .SiteTitle }} の最新記事とページをご覧ください。"
+
+- id: metaDescriptionListFallback
+  translation: "{{ .SiteTitle }} の「{{ .PageTitle }}」を閲覧。"
+
+- id: metaDescriptionTagsFallback
+  translation: "{{ .SiteTitle }} の全タグを閲覧。"
+
+- id: metaDescriptionTagTermFallback
+  translation: "{{ .SiteTitle }} の「{{ .Tag }}」タグの記事。"
+
+- id: codeBlockCopy
+  translation: コードをコピー
+
+- id: codeBlockCopied
+  translation: コピーしました
+
+- id: articleReadingProgress
+  translation: 読書の進捗
+
+- id: articleOutlineAriaLabel
+  translation: 記事の目次
+
+- id: articleOutlineOpenLabel
+  translation: 目次を開く
+
+- id: articleOutlineCloseLabel
+  translation: 目次を閉じる
+
+- id: articleOutlineTitle
+  translation: 目次
+
+- id: articleOutlineNavLabel
+  translation: セクションに移動
+
+- id: articleOutlineEmpty
+  translation: 目次はページ読み込み後に生成されます。表示されない場合は、本文に h2 以上の見出しが含まれているかご確認ください。
+
+- id: articleInfoAriaLabel
+  translation: 記事情報
+
+- id: articleInfoHeading
+  translation: 記事情報
+
+- id: articleInfoLicenseTitle
+  translation: ライセンス
+
+- id: articleInfoTitleLabel
+  translation: タイトル
+
+- id: articleInfoPermalinkLabel
+  translation: パーマリンク
+
+- id: articleInfoWordCountLabel
+  translation: 文字数
+
+- id: articleInfoWordCountValue
+  translation: "{{ .Count }} 文字"
+
+- id: articleInfoPublishedAtLabel
+  translation: 公開日
+
+- id: articleInfoUpdatedAtLabel
+  translation: 更新日
+
+- id: articleInfoCopyPermalink
+  translation: 記事リンクをコピー
+
+- id: articleInfoCopyPermalinkAriaLabel
+  translation: パーマリンクをコピー
+
+- id: articleInfoCopied
+  translation: コピーしました
+
+- id: articleInfoEditThisPage
+  translation: このページを編集
+
+- id: articleCommentsAriaLabel
+  translation: コメント
+
+- id: articleCommentsHeading
+  translation: コメント
+
+- id: articleCommentsLoading
+  translation: コメントを読み込み中...
+
+- id: articleLicenseFull_cc-by-4.0
+  translation: CC BY 4.0 - 複製、改変、商用利用が可能。ただし、クレジット表示が必要です。
+
+- id: articleLicenseFull_cc-by-sa-4.0
+  translation: CC BY-SA 4.0 - 商用利用が可能。クレジット表示と、同じライセンスでの継承が必要です。
+
+- id: articleLicenseFull_cc-by-nd-4.0
+  translation: CC BY-ND 4.0 - 改変せずにクレジット表示を行う場合、商用を含む共有が可能です。
+
+- id: articleLicenseFull_cc-by-nc-4.0
+  translation: CC BY-NC 4.0 - 非商用に限り、クレジット表示で複製・改変が可能です。
+
+- id: articleLicenseFull_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0 - 非商用に限り、クレジット表示と同一ライセンス継承で複製・改変が可能です。
+
+- id: articleLicenseFull_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0 - 非商用に限り、改変せずクレジット表示で共有が可能です。
+
+- id: articleLicenseFull_cc0-1.0
+  translation: CC0 1.0 - 可能な限りパブリックドメインに近い扱い。法令上可能な範囲で権利が放棄されています。
+
+- id: articleLicenseFull_arr
+  translation: すべての権利を留保 - 任意の再利用・変更・商用利用には許可が必要です。
+
+- id: lightboxCloseLabel
+  translation: ライトボックスを閉じる
+
+- id: footerPoweredBy
+  translation: "{{ .Hugo }} と {{ .Tralume }} によって提供"
+
+- id: calloutNoteLabel
+  translation: 注記
+
+- id: calloutTipLabel
+  translation: ヒント
+
+- id: calloutImportantLabel
+  translation: 重要
+
+- id: calloutWarningLabel
+  translation: 警告
+
+- id: calloutCautionLabel
+  translation: 注意
+
+- id: calloutDangerLabel
+  translation: 危険
+
+- id: friendsPageTitle
+  translation: 友達
+
+- id: friendsCardAriaLabel
+  translation: "リンクを開く: {{ .Name }}"
+
+- id: friendsAvatarAlt
+  translation: "{{ .Name }} のアバター"
+
+- id: friendsLanguageLabel
+  translation: "言語: {{ .Language }}"
+
+- id: friendListEmpty
+  translation: まだリンクがありません。サイト管理者が data/friends.yaml に友達リンクを追加してください。
+
+- id: umamiBlockedNotice
+  translation: 解析リクエストがブロックされています。ページビュー数などの統計機能が表示されません。
+
+- id: umamiBlockedIgnore
+  translation: 今後表示しない
+
+- id: umamiBlockedMore
+  translation: 詳細
+
+- id: umamiBlockedClose
+  translation: 閉じる
+
+- id: umamiBlockedDialogGreeting
+  translation: ご訪問ありがとうございます。
+
+- id: umamiBlockedDialogIntro
+  translation: 当サイトでは、セルフホスト型のプライバシー重視な解析ツールを使用し、記事の閲覧数や基本的なアクセス状況を把握しています。個人識別情報の収集、サイト間追跡、広告配信は一切行いません。
+
+- id: umamiBlockedDialogBlocked
+  translation: 現在、解析ツールがこのページで利用できません。閲覧数や人気コンテンツなどの統計に依存する機能に影響します。
+
+- id: umamiBlockedDialogCauses
+  translation: これは通常、広告ブロッカーやプライバシー保護拡張機能（uBlock Origin、AdGuard など）が解析リクエストを遮断することによるものです。
+
+- id: umamiBlockedDialogRequest
+  translation: 当サイトをサポートしていただける場合は、ブロッカーの設定でこのドメインをホワイトリストに追加してください。より充実した体験とサイト改善にご協力いただけます。
+
+- id: umamiBlockedDialogGuides
+  translation: 具体的な手順については、以下の公式ガイドをご覧ください：
+
+- id: umamiBlockedDialogGuideUblock
+  translation: uBlock Origin
+
+- id: umamiBlockedDialogGuideUblockLink
+  translation: https://github.com/gorhill/uBlock/wiki/How-to-mark-a-web-site-as-trusted
+
+- id: umamiBlockedDialogGuideAdguard
+  translation: AdGuard
+
+- id: umamiBlockedDialogGuideBrave
+  translation: Brave Shields
+
+- id: umamiBlockedDialogFooter
+  translation: ホワイトリストに追加しなくても、当サイトのすべてのコンテンツを閲覧できます。
+
+- id: backgroundAttributionBarFormat
+  translation: "写真提供: {photographer} / {license}"
+
+- id: backgroundAttributionTitle
+  translation: 背景画像の帰属表示
+
+- id: backgroundAttributionPhotographer
+  translation: 撮影者
+
+- id: backgroundAttributionLicense
+  translation: ライセンス
+
+- id: backgroundAttributionSource
+  translation: 出典
+
+- id: backgroundAttributionClose
+  translation: 閉じる
+
+- id: backgroundLicenseShort_cc-by-4.0
+  translation: CC BY 4.0
+
+- id: backgroundLicenseShort_cc-by-sa-4.0
+  translation: CC BY-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nd-4.0
+  translation: CC BY-ND 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-4.0
+  translation: CC BY-NC 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0
+
+- id: backgroundLicenseShort_cc0-1.0
+  translation: CC0 1.0
+
+- id: backgroundLicenseShort_arr
+  translation: すべての権利を留保
+
+- id: searchOpenLabel
+  translation: 検索を開く
+
+- id: searchTitle
+  translation: 検索
+
+- id: searchPlaceholder
+  translation: 記事を検索...
+
+- id: searchCloseLabel
+  translation: 検索を閉じる
+
+- id: searchClearLabel
+  translation: 検索をクリア
+
+- id: searchResultsLabel
+  translation: 検索結果
+
+- id: searchNoResults
+  translation: 結果が見つかりません。
+
+- id: searchUnavailable
+  translation: 現在検索は利用できません。
+
+- id: searchUntitled
+  translation: 無題
+
+- id: searchSections
+  translation: "{count} 件の一致セクション"
+
+- id: articleCoverAlt
+  translation: "{{ .Title }} のカバー画像"

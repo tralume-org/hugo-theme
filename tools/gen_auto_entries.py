@@ -18,6 +18,8 @@ LANGUAGE_STORAGE_KEY = "tralume-language"
 LANGUAGE_FALLBACKS = {
     "zh": "zh-hans",
     "en": "en-us",
+    "ja": "ja",
+    "fr": "fr",
 }
 
 

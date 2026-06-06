@@ -8,8 +8,16 @@
 {{- $locale := $context.Site.Language.Locale | default $context.Site.Language.Lang -}}
 {{- $language := lower $locale -}}
 {{- $code := $locale -}}
-{{- if or (eq $language "zh-hans") (eq $language "zh-cn") (hasPrefix $language "zh") -}}
+{{- if or (eq $language "zh-hans") (eq $language "zh-cn") -}}
   {{- $code = "zh-CN" -}}
+{{- else if eq $language "zh-hant" -}}
+  {{- $code = "zh-TW" -}}
+{{- else if hasPrefix $language "zh" -}}
+  {{- $code = "zh-CN" -}}
+{{- else if eq $language "ja" -}}
+  {{- $code = "ja" -}}
+{{- else if eq $language "fr" -}}
+  {{- $code = "fr" -}}
 {{- else if hasPrefix $language "en" -}}
   {{- $code = "en" -}}
   {{- if eq $provider "waline" -}}

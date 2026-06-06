@@ -15,6 +15,24 @@ defaultContentLanguageInSubdir = true
     weight = 2
     title = 'Tralume 主题'
 
+  [languages.ja]
+    label = '日本語'
+    locale = 'ja'
+    weight = 3
+    title = 'Tralume テーマ'
+
+  [languages.fr]
+    label = 'Français'
+    locale = 'fr'
+    weight = 4
+    title = 'Thème Tralume'
+
+  [languages."zh-Hant"]
+    label = '繁體中文'
+    locale = 'zh-Hant'
+    weight = 5
+    title = 'Tralume 主題'
+
 [menu]
   [[menu.main]]
     identifier = 'home'

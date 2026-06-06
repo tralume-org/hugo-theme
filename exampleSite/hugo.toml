@@ -42,6 +42,24 @@ hasCJKLanguage = true
     weight = 2
     title = "Tralume Example"
 
+  [languages.ja]
+    label = '日本語'
+    locale = 'ja'
+    weight = 3
+    title = "Tralume サンプル"
+
+  [languages.fr]
+    label = 'Français'
+    locale = 'fr'
+    weight = 4
+    title = "Exemple Tralume"
+
+  [languages."zh-Hant"]
+    label = '繁體中文'
+    locale = 'zh-Hant'
+    weight = 5
+    title = "Tralume 範例"
+
 # ============================================================
 # 导航菜单
 # ============================================================

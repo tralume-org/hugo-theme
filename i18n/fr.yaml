@@ -1,0 +1,680 @@
+- id: mainNavAriaLabel
+  translation: Navigation principale
+
+- id: mobileMenuTitle
+  translation: Menu
+
+- id: mobileMenuOpenLabel
+  translation: Ouvrir le menu
+
+- id: mobileMenuCloseLabel
+  translation: Fermer le menu
+
+- id: skipToContent
+  translation: Aller au contenu principal
+
+- id: home
+  translation: Accueil
+
+- id: posts
+  translation: Articles
+
+- id: pages
+  translation: Pages
+
+- id: tags
+  translation: Étiquettes
+
+- id: friends
+  translation: Amis
+
+- id: pagesMenuAriaLabel
+  translation: Liste des pages
+
+- id: pagesMenuEmpty
+  translation: Aucune page trouvée pour le moment.
+
+- id: articlePublishedOn
+  translation: Publié le {{ .Date }}
+
+- id: articleReadingTime
+  translation: Environ {{ .Minutes }} min de lecture
+
+- id: articlePageviewsLabel
+  translation: Vues
+
+- id: outdatedWarning
+  translation: Cet article a été publié il y a plus de {{ .Days }} jours. Les informations peuvent ne plus être applicables.
+
+- id: aiMarkerListSeparator
+  translation: ", "
+
+- id: aiLevel_none
+  translation: Sans IA
+
+- id: aiLevel_assist
+  translation: Assisté par IA
+
+- id: aiLevel_coauthor
+  translation: Co-écrit avec l'IA
+
+- id: aiLevel_generate
+  translation: Généré par IA
+
+- id: aiLevel_translate
+  translation: Traduit par IA
+
+- id: aiReview_none
+  translation: Non précisé / non vérifié
+
+- id: aiReview_light
+  translation: Relecture légère
+
+- id: aiReview_edited
+  translation: Révisé
+
+- id: aiReview_fact_checked
+  translation: Vérifié (faits, données, citations clés)
+
+- id: aiUsage_outline
+  translation: Plan / structure
+
+- id: aiUsage_rewrite
+  translation: Réécriture / restructuration
+
+- id: aiUsage_expand
+  translation: Développement (ajout de détails)
+
+- id: aiUsage_summarize
+  translation: Résumé / compression
+
+- id: aiUsage_tone
+  translation: Ajustement du ton / style
+
+- id: aiUsage_grammar
+  translation: Corrections grammaticales
+
+- id: aiUsage_wording
+  translation: Améliorations de formulation
+
+- id: aiUsage_title
+  translation: Suggestions de titre / sous-titre
+
+- id: aiUsage_translate
+  translation: Traduction
+
+- id: aiUsage_research
+  translation: Orientation de recherche / synthèse
+
+- id: aiUsage_citation
+  translation: Aide à la citation
+
+- id: aiUsage_fact_check_help
+  translation: Aide à la vérification (signalement de points suspects)
+
+- id: aiUsage_code
+  translation: Génération / refactorisation de code
+
+- id: aiUsage_debug
+  translation: Suggestions de débogage
+
+- id: aiUsage_data
+  translation: Transformation de données / tableaux
+
+- id: aiUsage_image
+  translation: Assistance image / prompt
+
+- id: aiUsage_privacy
+  translation: Conseils de confidentialité / anonymisation
+
+- id: aiUsage_policy
+  translation: Vérification de conformité / formulation réglementaire
+
+- id: aiTool_chatgpt
+  translation: ChatGPT
+
+- id: aiTool_claude
+  translation: Claude
+
+- id: aiTool_gemini
+  translation: Gemini
+
+- id: aiTool_deepseek
+  translation: DeepSeek
+
+- id: aiTool_qwen
+  translation: Qwen
+
+- id: aiTool_other
+  translation: Autre
+
+- id: articleListEmpty
+  translation: Aucun article trouvé pour le moment. Revenez bientôt.
+
+- id: articleListViewMore
+  translation: Voir plus d'articles
+
+- id: articleListPagination
+  translation: Pagination des articles
+
+- id: articleListPaginationPages
+  translation: Pages de pagination
+
+- id: paginationPrevious
+  translation: Précédent
+
+- id: paginationNext
+  translation: Suivant
+
+- id: paginationPage
+  translation: Page {{ .Number }}
+
+- id: taxonomyTermCount
+  translation: "{{ .Count }} articles"
+
+- id: settingsPanelButtonLabel
+  translation: Paramètres
+
+- id: settingsPanelTitle
+  translation: Paramètres du site
+
+- id: settingsPanelCloseLabel
+  translation: Fermer les paramètres
+
+- id: settingsPanelCloseText
+  translation: Fermer
+
+- id: settingsPanelLanguageHeading
+  translation: Langue
+
+- id: settingsPanelModeHeading
+  translation: Mode du thème
+
+- id: settingsPanelModeAuto
+  translation: Suivre le système
+
+- id: settingsPanelModeLight
+  translation: Mode clair
+
+- id: settingsPanelModeDark
+  translation: Mode sombre
+
+- id: settingsPanelSeedLabel
+  translation: Couleur du thème personnalisée
+
+- id: settingsPanelSeedCustomShort
+  translation: Personnalisé
+
+- id: settingsPanelSeedOverrideLabel
+  translation: Remplacer la couleur de fond du thème
+
+- id: settingsPanelSeedPresetLabel
+  translation: Palette du thème (17 couleurs)
+
+- id: settingsPanelGlassRangeLabel
+  translation: Opacité
+
+- id: settingsPanelGlassLow
+  translation: Plus transparent
+
+- id: settingsPanelGlassHigh
+  translation: Plus opaque
+
+- id: settingsPanelGlassBlurLabel
+  translation: Rayon de flou
+
+- id: settingsPanelGlassBlurLow
+  translation: Plus net
+
+- id: settingsPanelGlassBlurHigh
+  translation: Plus doux
+
+- id: settingsPanelGlassBlurUnit
+  translation: px
+
+- id: settingsPanelGlassReset
+  translation: Réinitialiser par défaut
+
+- id: settingsPanelAppearanceHeading
+  translation: Apparence
+
+- id: settingsPanelReaderRangeLabel
+  translation: Largeur de lecture
+
+- id: settingsPanelReaderScaleCompact
+  translation: Plus étroit
+
+- id: settingsPanelReaderScaleWide
+  translation: Plus large
+
+- id: settingsPanelPostsScrollHeading
+  translation: Défilement de la liste des articles
+
+- id: settingsPanelPostsScrollPagination
+  translation: Pagination
+
+- id: settingsPanelPostsScrollInfinite
+  translation: Défilement infini
+
+- id: settingsPanelBackgroundHeading
+  translation: Fond personnalisé
+
+- id: settingsPanelBackgroundProviderTabsLabel
+  translation: Source du fond
+
+- id: settingsPanelBackgroundProviderUrl
+  translation: URL
+
+- id: settingsPanelBackgroundProviderUpload
+  translation: Importer
+
+- id: settingsPanelBackgroundProviderPixaroa
+  translation: Pixaroa
+
+- id: settingsPanelBackgroundSeedAlgorithmLabel
+  translation: Algorithme de couleur dynamique
+
+- id: settingsPanelBackgroundSeedAlgorithmWeightedAverage
+  translation: Moyenne pondérée (stable)
+
+- id: settingsPanelBackgroundSeedAlgorithmVibrantPixel
+  translation: Pixel vibrant (éclatant)
+
+- id: settingsPanelBackgroundSeedAlgorithmHueHistogram
+  translation: Histogramme de teinte (anti-dominance)
+
+- id: settingsPanelBackgroundSeedAlgorithmKmeansVibrant
+  translation: K-Means vibrant (diversifié)
+
+- id: settingsPanelBackgroundLabel
+  translation: URL de l'image
+
+- id: settingsPanelBackgroundPlaceholder
+  translation: ex. https://example.com/hero.webp
+
+- id: settingsPanelBackgroundUploadLabel
+  translation: Choisir une image
+
+- id: settingsPanelBackgroundUploadStatusEmpty
+  translation: Aucune image sélectionnée pour le moment.
+
+- id: settingsPanelBackgroundUploadStatusStored
+  translation: Une image de fond locale est enregistrée.
+
+- id: settingsPanelBackgroundUploadStatusSelected
+  translation: "Sélectionné : {{ .Name }}"
+
+- id: settingsPanelBackgroundPixaroaHostLabel
+  translation: Hôte Pixaroa
+
+- id: settingsPanelBackgroundPixaroaHostPlaceholder
+  translation: ex. https://pixaroa.example.com/
+
+- id: settingsPanelBackgroundPixaroaAdvancedSummary
+  translation: Options avancées
+
+- id: settingsPanelBackgroundPixaroaTierLabel
+  translation: Niveau
+
+- id: settingsPanelBackgroundPixaroaTierAuto
+  translation: Auto (selon la taille de l'écran)
+
+- id: settingsPanelBackgroundPixaroaTier1
+  translation: 1 (A · 360px)
+
+- id: settingsPanelBackgroundPixaroaTier2
+  translation: 2 (B · 720px)
+
+- id: settingsPanelBackgroundPixaroaTier3
+  translation: 3 (C · 1080px)
+
+- id: settingsPanelBackgroundPixaroaTier4
+  translation: 4 (D · 1440px)
+
+- id: settingsPanelBackgroundPixaroaTier5
+  translation: 5 (E · 2160px)
+
+- id: settingsPanelBackgroundPixaroaTier6
+  translation: 6 (F · original)
+
+- id: settingsPanelBackgroundPixaroaOrientationLabel
+  translation: Orientation
+
+- id: settingsPanelBackgroundPixaroaOrientationAuto
+  translation: Auto (adapter à l'écran)
+
+- id: settingsPanelBackgroundPixaroaOrientationLandscape
+  translation: Paysage
+
+- id: settingsPanelBackgroundPixaroaOrientationPortrait
+  translation: Portrait
+
+- id: settingsPanelBackgroundPixaroaOrientationSquare
+  translation: Carré
+
+- id: settingsPanelBackgroundPixaroaFormatLabel
+  translation: Format d'image
+
+- id: settingsPanelBackgroundPixaroaFormatAuto
+  translation: Auto (selon le navigateur)
+
+- id: settingsPanelBackgroundPixaroaFormatJxl
+  translation: JPEG XL (jxl)
+
+- id: settingsPanelBackgroundPixaroaFormatAvif
+  translation: AVIF (avif)
+
+- id: settingsPanelBackgroundPixaroaFormatWebp
+  translation: WebP (webp)
+
+- id: settingsPanelBackgroundPixaroaFormatJpeg
+  translation: JPEG (jpeg)
+
+- id: settingsPanelBackgroundPixaroaFormatPng
+  translation: PNG (png)
+
+- id: settingsPanelBackgroundPixaroaApply
+  translation: Fond aléatoire
+
+- id: settingsPanelBackgroundPixaroaStatusIdle
+  translation: Prêt à récupérer une photo aléatoire depuis Pixaroa.
+
+- id: settingsPanelBackgroundPixaroaStatusLoading
+  translation: Récupération de la photo Pixaroa…
+
+- id: settingsPanelBackgroundPixaroaStatusError
+  translation: Échec de la récupération. Veuillez vérifier l'hôte, les paramètres et la configuration CORS.
+
+- id: settingsPanelBackgroundBlurLabel
+  translation: Flou du fond
+
+- id: settingsPanelBackgroundBlurLow
+  translation: Plus net
+
+- id: settingsPanelBackgroundBlurHigh
+  translation: Plus doux
+
+- id: settingsPanelBackgroundBlurUnit
+  translation: px
+
+- id: settingsPanelBackgroundApply
+  translation: Appliquer le fond
+
+- id: settingsPanelBackgroundReset
+  translation: Supprimer le fond
+
+- id: rssAlternateTitle
+  translation: '{{ .SiteTitle }} · {{ .LanguageLabel }} Flux RSS'
+
+- id: footerRssSubscribe
+  translation: S'abonner au RSS
+
+- id: metaDescriptionHomeFallback
+  translation: Découvrez les derniers articles et pages sur {{ .SiteTitle }}.
+
+- id: metaDescriptionListFallback
+  translation: Parcourir {{ .PageTitle }} sur {{ .SiteTitle }}.
+
+- id: metaDescriptionTagsFallback
+  translation: Parcourir toutes les étiquettes sur {{ .SiteTitle }}.
+
+- id: metaDescriptionTagTermFallback
+  translation: Articles avec l'étiquette « {{ .Tag }} » sur {{ .SiteTitle }}.
+
+- id: codeBlockCopy
+  translation: Copier le code
+
+- id: codeBlockCopied
+  translation: Copié
+
+- id: articleReadingProgress
+  translation: Progression de lecture
+
+- id: articleOutlineAriaLabel
+  translation: Plan de l'article
+
+- id: articleOutlineOpenLabel
+  translation: Ouvrir le plan
+
+- id: articleOutlineCloseLabel
+  translation: Fermer le plan
+
+- id: articleOutlineTitle
+  translation: Table des matières
+
+- id: articleOutlineNavLabel
+  translation: Aller à la section
+
+- id: articleOutlineEmpty
+  translation: Le plan est généré après le chargement de la page. Assurez-vous que l'article contient des titres de niveau 2 ou supérieur si rien n'apparaît.
+
+- id: articleInfoAriaLabel
+  translation: Informations de l'article
+
+- id: articleInfoHeading
+  translation: Informations de l'article
+
+- id: articleInfoLicenseTitle
+  translation: Licence
+
+- id: articleInfoTitleLabel
+  translation: Titre
+
+- id: articleInfoPermalinkLabel
+  translation: Permalien
+
+- id: articleInfoWordCountLabel
+  translation: Nombre de mots
+
+- id: articleInfoWordCountValue
+  translation: "{{ .Count }} mots"
+
+- id: articleInfoPublishedAtLabel
+  translation: Publié
+
+- id: articleInfoUpdatedAtLabel
+  translation: Mis à jour
+
+- id: articleInfoCopyPermalink
+  translation: Copier le lien de l'article
+
+- id: articleInfoCopyPermalinkAriaLabel
+  translation: Copier le permalien
+
+- id: articleInfoCopied
+  translation: Copié
+
+- id: articleInfoEditThisPage
+  translation: Modifier cette page
+
+- id: articleCommentsAriaLabel
+  translation: Commentaires
+
+- id: articleCommentsHeading
+  translation: Commentaires
+
+- id: articleCommentsLoading
+  translation: Chargement des commentaires...
+
+- id: articleLicenseFull_cc-by-4.0
+  translation: CC BY 4.0 – Copie, modification et usage commercial autorisés, sous réserve d'attribution.
+
+- id: articleLicenseFull_cc-by-sa-4.0
+  translation: CC BY-SA 4.0 – Usage commercial autorisé avec attribution et partage sous la même licence.
+
+- id: articleLicenseFull_cc-by-nd-4.0
+  translation: CC BY-ND 4.0 – Partage autorisé, y compris commercial, sans modification et avec attribution.
+
+- id: articleLicenseFull_cc-by-nc-4.0
+  translation: CC BY-NC 4.0 – Copie et modification autorisées pour un usage non commercial, avec attribution.
+
+- id: articleLicenseFull_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0 – Usage non commercial autorisé avec attribution et partage sous la même licence.
+
+- id: articleLicenseFull_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0 – Partage non commercial uniquement, sans modification et avec attribution.
+
+- id: articleLicenseFull_cc0-1.0
+  translation: CC0 1.0 – Proche du domaine public ; les droits sont abandonnés dans la mesure permise par la loi.
+
+- id: articleLicenseFull_arr
+  translation: Tous droits réservés – Toute réutilisation, modification ou usage commercial nécessite une autorisation.
+
+- id: lightboxCloseLabel
+  translation: Fermer la visionneuse
+
+- id: footerPoweredBy
+  translation: Propulsé par {{ .Hugo }} et {{ .Tralume }}
+
+- id: calloutNoteLabel
+  translation: Note
+
+- id: calloutTipLabel
+  translation: Astuce
+
+- id: calloutImportantLabel
+  translation: Important
+
+- id: calloutWarningLabel
+  translation: Avertissement
+
+- id: calloutCautionLabel
+  translation: Attention
+
+- id: calloutDangerLabel
+  translation: Danger
+
+- id: friendsPageTitle
+  translation: Amis
+
+- id: friendsCardAriaLabel
+  translation: "Ouvrir le lien : {{ .Name }}"
+
+- id: friendsAvatarAlt
+  translation: "Avatar de {{ .Name }}"
+
+- id: friendsLanguageLabel
+  translation: "Langue : {{ .Language }}"
+
+- id: friendListEmpty
+  translation: Aucun lien pour le moment. Le propriétaire du site peut ajouter des entrées dans data/friends.yaml.
+
+- id: umamiBlockedNotice
+  translation: Les requêtes d'analyse sont bloquées, les statistiques ne peuvent pas s'afficher.
+
+- id: umamiBlockedIgnore
+  translation: Ne plus afficher
+
+- id: umamiBlockedMore
+  translation: En savoir plus
+
+- id: umamiBlockedClose
+  translation: Fermer
+
+- id: umamiBlockedDialogGreeting
+  translation: Merci de visiter ce site.
+
+- id: umamiBlockedDialogIntro
+  translation: Nous utilisons un outil d'analyse auto-hébergé et respectueux de la vie privée pour compter les lectures et comprendre le trafic de base. Il ne collecte pas d'identifiants personnels, ne suit pas entre les sites et ne diffuse pas de publicités.
+
+- id: umamiBlockedDialogBlocked
+  translation: L'outil d'analyse est actuellement inaccessible sur cette page, ce qui affecte les fonctionnalités dépendant des statistiques (comme le nombre de vues ou le contenu populaire).
+
+- id: umamiBlockedDialogCauses
+  translation: Cela est généralement dû aux bloqueurs de publicité ou aux extensions de confidentialité (comme uBlock Origin ou AdGuard) qui bloquent les requêtes d'analyse.
+
+- id: umamiBlockedDialogRequest
+  translation: Si vous souhaitez soutenir le site, vous pouvez ajouter ce domaine à la liste blanche de votre bloqueur pour une expérience plus complète et nous aider à nous améliorer.
+
+- id: umamiBlockedDialogGuides
+  translation: "Pour les étapes, consultez les guides officiels ci-dessous :"
+
+- id: umamiBlockedDialogGuideUblock
+  translation: uBlock Origin
+
+- id: umamiBlockedDialogGuideUblockLink
+  translation: https://github.com/gorhill/uBlock/wiki/How-to-mark-a-web-site-as-trusted
+
+- id: umamiBlockedDialogGuideAdguard
+  translation: AdGuard
+
+- id: umamiBlockedDialogGuideBrave
+  translation: Brave Shields
+
+- id: umamiBlockedDialogFooter
+  translation: Vous pouvez toujours parcourir et lire tout le contenu ici même sans liste blanche.
+
+- id: backgroundAttributionBarFormat
+  translation: Photo par {photographer} / {license}
+
+- id: backgroundAttributionTitle
+  translation: Attribution du fond
+
+- id: backgroundAttributionPhotographer
+  translation: Photographe
+
+- id: backgroundAttributionLicense
+  translation: Licence
+
+- id: backgroundAttributionSource
+  translation: Source
+
+- id: backgroundAttributionClose
+  translation: Fermer
+
+- id: backgroundLicenseShort_cc-by-4.0
+  translation: CC BY 4.0
+
+- id: backgroundLicenseShort_cc-by-sa-4.0
+  translation: CC BY-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nd-4.0
+  translation: CC BY-ND 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-4.0
+  translation: CC BY-NC 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0
+
+- id: backgroundLicenseShort_cc0-1.0
+  translation: CC0 1.0
+
+- id: backgroundLicenseShort_arr
+  translation: Tous droits réservés
+
+- id: searchOpenLabel
+  translation: Ouvrir la recherche
+
+- id: searchTitle
+  translation: Rechercher
+
+- id: searchPlaceholder
+  translation: Rechercher des articles...
+
+- id: searchCloseLabel
+  translation: Fermer la recherche
+
+- id: searchClearLabel
+  translation: Effacer la recherche
+
+- id: searchResultsLabel
+  translation: Résultats de recherche
+
+- id: searchNoResults
+  translation: Aucun résultat trouvé.
+
+- id: searchUnavailable
+  translation: La recherche est actuellement indisponible.
+
+- id: searchUntitled
+  translation: Sans titre
+
+- id: searchSections
+  translation: "{count} sections correspondantes"
+
+- id: articleCoverAlt
+  translation: "Image de couverture pour {{ .Title }}"

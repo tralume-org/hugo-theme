@@ -1,0 +1,680 @@
+- id: mainNavAriaLabel
+  translation: 主導航
+
+- id: mobileMenuTitle
+  translation: 選單
+
+- id: mobileMenuOpenLabel
+  translation: 開啟選單
+
+- id: mobileMenuCloseLabel
+  translation: 關閉選單
+
+- id: skipToContent
+  translation: 跳轉到主要內容
+
+- id: home
+  translation: 首頁
+
+- id: posts
+  translation: 文章
+
+- id: pages
+  translation: 頁面
+
+- id: tags
+  translation: 標籤
+
+- id: friends
+  translation: 朋友們
+
+- id: pagesMenuAriaLabel
+  translation: 頁面列表
+
+- id: pagesMenuEmpty
+  translation: 暫無頁面。
+
+- id: articlePublishedOn
+  translation: 發佈於 {{ .Date }}
+
+- id: articleReadingTime
+  translation: 約 {{ .Minutes }} 分鐘讀完
+
+- id: articlePageviewsLabel
+  translation: 閱讀量
+
+- id: outdatedWarning
+  translation: 本文發佈於 {{ .Days }} 天前，部分資訊可能已不再適用。
+
+- id: aiMarkerListSeparator
+  translation: "、"
+
+- id: aiLevel_none
+  translation: 未使用 AI
+
+- id: aiLevel_assist
+  translation: AI 輔助
+
+- id: aiLevel_coauthor
+  translation: AI 協作撰寫
+
+- id: aiLevel_generate
+  translation: AI 生成
+
+- id: aiLevel_translate
+  translation: AI 翻譯
+
+- id: aiReview_none
+  translation: 未說明 / 未做人工檢查
+
+- id: aiReview_light
+  translation: 已通讀檢查
+
+- id: aiReview_edited
+  translation: 已逐段校對與修訂
+
+- id: aiReview_fact_checked
+  translation: 關鍵事實 / 資料 / 引用已人工核對來源
+
+- id: aiUsage_outline
+  translation: 提綱 / 結構建議
+
+- id: aiUsage_rewrite
+  translation: 改寫 / 重組段落
+
+- id: aiUsage_expand
+  translation: 擴寫（補充細節）
+
+- id: aiUsage_summarize
+  translation: 摘要 / 壓縮
+
+- id: aiUsage_tone
+  translation: 語氣 / 風格調整
+
+- id: aiUsage_grammar
+  translation: 語法糾錯
+
+- id: aiUsage_wording
+  translation: 措辭最佳化 / 同義替換
+
+- id: aiUsage_title
+  translation: 標題 / 小標題建議
+
+- id: aiUsage_translate
+  translation: 翻譯
+
+- id: aiUsage_research
+  translation: 資料蒐集方向 / 整理
+
+- id: aiUsage_citation
+  translation: 引用格式 / 引用建議
+
+- id: aiUsage_fact_check_help
+  translation: 核對輔助（提示可疑點）
+
+- id: aiUsage_code
+  translation: 程式碼生成 / 改寫
+
+- id: aiUsage_debug
+  translation: 排錯 / 日誌分析建議
+
+- id: aiUsage_data
+  translation: 表格 / 資料整理與轉換
+
+- id: aiUsage_image
+  translation: 圖片 / 插圖提示詞或生成輔助
+
+- id: aiUsage_privacy
+  translation: 隱私 / 脫敏建議
+
+- id: aiUsage_policy
+  translation: 合規 / 措辭風險提示
+
+- id: aiTool_chatgpt
+  translation: ChatGPT
+
+- id: aiTool_claude
+  translation: Claude
+
+- id: aiTool_gemini
+  translation: Gemini
+
+- id: aiTool_deepseek
+  translation: DeepSeek
+
+- id: aiTool_qwen
+  translation: Qwen
+
+- id: aiTool_other
+  translation: 其他
+
+- id: articleListEmpty
+  translation: 暫無文章，歡迎稍後再來查看。
+
+- id: articleListViewMore
+  translation: 檢視更多文章
+
+- id: articleListPagination
+  translation: 文章分頁
+
+- id: articleListPaginationPages
+  translation: 分頁頁碼
+
+- id: paginationPrevious
+  translation: 上一頁
+
+- id: paginationNext
+  translation: 下一頁
+
+- id: paginationPage
+  translation: 第 {{ .Number }} 頁
+
+- id: taxonomyTermCount
+  translation: 共 {{ .Count }} 篇文章
+
+- id: settingsPanelButtonLabel
+  translation: 設定
+
+- id: settingsPanelTitle
+  translation: 站點設定
+
+- id: settingsPanelCloseLabel
+  translation: 關閉設定卡片
+
+- id: settingsPanelCloseText
+  translation: 關閉
+
+- id: settingsPanelLanguageHeading
+  translation: 語言
+
+- id: settingsPanelModeHeading
+  translation: 外觀模式
+
+- id: settingsPanelModeAuto
+  translation: 跟隨系統
+
+- id: settingsPanelModeLight
+  translation: 淺色模式
+
+- id: settingsPanelModeDark
+  translation: 深色模式
+
+- id: settingsPanelSeedLabel
+  translation: 自訂主題色
+
+- id: settingsPanelSeedCustomShort
+  translation: 自訂
+
+- id: settingsPanelSeedOverrideLabel
+  translation: 覆蓋背景主題色
+
+- id: settingsPanelSeedPresetLabel
+  translation: 主題色調色盤（17 色）
+
+- id: settingsPanelGlassRangeLabel
+  translation: 透明度
+
+- id: settingsPanelGlassLow
+  translation: 更透明
+
+- id: settingsPanelGlassHigh
+  translation: 更厚實
+
+- id: settingsPanelGlassBlurLabel
+  translation: 模糊半徑
+
+- id: settingsPanelGlassBlurLow
+  translation: 更清晰
+
+- id: settingsPanelGlassBlurHigh
+  translation: 更柔和
+
+- id: settingsPanelGlassBlurUnit
+  translation: 像素
+
+- id: settingsPanelGlassReset
+  translation: 恢復預設值
+
+- id: settingsPanelAppearanceHeading
+  translation: 外觀
+
+- id: settingsPanelReaderRangeLabel
+  translation: 閱讀寬度
+
+- id: settingsPanelReaderScaleCompact
+  translation: 更緊湊
+
+- id: settingsPanelReaderScaleWide
+  translation: 更寬
+
+- id: settingsPanelPostsScrollHeading
+  translation: 文章列表捲動
+
+- id: settingsPanelPostsScrollPagination
+  translation: 分頁
+
+- id: settingsPanelPostsScrollInfinite
+  translation: 無限捲動
+
+- id: settingsPanelBackgroundHeading
+  translation: 自訂背景
+
+- id: settingsPanelBackgroundProviderTabsLabel
+  translation: 背景來源
+
+- id: settingsPanelBackgroundProviderUrl
+  translation: 連結
+
+- id: settingsPanelBackgroundProviderUpload
+  translation: 本機圖片
+
+- id: settingsPanelBackgroundProviderPixaroa
+  translation: Pixaroa
+
+- id: settingsPanelBackgroundSeedAlgorithmLabel
+  translation: 動態取色演算法
+
+- id: settingsPanelBackgroundSeedAlgorithmWeightedAverage
+  translation: 加權平均（穩定）
+
+- id: settingsPanelBackgroundSeedAlgorithmVibrantPixel
+  translation: 鮮豔畫素（更亮）
+
+- id: settingsPanelBackgroundSeedAlgorithmHueHistogram
+  translation: 色相直方圖（抗偏色）
+
+- id: settingsPanelBackgroundSeedAlgorithmKmeansVibrant
+  translation: K-Means 鮮豔聚類（更分離）
+
+- id: settingsPanelBackgroundLabel
+  translation: 圖片連結
+
+- id: settingsPanelBackgroundPlaceholder
+  translation: 例如 https://example.com/hero.webp
+
+- id: settingsPanelBackgroundUploadLabel
+  translation: 選擇圖片
+
+- id: settingsPanelBackgroundUploadStatusEmpty
+  translation: 尚未選擇圖片。
+
+- id: settingsPanelBackgroundUploadStatusStored
+  translation: 已儲存一張背景圖片（本機）。
+
+- id: settingsPanelBackgroundUploadStatusSelected
+  translation: 已選擇：{{ .Name }}
+
+- id: settingsPanelBackgroundPixaroaHostLabel
+  translation: Pixaroa 服務地址（Host）
+
+- id: settingsPanelBackgroundPixaroaHostPlaceholder
+  translation: 例如 https://pixaroa.example.com/
+
+- id: settingsPanelBackgroundPixaroaAdvancedSummary
+  translation: 進階參數
+
+- id: settingsPanelBackgroundPixaroaTierLabel
+  translation: 清晰度（Tier）
+
+- id: settingsPanelBackgroundPixaroaTierAuto
+  translation: 自動（按螢幕尺寸）
+
+- id: settingsPanelBackgroundPixaroaTier1
+  translation: 1（A · 360px）
+
+- id: settingsPanelBackgroundPixaroaTier2
+  translation: 2（B · 720px）
+
+- id: settingsPanelBackgroundPixaroaTier3
+  translation: 3（C · 1080px）
+
+- id: settingsPanelBackgroundPixaroaTier4
+  translation: 4（D · 1440px）
+
+- id: settingsPanelBackgroundPixaroaTier5
+  translation: 5（E · 2160px）
+
+- id: settingsPanelBackgroundPixaroaTier6
+  translation: 6（F · 原圖）
+
+- id: settingsPanelBackgroundPixaroaOrientationLabel
+  translation: 方向
+
+- id: settingsPanelBackgroundPixaroaOrientationAuto
+  translation: 自動（匹配螢幕）
+
+- id: settingsPanelBackgroundPixaroaOrientationLandscape
+  translation: 橫向
+
+- id: settingsPanelBackgroundPixaroaOrientationPortrait
+  translation: 豎向
+
+- id: settingsPanelBackgroundPixaroaOrientationSquare
+  translation: 方形
+
+- id: settingsPanelBackgroundPixaroaFormatLabel
+  translation: 影像格式
+
+- id: settingsPanelBackgroundPixaroaFormatAuto
+  translation: 自動（按瀏覽器支援 / 測試圖）
+
+- id: settingsPanelBackgroundPixaroaFormatJxl
+  translation: JPEG XL（jxl）
+
+- id: settingsPanelBackgroundPixaroaFormatAvif
+  translation: AVIF（avif）
+
+- id: settingsPanelBackgroundPixaroaFormatWebp
+  translation: WebP（webp）
+
+- id: settingsPanelBackgroundPixaroaFormatJpeg
+  translation: JPEG（jpeg）
+
+- id: settingsPanelBackgroundPixaroaFormatPng
+  translation: PNG（png）
+
+- id: settingsPanelBackgroundPixaroaApply
+  translation: 隨機一張
+
+- id: settingsPanelBackgroundPixaroaStatusIdle
+  translation: 準備從 Pixaroa 獲取隨機背景。
+
+- id: settingsPanelBackgroundPixaroaStatusLoading
+  translation: 正在獲取 Pixaroa 背景…
+
+- id: settingsPanelBackgroundPixaroaStatusError
+  translation: 獲取失敗，請檢查 Host、參數與 CORS 配置。
+
+- id: settingsPanelBackgroundBlurLabel
+  translation: 背景模糊
+
+- id: settingsPanelBackgroundBlurLow
+  translation: 更清晰
+
+- id: settingsPanelBackgroundBlurHigh
+  translation: 更柔和
+
+- id: settingsPanelBackgroundBlurUnit
+  translation: 像素
+
+- id: settingsPanelBackgroundApply
+  translation: 套用背景
+
+- id: settingsPanelBackgroundReset
+  translation: 清除背景
+
+- id: rssAlternateTitle
+  translation: '{{ .SiteTitle }} · {{ .LanguageLabel }} RSS 訂閱'
+
+- id: footerRssSubscribe
+  translation: RSS 訂閱
+
+- id: metaDescriptionHomeFallback
+  translation: 瀏覽 {{ .SiteTitle }} 的最新文章與頁面。
+
+- id: metaDescriptionListFallback
+  translation: 在 {{ .SiteTitle }} 瀏覽「{{ .PageTitle }}」相關內容。
+
+- id: metaDescriptionTagsFallback
+  translation: 瀏覽 {{ .SiteTitle }} 的全部標籤。
+
+- id: metaDescriptionTagTermFallback
+  translation: 查看 {{ .SiteTitle }} 中標記為「{{ .Tag }}」的文章。
+
+- id: codeBlockCopy
+  translation: 複製程式碼
+
+- id: codeBlockCopied
+  translation: 已複製
+
+- id: articleReadingProgress
+  translation: 閱讀進度
+
+- id: articleOutlineAriaLabel
+  translation: 文章大綱
+
+- id: articleOutlineOpenLabel
+  translation: 開啟文章大綱
+
+- id: articleOutlineCloseLabel
+  translation: 關閉文章大綱
+
+- id: articleOutlineTitle
+  translation: 內容大綱
+
+- id: articleOutlineNavLabel
+  translation: 跳轉到對應章節
+
+- id: articleOutlineEmpty
+  translation: 大綱將在頁面渲染後生成，若未出現請確認正文包含二級以上標題。
+
+- id: articleInfoAriaLabel
+  translation: 文章資訊
+
+- id: articleInfoHeading
+  translation: 文章資訊
+
+- id: articleInfoLicenseTitle
+  translation: 授權條款
+
+- id: articleInfoTitleLabel
+  translation: 標題
+
+- id: articleInfoPermalinkLabel
+  translation: 文章連結
+
+- id: articleInfoWordCountLabel
+  translation: 字數
+
+- id: articleInfoWordCountValue
+  translation: "{{ .Count }} 字"
+
+- id: articleInfoPublishedAtLabel
+  translation: 發佈時間
+
+- id: articleInfoUpdatedAtLabel
+  translation: 更新時間
+
+- id: articleInfoCopyPermalink
+  translation: 複製文章連結
+
+- id: articleInfoCopyPermalinkAriaLabel
+  translation: 複製永久連結
+
+- id: articleInfoCopied
+  translation: 已複製
+
+- id: articleInfoEditThisPage
+  translation: 編輯此頁面
+
+- id: articleCommentsAriaLabel
+  translation: 留言區
+
+- id: articleCommentsHeading
+  translation: 留言
+
+- id: articleCommentsLoading
+  translation: 正在載入留言...
+
+- id: articleLicenseFull_cc-by-4.0
+  translation: CC BY 4.0 - 可自由轉載、修改或商用，僅需署名。
+
+- id: articleLicenseFull_cc-by-sa-4.0
+  translation: CC BY-SA 4.0 - 可商用，但需署名並使用相同方式分享。
+
+- id: articleLicenseFull_cc-by-nd-4.0
+  translation: CC BY-ND 4.0 - 可商用轉載，但需署名且不可修改原文。
+
+- id: articleLicenseFull_cc-by-nc-4.0
+  translation: CC BY-NC 4.0 - 僅限非商業用途，需署名。
+
+- id: articleLicenseFull_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0 - 僅限非商業用途，需署名並使用相同方式分享。
+
+- id: articleLicenseFull_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0 - 僅限非商業用途，需署名且不可修改原文。
+
+- id: articleLicenseFull_cc0-1.0
+  translation: CC0 1.0 - 公有領域，無版權限制，請隨意使用。
+
+- id: articleLicenseFull_arr
+  translation: 保留所有權利 - 版權所有，未經允許請勿轉載。
+
+- id: lightboxCloseLabel
+  translation: 關閉燈箱
+
+- id: footerPoweredBy
+  translation: 由 {{ .Hugo }} 與 {{ .Tralume }} 提供支援
+
+- id: calloutNoteLabel
+  translation: 註釋
+
+- id: calloutTipLabel
+  translation: 小提示
+
+- id: calloutImportantLabel
+  translation: 重要
+
+- id: calloutWarningLabel
+  translation: 警告
+
+- id: calloutCautionLabel
+  translation: 注意
+
+- id: calloutDangerLabel
+  translation: 危險
+
+- id: friendsPageTitle
+  translation: 朋友們
+
+- id: friendsCardAriaLabel
+  translation: 開啟連結：{{ .Name }}
+
+- id: friendsAvatarAlt
+  translation: "{{ .Name }} 的頭像"
+
+- id: friendsLanguageLabel
+  translation: 站點語言：{{ .Language }}
+
+- id: friendListEmpty
+  translation: 暫無連結。站點管理員可在 data/friends.yaml 中新增友鏈條目。
+
+- id: umamiBlockedNotice
+  translation: 統計請求被攔截，閱讀量等統計功能將無法顯示。
+
+- id: umamiBlockedIgnore
+  translation: 不再提示
+
+- id: umamiBlockedMore
+  translation: 檢視更多
+
+- id: umamiBlockedClose
+  translation: 關閉
+
+- id: umamiBlockedDialogGreeting
+  translation: 感謝你訪問本站。
+
+- id: umamiBlockedDialogIntro
+  translation: 本站正在使用自行託管的匿名統計工具，以統計文章閱讀量和瞭解基本訪問情況。這些統計不會收集任何個人身份資訊，也不會進行跨站追蹤或用於廣告行銷。
+
+- id: umamiBlockedDialogBlocked
+  translation: 目前網頁檢測到統計工具無法訪問，這會影響依賴統計資料的功能（例如閱讀量展示、熱門內容統計等）。
+
+- id: umamiBlockedDialogCauses
+  translation: 這通常是由廣告攔截或隱私保護擴充功能（如 uBlock Origin、AdGuard 等）攔截統計請求導致的，即便本站所使用的工具以隱私優先。
+
+- id: umamiBlockedDialogRequest
+  translation: 如果你願意支援本站，可以考慮在攔截擴充功能中為本站域名加入白名單，以獲得更完整的功能體驗，並幫助我們更好地改進網站。
+
+- id: umamiBlockedDialogGuides
+  translation: 如需瞭解具體操作方式，可檢視以下官方指南：
+
+- id: umamiBlockedDialogGuideUblock
+  translation: uBlock Origin
+
+- id: umamiBlockedDialogGuideUblockLink
+  translation: https://github.com/gorhill/uBlock/wiki/How-to-mark-a-web-site-as-trusted
+
+- id: umamiBlockedDialogGuideAdguard
+  translation: AdGuard
+
+- id: umamiBlockedDialogGuideBrave
+  translation: Brave Shields
+
+- id: umamiBlockedDialogFooter
+  translation: 無論是否加入白名單，你都可以正常訪問和閱讀本站的全部內容。
+
+- id: backgroundAttributionBarFormat
+  translation: 圖片由 {photographer} 提供 / {license}
+
+- id: backgroundAttributionTitle
+  translation: 背景圖片歸屬
+
+- id: backgroundAttributionPhotographer
+  translation: 攝影師
+
+- id: backgroundAttributionLicense
+  translation: 授權條款
+
+- id: backgroundAttributionSource
+  translation: 來源
+
+- id: backgroundAttributionClose
+  translation: 關閉
+
+- id: backgroundLicenseShort_cc-by-4.0
+  translation: CC BY 4.0
+
+- id: backgroundLicenseShort_cc-by-sa-4.0
+  translation: CC BY-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nd-4.0
+  translation: CC BY-ND 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-4.0
+  translation: CC BY-NC 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-sa-4.0
+  translation: CC BY-NC-SA 4.0
+
+- id: backgroundLicenseShort_cc-by-nc-nd-4.0
+  translation: CC BY-NC-ND 4.0
+
+- id: backgroundLicenseShort_cc0-1.0
+  translation: CC0 1.0
+
+- id: backgroundLicenseShort_arr
+  translation: 保留所有權利
+
+- id: searchOpenLabel
+  translation: 開啟搜尋
+
+- id: searchTitle
+  translation: 搜尋
+
+- id: searchPlaceholder
+  translation: 搜尋文章…
+
+- id: searchCloseLabel
+  translation: 關閉搜尋
+
+- id: searchClearLabel
+  translation: 清空搜尋
+
+- id: searchResultsLabel
+  translation: 搜尋結果
+
+- id: searchNoResults
+  translation: 未找到結果。
+
+- id: searchUnavailable
+  translation: 搜尋暫不可用。
+
+- id: searchUntitled
+  translation: 無標題
+
+- id: searchSections
+  translation: "{count} 個匹配段落"
+
+- id: articleCoverAlt
+  translation: "{{ .Title }} 的封面圖"

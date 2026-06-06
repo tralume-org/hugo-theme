@@ -12,19 +12,26 @@
     {{- $term := . -}}
     {{- $termPages := $term.Pages -}}
     {{- $localized := cond (ne $lang "") (where $termPages "Lang" $lang) $termPages -}}
-    {{/* 说明：与文章列表保持一致，额外用文件名后缀过滤，避免多语言内容混入。 */}}
+    {{/* 说明：与文章列表保持一致，根据所有已配置语言动态过滤文件名后缀，避免多语言内容混入。 */}}
     {{- $filtered := slice -}}
+    {{- $otherSuffixes := slice -}}
+    {{- range site.Languages -}}
+      {{- $otherLang := lower .Lang -}}
+      {{- if ne $otherLang $langLower -}}
+        {{- $otherSuffixes = $otherSuffixes | append (printf ".%s" $otherLang) -}}
+      {{- end -}}
+    {{- end -}}
     {{- range $localized -}}
       {{- $base := .File.BaseFileName -}}
       {{- if not (hasPrefix $base "_index") -}}
-        {{- if eq $langLower "zh-hans" -}}
-          {{- if or (in $base ".zh") (in $base ".zh-hans") -}}
-            {{- $filtered = $filtered | append . -}}
+        {{- $exclude := false -}}
+        {{- range $otherSuffixes -}}
+          {{- if in $base . -}}
+            {{- $exclude = true -}}
           {{- end -}}
-        {{- else -}}
-          {{- if not (or (in $base ".zh") (in $base ".zh-hans")) -}}
-            {{- $filtered = $filtered | append . -}}
-          {{- end -}}
+        {{- end -}}
+        {{- if not $exclude -}}
+          {{- $filtered = $filtered | append . -}}
         {{- end -}}
       {{- end -}}
     {{- end -}}
