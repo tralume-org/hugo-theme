@@ -1,6 +1,7 @@
 ---
 title: '"Edit this page" Link'
 weight: 100
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Shows an "Edit this page" button near the bottom of article pages, encouraging readers to propose fixes and improving content quality.

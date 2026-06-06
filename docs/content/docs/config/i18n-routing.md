@@ -1,6 +1,7 @@
 ---
 title: i18n Routing and Auto Entry Pages
 weight: 85
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Tralume lets Hugo generate every formal content URL normally, then adds the "smart language entry pages" as a post-build step.

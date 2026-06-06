@@ -1,6 +1,7 @@
 ---
 title: AI Contribution Marker
 weight: 90
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 As AI tools become common, disclosing how AI participated in your writing process is increasingly important. This feature renders a collapsible disclosure widget: by default it shows only the AI participation level (e.g. "AI-assisted"), and readers can click to expand and see the full details (usage areas, review level, tools used).

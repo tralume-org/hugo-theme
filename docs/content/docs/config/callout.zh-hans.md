@@ -1,6 +1,7 @@
 ---
 title: 提示框 (Callout)
 weight: 70
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Tralume 支持在 Markdown 内容中使用 GitHub 风格的提示框。使用 `> [!TYPE]` 语法渲染带图标和颜色的高亮提示块。

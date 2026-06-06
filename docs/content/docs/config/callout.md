@@ -1,6 +1,7 @@
 ---
 title: Callouts (Admonitions)
 weight: 70
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Tralume supports GitHub-style alert callouts in Markdown content. Use the `> [!TYPE]` syntax to render highlighted note blocks with appropriate icons and colors.

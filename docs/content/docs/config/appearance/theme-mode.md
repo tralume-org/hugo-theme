@@ -1,6 +1,7 @@
 ---
 title: Theme Mode & Theme Color
 weight: 10
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Controls the default color mode of your site and the default theme seed color. The theme supports following the system setting, forcing light/dark, and setting a default accent color.

@@ -1,6 +1,7 @@
 ---
 title: Terminology
 weight: 20
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 This page standardizes wording across the docs and the theme UI.

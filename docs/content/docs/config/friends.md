@@ -1,6 +1,7 @@
 ---
 title: Friends Links
 weight: 140
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Controls how links are displayed on the "Friends" page, including i18n grouping and manual weight ordering.

@@ -1,6 +1,7 @@
 ---
 title: Reading Width
 weight: 30
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Different screens benefit from different line lengths. This setting lets you choose a comfortable default maximum width for the reading area (as a percentage of viewport width).

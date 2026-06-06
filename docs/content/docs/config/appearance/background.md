@@ -1,6 +1,7 @@
 ---
 title: Custom Background
 weight: 40
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Controls the site background image source and background blur.

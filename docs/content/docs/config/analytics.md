@@ -1,6 +1,7 @@
 ---
 title: Analytics (Umami)
 weight: 120
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Integrates Umami, a lightweight and privacy-friendly analytics system, with optional "blocked script" notice, per-page views display, and built-in interaction events for theme components.

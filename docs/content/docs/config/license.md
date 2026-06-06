@@ -1,6 +1,7 @@
 ---
 title: Content License
-weight: 70
+weight: 80
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Tell readers how your content may be used (commercial use, derivatives, attribution, etc.).

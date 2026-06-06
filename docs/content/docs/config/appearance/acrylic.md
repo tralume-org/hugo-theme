@@ -1,6 +1,7 @@
 ---
 title: Acrylic Effect
 weight: 20
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Controls the acrylic (frosted glass) effect used by major surfaces (e.g. cards, navigation).
@@ -19,12 +20,13 @@ Set in `hugo.toml` at your site root:
 
 ## Settings panel controls
 
-The appearance tab in the settings panel provides two sliders:
+The appearance tab in the settings panel provides three sliders:
 
 1. **Opacity** (`settingsPanelGlassRangeLabel`): Controls how transparent the acrylic surfaces are. Range: 0%–95%, default: `defaultGlassStrength`.
 2. **Blur radius** (`settingsPanelGlassBlurLabel`): Controls the strength of the backdrop blur. Range: 0px–48px, default: 24px.
+3. **Background blur** (`settingsPanelBackgroundBlurLabel`): Controls the blur applied to the custom background image. Range: 0px–40px, default: 0px.
 
-Readers can adjust both in real time, and their choices are saved locally.
+Readers can adjust all three in real time, and their choices are saved locally.
 
 ## Priority rules
 

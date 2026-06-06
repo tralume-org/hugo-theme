@@ -1,6 +1,7 @@
 ---
 title: Outdated Content Notice
 weight: 150
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Tralume can automatically show a warning banner on article pages when the content is older than a configurable number of days. This helps readers understand that the information may no longer be up to date.

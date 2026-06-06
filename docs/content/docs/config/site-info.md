@@ -1,6 +1,7 @@
 ---
 title: Site Info & SEO
 weight: 50
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Controls the site description and search engine crawler rules (e.g. Google, Bing).

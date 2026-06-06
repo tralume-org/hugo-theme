@@ -1,6 +1,7 @@
 ---
 title: Quick Start
 weight: 10
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 ## Initialize the Site Repository Using the CLI

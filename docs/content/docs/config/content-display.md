@@ -1,6 +1,7 @@
 ---
 title: Content Display & Summaries
 weight: 60
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Controls homepage post limits, `/posts` and `/pages` pagination, and summary length in list cards.

@@ -1,6 +1,7 @@
 ---
 title: Custom Footer
 weight: 110
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Append your own items after the copyright and RSS link in the site footer.

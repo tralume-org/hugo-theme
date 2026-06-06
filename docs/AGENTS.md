@@ -34,8 +34,8 @@ hugo mod get
 开发预览：
 
 ```bash
-# 说明：在 docs/ 目录内启动 Hugo 开发服务器（含草稿与实时重载）。
-hugo server -D
+# 说明：在 docs/ 目录内启动 Hugo 开发服务器（含实时重载）。
+hugo server
 ```
 
 生产构建：

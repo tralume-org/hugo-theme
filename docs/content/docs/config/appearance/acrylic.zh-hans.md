@@ -1,6 +1,7 @@
 ---
 title: 亚克力效果
 weight: 20
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 控制页面各元素（如卡片、导航栏）的亚克力（磨砂玻璃）效果。
@@ -19,10 +20,11 @@ weight: 20
 
 ## 设置面板控件
 
-外观标签页提供了两个滑动条：
+外观标签页提供了三个滑动条：
 
 1. **透明度**（`settingsPanelGlassRangeLabel`）：控制亚克力表面的透明度。范围 0%–95%，默认值由 `defaultGlassStrength` 决定。
 2. **模糊半径**（`settingsPanelGlassBlurLabel`）：控制背景模糊的强度。范围 0px–48px，默认 24px。
+3. **背景模糊**（`settingsPanelBackgroundBlurLabel`）：控制自定义背景图片的模糊程度。范围 0px–40px，默认 0px。
 
 读者可实时调节，修改后的值会保存在本地。
 

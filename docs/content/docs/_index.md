@@ -1,6 +1,7 @@
 ---
 title: Documentation
-weight: 10
+weight: 1
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 ## Getting Started

@@ -1,6 +1,7 @@
 ---
 title: Configuration Overview
 weight: 30
+date: '2026-06-06T00:00:00+08:00'
 ---
 
 Tralume provides a rich set of customization options. You can tune the look and behavior via your site config (e.g. `hugo.toml`) or per-page Front Matter.
