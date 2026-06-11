@@ -27,6 +27,11 @@ Définissez dans `hugo.toml` à la racine de votre site :
   #   - https://pixaroa.example.com/   (recommandé : terminer par une barre oblique)
   #   - /pixaroa/                      (proxy inverse sur la même origine ; terminer également par une barre oblique)
   pixaroaHost = 'https://your-pixaroa-api.com/'
+
+  # Note : Stratégie de rafraîchissement automatique Pixaroa.
+  #   - 'session' (par défaut) : rafraîchir une fois par session de navigateur ; la navigation garde la même image.
+  #   - 'persist' : réutiliser la dernière image aléatoire récupérée.
+  pixaroaRefreshMode = 'session'
 ```
 
 ## Détails des fournisseurs
@@ -40,6 +45,19 @@ Lors de l'utilisation de Pixaroa, le panneau de paramètres expose des options s
 - **Format** (`settings_format`) : auto, jxl, avif, webp, jpeg ou png
 
 Ces paramètres sont envoyés à l'API Pixaroa et affectent les images retournées.
+
+### Stratégie de rafraîchissement Pixaroa
+
+Pour afficher un nouvel arrière-plan aléatoire chaque fois qu'un lecteur ouvre le site, tout en conservant la même image pendant la navigation de cette visite, définissez :
+
+```toml
+[params.theme]
+  defaultBackgroundProvider = 'pixaroa'
+  pixaroaHost = 'https://your-pixaroa-api.com/'
+  pixaroaRefreshMode = 'session'
+```
+
+`session` utilise le `sessionStorage` du navigateur pour mémoriser si la visite actuelle a déjà été rafraîchie. Après un rafraîchissement réussi, l'URL de l'image reste enregistrée localement pour être restaurée lors des chargements de page suivants de la même visite.
 
 ## Notes
 

@@ -2,6 +2,7 @@
 {{/* 说明：允许通过 params 预设默认 provider（仅作为“首次默认值”，localStorage 优先生效）。 */}}
 {{- $defaultBackgroundProvider := "url" -}}
 {{- $pixaroaDefaultHost := "" -}}
+{{- $pixaroaRefreshMode := "session" -}}
 {{- with site.Params.theme -}}
   {{- with .defaultbackgroundprovider -}}
     {{- $candidate := lower (strings.TrimSpace .) -}}
@@ -12,10 +13,17 @@
   {{- with .pixaroahost -}}
     {{- $pixaroaDefaultHost = strings.TrimSpace . -}}
   {{- end -}}
+  {{- with .pixaroarefreshmode -}}
+    {{- $candidate := lower (strings.TrimSpace .) -}}
+    {{- if or (eq $candidate "persist") (eq $candidate "session") -}}
+      {{- $pixaroaRefreshMode = $candidate -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 <section
   class="settings-panel__section settings-panel__section--background"
   data-background-section
+  data-pixaroa-refresh-mode="{{ $pixaroaRefreshMode }}"
   {{- if $pixaroaDefaultHost -}}
     {{/* 说明：属性字符串前置空格，避免被 `{{- -}}` 裁剪换行后与上一属性粘连。 */}}
     {{ printf ` data-pixaroa-default-host="%s"` $pixaroaDefaultHost | safeHTMLAttr }}

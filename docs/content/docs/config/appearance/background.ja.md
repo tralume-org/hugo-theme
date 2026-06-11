@@ -27,6 +27,11 @@ date: '2026-06-06T00:00:00+08:00'
   #   - https://pixaroa.example.com/   (recommended: end with a slash)
   #   - /pixaroa/                      (same-origin reverse proxy; also end with a slash)
   pixaroaHost = 'https://your-pixaroa-api.com/'
+
+  # Note: Pixaroa automatic refresh strategy.
+  #   - 'session' (default): refresh once per browser session; page navigation keeps the same image.
+  #   - 'persist': reuse the last fetched random image.
+  pixaroaRefreshMode = 'session'
 ```
 
 ## プロバイダーの詳細
@@ -40,6 +45,19 @@ Pixaroa を使用する場合、設定パネルには折りたたみ可能な「
 - **形式** (`settings_format`): auto、jxl、avif、webp、jpeg、png
 
 これらのパラメータは Pixaroa API に送信され、返される画像に影響します。
+
+### Pixaroa 更新戦略
+
+読者がサイトを開くたびに新しいランダム背景を表示し、同じ訪問中のページ移動では同じ画像を維持したい場合は、次のように設定します:
+
+```toml
+[params.theme]
+  defaultBackgroundProvider = 'pixaroa'
+  pixaroaHost = 'https://your-pixaroa-api.com/'
+  pixaroaRefreshMode = 'session'
+```
+
+`session` はブラウザの `sessionStorage` を使って、現在の訪問ですでに更新したかを記録します。更新に成功すると画像 URL はローカルにも保存されるため、同じ訪問中のページ読み込みでは復元できます。
 
 ## 注意事項
 

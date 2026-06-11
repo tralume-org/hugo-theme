@@ -27,6 +27,11 @@ Set in `hugo.toml` at your site root:
   #   - https://pixaroa.example.com/   (recommended: end with a slash)
   #   - /pixaroa/                      (same-origin reverse proxy; also end with a slash)
   pixaroaHost = 'https://your-pixaroa-api.com/'
+
+  # Note: Pixaroa automatic refresh strategy.
+  #   - 'session' (default): refresh once per browser session; page navigation keeps the same image.
+  #   - 'persist': reuse the last fetched random image.
+  pixaroaRefreshMode = 'session'
 ```
 
 ## Provider details
@@ -40,6 +45,19 @@ When using Pixaroa, the settings panel exposes additional options under an expan
 - **Format** (`settings_format`): auto, jxl, avif, webp, jpeg, or png
 
 These parameters are sent to the Pixaroa API and affect which images are returned.
+
+### Pixaroa refresh strategy
+
+To show readers a new random background each time they open the site, while keeping the same image during page navigation in that visit, set:
+
+```toml
+[params.theme]
+  defaultBackgroundProvider = 'pixaroa'
+  pixaroaHost = 'https://your-pixaroa-api.com/'
+  pixaroaRefreshMode = 'session'
+```
+
+`session` uses browser `sessionStorage` to record whether the current visit has already refreshed. After a successful refresh, the image URL is still saved locally so subsequent page loads in the same visit can restore it.
 
 ## Notes
 

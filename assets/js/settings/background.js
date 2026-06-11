@@ -141,6 +141,13 @@ export const setupBackgroundControl = (panel, root) => {
     backgroundSection instanceof HTMLElement
       ? (backgroundSection.getAttribute('data-pixaroa-default-host') || '').trim()
       : '';
+  // 说明：`session` 表示每个浏览器会话自动刷新一次 Pixaroa，站内跳页继续复用同一张图。
+  const pixaroaRefreshMode =
+    backgroundSection instanceof HTMLElement &&
+    backgroundSection.getAttribute('data-pixaroa-refresh-mode') === 'persist'
+      ? 'persist'
+      : 'session';
+  const pixaroaSessionRefreshStorageKey = 'tralume-pixaroa-session-refreshed';
 
   const backgroundUrlProvider = createUrlBackgroundProvider({
     root,
@@ -178,6 +185,31 @@ export const setupBackgroundControl = (panel, root) => {
       // 说明：忽略存储失败，避免影响基础功能。
     }
   };
+
+  const hasPixaroaSessionRefreshed = () => {
+    if (pixaroaRefreshMode !== 'session') {
+      return false;
+    }
+    try {
+      return window.sessionStorage.getItem(pixaroaSessionRefreshStorageKey) === '1';
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const markPixaroaSessionRefreshed = () => {
+    if (pixaroaRefreshMode !== 'session') {
+      return;
+    }
+    try {
+      window.sessionStorage.setItem(pixaroaSessionRefreshStorageKey, '1');
+    } catch (error) {
+      // 说明：会话存储不可用时退化为当前页面内生效，不阻断背景加载。
+    }
+  };
+
+  const shouldRefreshPixaroaForSession = () =>
+    pixaroaRefreshMode === 'session' && !hasPixaroaSessionRefreshed();
 
   const syncSeedAlgorithmSelect = (provider = activeProvider) => {
     if (!(backgroundSeedAlgorithmSelect instanceof HTMLSelectElement)) {
@@ -537,6 +569,7 @@ export const setupBackgroundControl = (panel, root) => {
           // 说明：Pixaroa 生效后，清理其他 provider 的运行时状态，避免按钮逻辑误判。
           backgroundUrlProvider.deactivate();
           backgroundUploadProvider.releaseObjectUrl();
+          markPixaroaSessionRefreshed();
           persistProvider('pixaroa');
           syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
@@ -573,18 +606,25 @@ export const setupBackgroundControl = (panel, root) => {
       setUploadStatus({ mode: blob ? 'stored' : 'empty' });
       syncProviderButtonsState({ hasSelectedFile: false });
     });
-    const applied = pixaroaBackgroundProvider.applyStored({ persistValue: false });
+    const shouldRefreshForSession = shouldRefreshPixaroaForSession();
+    const applied = shouldRefreshForSession
+      ? false
+      : pixaroaBackgroundProvider.applyStored({ persistValue: false });
     if (!applied) {
-      // 说明：若无法从本地恢复（可能是存储不可用），则尝试按当前屏幕/浏览器能力拉取一次随机图。
+      // 说明：会话刷新模式下，每个会话第一次访问会强制拉新图；否则仅在无法恢复本地图时拉取。
       if (pixaroaApplyButton instanceof HTMLButtonElement) {
         pixaroaApplyButton.disabled = true;
       }
       setPixaroaStatus('loading');
       void pixaroaBackgroundProvider
-        .applyRandom({ config: readPixaroaConfigFromInputs(), persistValue: false })
+        .applyRandom({
+          config: readPixaroaConfigFromInputs(),
+          persistValue: shouldRefreshForSession,
+        })
         .then(() => {
           backgroundUrlProvider.deactivate();
           backgroundUploadProvider.releaseObjectUrl();
+          markPixaroaSessionRefreshed();
           syncProviderButtonsState({ hasSelectedFile: false });
           setPixaroaStatus('idle');
           backgroundThemeSeedCoordinator.onProviderApplied('pixaroa');
@@ -735,6 +775,7 @@ export const setupBackgroundControl = (panel, root) => {
           // 说明：Pixaroa 生效后，清理其他 provider 的运行时状态，避免按钮逻辑误判。
           backgroundUrlProvider.deactivate();
           backgroundUploadProvider.releaseObjectUrl();
+          markPixaroaSessionRefreshed();
           // 说明：将 provider 选择也持久化，确保刷新后继续使用 Pixaroa。
           persistProvider('pixaroa');
           syncProviderButtonsState({ hasSelectedFile: false });

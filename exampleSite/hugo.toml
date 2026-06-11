@@ -211,6 +211,10 @@ hasCJKLanguage = true
     # 说明：Pixaroa 服务地址（使用 pixaroa 时需要填写）。
     # pixaroaHost = 'https://pixaroa.example.com/'
 
+    # 说明：Pixaroa 自动刷新策略（session / persist）。
+    # session：每个浏览器会话首次访问刷新一次，站内跳页不刷新；persist：复用上次随机图。
+    pixaroaRefreshMode = 'session'
+
   # ========== 过时内容提醒 ==========
   # 说明：文章超过此天数后显示过时提醒，默认 180 天。
   outdatedThresholdDays = 365

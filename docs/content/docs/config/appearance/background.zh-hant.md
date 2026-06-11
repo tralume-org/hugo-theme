@@ -27,6 +27,11 @@ date: '2026-06-06T00:00:00+08:00'
   #   - https://pixaroa.example.com/   （建議：以斜線結尾）
   #   - /pixaroa/                      （同源反向代理；也以斜線結尾）
   pixaroaHost = 'https://your-pixaroa-api.com/'
+
+  # 注意：Pixaroa 自動刷新策略。
+  #   - 'session'（預設）：每個瀏覽器工作階段首次訪問刷新一次，站內切換頁面不刷新。
+  #   - 'persist'：重用上次取得的隨機圖片。
+  pixaroaRefreshMode = 'session'
 ```
 
 ## 提供者詳細資訊
@@ -40,6 +45,19 @@ date: '2026-06-06T00:00:00+08:00'
 - **格式**（`settings_format`）：auto、jxl、avif、webp、jpeg 或 png
 
 這些參數會傳送到 Pixaroa API，影響傳回的圖片類型。
+
+### Pixaroa 刷新策略
+
+如果你希望讀者每次開啟網站都看到新的隨機背景，但在同一次訪問中切換頁面不換圖，請設定：
+
+```toml
+[params.theme]
+  defaultBackgroundProvider = 'pixaroa'
+  pixaroaHost = 'https://your-pixaroa-api.com/'
+  pixaroaRefreshMode = 'session'
+```
+
+`session` 使用瀏覽器的 `sessionStorage` 記錄本次訪問是否已刷新；刷新成功後仍會把圖片 URL 寫入本機快取，用於同一次訪問內的頁面跳轉恢復。
 
 ## 注意事項
 
