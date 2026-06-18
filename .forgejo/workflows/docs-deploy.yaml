@@ -16,7 +16,7 @@ jobs:
   build-deploy:
     runs-on: docker-amd64
     container:
-      image: forgejo.alexma.top/alexma233/ci-images-hugo-wrangler:0.163.2
+      image: forgejo.alexma.top/alexma233/ci-images-hugo-wrangler:0.163.3
 
     steps:
       - name: Checkout
