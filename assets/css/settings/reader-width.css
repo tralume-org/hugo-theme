@@ -28,50 +28,7 @@
 }
 
 .settings-panel__reader-slider {
-  width: 100%;
-  appearance: none;
-  height: 0.4rem;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
-    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
-  );
-  outline: none;
   margin-block: 0.1rem 0.2rem;
-}
-
-.settings-panel__reader-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 1.2rem;
-  height: 1.2rem;
-  border-radius: 999px;
-  border: 2px solid var(--md-sys-color-on-primary);
-  background-color: var(--md-sys-color-primary);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
-  cursor: grab;
-  transition: transform 0.2s ease;
-}
-
-.settings-panel__reader-slider::-webkit-slider-thumb:active {
-  transform: scale(1.05);
-  cursor: grabbing;
-}
-
-.settings-panel__reader-slider::-moz-range-thumb {
-  width: 1.2rem;
-  height: 1.2rem;
-  border-radius: 999px;
-  border: 2px solid var(--md-sys-color-on-primary);
-  background-color: var(--md-sys-color-primary);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
-  cursor: grab;
-  transition: transform 0.2s ease;
-}
-
-.settings-panel__reader-slider:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 3px;
 }
 
 .settings-panel__reader-scale {

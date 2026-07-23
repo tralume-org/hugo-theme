@@ -146,24 +146,8 @@
 
 /* 说明：关闭按钮采用圆形轻量样式，并复用亚克力底色方便触达。 */
 .settings-panel__close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: 3.25rem;
-  block-size: 2.5rem;
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: var(--md-sys-typescale-label-large-size);
-  font-weight: 600;
-  cursor: pointer;
-  --app-glass-radius: var(--settings-panel-pill-radius);
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.settings-panel__close:hover,
-.settings-panel__close:focus-visible {
-  border-color: var(--md-sys-color-outline-variant);
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
+  --app-button-min-height: 2.5rem;
+  --app-button-padding-inline: 0.95rem;
 }
 
 /* 说明：内容区撑满剩余空间，溢出时允许滚动以容纳更多设置项。 */
@@ -229,28 +213,8 @@
 }
 
 .settings-panel__language-select {
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  border-radius: 0.875rem;
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
-  color: var(--md-sys-color-on-surface);
-  font-family: inherit;
-  font-size: var(--md-sys-typescale-body-medium-size);
-  line-height: var(--md-sys-typescale-body-medium-line-height);
-  cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
-}
-
-.settings-panel__language-select:hover {
-  border-color: var(--md-sys-color-primary);
-}
-
-.settings-panel__language-select:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
+  padding-block: 0.6rem;
+  padding-inline: 0.75rem;
 }
 
 @media (max-width: 48rem) {

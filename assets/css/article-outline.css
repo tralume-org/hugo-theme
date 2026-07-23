@@ -171,43 +171,7 @@
 /* 说明：全屏大纲模式下的关闭按钮（仅在打开状态显示）。 */
 .article__outline-close {
   display: none;
-  align-items: center;
-  justify-content: center;
-  inline-size: 3.25rem;
-  block-size: 3.25rem;
-  padding: 0;
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: 1.75rem;
-  cursor: pointer;
-  --app-glass-radius: var(--app-radius-pill);
-  /* 说明：关闭按钮对齐移动端主菜单的关闭按钮：仅保留图标与可点击区域，避免出现“磨砂圆圈”。 */
-  border: 0;
-  background-color: transparent;
-  box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  transform: none;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.article__outline-close:hover,
-.article__outline-close:focus-visible,
-.article__outline-close:focus-within {
-  /* 说明：覆盖 .app-card--interactive 的抬升/阴影交互，使其行为与移动端主菜单关闭按钮一致。 */
-  transform: none;
-  box-shadow: none;
-  border-color: transparent;
-  background-color: transparent;
-  color: var(--app-text-accent-color);
-}
-
-.article__outline-close:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
-}
-
-.article__outline-close:active {
-  transform: translateY(1px);
+  --app-icon-button-hover-color: var(--app-text-accent-color);
 }
 
 @media (max-width: 63.999rem) {

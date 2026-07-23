@@ -58,9 +58,6 @@
 .bg-attribution-dialog__backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(36, 39, 41, 0.55);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
 }
 
 .bg-attribution-dialog__panel {
@@ -121,28 +118,6 @@
 .bg-attribution-dialog__close {
   margin-top: 0.25rem;
   align-self: center;
-  padding: 0.65rem 1.4rem;
-  /* 说明：按钮表面复用 .app-glass；这里仅覆盖圆角语义。 */
-  --app-glass-radius: var(--app-radius-pill);
-  color: var(--md-sys-color-on-surface);
-  font-size: var(--md-sys-typescale-label-large-size);
-  line-height: var(--md-sys-typescale-label-large-line-height);
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    transform 0.15s ease;
-}
-
-.bg-attribution-dialog__close:hover,
-.bg-attribution-dialog__close:focus-visible {
-  border-color: var(--md-sys-color-outline);
-  transform: translateY(-1px);
-  outline: none;
-}
-
-.bg-attribution-dialog__close:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
+  --app-button-padding-block: 0.65rem;
+  --app-button-padding-inline: 1.4rem;
 }

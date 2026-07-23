@@ -21,14 +21,14 @@
       <div class="umami-block-notice__actions">
         <button
           type="button"
-          class="umami-block-notice__button app-glass app-glass--elevated umami-block-notice__button--primary"
+          class="umami-block-notice__button app-button app-button--primary"
           data-umami-action="dismiss"
         >
           {{ i18n "umamiBlockedIgnore" }}
         </button>
         <button
           type="button"
-          class="umami-block-notice__button app-glass app-glass--elevated"
+          class="umami-block-notice__button app-button app-button--surface"
           data-umami-action="more"
         >
           {{ i18n "umamiBlockedMore" }}
@@ -42,7 +42,7 @@
       hidden
     >
       <div
-        class="umami-block-dialog__backdrop"
+        class="umami-block-dialog__backdrop app-backdrop"
         data-umami-dialog-part="backdrop"
         aria-hidden="true"
       ></div>
@@ -88,7 +88,7 @@
         </div>
         <button
           type="button"
-          class="umami-block-dialog__close app-glass app-glass--elevated"
+          class="umami-block-dialog__close app-button app-button--surface"
           data-umami-dialog-action="close"
         >
           {{ i18n "umamiBlockedClose" }}

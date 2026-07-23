@@ -42,36 +42,8 @@
 }
 
 .umami-block-notice__button {
-  padding: 0.5rem 0.9rem;
-  /* 说明：按钮表面复用 .app-glass；这里仅覆盖圆角语义。 */
-  --app-glass-radius: var(--app-radius-pill);
-  color: var(--md-sys-color-on-surface);
-  font-size: var(--md-sys-typescale-label-large-size);
-  line-height: var(--md-sys-typescale-label-large-line-height);
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    transform 0.15s ease;
-}
-
-.umami-block-notice__button:hover,
-.umami-block-notice__button:focus-visible {
-  border-color: var(--md-sys-color-outline);
-  transform: translateY(-1px);
-  outline: none;
-}
-
-.umami-block-notice__button:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
-}
-
-.umami-block-notice__button--primary {
-  border-color: transparent;
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
+  --app-button-padding-block: 0.5rem;
+  --app-button-padding-inline: 0.9rem;
 }
 
 .umami-block-dialog {
@@ -97,9 +69,6 @@
 .umami-block-dialog__backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(36, 39, 41, 0.55);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
 }
 
 .umami-block-dialog__panel {
@@ -152,28 +121,6 @@
 .umami-block-dialog__close {
   margin-top: auto;
   align-self: center;
-  padding: 0.65rem 1.4rem;
-  /* 说明：按钮表面复用 .app-glass；这里仅覆盖圆角语义。 */
-  --app-glass-radius: var(--app-radius-pill);
-  color: var(--md-sys-color-on-surface);
-  font-size: var(--md-sys-typescale-label-large-size);
-  line-height: var(--md-sys-typescale-label-large-line-height);
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    transform 0.15s ease;
-}
-
-.umami-block-dialog__close:hover,
-.umami-block-dialog__close:focus-visible {
-  border-color: var(--md-sys-color-outline);
-  transform: translateY(-1px);
-  outline: none;
-}
-
-.umami-block-dialog__close:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
+  --app-button-padding-block: 0.65rem;
+  --app-button-padding-inline: 1.4rem;
 }

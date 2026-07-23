@@ -3,7 +3,7 @@
    * 注意：默认隐藏，由 assets/js/search.js 控制展开/收起与键盘交互。 */}}
 {{- if site.Params.search.enable -}}
 <div
-  class="app-search__backdrop"
+  class="app-search__backdrop app-backdrop app-backdrop--soft"
   data-search-backdrop
   aria-hidden="true"
 ></div>
@@ -74,7 +74,7 @@
       data-search-input
     >
     <button
-      class="app-search__clear"
+      class="app-search__clear app-icon-button app-icon-button--compact"
       type="button"
       aria-label="{{ i18n "searchClearLabel" }}"
       data-search-clear
@@ -82,7 +82,7 @@
       <span class="material-symbols-rounded" aria-hidden="true">backspace</span>
     </button>
     <button
-      class="app-search__close"
+      class="app-search__close app-icon-button app-icon-button--compact"
       type="button"
       aria-label="{{ i18n "searchCloseLabel" }}"
       data-search-close

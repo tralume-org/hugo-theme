@@ -40,29 +40,8 @@
 /* 说明：移动端右侧菜单按钮（桌面端隐藏），用于展开全屏菜单面板。 */
 .app-mobile-menu__toggle {
   display: none;
-  align-items: center;
-  justify-content: center;
-  inline-size: 3.25rem;
-  block-size: 3.25rem;
-  padding: 0;
-  font-size: 1.75rem;
-  border: 0;
-  background: transparent;
-  color: var(--md-sys-color-on-surface);
-  cursor: pointer;
-  border-radius: var(--app-radius-pill);
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.app-mobile-menu__toggle:hover,
-.app-mobile-menu__toggle:focus-visible {
-  color: var(--md-sys-color-primary);
-}
-
-.app-mobile-menu__toggle:active {
-  transform: translateY(1px);
+  --app-icon-button-color: var(--md-sys-color-on-surface);
+  --app-icon-button-hover-color: var(--md-sys-color-primary);
 }
 
 /* 说明：顶栏右侧操作区容器，包裹搜索按钮 + 移动端菜单按钮。 */
@@ -75,32 +54,9 @@
 /* 说明：搜索入口按钮，始终可见于顶栏最右侧。
  * 样式与移动端菜单按钮一致（图标按钮、无背景、圆角胶囊形），便于视觉统一。 */
 .app-search__toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: 3.25rem;
-  block-size: 3.25rem;
-  padding: 0;
-  font-size: 1.75rem;
-  border: 0;
-  background: transparent;
-  color: var(--md-sys-color-on-surface);
-  cursor: pointer;
-  border-radius: var(--app-radius-pill);
-  transition:
-    color 0.2s ease,
-    background-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.app-search__toggle:hover,
-.app-search__toggle:focus-visible {
-  color: var(--md-sys-color-primary);
-  background-color: var(--md-sys-color-surface-container-highest);
-}
-
-.app-search__toggle:active {
-  transform: translateY(1px);
+  --app-icon-button-color: var(--md-sys-color-on-surface);
+  --app-icon-button-hover-color: var(--md-sys-color-primary);
+  --app-icon-button-hover-bg: var(--md-sys-color-surface-container-highest);
 }
 
 /* \u8bf4\u660e\uff1a\u5bfc\u822a\u6761\u540c\u6b65\u73bb\u7483\u5e95\u8272\uff0c\u786e\u4fdd\u4eae/\u6697\u6a21\u5f0f\u90fd\u6709\u67d4\u548c\u5bf9\u6bd4\u3002 */
@@ -326,33 +282,7 @@
 }
 
 .app-mobile-menu__close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: 3.25rem;
-  block-size: 3.25rem;
-  padding: 0;
-  font-size: 1.75rem;
-  border: 0;
-  background: transparent;
-  color: var(--md-sys-color-on-surface-variant);
-  cursor: pointer;
-  border-radius: var(--app-radius-pill);
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.app-mobile-menu__close:hover,
-.app-mobile-menu__close:focus-visible {
-  color: var(--md-sys-color-primary);
-}
-
-.app-mobile-menu__close:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
-}
-
-.app-mobile-menu__close:active {
-  transform: translateY(1px);
+  --app-icon-button-hover-color: var(--md-sys-color-primary);
 }
 
 .app-mobile-menu__nav {

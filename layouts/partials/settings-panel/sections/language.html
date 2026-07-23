@@ -8,7 +8,7 @@
     <span class="settings-panel__section-title-text">{{ i18n "settingsPanelLanguageHeading" }}</span>
   </div>
   <div class="settings-panel__select">
-    <select class="settings-panel__language-select" data-language-select aria-label="{{ i18n "settingsPanelLanguageHeading" }}">
+    <select class="settings-panel__language-select app-field" data-language-select aria-label="{{ i18n "settingsPanelLanguageHeading" }}">
       {{ range hugo.Sites }}
         {{ $isActive := eq .Language.Lang $currentSite.Language.Lang }}
         {{ $translationCandidates := where $translations "Language.Lang" .Language.Lang }}

@@ -11,34 +11,6 @@
 }
 
 .settings-panel__mode-button {
-  padding: 0.6rem 1rem;
-  border-radius: var(--settings-panel-pill-radius);
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
-  color: var(--md-sys-color-on-surface);
-  font-family: inherit;
-  font-size: var(--md-sys-typescale-label-large-size);
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
-}
-
-.settings-panel__mode-button:hover {
-  transform: translateY(-1px);
-  border-color: var(--md-sys-color-primary);
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-}
-
-.settings-panel__mode-button:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
-}
-
-.settings-panel__mode-button.is-active {
-  border-color: var(--md-sys-color-primary);
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
+  --app-button-padding-block: 0.6rem;
+  --app-button-padding-inline: 1rem;
 }

@@ -110,7 +110,7 @@
 	    <div class="article-info-card__actions" data-article-actions>
 	      <button
 	        type="button"
-	        class="article-info-card__button"
+	        class="article-info-card__button app-button app-button--elevated"
 	        data-article-permalink-copy
 	        data-copy-text="{{ .Permalink }}"
 	        data-copy-label="{{ i18n "articleInfoCopyPermalink" }}"
@@ -120,7 +120,7 @@
 	        {{ i18n "articleInfoCopyPermalink" }}
 	      </button>
 	      {{- if $editUrl -}}
-	        <a class="article-info-card__button" href="{{ $editUrl }}" target="_blank" rel="noopener noreferrer" data-source-edit-link data-target-url="{{ $editUrl }}">{{ i18n "articleInfoEditThisPage" }}</a>
+	        <a class="article-info-card__button app-button app-button--elevated" href="{{ $editUrl }}" target="_blank" rel="noopener noreferrer" data-source-edit-link data-target-url="{{ $editUrl }}">{{ i18n "articleInfoEditThisPage" }}</a>
 	      {{- end -}}
 	    </div>
 	  </div>

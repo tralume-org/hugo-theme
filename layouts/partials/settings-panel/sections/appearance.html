@@ -73,7 +73,7 @@
       {{ range $modeOptions }}
         <button
           type="button"
-          class="settings-panel__mode-button"
+          class="settings-panel__mode-button app-button app-button--surface"
           data-theme-mode-option="{{ .id }}"
           aria-pressed="false"
         >
@@ -90,7 +90,7 @@
     </div>
     <input
       id="settings-panel-glass-range"
-      class="settings-panel__glass-slider"
+      class="settings-panel__glass-slider app-slider"
       type="range"
       min="0"
       max="95"
@@ -119,7 +119,7 @@
     </div>
     <input
       id="settings-panel-glass-blur-range"
-      class="settings-panel__glass-slider"
+      class="settings-panel__glass-slider app-slider"
       type="range"
       min="0"
       max="48"
@@ -146,7 +146,7 @@
     </div>
     <input
       id="settings-panel-reader-range"
-      class="settings-panel__reader-slider"
+      class="settings-panel__reader-slider app-slider"
       type="range"
       min="{{ $readerSliderMin }}"
       max="{{ $readerSliderMax }}"
@@ -176,7 +176,7 @@
     </div>
     <input
       id="settings-panel-background-blur-range"
-      class="settings-panel__glass-slider"
+      class="settings-panel__glass-slider app-slider"
       type="range"
       min="0"
       max="40"
@@ -206,7 +206,7 @@
       </label>
       <input
         id="settings-panel-theme-seed-override"
-        class="settings-panel__seed-override-toggle"
+        class="settings-panel__seed-override-toggle app-switch"
         type="checkbox"
         role="switch"
         data-theme-seed-override-toggle
@@ -259,7 +259,7 @@
   </div>
 
   <div class="settings-panel__glass-controls settings-panel__appearance-actions">
-    <button type="button" class="settings-panel__glass-reset" data-appearance-reset>
+    <button type="button" class="settings-panel__glass-reset app-button app-button--surface" data-appearance-reset>
       {{ i18n "settingsPanelGlassReset" }}
     </button>
   </div>

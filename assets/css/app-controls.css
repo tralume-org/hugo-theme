@@ -1,0 +1,356 @@
+/* 说明：项目内通用控件层。
+ * 作用：统一按钮、图标按钮、表单字段、滑块、开关与遮罩的视觉规则。
+ * 注意：这里只负责控件外观；组件自己的布局、定位与显隐状态仍在各自 CSS 中维护。
+ */
+
+:root {
+  --app-control-border-color: var(--app-glass-border-color);
+  --app-control-surface-color: var(--app-glass-surface-color);
+  --app-control-elevated-color: var(--app-glass-elevated-color);
+  --app-control-focus-outline: 2px solid var(--md-sys-color-primary);
+  --app-control-focus-offset: 2px;
+  --app-control-hover-bg: var(--md-sys-color-primary-container);
+  --app-control-hover-color: var(--md-sys-color-on-primary-container);
+  --app-control-primary-hover-bg: color-mix(in srgb, var(--md-sys-color-primary) 92%, #000 8%);
+  --app-control-focus-shadow: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent);
+  --app-slider-thumb-shadow: 0 0 0 4px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  --app-backdrop-bg: rgba(36, 39, 41, 0.55);
+  --app-backdrop-bg-soft: rgba(0, 0, 0, 0.35);
+  --app-backdrop-blur: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-backdrop-bg-soft: rgba(0, 0, 0, 0.55);
+  }
+}
+
+:where(.app-button) {
+  --app-button-min-height: 2.5rem;
+  --app-button-padding-block: 0.6rem;
+  --app-button-padding-inline: 1rem;
+  --app-button-radius: var(--app-radius-pill);
+  --app-button-border-color: var(--app-control-border-color);
+  --app-button-bg: var(--app-control-surface-color);
+  --app-button-color: var(--md-sys-color-on-surface);
+  --app-button-hover-border-color: var(--md-sys-color-primary);
+  --app-button-hover-bg: var(--app-control-hover-bg);
+  --app-button-hover-color: var(--app-control-hover-color);
+  --app-button-lift-y: -1px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-block-size: var(--app-button-min-height);
+  padding: var(--app-button-padding-block) var(--app-button-padding-inline);
+  border-radius: var(--app-button-radius);
+  border: 1px solid var(--app-button-border-color);
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--app-button-bg);
+  color: var(--app-button-color);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+:where(.app-button):hover:not(:disabled),
+:where(.app-button):focus-visible:not(:disabled) {
+  border-color: var(--app-button-hover-border-color);
+  background-color: var(--app-button-hover-bg);
+  color: var(--app-button-hover-color);
+  text-decoration: none;
+  transform: translateY(var(--app-button-lift-y));
+}
+
+:where(.app-button):focus-visible {
+  outline: var(--app-control-focus-outline);
+  outline-offset: var(--app-control-focus-offset);
+}
+
+:where(.app-button):disabled,
+:where(.app-button)[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+:where(.app-button).is-active,
+:where(.app-button)[aria-pressed="true"],
+:where(.app-button--primary) {
+  --app-button-border-color: transparent;
+  --app-button-bg: var(--md-sys-color-primary);
+  --app-button-color: var(--md-sys-color-on-primary);
+  --app-button-hover-border-color: transparent;
+  --app-button-hover-bg: var(--app-control-primary-hover-bg);
+  --app-button-hover-color: var(--md-sys-color-on-primary);
+}
+
+:where(.app-button--surface) {
+  --app-button-bg: var(--app-control-surface-color);
+}
+
+:where(.app-button--elevated) {
+  --app-button-bg: var(--app-control-elevated-color);
+}
+
+:where(.app-button--compact) {
+  --app-button-padding-block: 0.45rem;
+  --app-button-padding-inline: 0.9rem;
+}
+
+:where(.app-icon-button) {
+  --app-icon-button-size: 3.25rem;
+  --app-icon-button-font-size: 1.75rem;
+  --app-icon-button-color: var(--md-sys-color-on-surface-variant);
+  --app-icon-button-hover-color: var(--app-text-accent-color);
+  --app-icon-button-hover-bg: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--app-icon-button-size);
+  block-size: var(--app-icon-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--app-radius-pill);
+  background: transparent;
+  color: var(--app-icon-button-color);
+  font-family: inherit;
+  font-size: var(--app-icon-button-font-size);
+  cursor: pointer;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+:where(.app-icon-button):hover,
+:where(.app-icon-button):focus-visible {
+  background-color: var(--app-icon-button-hover-bg);
+  color: var(--app-icon-button-hover-color);
+  text-decoration: none;
+}
+
+:where(.app-icon-button):focus-visible {
+  outline: var(--app-control-focus-outline);
+  outline-offset: var(--app-control-focus-offset);
+}
+
+:where(.app-icon-button):active {
+  transform: translateY(1px);
+}
+
+:where(.app-icon-button--compact) {
+  --app-icon-button-size: 2.5rem;
+  --app-icon-button-font-size: 1.375rem;
+}
+
+:where(.app-field) {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--app-radius-inline);
+  border: 1px solid var(--app-control-border-color);
+  background-color: var(--app-control-surface-color);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  line-height: var(--md-sys-typescale-body-medium-line-height);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
+  backdrop-filter: blur(var(--app-glass-blur-radius));
+}
+
+select.app-field {
+  cursor: pointer;
+}
+
+:where(.app-field):hover {
+  border-color: var(--md-sys-color-primary);
+}
+
+:where(.app-field):focus-visible {
+  outline: var(--app-control-focus-outline);
+  outline-offset: var(--app-control-focus-offset);
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--app-control-elevated-color);
+  box-shadow: var(--app-control-focus-shadow);
+}
+
+:where(.app-field)::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.45rem 0.85rem;
+  border: 0;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+:where(.app-field)::file-selector-button:hover {
+  background-color: var(--app-control-primary-hover-bg);
+}
+
+:where(.app-slider) {
+  width: 100%;
+  appearance: none;
+  height: 0.4rem;
+  border-radius: var(--app-radius-pill);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
+    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
+  );
+  outline: none;
+  margin-block: 0.1rem 0.2rem;
+}
+
+:where(.app-slider)::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: var(--app-slider-thumb-shadow);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+:where(.app-slider)::-moz-range-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  border: 2px solid var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary);
+  box-shadow: var(--app-slider-thumb-shadow);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+:where(.app-slider)::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+  cursor: grabbing;
+}
+
+:where(.app-slider):focus-visible {
+  outline: var(--app-control-focus-outline);
+  outline-offset: 3px;
+}
+
+:where(.app-switch) {
+  inline-size: 2.6rem;
+  block-size: 1.5rem;
+  margin: 0;
+  appearance: none;
+  border-radius: var(--app-radius-pill);
+  border: 1px solid var(--app-control-border-color);
+  background-color: var(--app-control-surface-color);
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+:where(.app-switch)::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0.15rem;
+  inset-block-start: 0.13rem;
+  inline-size: 1.02rem;
+  block-size: 1.02rem;
+  border-radius: 50%;
+  background-color: var(--md-sys-color-on-surface-variant);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+:where(.app-switch):checked {
+  border-color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 28%, transparent);
+}
+
+:where(.app-switch):checked::after {
+  transform: translateX(1.05rem);
+  background-color: var(--md-sys-color-primary);
+}
+
+:where(.app-switch):focus-visible {
+  outline: var(--app-control-focus-outline);
+  outline-offset: var(--app-control-focus-offset);
+}
+
+:where(.app-tab) {
+  flex: 1 1 auto;
+  padding: 0.45rem 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-large-size);
+  line-height: var(--md-sys-typescale-label-large-line-height);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+:where(.app-tab)::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.25rem;
+  inset-block-end: -0.25rem;
+  height: 0.2rem;
+  border-radius: var(--app-radius-pill);
+  background: transparent;
+  transition: background-color 0.2s ease;
+}
+
+:where(.app-tab)[aria-selected="true"] {
+  color: var(--md-sys-color-on-surface);
+}
+
+:where(.app-tab)[aria-selected="true"]::after {
+  background: var(--md-sys-color-primary);
+}
+
+:where(.app-tab):hover {
+  color: var(--app-text-accent-color);
+}
+
+:where(.app-tab):focus-visible {
+  outline: var(--app-control-focus-outline);
+  outline-offset: var(--app-control-focus-offset);
+  border-radius: var(--app-radius-inline);
+}
+
+:where(.app-backdrop) {
+  background-color: var(--app-backdrop-bg);
+  -webkit-backdrop-filter: blur(var(--app-backdrop-blur));
+  backdrop-filter: blur(var(--app-backdrop-blur));
+}
+
+:where(.app-backdrop--soft) {
+  --app-backdrop-bg: var(--app-backdrop-bg-soft);
+  --app-backdrop-blur: 0;
+}

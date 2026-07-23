@@ -34,42 +34,7 @@
 }
 
 .settings-panel__glass-slider {
-  width: 100%;
-  appearance: none;
-  height: 0.4rem;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--md-sys-color-primary) 85%, transparent),
-    color-mix(in srgb, var(--md-sys-color-primary) 55%, transparent)
-  );
-  outline: none;
   margin-block: 0.1rem 0.2rem;
-}
-
-.settings-panel__glass-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 1.2rem;
-  height: 1.2rem;
-  border-radius: 50%;
-  background-color: var(--md-sys-color-primary);
-  border: 2px solid var(--md-sys-color-on-primary);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-}
-
-.settings-panel__glass-slider::-moz-range-thumb {
-  width: 1.2rem;
-  height: 1.2rem;
-  border-radius: 50%;
-  background-color: var(--md-sys-color-primary);
-  border: 2px solid var(--md-sys-color-on-primary);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-}
-
-.settings-panel__glass-slider:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
 }
 
 .settings-panel__glass-scale {
@@ -96,27 +61,6 @@
 
 /* 说明：玻璃滑杆重置按钮同样使用亚克力底色，保持面板风格统一。 */
 .settings-panel__glass-reset {
-  padding: 0.4rem 0.9rem;
-  border-radius: var(--settings-panel-pill-radius);
-  border: 1px solid var(--app-glass-border-color);
-  background-color: var(--app-glass-surface-color);
-  color: var(--md-sys-color-on-surface);
-  font-size: var(--md-sys-typescale-label-large-size);
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  -webkit-backdrop-filter: blur(var(--app-glass-blur-radius));
-  backdrop-filter: blur(var(--app-glass-blur-radius));
-}
-
-.settings-panel__glass-reset:hover:not(:disabled) {
-  transform: translateY(-1px);
-  border-color: var(--md-sys-color-primary);
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-}
-
-.settings-panel__glass-reset:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  --app-button-padding-block: 0.4rem;
+  --app-button-padding-inline: 0.9rem;
 }

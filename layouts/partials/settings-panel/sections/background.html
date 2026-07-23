@@ -41,7 +41,7 @@
   >
     <button
       id="settings-panel-background-provider-tab-url"
-      class="settings-panel__background-provider-tab"
+      class="settings-panel__background-provider-tab app-tab"
       type="button"
       role="tab"
       aria-selected="{{ if eq $defaultBackgroundProvider "url" }}true{{ else }}false{{ end }}"
@@ -54,7 +54,7 @@
     </button>
     <button
       id="settings-panel-background-provider-tab-upload"
-      class="settings-panel__background-provider-tab"
+      class="settings-panel__background-provider-tab app-tab"
       type="button"
       role="tab"
       aria-selected="{{ if eq $defaultBackgroundProvider "upload" }}true{{ else }}false{{ end }}"
@@ -67,7 +67,7 @@
     </button>
     <button
       id="settings-panel-background-provider-tab-pixaroa"
-      class="settings-panel__background-provider-tab"
+      class="settings-panel__background-provider-tab app-tab"
       type="button"
       role="tab"
       aria-selected="{{ if eq $defaultBackgroundProvider "pixaroa" }}true{{ else }}false{{ end }}"
@@ -87,7 +87,7 @@
     <div class="settings-panel__background-field">
       <select
         id="settings-panel-background-seed-algorithm"
-        class="settings-panel__background-select"
+        class="settings-panel__background-select app-field"
         aria-label="{{ i18n "settingsPanelBackgroundSeedAlgorithmLabel" }}"
         data-background-seed-algorithm
       >
@@ -114,7 +114,7 @@
     <div class="settings-panel__background-field">
       <input
         id="settings-panel-background-input"
-        class="settings-panel__background-input"
+        class="settings-panel__background-input app-field"
         type="url"
         inputmode="url"
         placeholder="{{ i18n "settingsPanelBackgroundPlaceholder" }}"
@@ -125,7 +125,7 @@
     <div class="settings-panel__background-actions">
       <button
         type="button"
-        class="settings-panel__background-apply"
+        class="settings-panel__background-apply app-button app-button--primary"
         data-background-apply
         disabled
       >
@@ -133,7 +133,7 @@
       </button>
       <button
         type="button"
-        class="settings-panel__background-reset"
+        class="settings-panel__background-reset app-button app-button--surface"
         data-background-reset
         disabled
       >
@@ -157,7 +157,7 @@
     <div class="settings-panel__background-field">
       <input
         id="settings-panel-background-upload-input"
-        class="settings-panel__background-upload-input"
+        class="settings-panel__background-upload-input app-field"
         type="file"
         accept="image/*"
         aria-describedby="settings-panel-background-upload-status"
@@ -177,7 +177,7 @@
     <div class="settings-panel__background-actions">
       <button
         type="button"
-        class="settings-panel__background-apply"
+        class="settings-panel__background-apply app-button app-button--primary"
         data-background-upload-apply
         disabled
       >
@@ -185,7 +185,7 @@
       </button>
       <button
         type="button"
-        class="settings-panel__background-reset"
+        class="settings-panel__background-reset app-button app-button--surface"
         data-background-upload-reset
         disabled
       >
@@ -209,7 +209,7 @@
     <div class="settings-panel__background-field">
       <input
         id="settings-panel-background-pixaroa-host"
-        class="settings-panel__background-input"
+        class="settings-panel__background-input app-field"
         type="url"
         inputmode="url"
         placeholder="{{ i18n "settingsPanelBackgroundPixaroaHostPlaceholder" }}"
@@ -229,7 +229,7 @@
         <div class="settings-panel__background-field">
           <select
             id="settings-panel-background-pixaroa-tier"
-            class="settings-panel__background-select"
+            class="settings-panel__background-select app-field"
             aria-label="{{ i18n "settingsPanelBackgroundPixaroaTierLabel" }}"
             data-background-pixaroa-tier
           >
@@ -249,7 +249,7 @@
         <div class="settings-panel__background-field">
           <select
             id="settings-panel-background-pixaroa-orientation"
-            class="settings-panel__background-select"
+            class="settings-panel__background-select app-field"
             aria-label="{{ i18n "settingsPanelBackgroundPixaroaOrientationLabel" }}"
             data-background-pixaroa-orientation
           >
@@ -266,7 +266,7 @@
         <div class="settings-panel__background-field">
           <select
             id="settings-panel-background-pixaroa-format"
-            class="settings-panel__background-select"
+            class="settings-panel__background-select app-field"
             aria-label="{{ i18n "settingsPanelBackgroundPixaroaFormatLabel" }}"
             data-background-pixaroa-format
           >
@@ -294,14 +294,14 @@
     <div class="settings-panel__background-actions">
       <button
         type="button"
-        class="settings-panel__background-apply"
+        class="settings-panel__background-apply app-button app-button--primary"
         data-background-pixaroa-apply
       >
         {{ i18n "settingsPanelBackgroundPixaroaApply" }}
       </button>
       <button
         type="button"
-        class="settings-panel__background-reset"
+        class="settings-panel__background-reset app-button app-button--surface"
         data-background-pixaroa-reset
         disabled
       >
