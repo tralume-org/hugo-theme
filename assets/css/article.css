@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* 说明：文章正文块独立成亚克力表面，避免与大纲共享同一背景。 */
@@ -15,6 +17,8 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: var(--article-surface-padding, 1.75rem);
+  min-width: 0;
+  max-width: 100%;
   /* 说明：文章正文卡片复用通用亚克力表面，这里仅覆盖圆角与阴影层级。 */
   --app-glass-radius: var(--article-surface-radius, var(--app-radius-card));
   --app-card-shadow: var(--md-sys-elevation-level2);
@@ -129,18 +133,24 @@
   display: flex;
   flex-direction: column;
   gap: var(--article-layout-gap, 1.75rem);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .article__content {
   min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--article-section-gap, 0.75rem);
+  /* 说明：脚注、长 URL、长英文单词等 Markdown 产物不应撑破正文卡片。 */
+  overflow-wrap: anywhere;
 }
 
-/* 说明：正文容器使用 flex 列布局时，默认 min-width:auto 会让宽图/长代码按内容最小宽度撑破卡片；这里强制直接子元素可收缩。 */
+/* 说明：正文容器使用 flex 列布局时，默认 min-width:auto 会让宽图/长代码按内容最小宽度撑破卡片；这里强制直接子元素留在正文边界内。 */
 .article__content > * {
   min-width: 0;
+  max-width: 100%;
 }
 
 /* 说明：Markdown 图片默认按固有尺寸渲染；限制为不超过容器宽度并保持比例，避免溢出正文卡片。
