@@ -52,12 +52,12 @@
     {{- end -}}
     {{- $toolText := delimit $toolLabels $listSeparator -}}
 
-    {{/* 说明：AI 标记默认折叠为摘要（仅显示 AI 参与程度），点击展开可查看用途/复核/工具详情。 */}}
-    <details class="article__ai-marker">
-      <summary class="article__ai-marker-summary">
+    {{/* 说明：按钮与详情直接参与 meta 行内布局，展开内容会优先使用当前行剩余空间。 */}}
+    <span class="article__ai-marker" data-ai-marker>
+      <button class="article__ai-marker-summary" type="button" aria-expanded="false" data-ai-marker-toggle>
         <span class="article__meta-item article__ai-level">{{ $levelLabel }}</span>
-      </summary>
-      <div class="article__ai-marker-details">
+      </button>
+      <span class="article__ai-marker-details" data-ai-marker-details hidden>
         {{- $detailParts := slice -}}
         {{- if gt (len $usageLabels) 0 -}}
           {{- $detailParts = $detailParts | append (printf "<span class=\"article__meta-item article__ai-usage\">%s</span>" $usageText) -}}
@@ -68,7 +68,7 @@
         {{- end -}}
         {{- $sep := printf "<span class=\"article__meta-separator\" aria-hidden=\"true\">·</span>" -}}
         {{- delimit $detailParts $sep | safeHTML -}}
-      </div>
-    </details>
+      </span>
+    </span>
   {{- end -}}
 {{- end -}}

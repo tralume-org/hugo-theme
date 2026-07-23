@@ -71,27 +71,21 @@
   opacity: 0.7;
 }
 
-/* 说明：AI 参与度标记折叠组件，默认仅显示 AI 参与程度，点击展开查看用途/复核/工具详情。 */
-/* 作用：复用 article__meta 的色调与字号，通过 <details> 原生折叠行为实现零 JS 交互。 */
+/* 说明：AI 参与度标记折叠组件，展开内容优先使用当前 meta 行的剩余空间。 */
 .article__ai-marker {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  font-size: var(--md-sys-typescale-body-medium-size);
-  line-height: var(--md-sys-typescale-body-medium-line-height);
-  color: var(--md-sys-color-on-surface-variant);
-  white-space: nowrap;
+  display: contents;
 }
 
 .article__ai-marker-summary {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
   list-style: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-}
-
-.article__ai-marker-summary::-webkit-details-marker {
-  display: none;
 }
 
 /* 说明：行内展开使用横向箭头，折叠时向右，展开后向左提示可收起。 */
@@ -107,7 +101,7 @@
   opacity: 0.7;
 }
 
-.article__ai-marker[open] .article__ai-marker-summary::after {
+.article__ai-marker-summary[aria-expanded="true"]::after {
   transform: rotate(180deg);
 }
 
@@ -118,12 +112,17 @@
 }
 
 .article__ai-marker-details {
-  display: inline-flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 0.35rem;
-  margin-block-start: 0;
-  margin-inline-start: 0.35rem;
+  display: contents;
+}
+
+.article__ai-marker-details .article__meta-item {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.article__ai-marker-details[hidden] {
+  display: none;
 }
 
 .article__layout {

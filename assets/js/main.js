@@ -9,6 +9,7 @@ import { setupArticleListInfiniteScroll } from './article-list-infinite-scroll.j
 import { setupArticleListMasonry } from './article-list-masonry.js';
 import { setupChromaTheme } from './chroma-theme.js';
 import { setupArticleLightbox } from './article-lightbox.js';
+import { setupArticleAiMarker } from './article-ai-marker.js';
 import { setupSearch } from './search.js';
 
 // 说明：集中触发初始化逻辑，确保各个组件在 DOM 就绪后挂载事件。
@@ -25,6 +26,7 @@ const bootstrap = () => {
   setupArticleListInfiniteScroll();
   setupArticleListMasonry();
   setupArticleLightbox();
+  setupArticleAiMarker();
 };
 
 if (document.readyState === 'loading') {

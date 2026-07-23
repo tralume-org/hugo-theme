@@ -6,8 +6,8 @@
         <h1 class="article__title">{{ .Title }}</h1>
         {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
         {{ $dateHuman := .Date | time.Format ":date_long" }}
-        {{/* 说明：标题下信息栏，输出发布时间与预计阅读时间（Hugo .ReadingTime 为分钟）。 */}}
-        <p class="article__meta">
+        {{/* 说明：标题下信息栏，输出发布时间、预计阅读时间与 AI 参与度（Hugo .ReadingTime 为分钟）。 */}}
+        <div class="article__meta">
           <span class="article__meta-item">
             <time class="article__time" datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
           </span>
@@ -33,8 +33,11 @@
               <span class="article__pageviews-count" data-umami-pageviews-count aria-live="polite">—</span>
             </span>
           {{- end }}
-        </p>
-        {{ partial "article-ai-marker.html" . }}
+          {{- if and .Params.ai (ne (.Params.ai.level | default "none") "none") -}}
+            <span class="article__meta-separator" aria-hidden="true">·</span>
+            {{ partial "article-ai-marker.html" . }}
+          {{- end -}}
+        </div>
       </header>
       {{ partial "outdated-notice.html" . }}
       <div class="article__content" data-article-content data-pagefind-body>
