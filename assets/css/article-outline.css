@@ -276,6 +276,7 @@
 
   .article__surface,
   .article__info,
+  .article__comments-wrap,
   .article__comments {
     grid-column: 1;
   }
