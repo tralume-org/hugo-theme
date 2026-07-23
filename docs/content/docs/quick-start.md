@@ -23,7 +23,7 @@ If you plan to use a Git remote repository to store the site (such as Codeberg o
 Otherwise, you can fill in anything. Using your site name is recommended.
 {{< /callout >}}
 
-Run `hugo mod get forgejo.alexma.top/tralume-org/hugo-theme` to add this theme.
+Run `hugo mod get forgejo.alexma.top/alexma233/tralume` to add this theme.
 
 ### Use the Basic Configuration and Start
 
@@ -73,7 +73,7 @@ defaultContentLanguageInSubdir = true
     min = '0.161.1'
     extended = false
   [[module.imports]]
-    path = "forgejo.alexma.top/tralume-org/hugo-theme"
+    path = "forgejo.alexma.top/alexma233/tralume"
 
 [markup]
   [markup.highlight]

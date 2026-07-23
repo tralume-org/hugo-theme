@@ -23,7 +23,7 @@ date: '2026-06-06T00:00:00+08:00'
 否则，你可以随便填写，推荐为你的站点名称。
 {{< /callout >}}
 
-执行 `hugo mod get forgejo.alexma.top/tralume-org/hugo-theme` 以添加本主题。
+执行 `hugo mod get forgejo.alexma.top/alexma233/tralume` 以添加本主题。
 
 ### 使用基本配置并启动
 
@@ -74,7 +74,7 @@ hasCJKLanguage = true
     min = '0.161.1'
     extended = false
   [[module.imports]]
-    path = "forgejo.alexma.top/tralume-org/hugo-theme"
+    path = "forgejo.alexma.top/alexma233/tralume"
 
 [markup]
   [markup.highlight]

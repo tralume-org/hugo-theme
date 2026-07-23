@@ -71,7 +71,7 @@ async function fetchPosts(page = 1) {
 hugo new site mysite
 cd mysite
 hugo mod init example.com/mysite
-hugo mod get forgejo.alexma.top/tralume-org/hugo-theme
+hugo mod get forgejo.alexma.top/alexma233/tralume
 hugo server -D
 ```
 

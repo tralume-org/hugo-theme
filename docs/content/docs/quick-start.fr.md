@@ -23,7 +23,7 @@ Si vous prévoyez d'utiliser un dépôt Git distant pour stocker le site (comme 
 Sinon, vous pouvez indiquer n'importe quoi. Il est recommandé d'utiliser le nom de votre site.
 {{< /callout >}}
 
-Exécutez `hugo mod get forgejo.alexma.top/tralume-org/hugo-theme` pour ajouter ce thème.
+Exécutez `hugo mod get forgejo.alexma.top/alexma233/tralume` pour ajouter ce thème.
 
 ### Utiliser la configuration de base et démarrer
 
@@ -73,7 +73,7 @@ defaultContentLanguageInSubdir = true
     min = '0.161.1'
     extended = false
   [[module.imports]]
-    path = "forgejo.alexma.top/tralume-org/hugo-theme"
+    path = "forgejo.alexma.top/alexma233/tralume"
 
 [markup]
   [markup.highlight]

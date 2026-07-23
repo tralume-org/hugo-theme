@@ -15,7 +15,7 @@ layout: hextra-home
 
 <div class="hx:mt-6 hx:mb-6 hx:flex hx:flex-wrap hx:gap-4">
 {{< hextra/hero-button text="Démarrage rapide" link="./docs/quick-start" >}}
-{{< hextra/hero-button text="Visiter le dépôt" link="https://forgejo.alexma.top/tralume-org/hugo-theme" style="background-color: transparent; border: 1px solid var(--tw-prose-headings); color: var(--tw-prose-headings);" >}}
+{{< hextra/hero-button text="Visiter le dépôt" link="https://forgejo.alexma.top/alexma233/tralume" style="background-color: transparent; border: 1px solid var(--tw-prose-headings); color: var(--tw-prose-headings);" >}}
 </div>
 
 {{< /hextra/hero-container >}}

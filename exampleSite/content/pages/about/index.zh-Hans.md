@@ -8,7 +8,7 @@ showOutdatedWarning = false
 
 ## 关于本站
 
-本站使用 [Tralume](https://forgejo.alexma.top/tralume-org/hugo-theme) 主题搭建——一款基于 Material Design 3 的现代 Hugo 主题。
+本站使用 [Tralume](https://forgejo.alexma.top/alexma233/tralume) 主题搭建——一款基于 Material Design 3 的现代 Hugo 主题。
 
 ## 关于 Tralume
 

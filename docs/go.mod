@@ -1,4 +1,4 @@
-module forgejo.alexma.top/tralume-org/docs
+module forgejo.alexma.top/alexma233/tralume/docs
 
 go 1.25.3
 

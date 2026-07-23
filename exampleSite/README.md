@@ -1,6 +1,6 @@
 # 说明：Tralume 示例站点
 
-这是 [Tralume Hugo 主题](https://forgejo.alexma.top/tralume-org/hugo-theme) 的示例站点。克隆后可直接运行。
+这是 [Tralume Hugo 主题](https://forgejo.alexma.top/alexma233/tralume) 的示例站点。克隆后可直接运行。
 
 ## 运行方式
 

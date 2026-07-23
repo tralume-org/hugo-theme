@@ -73,7 +73,7 @@ params:
 
   editURL:
     enable: true
-    base: "https://forgejo.alexma.top/tralume-org/hugo-theme/_edit/main/docs/content"
+    base: "https://forgejo.alexma.top/alexma233/tralume/_edit/main/docs/content"
 
   page:
     contextMenu:

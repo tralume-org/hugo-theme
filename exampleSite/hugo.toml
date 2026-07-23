@@ -98,7 +98,7 @@ hasCJKLanguage = true
     min = '0.161.1'
     extended = false
   [[module.imports]]
-    path = "forgejo.alexma.top/tralume-org/hugo-theme"
+    path = "forgejo.alexma.top/alexma233/tralume"
 
 # ============================================================
 # Markdown 渲染

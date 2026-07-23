@@ -8,7 +8,7 @@ This is the "About" page of the Tralume example site.
 
 ## About This Site
 
-This site is built with the [Tralume](https://forgejo.alexma.top/tralume-org/hugo-theme) theme — a modern Hugo theme based on Material Design 3.
+This site is built with the [Tralume](https://forgejo.alexma.top/alexma233/tralume) theme — a modern Hugo theme based on Material Design 3.
 
 ## About Tralume
 
