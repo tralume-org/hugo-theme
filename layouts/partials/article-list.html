@@ -25,8 +25,8 @@
   {{- $langLower := lower $lang -}}
   {{- /* 说明：根据所有已配置语言动态构建“其他语言后缀”列表，避免硬编码导致新语言内容误入。 */}}
   {{- $otherSuffixes := slice -}}
-  {{- range site.Languages -}}
-    {{- $otherLang := lower .Lang -}}
+  {{- range hugo.Sites -}}
+    {{- $otherLang := lower .Language.Lang -}}
     {{- if ne $otherLang $langLower -}}
       {{- $otherSuffixes = $otherSuffixes | append (printf ".%s" $otherLang) -}}
     {{- end -}}

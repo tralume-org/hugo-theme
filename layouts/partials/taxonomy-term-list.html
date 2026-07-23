@@ -15,8 +15,8 @@
     {{/* 说明：与文章列表保持一致，根据所有已配置语言动态过滤文件名后缀，避免多语言内容混入。 */}}
     {{- $filtered := slice -}}
     {{- $otherSuffixes := slice -}}
-    {{- range site.Languages -}}
-      {{- $otherLang := lower .Lang -}}
+    {{- range hugo.Sites -}}
+      {{- $otherLang := lower .Language.Lang -}}
       {{- if ne $otherLang $langLower -}}
         {{- $otherSuffixes = $otherSuffixes | append (printf ".%s" $otherLang) -}}
       {{- end -}}
